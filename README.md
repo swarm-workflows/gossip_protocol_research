@@ -11,37 +11,8 @@ cd gossip_protocol_research
 mvn install
 ```
 
-To launch a simple Rapid-based agent, run the following commands in your shell
-from the top-level directory:
-
-```shell
-  $: java -jar examples/target/standalone-agent.jar \ 
-          --listenAddress 127.0.0.7:1234 \
-          --seedAddress 127.0.0.7:1234
+Run the following command to launch 100 RAPID processes locally, at port 1234 to port 1333. The standard output of each process will be directed to test_log/$pid.log, where $pid is the PID of the process.
 ```
-
-From two other terminals, try adding a few more nodes on different listening
-addresses, but using the same seed address of "127.0.0.7:1234". For example:
-
-```shell
-  $: java -jar examples/target/standalone-agent.jar \ 
-          --listenAddress 127.0.0.7:1235 \
-          --seedAddress 127.0.0.7:1234
-
-  $: java -jar examples/target/standalone-agent.jar \
-          --listenAddress 127.0.0.7:1236 \
-          --seedAddress 127.0.0.7:1234
-```
-
-Or use the following script to start multiple agents in the background that
-bootstrap via node 127.0.0.7:1234.
-
-```bash
-  #! /bin/bash
-  for each in `seq 1235 1245`;
-  do
-        java -jar examples/target/standalone-agent.jar \
-             --listenAddress 127.0.0.7:$each \
-             --seedAddress 127.0.0.7:1234 &> /tmp/rapid.$each &
-  done
+mkdir test_log
+./test.sh
 ```
