@@ -1,38 +1,14 @@
-Rapid
+gossip_protocol_research
 ===================
 
-Clone this repository and install rapid into your local maven repository:
-Download and install maven-3.5.3 using the following link:
+Run the following command to set up the codes
 ```
 wget https://archive.apache.org/dist/maven/maven-3/3.5.3/binaries/apache-maven-3.5.3-bin.tar.gz
 tar -xzvf apache-maven-3.5.3-bin.tar.gz
-git clone 
-```
-
-```shell
-   $: mvn install
-```
-
-If your project uses maven, add the following dependency into your project's pom.xml:
-
-```xml
-  <dependency>
-     <groupId>com.github.lalithsuresh</groupId>
-     <artifactId>rapid</artifactId>
-     <version>0.8.0</version>
-  </dependency>
-```
-
-For a simple example project that uses Rapid's APIs, see `examples/`.
-
-
-Running Rapid
-=============
-
-For the following steps, ensure that you've built or installed Rapid:
-
-```shell
-  $: mvn package  # or mvn install
+cd apache-maven-3.5.3-bin.tar.gz
+git clone https://github.com/swarm-workflows/gossip_protocol_research.git
+cd gossip_protocol_research
+mvn install
 ```
 
 To launch a simple Rapid-based agent, run the following commands in your shell
@@ -69,7 +45,3 @@ bootstrap via node 127.0.0.7:1234.
              --seedAddress 127.0.0.7:1234 &> /tmp/rapid.$each &
   done
 ```
-
-
-To run the `AgentWithNettyMessaging` example, replace `standalone-agent.jar`
-in the above commands with `netty-based-agent.jar`.
