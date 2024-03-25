@@ -62,7 +62,7 @@ public class MessagingTest {
     private static final int L = 3;
 
     private static final int SERVER_PORT_BASE = 1134;
-    private static final String LOCALHOST_IP = "127.0.0.1";
+    private static final String LOCALHOST_IP = "127.0.0.7";
     private final List<IMessagingServer> rpcServers = new ArrayList<>();
     private final List<MembershipService> services = new ArrayList<>();
     @Nullable private SharedResources resources = null;

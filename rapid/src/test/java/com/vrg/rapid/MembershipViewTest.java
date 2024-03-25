@@ -43,7 +43,7 @@ public class MembershipViewTest {
     @Test
     public void oneRingAddition() {
         final MembershipView mview = new MembershipView(K);
-        final Endpoint addr = Utils.hostFromParts("127.0.0.1", 123);
+        final Endpoint addr = Utils.hostFromParts("127.0.0.7", 123);
         try {
             mview.ringAdd(addr, Utils.nodeIdFromUUID(UUID.randomUUID()));
         } catch (final MembershipView.NodeAlreadyInRingException e) {
@@ -69,7 +69,7 @@ public class MembershipViewTest {
 
         for (int i = 0; i < numNodes; i++) {
             try {
-                mview.ringAdd(Utils.hostFromParts("127.0.0.1", i), Utils.nodeIdFromUUID(UUID.randomUUID()));
+                mview.ringAdd(Utils.hostFromParts("127.0.0.7", i), Utils.nodeIdFromUUID(UUID.randomUUID()));
             } catch (final MembershipView.NodeAlreadyInRingException e) {
                 fail();
             }
@@ -92,7 +92,7 @@ public class MembershipViewTest {
 
         for (int i = 0; i < numNodes; i++) {
             try {
-                mview.ringAdd(Utils.hostFromParts("127.0.0.1", startPort + i),
+                mview.ringAdd(Utils.hostFromParts("127.0.0.7", startPort + i),
                               Utils.nodeIdFromUUID(UUID.randomUUID()));
             } catch (final MembershipView.NodeAlreadyInRingException e) {
                 fail();
@@ -107,7 +107,7 @@ public class MembershipViewTest {
         int numThrows = 0;
         for (int i = 0; i < numNodes; i++) {
             try {
-                mview.ringAdd(Utils.hostFromParts("127.0.0.1", startPort + i),
+                mview.ringAdd(Utils.hostFromParts("127.0.0.7", startPort + i),
                               Utils.nodeIdFromUUID(UUID.randomUUID()));
             } catch (final MembershipView.NodeAlreadyInRingException e) {
                 numThrows++;
@@ -128,7 +128,7 @@ public class MembershipViewTest {
         int numThrows = 0;
         for (int i = 0; i < numNodes; i++) {
             try {
-                mview.ringDelete(Utils.hostFromParts("127.0.0.1", i));
+                mview.ringDelete(Utils.hostFromParts("127.0.0.7", i));
             } catch (final MembershipView.NodeNotInRingException e) {
                 numThrows++;
             }
@@ -146,11 +146,11 @@ public class MembershipViewTest {
         final int numNodes = 10;
 
         for (int i = 0; i < numNodes; i++) {
-            mview.ringAdd(Utils.hostFromParts("127.0.0.1", i), Utils.nodeIdFromUUID(UUID.randomUUID()));
+            mview.ringAdd(Utils.hostFromParts("127.0.0.7", i), Utils.nodeIdFromUUID(UUID.randomUUID()));
         }
 
         for (int i = 0; i < numNodes; i++) {
-            mview.ringDelete(Utils.hostFromParts("127.0.0.1", i));
+            mview.ringDelete(Utils.hostFromParts("127.0.0.7", i));
         }
 
         for (int k = 0; k < K; k++) {
@@ -167,7 +167,7 @@ public class MembershipViewTest {
         final MembershipView mview = new MembershipView(K);
 
         try {
-            final Endpoint n1 = Utils.hostFromParts("127.0.0.1", 1);
+            final Endpoint n1 = Utils.hostFromParts("127.0.0.7", 1);
             mview.ringAdd(n1, Utils.nodeIdFromUUID(UUID.randomUUID()));
             assertEquals(0, mview.getSubjectsOf(n1).size());
             assertEquals(0, mview.getObserversOf(n1).size());
@@ -175,7 +175,7 @@ public class MembershipViewTest {
             fail();
         }
 
-        final Endpoint n2 = Utils.hostFromParts("127.0.0.1", 2);
+        final Endpoint n2 = Utils.hostFromParts("127.0.0.7", 2);
 
         try {
             mview.getSubjectsOf(n2);
@@ -197,7 +197,7 @@ public class MembershipViewTest {
     public void monitoringRelationshipEmpty() {
         int numExceptions = 0;
         final MembershipView mview = new MembershipView(K);
-        final Endpoint n = Utils.hostFromParts("127.0.0.1", 1);
+        final Endpoint n = Utils.hostFromParts("127.0.0.7", 1);
 
         try {
             mview.getSubjectsOf(n);
@@ -221,8 +221,8 @@ public class MembershipViewTest {
     public void monitoringRelationshipTwoNodes() {
         try {
             final MembershipView mview = new MembershipView(K);
-            final Endpoint n1 = Utils.hostFromParts("127.0.0.1", 1);
-            final Endpoint n2 = Utils.hostFromParts("127.0.0.1", 2);
+            final Endpoint n1 = Utils.hostFromParts("127.0.0.7", 1);
+            final Endpoint n2 = Utils.hostFromParts("127.0.0.7", 2);
             mview.ringAdd(n1, Utils.nodeIdFromUUID(UUID.randomUUID()));
             mview.ringAdd(n2, Utils.nodeIdFromUUID(UUID.randomUUID()));
             assertEquals(K, mview.getSubjectsOf(n1).size());
@@ -241,9 +241,9 @@ public class MembershipViewTest {
     public void monitoringRelationshipThreeNodesWithDelete() {
         try {
             final MembershipView mview = new MembershipView(K);
-            final Endpoint n1 = Utils.hostFromParts("127.0.0.1", 1);
-            final Endpoint n2 = Utils.hostFromParts("127.0.0.1", 2);
-            final Endpoint n3 = Utils.hostFromParts("127.0.0.1", 3);
+            final Endpoint n1 = Utils.hostFromParts("127.0.0.7", 1);
+            final Endpoint n2 = Utils.hostFromParts("127.0.0.7", 2);
+            final Endpoint n3 = Utils.hostFromParts("127.0.0.7", 3);
             mview.ringAdd(n1, Utils.nodeIdFromUUID(UUID.randomUUID()));
             mview.ringAdd(n2, Utils.nodeIdFromUUID(UUID.randomUUID()));
             mview.ringAdd(n3, Utils.nodeIdFromUUID(UUID.randomUUID()));
@@ -271,7 +271,7 @@ public class MembershipViewTest {
         final int numNodes = 1000;
         final ArrayList<Endpoint> list = new ArrayList<>();
         for (int i = 0; i < numNodes; i++) {
-            final Endpoint n = Utils.hostFromParts("127.0.0.1", i);
+            final Endpoint n = Utils.hostFromParts("127.0.0.7", i);
             list.add(n);
             try {
                 mview.ringAdd(n, Utils.nodeIdFromUUID(UUID.randomUUID()));
@@ -299,14 +299,14 @@ public class MembershipViewTest {
     public void monitoringRelationshipBootstrap() {
         final MembershipView mview = new MembershipView(K);
         final int serverPort = 1234;
-        final Endpoint n = Utils.hostFromParts("127.0.0.1", serverPort);
+        final Endpoint n = Utils.hostFromParts("127.0.0.7", serverPort);
         try {
             mview.ringAdd(n, Utils.nodeIdFromUUID(UUID.randomUUID()));
         } catch (final MembershipView.NodeAlreadyInRingException e) {
             fail();
         }
 
-        final Endpoint joiningNode = Utils.hostFromParts("127.0.0.1", serverPort + 1);
+        final Endpoint joiningNode = Utils.hostFromParts("127.0.0.7", serverPort + 1);
         assertEquals(K, mview.getExpectedObserversOf(joiningNode).size());
         assertEquals(1, ImmutableSet.copyOf(mview.getExpectedObserversOf(joiningNode)).size());
         assertEquals(n, mview.getExpectedObserversOf(joiningNode).toArray()[0]);
@@ -320,10 +320,10 @@ public class MembershipViewTest {
         final MembershipView mview = new MembershipView(K);
         final int numNodes = 20;
         final int serverPortBase = 1234;
-        final Endpoint joiningNode = Utils.hostFromParts("127.0.0.1", serverPortBase - 1);
+        final Endpoint joiningNode = Utils.hostFromParts("127.0.0.7", serverPortBase - 1);
         int numObservers = 0;
         for (int i = 0; i < numNodes; i++) {
-            final Endpoint n = Utils.hostFromParts("127.0.0.1", serverPortBase + i);
+            final Endpoint n = Utils.hostFromParts("127.0.0.7", serverPortBase + i);
             try {
                 mview.ringAdd(n, Utils.nodeIdFromUUID(UUID.randomUUID()));
             } catch (final MembershipView.NodeAlreadyInRingException e) {
@@ -351,11 +351,11 @@ public class MembershipViewTest {
     public void nodeUniqueIdNoDeletions() {
         final MembershipView mview = new MembershipView(K);
         int numExceptions = 0;
-        final Endpoint n1 = Utils.hostFromParts("127.0.0.1", 1);
+        final Endpoint n1 = Utils.hostFromParts("127.0.0.7", 1);
         final NodeId id1 = Utils.nodeIdFromUUID(UUID.randomUUID());
         mview.ringAdd(n1, id1);
 
-        final Endpoint n2 = Utils.hostFromParts("127.0.0.1", 1);
+        final Endpoint n2 = Utils.hostFromParts("127.0.0.7", 1);
         final NodeId id2 = NodeId.newBuilder(id1).build();
 
         // Same host, same ID
@@ -375,7 +375,7 @@ public class MembershipViewTest {
         assertEquals(2, numExceptions);
 
         // different host, same ID
-        final Endpoint n3 = Utils.hostFromParts("127.0.0.1", 2);
+        final Endpoint n3 = Utils.hostFromParts("127.0.0.7", 2);
         try {
             mview.ringAdd(n3, id2);
         } catch (final MembershipView.UUIDAlreadySeenException e) {
@@ -405,11 +405,11 @@ public class MembershipViewTest {
     public void nodeUniqueIdWithDeletions() {
         final MembershipView mview = new MembershipView(K);
 
-        final Endpoint n1 = Utils.hostFromParts("127.0.0.1", 1);
+        final Endpoint n1 = Utils.hostFromParts("127.0.0.7", 1);
         final NodeId id1 = Utils.nodeIdFromUUID(UUID.randomUUID());
         mview.ringAdd(n1, id1);
 
-        final Endpoint n2 = Utils.hostFromParts("127.0.0.1", 2);
+        final Endpoint n2 = Utils.hostFromParts("127.0.0.7", 2);
         final NodeId id2 = Utils.nodeIdFromUUID(UUID.randomUUID());
 
         // Same host, same ID
@@ -445,7 +445,7 @@ public class MembershipViewTest {
         final Set<Long> set = new HashSet<>(numNodes);
 
         for (int i = 0; i < numNodes; i++) {
-            final Endpoint n = Utils.hostFromParts("127.0.0.1", i);
+            final Endpoint n = Utils.hostFromParts("127.0.0.7", i);
             mview.ringAdd(n, Utils.nodeIdFromUUID(
                                 UUID.nameUUIDFromBytes(n.toString().getBytes(StandardCharsets.UTF_8))
                              ));
@@ -470,7 +470,7 @@ public class MembershipViewTest {
 
 
         for (int i = 0; i < numNodes; i++) {
-            final Endpoint n = Utils.hostFromParts("127.0.0.1", i);
+            final Endpoint n = Utils.hostFromParts("127.0.0.7", i);
             mview1.ringAdd(n, Utils.nodeIdFromUUID(
                                 UUID.nameUUIDFromBytes(n.toString().getBytes(StandardCharsets.UTF_8))
                               ));
@@ -478,7 +478,7 @@ public class MembershipViewTest {
         }
 
         for (int i = numNodes - 1; i > -1; i--) {
-            final Endpoint n = Utils.hostFromParts("127.0.0.1", i);
+            final Endpoint n = Utils.hostFromParts("127.0.0.7", i);
             mview2.ringAdd(n, Utils.nodeIdFromUUID(
                                 UUID.nameUUIDFromBytes(n.toString().getBytes(StandardCharsets.UTF_8))
                               ));

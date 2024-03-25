@@ -44,8 +44,8 @@ public class SubscriptionsTest {
         final Settings settings = new Settings();
         settings.setUseInProcessTransport(true);
 
-        final Endpoint seedEndpoint = Utils.hostFromParts("127.0.0.1", 1234);
-        final Endpoint joiner = Utils.hostFromParts("127.0.0.1", 1235);
+        final Endpoint seedEndpoint = Utils.hostFromParts("127.0.0.7", 1234);
+        final Endpoint joiner = Utils.hostFromParts("127.0.0.7", 1235);
 
         // Initialize seed
         final TestCallback seedCb = new TestCallback();
@@ -90,8 +90,8 @@ public class SubscriptionsTest {
         final Settings settings = new Settings();
         settings.setUseInProcessTransport(true);
 
-        final Endpoint seedEndpoint = Utils.hostFromParts("127.0.0.1", 1234);
-        final Endpoint joiner = Utils.hostFromParts("127.0.0.1", 1235);
+        final Endpoint seedEndpoint = Utils.hostFromParts("127.0.0.7", 1234);
+        final Endpoint joiner = Utils.hostFromParts("127.0.0.7", 1235);
 
         // Initialize seed
         final TestCallback seedCb1 = new TestCallback();
@@ -132,8 +132,8 @@ public class SubscriptionsTest {
         final Settings settings = new Settings();
         settings.setUseInProcessTransport(true);
 
-        final Endpoint seedEndpoint = Utils.hostFromParts("127.0.0.1", 1234);
-        final Endpoint joiner = Utils.hostFromParts("127.0.0.1", 1235);
+        final Endpoint seedEndpoint = Utils.hostFromParts("127.0.0.7", 1234);
+        final Endpoint joiner = Utils.hostFromParts("127.0.0.7", 1235);
 
         // Initialize seed
         final TestCallback seedCb1 = new TestCallback();
@@ -173,7 +173,7 @@ public class SubscriptionsTest {
         settings.setUseInProcessTransport(true);
 
         final List<StaticFailureDetector.Factory> fds = new ArrayList<>();
-        final Endpoint seedEndpoint = Utils.hostFromParts("127.0.0.1", 1234);
+        final Endpoint seedEndpoint = Utils.hostFromParts("127.0.0.7", 1234);
 
         // Initialize seed
         final TestCallback seedCb1 = new TestCallback();
@@ -192,7 +192,7 @@ public class SubscriptionsTest {
         final List<TestCallback> callbacks = new ArrayList<>();
         final int numNodes = 5;
         for (int i = 0; i < numNodes; i++) {
-            final Endpoint joiner = Utils.hostFromParts("127.0.0.1", 1235 + i);
+            final Endpoint joiner = Utils.hostFromParts("127.0.0.7", 1235 + i);
             final StaticFailureDetector.Factory fdJoiner = new StaticFailureDetector.Factory(new HashSet<>());
             final TestCallback joinerCb1 = new TestCallback();
             joiners.add(new Cluster.Builder(joiner)

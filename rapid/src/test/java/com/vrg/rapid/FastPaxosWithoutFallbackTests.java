@@ -64,8 +64,8 @@ public class FastPaxosWithoutFallbackTests {
     public void fastQuorumTestNoConflicts(final int N, final int quorum) throws InterruptedException,
             ExecutionException {
         final int serverPort = 1234;
-        final Endpoint node = Utils.hostFromParts("127.0.0.1", serverPort);
-        final Endpoint proposalNode = Utils.hostFromParts("127.0.0.1", serverPort + 1);
+        final Endpoint node = Utils.hostFromParts("127.0.0.7", serverPort);
+        final Endpoint proposalNode = Utils.hostFromParts("127.0.0.7", serverPort + 1);
         final MembershipView view = createView(serverPort, N);
         final MembershipService service = createAndStartMembershipService(node, view);
         assertEquals(N, service.getMembershipSize());
@@ -101,9 +101,9 @@ public class FastPaxosWithoutFallbackTests {
                                             final boolean changeExpected)
             throws InterruptedException, IOException, ExecutionException {
         final int serverPort = 1234;
-        final Endpoint node = Utils.hostFromParts("127.0.0.1", serverPort);
-        final Endpoint proposalNode = Utils.hostFromParts("127.0.0.1", serverPort + 1);
-        final Endpoint proposalNodeConflict = Utils.hostFromParts("127.0.0.1", serverPort + 2);
+        final Endpoint node = Utils.hostFromParts("127.0.0.7", serverPort);
+        final Endpoint proposalNode = Utils.hostFromParts("127.0.0.7", serverPort + 1);
+        final Endpoint proposalNodeConflict = Utils.hostFromParts("127.0.0.7", serverPort + 2);
         final MembershipView view = createView(serverPort, N);
         final MembershipService service = createAndStartMembershipService(node, view);
         assertEquals(N, service.getMembershipSize());
@@ -168,7 +168,7 @@ public class FastPaxosWithoutFallbackTests {
     private MembershipView createView(final int basePort, final int N) {
         final MembershipView view = new MembershipView(K);
         for (int i = basePort; i < basePort + N; i++) {
-            view.ringAdd(Utils.hostFromParts("127.0.0.1", i), Utils.nodeIdFromUUID(UUID.randomUUID()));
+            view.ringAdd(Utils.hostFromParts("127.0.0.7", i), Utils.nodeIdFromUUID(UUID.randomUUID()));
         }
         return view;
     }
@@ -184,7 +184,7 @@ public class FastPaxosWithoutFallbackTests {
     }
 
     private Endpoint addrForBase(final int port) {
-        return Utils.hostFromParts("127.0.0.1", port);
+        return Utils.hostFromParts("127.0.0.7", port);
     }
 
     private RapidRequest asRapidMessage(final FastRoundPhase2bMessage proposal) {

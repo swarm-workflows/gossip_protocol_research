@@ -45,6 +45,10 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Supplier;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+
 
 /**
  * MessagingServiceGrpc client.
@@ -102,7 +106,11 @@ public class GrpcClient implements IMessagingClient {
     public ListenableFuture<RapidResponse> sendMessage(final Endpoint remote, final RapidRequest msg) {
         Objects.requireNonNull(remote);
         Objects.requireNonNull(msg);
-
+        final LocalDateTime now = LocalDateTime.now();
+        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        final String formattedDateTime = now.format(formatter); // "1986-04-08 12:30"
+        LOG.info("retry send_message from {} to {}, message_size={}, t={}", address, 
+            remote, msg.getSerializedSize(), formattedDateTime);
         final Supplier<ListenableFuture<RapidResponse>> call = () -> {
             final MembershipServiceFutureStub stub = getFutureStub(remote)
                     .withDeadlineAfter(getTimeoutForMessageMs(msg),
@@ -120,6 +128,11 @@ public class GrpcClient implements IMessagingClient {
     @Override
     public ListenableFuture<RapidResponse> sendMessageBestEffort(final Endpoint remote, final RapidRequest msg) {
         Objects.requireNonNull(msg);
+        final LocalDateTime now = LocalDateTime.now();
+        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        final String formattedDateTime = now.format(formatter); // "1986-04-08 12:30"
+        LOG.info("best effort send_message from {} to {}, message_size={}, t={}", address, 
+            remote, msg.getSerializedSize(), formattedDateTime);
         try {
             return backgroundExecutor.submit(() -> {
                 final Supplier<ListenableFuture<RapidResponse>> call = () -> {

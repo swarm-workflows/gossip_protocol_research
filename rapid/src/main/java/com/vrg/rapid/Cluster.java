@@ -56,10 +56,10 @@ import java.util.function.Consumer;
  *
  * <pre>
  * {@code
- *   Endpoint seedAddress = Endpoint.hostFromString("127.0.0.1", 1234);
+ *   Endpoint seedAddress = Endpoint.hostFromString("127.0.0.7", 1234);
  *   Cluster c = Cluster.Builder(seedAddress).start();
  *   ...
- *   Endpoint joinerAddress = Endpoint.hostFromString("127.0.0.1", 1235);
+ *   Endpoint joinerAddress = Endpoint.hostFromString("127.0.0.7", 1235);
  *   Cluster c = Cluster.Builder(joinerAddress).join(seedAddress);
  * }
  * </pre>

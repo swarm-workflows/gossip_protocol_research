@@ -47,13 +47,13 @@ public class CutDetectionTest {
 
         for (int i = 0; i < H - 1; i++) {
             ret = wb.aggregateForProposal(createAlertMessage(
-                    Utils.hostFromParts("127.0.0.1", i + 1), dst, EdgeStatus.UP, CONFIGURATION_ID, i));
+                    Utils.hostFromParts("127.0.0.7", i + 1), dst, EdgeStatus.UP, CONFIGURATION_ID, i));
             assertEquals(0, ret.size());
             assertEquals(0, wb.getNumProposals());
         }
 
         ret = wb.aggregateForProposal(createAlertMessage(
-                Utils.hostFromParts("127.0.0.1", H), dst, EdgeStatus.UP, CONFIGURATION_ID, H - 1));
+                Utils.hostFromParts("127.0.0.7", H), dst, EdgeStatus.UP, CONFIGURATION_ID, H - 1));
         assertEquals(1, ret.size());
         assertEquals(1, wb.getNumProposals());
     }
@@ -67,25 +67,25 @@ public class CutDetectionTest {
 
         for (int i = 0; i < H - 1; i++) {
             ret = wb.aggregateForProposal(createAlertMessage(
-                    Utils.hostFromParts("127.0.0.1", i + 1), dst1, EdgeStatus.UP, CONFIGURATION_ID, i));
+                    Utils.hostFromParts("127.0.0.7", i + 1), dst1, EdgeStatus.UP, CONFIGURATION_ID, i));
             assertEquals(0, ret.size());
             assertEquals(0, wb.getNumProposals());
         }
 
         for (int i = 0; i < H - 1; i++) {
             ret = wb.aggregateForProposal(createAlertMessage(
-                    Utils.hostFromParts("127.0.0.1", i + 1), dst2, EdgeStatus.UP, CONFIGURATION_ID, i));
+                    Utils.hostFromParts("127.0.0.7", i + 1), dst2, EdgeStatus.UP, CONFIGURATION_ID, i));
             assertEquals(0, ret.size());
             assertEquals(0, wb.getNumProposals());
         }
 
         ret = wb.aggregateForProposal(createAlertMessage(
-                Utils.hostFromParts("127.0.0.1", H), dst1, EdgeStatus.UP, CONFIGURATION_ID, H - 1));
+                Utils.hostFromParts("127.0.0.7", H), dst1, EdgeStatus.UP, CONFIGURATION_ID, H - 1));
         assertEquals(0, ret.size());
         assertEquals(0, wb.getNumProposals());
 
         ret = wb.aggregateForProposal(createAlertMessage(
-                Utils.hostFromParts("127.0.0.1", H), dst2, EdgeStatus.UP, CONFIGURATION_ID, H - 1));
+                Utils.hostFromParts("127.0.0.7", H), dst2, EdgeStatus.UP, CONFIGURATION_ID, H - 1));
         assertEquals(2, ret.size());
         assertEquals(1, wb.getNumProposals());
     }
@@ -101,37 +101,37 @@ public class CutDetectionTest {
 
         for (int i = 0; i < H - 1; i++) {
             ret = wb.aggregateForProposal(createAlertMessage(
-                    Utils.hostFromParts("127.0.0.1", i + 1), dst1, EdgeStatus.UP, CONFIGURATION_ID, i));
+                    Utils.hostFromParts("127.0.0.7", i + 1), dst1, EdgeStatus.UP, CONFIGURATION_ID, i));
             assertEquals(0, ret.size());
             assertEquals(0, wb.getNumProposals());
         }
 
         for (int i = 0; i < H - 1; i++) {
             ret = wb.aggregateForProposal(createAlertMessage(
-                    Utils.hostFromParts("127.0.0.1", i + 1), dst2, EdgeStatus.UP, CONFIGURATION_ID, i));
+                    Utils.hostFromParts("127.0.0.7", i + 1), dst2, EdgeStatus.UP, CONFIGURATION_ID, i));
             assertEquals(0, ret.size());
             assertEquals(0, wb.getNumProposals());
         }
 
         for (int i = 0; i < H - 1; i++) {
             ret = wb.aggregateForProposal(createAlertMessage(
-                    Utils.hostFromParts("127.0.0.1", i + 1), dst3, EdgeStatus.UP, CONFIGURATION_ID, i));
+                    Utils.hostFromParts("127.0.0.7", i + 1), dst3, EdgeStatus.UP, CONFIGURATION_ID, i));
             assertEquals(0, ret.size());
             assertEquals(0, wb.getNumProposals());
         }
 
         ret = wb.aggregateForProposal(createAlertMessage(
-                Utils.hostFromParts("127.0.0.1", H), dst1, EdgeStatus.UP, CONFIGURATION_ID, H - 1));
+                Utils.hostFromParts("127.0.0.7", H), dst1, EdgeStatus.UP, CONFIGURATION_ID, H - 1));
         assertEquals(0, ret.size());
         assertEquals(0, wb.getNumProposals());
 
         ret = wb.aggregateForProposal(createAlertMessage(
-                Utils.hostFromParts("127.0.0.1", H), dst3, EdgeStatus.UP, CONFIGURATION_ID, H - 1));
+                Utils.hostFromParts("127.0.0.7", H), dst3, EdgeStatus.UP, CONFIGURATION_ID, H - 1));
         assertEquals(0, ret.size());
         assertEquals(0, wb.getNumProposals());
 
         ret = wb.aggregateForProposal(createAlertMessage(
-                Utils.hostFromParts("127.0.0.1", H), dst2, EdgeStatus.UP, CONFIGURATION_ID, H - 1));
+                Utils.hostFromParts("127.0.0.7", H), dst2, EdgeStatus.UP, CONFIGURATION_ID, H - 1));
         assertEquals(3, ret.size());
         assertEquals(1, wb.getNumProposals());
     }
@@ -146,21 +146,21 @@ public class CutDetectionTest {
 
         for (int i = 0; i < H - 1; i++) {
             ret = wb.aggregateForProposal(createAlertMessage(
-                    Utils.hostFromParts("127.0.0.1", i + 1), dst1, EdgeStatus.UP, CONFIGURATION_ID, i));
+                    Utils.hostFromParts("127.0.0.7", i + 1), dst1, EdgeStatus.UP, CONFIGURATION_ID, i));
             assertEquals(0, ret.size());
             assertEquals(0, wb.getNumProposals());
         }
 
         for (int i = 0; i < H - 1; i++) {
             ret = wb.aggregateForProposal(createAlertMessage(
-                    Utils.hostFromParts("127.0.0.1", i + 1), dst2, EdgeStatus.UP, CONFIGURATION_ID, i));
+                    Utils.hostFromParts("127.0.0.7", i + 1), dst2, EdgeStatus.UP, CONFIGURATION_ID, i));
             assertEquals(0, ret.size());
             assertEquals(0, wb.getNumProposals());
         }
 
         for (int i = 0; i < H - 1; i++) {
             ret = wb.aggregateForProposal(createAlertMessage(
-                    Utils.hostFromParts("127.0.0.1", i + 1), dst3, EdgeStatus.UP, CONFIGURATION_ID, i));
+                    Utils.hostFromParts("127.0.0.7", i + 1), dst3, EdgeStatus.UP, CONFIGURATION_ID, i));
             assertEquals(0, ret.size());
             assertEquals(0, wb.getNumProposals());
         }
@@ -168,22 +168,22 @@ public class CutDetectionTest {
         // Unlike the previous test, add more reports for
         // dst1 and dst3 past the H boundary.
         wb.aggregateForProposal(createAlertMessage(
-                Utils.hostFromParts("127.0.0.1", H), dst1, EdgeStatus.UP, CONFIGURATION_ID, H - 1));
+                Utils.hostFromParts("127.0.0.7", H), dst1, EdgeStatus.UP, CONFIGURATION_ID, H - 1));
         ret = wb.aggregateForProposal(createAlertMessage(
-                Utils.hostFromParts("127.0.0.1", H + 1), dst1, EdgeStatus.UP, CONFIGURATION_ID, H - 1));
+                Utils.hostFromParts("127.0.0.7", H + 1), dst1, EdgeStatus.UP, CONFIGURATION_ID, H - 1));
         assertEquals(0, ret.size());
         assertEquals(0, wb.getNumProposals());
 
         wb.aggregateForProposal(createAlertMessage(
-                Utils.hostFromParts("127.0.0.1", H), dst3, EdgeStatus.UP, CONFIGURATION_ID, H - 1));
+                Utils.hostFromParts("127.0.0.7", H), dst3, EdgeStatus.UP, CONFIGURATION_ID, H - 1));
         ret = wb.aggregateForProposal(createAlertMessage(
-                Utils.hostFromParts("127.0.0.1", H + 1), dst3, EdgeStatus.UP, CONFIGURATION_ID, H - 1));
+                Utils.hostFromParts("127.0.0.7", H + 1), dst3, EdgeStatus.UP, CONFIGURATION_ID, H - 1));
         assertEquals(0, ret.size());
         assertEquals(0, wb.getNumProposals());
 
 
         ret = wb.aggregateForProposal(createAlertMessage(
-                Utils.hostFromParts("127.0.0.1", H), dst2, EdgeStatus.UP, CONFIGURATION_ID, H - 1));
+                Utils.hostFromParts("127.0.0.7", H), dst2, EdgeStatus.UP, CONFIGURATION_ID, H - 1));
         assertEquals(3, ret.size());
         assertEquals(1, wb.getNumProposals());
     }
@@ -198,7 +198,7 @@ public class CutDetectionTest {
 
         for (int i = 0; i < H - 1; i++) {
             ret = wb.aggregateForProposal(createAlertMessage(
-                    Utils.hostFromParts("127.0.0.1", i + 1), dst1, EdgeStatus.UP, CONFIGURATION_ID, i));
+                    Utils.hostFromParts("127.0.0.7", i + 1), dst1, EdgeStatus.UP, CONFIGURATION_ID, i));
             assertEquals(0, ret.size());
             assertEquals(0, wb.getNumProposals());
         }
@@ -206,25 +206,25 @@ public class CutDetectionTest {
         // Unlike the previous test, dst2 has < L updates
         for (int i = 0; i < L - 1; i++) {
             ret = wb.aggregateForProposal(createAlertMessage(
-                    Utils.hostFromParts("127.0.0.1", i + 1), dst2, EdgeStatus.UP, CONFIGURATION_ID, i));
+                    Utils.hostFromParts("127.0.0.7", i + 1), dst2, EdgeStatus.UP, CONFIGURATION_ID, i));
             assertEquals(0, ret.size());
             assertEquals(0, wb.getNumProposals());
         }
 
         for (int i = 0; i < H - 1; i++) {
             ret = wb.aggregateForProposal(createAlertMessage(
-                    Utils.hostFromParts("127.0.0.1", i + 1), dst3, EdgeStatus.UP, CONFIGURATION_ID, i));
+                    Utils.hostFromParts("127.0.0.7", i + 1), dst3, EdgeStatus.UP, CONFIGURATION_ID, i));
             assertEquals(0, ret.size());
             assertEquals(0, wb.getNumProposals());
         }
 
         ret = wb.aggregateForProposal(createAlertMessage(
-                Utils.hostFromParts("127.0.0.1", H), dst1, EdgeStatus.UP, CONFIGURATION_ID, H - 1));
+                Utils.hostFromParts("127.0.0.7", H), dst1, EdgeStatus.UP, CONFIGURATION_ID, H - 1));
         assertEquals(0, ret.size());
         assertEquals(0, wb.getNumProposals());
 
         ret = wb.aggregateForProposal(createAlertMessage(
-                Utils.hostFromParts("127.0.0.1", H), dst3, EdgeStatus.UP, CONFIGURATION_ID, H - 1));
+                Utils.hostFromParts("127.0.0.7", H), dst3, EdgeStatus.UP, CONFIGURATION_ID, H - 1));
         assertEquals(2, ret.size());
         assertEquals(1, wb.getNumProposals());
     }
@@ -243,7 +243,7 @@ public class CutDetectionTest {
         for (final Endpoint endpoint : endpoints) {
             for (int ringNumber = 0; ringNumber < K; ringNumber++) {
                 proposal.addAll(wb.aggregateForProposal(createAlertMessage(
-                        Utils.hostFromParts("127.0.0.1", 1), endpoint, EdgeStatus.UP,
+                        Utils.hostFromParts("127.0.0.7", 1), endpoint, EdgeStatus.UP,
                         CONFIGURATION_ID, ringNumber)));
             }
         }

@@ -27,6 +27,9 @@ import org.slf4j.LoggerFactory;
 import javax.annotation.Nullable;
 import java.io.IOException;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 /**
  * Rapid Cluster example.
  */
@@ -86,7 +89,11 @@ public class StandaloneAgent {
      * Prints the current membership
      */
     private void printClusterMembership() {
-        LOG.info("Node {} -- cluster size {}", listenAddress, cluster.getMembershipSize());
+        final LocalDateTime now = LocalDateTime.now();
+        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        final String formattedDateTime = now.format(formatter); // "1986-04-08 12:30"
+        // LOG.info("Node {} -- cluster size {}", listenAddress, cluster.getMembershipSize());
+        LOG.info("{}, Node {} -- cluster size {}", formattedDateTime, listenAddress, cluster.getMembershipSize());
     }
 
     public static void main(final String[] args) throws ParseException {
