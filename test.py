@@ -1,10 +1,14 @@
 import subprocess
-
+import socket
 # Define the IP address and base port
-ip_address = "192.168.100.228"
+s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+s.connect(("8.8.8.8", 80))
+s.close()
+ip_address = s.getsockname()[0]
+sd_address = "192.168.100.228"
 base_port = 1234
 log_directory = "./test_log"
-n_proc = 80
+n_proc = 60
 start_port = 1235
 end_port = base_port + n_proc
 
