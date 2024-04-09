@@ -9,7 +9,7 @@ s.close()
 sd_address = "192.168.100.228"
 base_port = 1234
 log_directory = "./test_log"
-n_proc = 60
+n_proc = 100
 start_port = 1235
 end_port = base_port + n_proc
 
@@ -33,5 +33,6 @@ for port in range(start_port, end_port):
             "--listenAddress", f"{ip_address}:{port}",
             "--seedAddress", f"{ip_address}:{base_port}"
         ], stdout=logfile, stderr=subprocess.STDOUT)
+        time.sleep(0.05)
 
 print("Commands executed successfully.")
