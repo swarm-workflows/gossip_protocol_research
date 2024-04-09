@@ -1,0 +1,13 @@
+   88  sudo firewall-cmd --zone=trusted --add-source=192.168.100.201
+   89  sudo firewall-cmd --zone=trusted --add-source=192.168.0.0/16
+   90  sudo firewall-cmd --zone=trusted --add-source=172.16.0.0/12
+   91  sudo firewall-cmd --zone=trusted --add-source=10.0.0.0/8
+   92  sudo firewall-cmd --zone=public --list-ports
+   97  sudo firewall-cmd --zone=public --add-service http
+   98  sudo firewall-cmd --zone=public --add-service https
+  102  sudo firewall-cmd --zone=public --add-service http
+  103  sudo firewall-cmd --zone=public --add-service https
+  104  sudo firewall-cmd --zone=public --list-ports
+  105  sudo firewall-cmd --zone=public --add-port=80/tcp
+  112  sudo firewall-cmd --get-active-zones
+  147  history |  grep "firewall-cmd" >> firewall-cmd.out

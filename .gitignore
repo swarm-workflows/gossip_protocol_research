@@ -1,4 +1,5 @@
 test_log/
+test.sh
 target/
 *.iml
 .idea
