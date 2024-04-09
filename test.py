@@ -33,6 +33,6 @@ for port in range(start_port, end_port):
             "--listenAddress", f"{ip_address}:{port}",
             "--seedAddress", f"{ip_address}:{base_port}"
         ], stdout=logfile, stderr=subprocess.STDOUT)
-        time.sleep(0.05)
+        # time.sleep(0.05)
 
 print("Commands executed successfully.")
