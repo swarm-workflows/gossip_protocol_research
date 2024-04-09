@@ -9,7 +9,7 @@ s.close()
 sd_address = "192.168.100.228"
 base_port = 1234
 log_directory = "./test_log"
-n_proc = 100
+n_proc = 70
 start_port = 1235
 end_port = base_port + n_proc
 
