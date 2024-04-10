@@ -11,7 +11,7 @@ tar -xzvf apache-maven-3.9.6-bin.tar.gz -C $HOME/software
 rm -f apache-maven-3.9.6-bin.tar.gz
 
 
-echo "export JAVA_HOME=\$HOME/software/jdk-9.0.4" >> .bashrc
+echo "export JAVA_HOME=\$HOME/software/jdk-9.0.4" >> $HOME/.bashrc
 echo "export PATH=\$HOME/software/jdk-9.0.4/bin:\$HOME/software/apache-maven-3.9.6/bin:\$PATH" >> $HOME/.bashrc
 
 source $HOME/.bashrc
