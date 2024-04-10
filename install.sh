@@ -10,12 +10,15 @@ wget https://dlcdn.apache.org/maven/maven-3/3.9.6/binaries/apache-maven-3.9.6-bi
 tar -xzvf apache-maven-3.9.6-bin.tar.gz -C $HOME/software
 rm -f apache-maven-3.9.6-bin.tar.gz
 
+# export the variables to use in this script
+export JAVA_HOME=$HOME/software/jdk-9.0.4
+export PATH=$HOME/software/jdk-9.0.4/bin:$HOME/software/apache-maven-3.9.6/bin:$PATH
 
+# add exports in the bashrc to persist
 echo "export JAVA_HOME=\$HOME/software/jdk-9.0.4" >> $HOME/.bashrc
 echo "export PATH=\$HOME/software/jdk-9.0.4/bin:\$HOME/software/apache-maven-3.9.6/bin:\$PATH" >> $HOME/.bashrc
 
-source $HOME/.bashrc
-
+# export maven opts to allow insecure ssl
 export MAVEN_OPTS="-Dmaven.resolver.transport=wagon -Dmaven.wagon.http.ssl.insecure=true -Dmaven.wagon.http.ssl.allowall=true -Dmaven.wagon.http.ssl.ignore.validity.dates=true"
 
 mvn $MAVEN_OPTS clean install
