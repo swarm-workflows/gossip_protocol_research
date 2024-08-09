@@ -8,6 +8,8 @@ Gossip Protocol Research
 - **Performance Comparison**: Demonstrates that the simple greedy algorithm surpasses other methods like RAPID, CHORD, Nearest Neighbor, and Perigee.
 - **Advanced Improvements**: Enhances the greedy algorithm with a Graph Neural Network (GNN)-based Q-learning method for further optimization.
 
+<img src="diameter.png" width="800">
+
 # Installation
 Run the following command to set up the codes
 ```
