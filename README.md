@@ -1,6 +1,7 @@
-gossip_protocol_research
+Gossip Protocol Research
 ===================
-# Swarm agents communicate  with other agents and with resources through a network optimized to provide minimum latency by generatin overlay topologies. In this optimization, we start with a membership protocol~(Gossip) based on \( d \) Hamilton Cycles and test a greedy approach on a widely-used dataset from the bitcoin/blockchain community. We observe that even a simple greedy algorithm outperforms RAPID, CHORD, Nearest Neighbor, and Perigee methods~(state of the art). We further improve our greedy approach with a Graph Neural Network (GNN)-based Q-learning method.
+# About
+Swarm agents communicate  with other agents and with resources through a network optimized to provide minimum latency by generatin overlay topologies. In this optimization, we start with a membership protocol~(Gossip) based on \( d \) Hamilton Cycles and test a greedy approach on a widely-used dataset from the bitcoin/blockchain community. We observe that even a simple greedy algorithm outperforms RAPID, CHORD, Nearest Neighbor, and Perigee methods~(state of the art). We further improve our greedy approach with a Graph Neural Network (GNN)-based Q-learning method.
 
 # Installation
 Run the following command to set up the codes
