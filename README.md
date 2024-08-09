@@ -3,7 +3,7 @@ Gossip Protocol Research
 # About
 
 - **Swarm Communication**: Agents communicate with peers and resources via a network designed for minimal latency, utilizing overlay topologies.
-- **Optimization Strategy**: Starts with a membership protocol [1] using Gossip based on multiple Hamilton Cycles.
+- **Optimization Strategy**: Starts with a [membership protocol](#References) using Gossip based on multiple Hamilton Cycles.
 - **Algorithm Testing**: Employs a greedy algorithm tested against a popular dataset from the bitcoin/blockchain community.
 - **Performance Comparison**: Demonstrates that the simple greedy algorithm surpasses other methods like RAPID, CHORD, Nearest Neighbor, and Perigee.
 - **Advanced Improvements**: Enhances the greedy algorithm with a Graph Neural Network (GNN)-based Q-learning method for further optimization.
@@ -23,8 +23,10 @@ sudo iptables -A INPUT -s 192.168.100.0/24 -j ACCEPT
 
 Run the following command to launch 100 RAPID processes locally, at port 1234 to port 1333. The standard output of each process will be directed to test_log/$pid.log, where $pid is the PID of the process.
 
-[1] Suresh, Lalith, et al. "Stable and consistent membership at scale with rapid." 2018 USENIX Annual Technical Conference (USENIX ATC 18). 2018.
 ```
 mkdir test_log
 ./test.sh
 ```
+
+#### References
+[1] Suresh, Lalith, et al. "Stable and consistent membership at scale with rapid." 2018 USENIX Annual Technical Conference (USENIX ATC 18). 2018.
