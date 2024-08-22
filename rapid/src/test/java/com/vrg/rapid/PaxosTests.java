@@ -114,7 +114,7 @@ public class PaxosTests {
         final LinkedBlockingDeque<List<Endpoint>> decisions = new LinkedBlockingDeque<>();
         final Consumer<List<Endpoint>> onDecide = decisions::add;
         final Map<Endpoint, FastPaxos> instances = createNFastPaxosInstances(numNodes, onDecide);
-        final List<Endpoint> proposal = Collections.singletonList(Utils.hostFromString("127.0.0.7:1234"));
+        final List<Endpoint> proposal = Collections.singletonList(Utils.hostFromString("127.0.0.1:1234"));
         messageTypeToDrop.add(RapidRequest.ContentCase.FASTROUNDPHASE2BMESSAGE);
         instances.forEach((host, fp) -> executorService.execute(() -> fp.propose(proposal)));
         waitAndVerifyAgreement(0, 20, 50, decisions);
@@ -172,8 +172,8 @@ public class PaxosTests {
     }
 
     public static Iterable<Object[]> testClassicRoundAfterSuccessfulFastRoundMixedValues() {
-        final List<String> p1 = ImmutableList.of("127.0.0.7:5891", "127.0.0.7:5821");
-        final List<String> p2 = ImmutableList.of("127.0.0.7:5821", "127.0.0.7:5872");
+        final List<String> p1 = ImmutableList.of("127.0.0.1:5891", "127.0.0.1:5821");
+        final List<String> p2 = ImmutableList.of("127.0.0.1:5821", "127.0.0.1:5872");
         final List<String> p1p2 = new ArrayList<>();
         p1p2.addAll(p1);
         p1p2.addAll(p2);
@@ -204,7 +204,7 @@ public class PaxosTests {
         for (int iterations = 0; iterations < 100; iterations++) {
 
             final Consumer<List<Endpoint>> onDecide = (k) -> { };
-            final Endpoint addr = Utils.hostFromParts("127.0.0.7", 1234);
+            final Endpoint addr = Utils.hostFromParts("127.0.0.1", 1234);
 
             final Paxos paxos = new Paxos(addr, 1, N, new NoOpClient(), new NoOpBroadcaster(), onDecide);
             final List<Phase1bMessage> messages = new ArrayList<>();
@@ -232,7 +232,7 @@ public class PaxosTests {
             // Lower ranks
             for (int i = p1N + p2N; i < N; i++) {
                 final Rank rank3 = Rank.newBuilder().setNodeIndex(i).setRound(0).build();
-                final List<Endpoint> noiseProposal = toHosts(ImmutableList.of("127.0.0.7:1", "127.0.0.7:2"));
+                final List<Endpoint> noiseProposal = toHosts(ImmutableList.of("127.0.0.1:1", "127.0.0.1:2"));
                 final Phase1bMessage phase1bMessage3 = Phase1bMessage.newBuilder().setVrnd(rank3)
                         .addAllVval(noiseProposal)
                         .setConfigurationId(1)
@@ -249,9 +249,9 @@ public class PaxosTests {
     }
 
     public static Iterable<Object[]> coordinatorRuleTests() {
-        final List<Endpoint> p1 = toHosts(ImmutableList.of("127.0.0.7:5891", "127.0.0.7:5821"));
-        final List<Endpoint> p2 = toHosts(ImmutableList.of("127.0.0.7:5821", "127.0.0.7:5872"));
-        final List<Endpoint> noiseProposal = toHosts(ImmutableList.of("127.0.0.7:1", "127.0.0.7:2"));
+        final List<Endpoint> p1 = toHosts(ImmutableList.of("127.0.0.1:5891", "127.0.0.1:5821"));
+        final List<Endpoint> p2 = toHosts(ImmutableList.of("127.0.0.1:5821", "127.0.0.1:5872"));
+        final List<Endpoint> noiseProposal = toHosts(ImmutableList.of("127.0.0.1:1", "127.0.0.1:2"));
         final List<List<Endpoint>> proposals = Arrays.asList(p1, p2, noiseProposal);
 
         final List<Object[]> coordinatorTestCases = Arrays.asList(new Object[][]{
@@ -311,7 +311,7 @@ public class PaxosTests {
         for (int iterations = 0; iterations < 100; iterations++) {
 
             final Consumer<List<Endpoint>> onDecide = (k) -> { };
-            final Endpoint addr = Utils.hostFromParts("127.0.0.7", 1234);
+            final Endpoint addr = Utils.hostFromParts("127.0.0.1", 1234);
 
             final Paxos paxos = new Paxos(addr, 1, N, new NoOpClient(), new NoOpBroadcaster(), onDecide);
             final List<Phase1bMessage> messages = new ArrayList<>();
@@ -354,9 +354,9 @@ public class PaxosTests {
     }
 
     public static Iterable<Object[]> coordinatorRuleTestsSameRank() {
-        final List<Endpoint> p1 = toHosts(ImmutableList.of("127.0.0.7:5891", "127.0.0.7:5821"));
-        final List<Endpoint> p2 = toHosts(ImmutableList.of("127.0.0.7:5821", "127.0.0.7:5872"));
-        final List<Endpoint> noiseProposal = toHosts(ImmutableList.of("127.0.0.7:1", "127.0.0.7:2"));
+        final List<Endpoint> p1 = toHosts(ImmutableList.of("127.0.0.1:5891", "127.0.0.1:5821"));
+        final List<Endpoint> p2 = toHosts(ImmutableList.of("127.0.0.1:5821", "127.0.0.1:5872"));
+        final List<Endpoint> noiseProposal = toHosts(ImmutableList.of("127.0.0.1:1", "127.0.0.1:2"));
         final List<List<Endpoint>> proposals = Arrays.asList(p1, p2, noiseProposal);
 
         final List<Object[]> coordinatorTestCases = Arrays.asList(new Object[][]{
@@ -409,7 +409,7 @@ public class PaxosTests {
         final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(numNodes);
         final FastPaxos.ISettings settings = new Settings();
         for (int i = 0; i < numNodes; i++) {
-            final Endpoint addr = Utils.hostFromParts("127.0.0.7", 1234 + i);
+            final Endpoint addr = Utils.hostFromParts("127.0.0.1", 1234 + i);
             executorServiceMap.put(addr, Executors.newSingleThreadExecutor());
             final FastPaxos paxos = new FastPaxos(addr, 1, numNodes, messagingClient, directBroadcaster,
                                                   scheduler, onDecide, settings);
