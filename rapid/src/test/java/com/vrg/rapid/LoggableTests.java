@@ -45,7 +45,7 @@ public class LoggableTests {
     private Phase1bMessage getMessage() {
         final Rank rank = Rank.newBuilder().setRound(1).setNodeIndex(2).build();
         final List<Endpoint> endpoints =
-                ImmutableList.of(Endpoint.newBuilder().setHostname(ByteString.copyFromUtf8("127.0.0.7"))
+                ImmutableList.of(Endpoint.newBuilder().setHostname(ByteString.copyFromUtf8("127.0.0.1"))
                                 .setPort(50).build(),
                         Endpoint.newBuilder().setHostname(ByteString.copyFromUtf8("127.0.0.2"))
                                 .setPort(51).build());
