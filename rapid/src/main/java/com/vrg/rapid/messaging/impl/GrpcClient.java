@@ -110,6 +110,7 @@ public class GrpcClient implements IMessagingClient {
             return stub.sendRequest(msg);
         };
         final Runnable onCallFailure = () -> channelMap.invalidate(remote);
+        LOG.info("remote:{}", remote);
         return Retries.callWithRetries(call, remote, settings.getGrpcDefaultRetries(), onCallFailure,
                                        backgroundExecutor);
     }
@@ -128,6 +129,7 @@ public class GrpcClient implements IMessagingClient {
                     return stub.sendRequest(msg);
                 };
                 final Runnable onCallFailure = () -> channelMap.invalidate(remote);
+                LOG.info("remote:{}", remote);
                 return Retries.callWithRetries(call, remote, 0, onCallFailure, backgroundExecutor);
             }).get();
         } catch (final InterruptedException | ExecutionException e) {

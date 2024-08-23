@@ -35,7 +35,7 @@ import com.vrg.rapid.pb.RapidResponse;
 import io.grpc.ExperimentalApi;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import com.vrg.rapid.pb.Endpoint;
 import javax.annotation.Nullable;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -352,9 +352,14 @@ public final class Cluster {
         private Cluster joinAttempt(final Endpoint seedAddress, final NodeId currentIdentifier, final int attempt)
                                                                 throws ExecutionException, InterruptedException {
             assert messagingClient != null;
+            // LOG.info("The port of listenAddress is: {}",  listenAddress.getPort());
             // First, get the configuration ID and the observers to contact from the seed node.
+            // final String[] parts = listenAddress.split(":");
+            // final int port = Integer.parseInt(parts[1]); 
+            final Endpoint MYREMOTE = Utils.hostFromString(
+                String.format("129.114.109.252:%d", listenAddress.getPort()));
             final RapidRequest preJoinMessage = Utils.toRapidRequest(PreJoinMessage.newBuilder()
-                                                                            .setSender(listenAddress)
+                                                                            .setSender(MYREMOTE)
                                                                             .setNodeId(currentIdentifier)
                                                                             .build());
             final JoinResponse joinPhaseOneResult = messagingClient.sendMessage(seedAddress, preJoinMessage)
@@ -366,11 +371,16 @@ public final class Cluster {
              * part of the configuration (which happens due to a race condition where we retry a join
              * after a timeout while the cluster has added us -- see below).
              */
+            LOG.info("seedAddress:{}", seedAddress);
             if (joinPhaseOneResult.getStatusCode() != JoinStatusCode.SAFE_TO_JOIN
                     && joinPhaseOneResult.getStatusCode() != JoinStatusCode.HOSTNAME_ALREADY_IN_RING) {
+                LOG.info("Unsafe!");
                 throw new JoinPhaseOneException(joinPhaseOneResult);
             }
-
+            else {
+                LOG.info("Safe!");
+            }
+            LOG.info("seedAddress:{}", seedAddress);
             /*
              * HOSTNAME_ALREADY_IN_RING is a special case. If the joinPhase2 request times out before
              * the join confirmation arrives from an observer, a client may re-try a join by contacting
@@ -379,8 +389,8 @@ public final class Cluster {
              */
             final long configurationToJoin = joinPhaseOneResult.getStatusCode()
                     == JoinStatusCode.HOSTNAME_ALREADY_IN_RING ? -1 : joinPhaseOneResult.getConfigurationId();
-            LOG.debug("{} is trying a join under configuration {} (attempt {})",
-                      Utils.loggable(listenAddress), configurationToJoin, attempt);
+            LOG.info("{} is trying a join under configuration {} (attempt {})",
+                      Utils.loggable(MYREMOTE), configurationToJoin, attempt);
 
             /*
              * Phase one complete. Now send a phase two message to all our observers, and if there is a valid
@@ -407,6 +417,11 @@ public final class Cluster {
                                         final long configurationToJoin, final NodeId currentIdentifier)
                                                             throws ExecutionException, InterruptedException {
             assert messagingClient != null;
+            // LOG.info("The port of listenAddress is: {}",  listenAddress.getPort());
+            // final String[] parts = listenAddress.split(":");
+            // final int port = Integer.parseInt(parts[1]); 
+            final Endpoint MYREMOTE = Utils.hostFromString(
+                String.format("129.114.109.252:%d", listenAddress.getPort()));
             // We have the list of observers. Now contact them as part of phase 2.
             final List<Endpoint> observerList = joinPhaseOneResult.getEndpointsList();
             final Map<Endpoint, List<Integer>> ringNumbersPerObserver = new HashMap<>(K);
@@ -421,14 +436,14 @@ public final class Cluster {
             final List<ListenableFuture<RapidResponse>> responseFutures = new ArrayList<>();
             for (final Map.Entry<Endpoint, List<Integer>> entry: ringNumbersPerObserver.entrySet()) {
                 final JoinMessage msg = JoinMessage.newBuilder()
-                        .setSender(listenAddress)
+                        .setSender(MYREMOTE)
                         .setNodeId(currentIdentifier)
                         .setMetadata(metadata)
                         .setConfigurationId(configurationToJoin)
                         .addAllRingNumber(entry.getValue()).build();
                 final RapidRequest request = Utils.toRapidRequest(msg);
                 LOG.info("{} is sending a join-p2 to {} for config {}",
-                        Utils.loggable(listenAddress), Utils.loggable(entry.getKey()),
+                        Utils.loggable(MYREMOTE), Utils.loggable(entry.getKey()),
                         configurationToJoin);
                 final ListenableFuture<RapidResponse> call = messagingClient.sendMessage(entry.getKey(), request);
                 responseFutures.add(call);

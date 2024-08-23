@@ -1,41 +1,51 @@
-#include <stdio.h>
-#include <sys/socket.h>
-#include <stdlib.h>
-#include <netinet/in.h>
-#include <string.h>
-#include <arpa/inet.h>
+import socket
 
-#define PORT 8080
+def send_packet_udp(destination, port=37389):
+    # Create a UDP socket
+    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
-int main() {
-    struct sockaddr_in serv_addr;
-    int sock = 0;
-    char *message = "Hello from client";
+    # Define the server address and port
+    server_address = (destination, port)
+    message = b'This is our test message.'
 
-    if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
-        printf("\n Socket creation error \n");
-        return -1;
-    }
+    try:
+        # Send data
+        print(f"Sending packet to {destination} port {port}")
+        sent = sock.sendto(message, server_address)
 
-    memset(&serv_addr, '0', sizeof(serv_addr));
+        # Just for confirmation
+        print(f"Sent {sent} bytes")
 
-    serv_addr.sin_family = AF_INET;
-    serv_addr.sin_port = htons(PORT);
+    finally:
+        # Close the socket
+        sock.close()
 
-    // Convert IPv4 and IPv6 addresses from text to binary form
-    if(inet_pton(AF_INET, "127.0.0.1", &serv_addr.sin_addr) <= 0) {
-        printf("\nInvalid address/ Address not supported \n");
-        return -1;
-    }
+import socket
 
-    if (connect(sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0) {
-        printf("\nConnection Failed \n");
-        return -1;
-    }
+def send_packet_tcp(destination, port=37389):
+    # Create a TCP socket
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-    send(sock, message, strlen(message), 0);
-    printf("Hello message sent\n");
+    # Define the server address and port
+    server_address = (destination, port)
+    message = b'This is our test message.'
 
-    close(sock);
-    return 0;
-}
+    try:
+        # Connect to the server
+        print(f"Connecting to {destination} on port {port}")
+        sock.connect(server_address)
+
+        # Send data
+        print(f"Sending message to {destination} port {port}")
+        sent = sock.sendall(message)  # sendall ensures all data is sent
+
+        # Just for confirmation
+        print(f"Message sent successfully")
+
+    finally:
+        # Close the socket
+        sock.close()
+
+if __name__ == '__main__':
+    # Example usage: send a packet to localhost on port 9999
+    send_packet_tcp('129.114.109.252', 1234)
