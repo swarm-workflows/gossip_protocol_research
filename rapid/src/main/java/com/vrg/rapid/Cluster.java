@@ -49,6 +49,9 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Consumer;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 
 /**
  * The public API for Rapid. Users create Cluster objects using either Cluster.start()
@@ -356,10 +359,20 @@ public final class Cluster {
             // First, get the configuration ID and the observers to contact from the seed node.
             // final String[] parts = listenAddress.split(":");
             // final int port = Integer.parseInt(parts[1]); 
-            final Endpoint MYREMOTE = Utils.hostFromString(
-                String.format("129.114.109.252:%d", listenAddress.getPort()));
+            final InetAddress MYIP;
+            Endpoint myremote = Utils.hostFromString(
+                String.format("127.0.0.1:1234"));
+            try {
+                MYIP = InetAddress.getLocalHost();
+                myremote = Utils.hostFromString(
+                String.format("%s:%d", MYIP.getHostAddress(), listenAddress.getPort()));
+            } catch (final UnknownHostException e) {
+                e.printStackTrace();
+            }
+            // final Endpoint myremote = Utils.hostFromString(
+            //     String.format("{}:%d", MYIP, listenAddress.getPort()));
             final RapidRequest preJoinMessage = Utils.toRapidRequest(PreJoinMessage.newBuilder()
-                                                                            .setSender(MYREMOTE)
+                                                                            .setSender(myremote)
                                                                             .setNodeId(currentIdentifier)
                                                                             .build());
             final JoinResponse joinPhaseOneResult = messagingClient.sendMessage(seedAddress, preJoinMessage)
@@ -390,7 +403,7 @@ public final class Cluster {
             final long configurationToJoin = joinPhaseOneResult.getStatusCode()
                     == JoinStatusCode.HOSTNAME_ALREADY_IN_RING ? -1 : joinPhaseOneResult.getConfigurationId();
             LOG.info("{} is trying a join under configuration {} (attempt {})",
-                      Utils.loggable(MYREMOTE), configurationToJoin, attempt);
+                      Utils.loggable(myremote), configurationToJoin, attempt);
 
             /*
              * Phase one complete. Now send a phase two message to all our observers, and if there is a valid
@@ -420,8 +433,18 @@ public final class Cluster {
             // LOG.info("The port of listenAddress is: {}",  listenAddress.getPort());
             // final String[] parts = listenAddress.split(":");
             // final int port = Integer.parseInt(parts[1]); 
-            final Endpoint MYREMOTE = Utils.hostFromString(
-                String.format("129.114.109.252:%d", listenAddress.getPort()));
+            final InetAddress MYIP;
+            Endpoint myremote = Utils.hostFromString(
+                String.format("127.0.0.1:1234"));;
+            try {
+                MYIP = InetAddress.getLocalHost();
+                myremote = Utils.hostFromString(
+                String.format("%s:%d", MYIP.getHostAddress(), listenAddress.getPort()));
+            } catch (final UnknownHostException e) {
+                e.printStackTrace();
+            }
+            // final Endpoint myremote = Utils.hostFromString(
+            //     String.format("{}:%d", MYIP, listenAddress.getPort()));
             // We have the list of observers. Now contact them as part of phase 2.
             final List<Endpoint> observerList = joinPhaseOneResult.getEndpointsList();
             final Map<Endpoint, List<Integer>> ringNumbersPerObserver = new HashMap<>(K);
@@ -436,14 +459,14 @@ public final class Cluster {
             final List<ListenableFuture<RapidResponse>> responseFutures = new ArrayList<>();
             for (final Map.Entry<Endpoint, List<Integer>> entry: ringNumbersPerObserver.entrySet()) {
                 final JoinMessage msg = JoinMessage.newBuilder()
-                        .setSender(MYREMOTE)
+                        .setSender(myremote)
                         .setNodeId(currentIdentifier)
                         .setMetadata(metadata)
                         .setConfigurationId(configurationToJoin)
                         .addAllRingNumber(entry.getValue()).build();
                 final RapidRequest request = Utils.toRapidRequest(msg);
                 LOG.info("{} is sending a join-p2 to {} for config {}",
-                        Utils.loggable(MYREMOTE), Utils.loggable(entry.getKey()),
+                        Utils.loggable(myremote), Utils.loggable(entry.getKey()),
                         configurationToJoin);
                 final ListenableFuture<RapidResponse> call = messagingClient.sendMessage(entry.getKey(), request);
                 responseFutures.add(call);
