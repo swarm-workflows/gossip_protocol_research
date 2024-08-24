@@ -41,13 +41,16 @@ class RapidNodeRunner {
 
     private final String seed;
     private final String listenAddress;
+    private final String publicAddress;
     private final String role;
     private final String clusterName;
     private Process rapidProcess;
 
-    RapidNodeRunner(final String seed, final String listenAddress, final String role, final String clusterName) {
+    RapidNodeRunner(final String seed, final String listenAddress, final String publicAddress, 
+                    final String role, final String clusterName) {
         this.seed = seed;
         this.listenAddress = listenAddress;
+        this.publicAddress = publicAddress;
         this.role = role;
         this.clusterName = clusterName;
     }
@@ -68,6 +71,7 @@ class RapidNodeRunner {
                 " -server" +
                 " -jar " + RAPID_RUNNER_JAR +
                 " --listenAddress " + listenAddress +
+                " --publicAddress " + publicAddress +
                 " --seedAddress " + seed +
                 " --role " + role +
                 " --cluster " + clusterName;

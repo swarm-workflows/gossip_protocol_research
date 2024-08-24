@@ -39,8 +39,9 @@ public class AgentWithNettyMessaging extends StandaloneAgent {
     private static final int MAX_TRIES = 400;
     @Nullable private Cluster cluster = null;
 
-    private AgentWithNettyMessaging(final HostAndPort listenAddress, final HostAndPort seedAddress) {
-        super(listenAddress, seedAddress);
+    private AgentWithNettyMessaging(final HostAndPort listenAddress, final HostAndPort publicAddress, 
+                                final HostAndPort seedAddress) {
+        super(listenAddress, publicAddress, seedAddress);
     }
 
     @Override
@@ -56,12 +57,12 @@ public class AgentWithNettyMessaging extends StandaloneAgent {
         // and IMessagingServer interfaces.
         final NettyClientServer nettyMessaging = new NettyClientServer(endpoint);
         if (listenAddress.equals(seedAddress)) {
-            cluster = new Cluster.Builder(listenAddress)
+            cluster = new Cluster.Builder(listenAddress, publicAddress)
                     .setMessagingClientAndServer(nettyMessaging, nettyMessaging)
                     .start();
 
         } else {
-            cluster = new Cluster.Builder(listenAddress)
+            cluster = new Cluster.Builder(listenAddress, publicAddress)
                     .setMessagingClientAndServer(nettyMessaging, nettyMessaging)
                     .join(seedAddress);
         }
@@ -89,11 +90,13 @@ public class AgentWithNettyMessaging extends StandaloneAgent {
 
         // Get CLI options
         final HostAndPort listenAddress = HostAndPort.fromString(cmd.getOptionValue("listenAddress"));
+        final HostAndPort publicAddress = HostAndPort.fromString(cmd.getOptionValue("publicAddress"));
         final HostAndPort seedAddress = HostAndPort.fromString(cmd.getOptionValue("seedAddress"));
 
         // Bring up Rapid node
         try {
-            final AgentWithNettyMessaging agent = new AgentWithNettyMessaging(listenAddress, seedAddress);
+            final AgentWithNettyMessaging agent = new AgentWithNettyMessaging(listenAddress, publicAddress,
+                                                                                seedAddress);
             agent.startCluster();
             for (int i = 0; i < MAX_TRIES; i++) {
                 agent.printClusterMembership();

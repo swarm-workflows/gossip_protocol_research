@@ -49,14 +49,14 @@ public class SubscriptionsTest {
 
         // Initialize seed
         final TestCallback seedCb = new TestCallback();
-        final Cluster seedCluster = new Cluster.Builder(seedEndpoint)
+        final Cluster seedCluster = new Cluster.Builder(seedEndpoint, seedEndpoint)
                                                .addSubscription(ClusterEvents.VIEW_CHANGE, seedCb)
                                                .useSettings(settings)
                                                .start();
 
         // Initialize joiner
         final TestCallback joinCb = new TestCallback();
-        final Cluster nonSeed = new Cluster.Builder(joiner)
+        final Cluster nonSeed = new Cluster.Builder(joiner, joiner)
                 .addSubscription(ClusterEvents.VIEW_CHANGE, joinCb)
                 .useSettings(settings)
                 .join(seedEndpoint);
@@ -96,7 +96,7 @@ public class SubscriptionsTest {
         // Initialize seed
         final TestCallback seedCb1 = new TestCallback();
         final TestCallback seedCb2 = new TestCallback();
-        final Cluster seedCluster = new Cluster.Builder(seedEndpoint)
+        final Cluster seedCluster = new Cluster.Builder(seedEndpoint, seedEndpoint)
                 .addSubscription(ClusterEvents.VIEW_CHANGE, seedCb1)
                 .addSubscription(ClusterEvents.VIEW_CHANGE, seedCb2)
                 .useSettings(settings)
@@ -105,7 +105,7 @@ public class SubscriptionsTest {
         // Initialize joiner
         final TestCallback joinCb1 = new TestCallback();
         final TestCallback joinCb2 = new TestCallback();
-        final Cluster nonSeed = new Cluster.Builder(joiner)
+        final Cluster nonSeed = new Cluster.Builder(joiner, joiner)
                 .addSubscription(ClusterEvents.VIEW_CHANGE, joinCb1)
                 .addSubscription(ClusterEvents.VIEW_CHANGE, joinCb2)
                 .useSettings(settings)
@@ -137,7 +137,7 @@ public class SubscriptionsTest {
 
         // Initialize seed
         final TestCallback seedCb1 = new TestCallback();
-        final Cluster seedCluster = new Cluster.Builder(seedEndpoint)
+        final Cluster seedCluster = new Cluster.Builder(seedEndpoint, seedEndpoint)
                 .addSubscription(ClusterEvents.VIEW_CHANGE, seedCb1)
                 .useSettings(settings)
                 .start();
@@ -147,7 +147,7 @@ public class SubscriptionsTest {
 
         // Initialize joiner
         final TestCallback joinCb1 = new TestCallback();
-        final Cluster nonSeed = new Cluster.Builder(joiner)
+        final Cluster nonSeed = new Cluster.Builder(joiner, joiner)
                 .addSubscription(ClusterEvents.VIEW_CHANGE, joinCb1)
                 .useSettings(settings)
                 .join(seedEndpoint);
@@ -179,7 +179,7 @@ public class SubscriptionsTest {
         final TestCallback seedCb1 = new TestCallback();
         final StaticFailureDetector.Factory fdFactory = new StaticFailureDetector.Factory(new HashSet<>());
         final ByteString byteString = ByteString.copyFrom("seed", Charset.defaultCharset());
-        final Cluster seedCluster = new Cluster.Builder(seedEndpoint)
+        final Cluster seedCluster = new Cluster.Builder(seedEndpoint, seedEndpoint)
                 .addSubscription(ClusterEvents.VIEW_CHANGE, seedCb1)
                 .setEdgeFailureDetectorFactory(fdFactory)
                 .setMetadata(Collections.singletonMap("role", byteString))
@@ -195,7 +195,7 @@ public class SubscriptionsTest {
             final Endpoint joiner = Utils.hostFromParts("127.0.0.1", 1235 + i);
             final StaticFailureDetector.Factory fdJoiner = new StaticFailureDetector.Factory(new HashSet<>());
             final TestCallback joinerCb1 = new TestCallback();
-            joiners.add(new Cluster.Builder(joiner)
+            joiners.add(new Cluster.Builder(joiner, joiner)
                     .addSubscription(ClusterEvents.VIEW_CHANGE, joinerCb1)
                     .setEdgeFailureDetectorFactory(fdJoiner)
                     .useSettings(settings)

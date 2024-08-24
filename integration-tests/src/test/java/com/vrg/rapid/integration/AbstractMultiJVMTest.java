@@ -44,8 +44,9 @@ public class AbstractMultiJVMTest {
      * Create and return a new RapidNodeRunner instance.
      */
     RapidNodeRunner createRapidInstance(final String seed, final String listenAddress,
-                                        final String role, final String clusterName) {
-        final RapidNodeRunner runner = new RapidNodeRunner(seed, listenAddress, role, clusterName);
+                final String publicAddress, final String role, final String clusterName) {
+        final RapidNodeRunner runner = new RapidNodeRunner(seed, listenAddress, publicAddress, 
+                                                        role, clusterName);
         rapidNodeRunners.add(runner);
         return runner;
     }

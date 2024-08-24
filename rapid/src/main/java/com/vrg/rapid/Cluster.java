@@ -49,8 +49,6 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Consumer;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 
 
 /**
@@ -80,16 +78,19 @@ public final class Cluster {
     private final IMessagingServer rpcServer;
     private final SharedResources sharedResources;
     private final Endpoint listenAddress;
+    private final Endpoint publicAddress;
     private boolean hasShutdown = false;
 
     private Cluster(final IMessagingServer rpcServer,
                     final MembershipService membershipService,
                     final SharedResources sharedResources,
-                    final Endpoint listenAddress) {
+                    final Endpoint listenAddress,
+                    final Endpoint publicAddress) {
         this.membershipService = membershipService;
         this.rpcServer = rpcServer;
         this.sharedResources = sharedResources;
         this.listenAddress = listenAddress;
+        this.publicAddress = publicAddress;
     }
 
     /**
@@ -164,6 +165,7 @@ public final class Cluster {
 
     public static class Builder {
         private final Endpoint listenAddress;
+        private final Endpoint publicAddress;
         @Nullable private IEdgeFailureDetectorFactory edgeFailureDetector = null;
         private Metadata metadata = Metadata.getDefaultInstance();
         private Settings settings = new Settings();
@@ -180,10 +182,14 @@ public final class Cluster {
          *
          * @param listenAddress The listen address of the node being instantiated
          */
-        public Builder(final HostAndPort listenAddress) {
+        public Builder(final HostAndPort listenAddress, final HostAndPort publicAddress) {
             this.listenAddress = Endpoint.newBuilder()
                     .setHostname(ByteString.copyFromUtf8(listenAddress.getHost()))
                     .setPort(listenAddress.getPort())
+                    .build();
+            this.publicAddress = Endpoint.newBuilder()
+                    .setHostname(ByteString.copyFromUtf8(publicAddress.getHost()))
+                    .setPort(publicAddress.getPort())
                     .build();
         }
 
@@ -192,8 +198,9 @@ public final class Cluster {
          *
          * @param listenAddress The listen address of the node being instantiated
          */
-        Builder(final Endpoint listenAddress) {
+        Builder(final Endpoint listenAddress, final Endpoint publicAddress) {
             this.listenAddress = listenAddress;
+            this.publicAddress = publicAddress;
         }
 
         /**
@@ -266,20 +273,20 @@ public final class Cluster {
                                 : new GrpcClient(listenAddress, sharedResources, settings);
             final NodeId currentIdentifier = Utils.nodeIdFromUUID(UUID.randomUUID());
             final MembershipView membershipView = new MembershipView(K, Collections.singletonList(currentIdentifier),
-                    Collections.singletonList(listenAddress));
+                    Collections.singletonList(publicAddress));
             final MultiNodeCutDetector cutDetector = new MultiNodeCutDetector(K, H, L);
             edgeFailureDetector = edgeFailureDetector != null ? edgeFailureDetector
                     : new PingPongFailureDetector.Factory(listenAddress, messagingClient);
 
             final Map<Endpoint, Metadata> metadataMap = metadata.getMetadataCount() > 0
-                                                    ? Collections.singletonMap(listenAddress, metadata)
+                                                    ? Collections.singletonMap(publicAddress, metadata)
                                                     : Collections.emptyMap();
-            final MembershipService membershipService = new MembershipService(listenAddress,
+            final MembershipService membershipService = new MembershipService(publicAddress,
                     cutDetector, membershipView, sharedResources, settings,
                                             messagingClient, edgeFailureDetector, metadataMap, subscriptions);
             messagingServer.setMembershipService(membershipService);
             messagingServer.start();
-            return new Cluster(messagingServer, membershipService, sharedResources, listenAddress);
+            return new Cluster(messagingServer, membershipService, sharedResources, listenAddress, publicAddress);
         }
 
 
@@ -343,7 +350,7 @@ public final class Cluster {
             messagingServer.shutdown();
             messagingClient.shutdown();
             sharedResources.shutdown();
-            throw new JoinException("Join attempt unsuccessful " + Utils.loggable(listenAddress));
+            throw new JoinException("Join attempt unsuccessful " + Utils.loggable(publicAddress));
         }
 
         /**
@@ -355,24 +362,8 @@ public final class Cluster {
         private Cluster joinAttempt(final Endpoint seedAddress, final NodeId currentIdentifier, final int attempt)
                                                                 throws ExecutionException, InterruptedException {
             assert messagingClient != null;
-            // LOG.info("The port of listenAddress is: {}",  listenAddress.getPort());
-            // First, get the configuration ID and the observers to contact from the seed node.
-            // final String[] parts = listenAddress.split(":");
-            // final int port = Integer.parseInt(parts[1]); 
-            final InetAddress MYIP;
-            Endpoint myremote = Utils.hostFromString(
-                String.format("127.0.0.1:1234"));
-            try {
-                MYIP = InetAddress.getLocalHost();
-                myremote = Utils.hostFromString(
-                String.format("%s:%d", MYIP.getHostAddress(), listenAddress.getPort()));
-            } catch (final UnknownHostException e) {
-                e.printStackTrace();
-            }
-            // final Endpoint myremote = Utils.hostFromString(
-            //     String.format("{}:%d", MYIP, listenAddress.getPort()));
             final RapidRequest preJoinMessage = Utils.toRapidRequest(PreJoinMessage.newBuilder()
-                                                                            .setSender(myremote)
+                                                                            .setSender(publicAddress)
                                                                             .setNodeId(currentIdentifier)
                                                                             .build());
             final JoinResponse joinPhaseOneResult = messagingClient.sendMessage(seedAddress, preJoinMessage)
@@ -403,7 +394,7 @@ public final class Cluster {
             final long configurationToJoin = joinPhaseOneResult.getStatusCode()
                     == JoinStatusCode.HOSTNAME_ALREADY_IN_RING ? -1 : joinPhaseOneResult.getConfigurationId();
             LOG.info("{} is trying a join under configuration {} (attempt {})",
-                      Utils.loggable(myremote), configurationToJoin, attempt);
+                      Utils.loggable(publicAddress), configurationToJoin, attempt);
 
             /*
              * Phase one complete. Now send a phase two message to all our observers, and if there is a valid
@@ -430,21 +421,6 @@ public final class Cluster {
                                         final long configurationToJoin, final NodeId currentIdentifier)
                                                             throws ExecutionException, InterruptedException {
             assert messagingClient != null;
-            // LOG.info("The port of listenAddress is: {}",  listenAddress.getPort());
-            // final String[] parts = listenAddress.split(":");
-            // final int port = Integer.parseInt(parts[1]); 
-            final InetAddress MYIP;
-            Endpoint myremote = Utils.hostFromString(
-                String.format("127.0.0.1:1234"));;
-            try {
-                MYIP = InetAddress.getLocalHost();
-                myremote = Utils.hostFromString(
-                String.format("%s:%d", MYIP.getHostAddress(), listenAddress.getPort()));
-            } catch (final UnknownHostException e) {
-                e.printStackTrace();
-            }
-            // final Endpoint myremote = Utils.hostFromString(
-            //     String.format("{}:%d", MYIP, listenAddress.getPort()));
             // We have the list of observers. Now contact them as part of phase 2.
             final List<Endpoint> observerList = joinPhaseOneResult.getEndpointsList();
             final Map<Endpoint, List<Integer>> ringNumbersPerObserver = new HashMap<>(K);
@@ -459,14 +435,14 @@ public final class Cluster {
             final List<ListenableFuture<RapidResponse>> responseFutures = new ArrayList<>();
             for (final Map.Entry<Endpoint, List<Integer>> entry: ringNumbersPerObserver.entrySet()) {
                 final JoinMessage msg = JoinMessage.newBuilder()
-                        .setSender(myremote)
+                        .setSender(publicAddress)
                         .setNodeId(currentIdentifier)
                         .setMetadata(metadata)
                         .setConfigurationId(configurationToJoin)
                         .addAllRingNumber(entry.getValue()).build();
                 final RapidRequest request = Utils.toRapidRequest(msg);
                 LOG.info("{} is sending a join-p2 to {} for config {}",
-                        Utils.loggable(myremote), Utils.loggable(entry.getKey()),
+                        Utils.loggable(publicAddress), Utils.loggable(entry.getKey()),
                         configurationToJoin);
                 final ListenableFuture<RapidResponse> call = messagingClient.sendMessage(entry.getKey(), request);
                 responseFutures.add(call);
@@ -497,25 +473,26 @@ public final class Cluster {
                     new MembershipView(K, identifiersSeen, allEndpoints);
             final MultiNodeCutDetector cutDetector = new MultiNodeCutDetector(K, H, L);
             edgeFailureDetector = edgeFailureDetector != null ? edgeFailureDetector
-                                                  : new PingPongFailureDetector.Factory(listenAddress, messagingClient);
+                                                  : new PingPongFailureDetector.Factory(publicAddress, messagingClient);
             final MembershipService membershipService =
-                    new MembershipService(listenAddress, cutDetector, membershipViewFinal,
+                    new MembershipService(publicAddress, cutDetector, membershipViewFinal,
                            sharedResources, settings, messagingClient, edgeFailureDetector, allMetadata, subscriptions);
             messagingServer.setMembershipService(membershipService);
             if (LOG.isTraceEnabled()) {
-                LOG.trace("{} has observers {}", listenAddress,
-                        membershipViewFinal.getObserversOf(listenAddress));
-                LOG.trace("{} has subjects {}", listenAddress,
-                        membershipViewFinal.getObserversOf(listenAddress));
+                LOG.trace("{} has observers {}", publicAddress,
+                        membershipViewFinal.getObserversOf(publicAddress));
+                LOG.trace("{} has subjects {}", publicAddress,
+                        membershipViewFinal.getObserversOf(publicAddress));
             }
-            return new Cluster(messagingServer, membershipService, sharedResources, listenAddress);
+            return new Cluster(messagingServer, membershipService, sharedResources, listenAddress, publicAddress);
         }
     }
 
 
     @Override
     public String toString() {
-        return "Cluster:" + listenAddress.getHostname().toStringUtf8() + ":" + listenAddress.getPort();
+        return "Cluster:" + listenAddress.getHostname().toStringUtf8() + ":" + listenAddress.getPort()
+         + publicAddress.getHostname().toStringUtf8() + ":" + listenAddress.getPort();
     }
 
     public static final class JoinException extends RuntimeException {

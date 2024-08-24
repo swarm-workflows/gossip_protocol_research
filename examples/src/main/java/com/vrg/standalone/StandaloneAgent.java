@@ -38,22 +38,25 @@ public class StandaloneAgent {
     private static final int SLEEP_INTERVAL_MS = 1000;
     private static final int MAX_TRIES = 400;
     final HostAndPort listenAddress;
+    final HostAndPort publicAddress;
     final HostAndPort seedAddress;
     @Nullable private Cluster cluster = null;
 
-    StandaloneAgent(final HostAndPort listenAddress, final HostAndPort seedAddress) {
+    StandaloneAgent(final HostAndPort listenAddress, final HostAndPort publicAddress,
+                    final HostAndPort seedAddress) {
         this.listenAddress = listenAddress;
+        this.publicAddress = publicAddress;
         this.seedAddress = seedAddress;
     }
 
     public void startCluster() throws IOException, InterruptedException {
         // The first node X of the cluster calls .start(), the rest call .join(X)
         if (listenAddress.equals(seedAddress)) {
-            cluster = new Cluster.Builder(listenAddress)
+            cluster = new Cluster.Builder(listenAddress, publicAddress)
                     .start();
 
         } else {
-            cluster = new Cluster.Builder(listenAddress)
+            cluster = new Cluster.Builder(listenAddress, publicAddress)
                     .join(seedAddress);
         }
         cluster.registerSubscription(com.vrg.rapid.ClusterEvents.VIEW_CHANGE_PROPOSAL,
@@ -105,11 +108,12 @@ public class StandaloneAgent {
 
         // Get CLI options
         final HostAndPort listenAddress = HostAndPort.fromString(cmd.getOptionValue("listenAddress"));
+        final HostAndPort publicAddress = HostAndPort.fromString(cmd.getOptionValue("publicAddress"));
         final HostAndPort seedAddress = HostAndPort.fromString(cmd.getOptionValue("seedAddress"));
 
         // Bring up Rapid node
         try {
-            final StandaloneAgent agent = new StandaloneAgent(listenAddress, seedAddress);
+            final StandaloneAgent agent = new StandaloneAgent(listenAddress, publicAddress, seedAddress);
             agent.startCluster();
             for (int i = 0; i < MAX_TRIES; i++) {
                 agent.printClusterMembership();

@@ -28,7 +28,8 @@ public class RapidNodeRunnerTest extends AbstractMultiJVMTest {
     @Test
     public void runAndAssertSingleNode() throws Exception {
         final RapidNodeRunner rapidNodeRunner =
-                createRapidInstance("127.0.0.1:1234", "127.0.0.1:1234", "testRole", "Rapid")
+        createRapidInstance("127.0.0.1:1234", "127.0.0.1:1234",
+        "127.0.0.1:1234", "testRole", "Rapid")
                         .runNode();
         Assert.assertTrue(rapidNodeRunner.getRapidProcess().isAlive());
         rapidNodeRunner.killNode();
@@ -40,11 +41,11 @@ public class RapidNodeRunnerTest extends AbstractMultiJVMTest {
         final int numNodes = 10;
         final RapidNodeRunner seed =
                 createRapidInstance("127.0.0.1:1234", "127.0.0.1:1234",
-                                    "testRole", "Rapid")
+                                    "127.0.0.1:1234", "testRole", "Rapid")
                         .runNode();
         final List<RapidNodeRunner> nodes = IntStream.range(0, numNodes - 1)
-                .mapToObj(i -> createRapidInstance("127.0.0.1:1234", "127.0.0.1:" + (1235 + i),
-                                                   "testRole", "Rapid"))
+                .mapToObj(i -> createRapidInstance("127.0.0.1:1234", 
+                "127.0.0.1:1234", "127.0.0.1:" + (1235 + i), "testRole", "Rapid"))
                 .collect(Collectors.toList());
         nodes.forEach(n -> {
             try {

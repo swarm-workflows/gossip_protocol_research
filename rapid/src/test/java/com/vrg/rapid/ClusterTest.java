@@ -122,8 +122,8 @@ public class ClusterTest {
     public void hostAndPortBuilderTests() throws IOException, InterruptedException, ExecutionException {
         final HostAndPort addr1 = HostAndPort.fromParts("127.0.0.1", 1255);
         final HostAndPort addr2 = HostAndPort.fromParts("127.0.0.1", 1256);
-        final Cluster seed = new Cluster.Builder(addr1).start();
-        final Cluster joiner = new Cluster.Builder(addr2).join(addr1);
+        final Cluster seed = new Cluster.Builder(addr1, addr1).start();
+        final Cluster joiner = new Cluster.Builder(addr2, addr2).join(addr1);
         assertEquals(2, seed.getMembershipSize());
         assertEquals(2, joiner.getMembershipSize());
         joiner.shutdown();
@@ -749,7 +749,7 @@ public class ClusterTest {
 
     // Helper to use static-failure-detectors and inject interceptors
     private Cluster.Builder buildCluster(final Endpoint endpoint) {
-        Cluster.Builder builder = new Cluster.Builder(endpoint).useSettings(settings);
+        Cluster.Builder builder = new Cluster.Builder(endpoint, endpoint).useSettings(settings);
         if (useStaticFd) {
             final StaticFailureDetector.Factory fdFactory = new StaticFailureDetector.Factory(new HashSet<>());
             builder = builder.setEdgeFailureDetectorFactory(fdFactory);

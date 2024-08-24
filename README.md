@@ -30,3 +30,11 @@ mkdir test_log
 
 #### References
 [1] Suresh, Lalith, et al. "Stable and consistent membership at scale with rapid." 2018 USENIX Annual Technical Conference (USENIX ATC 18). 2018.
+
+# ToDo:
+- Assuming two processes run under the same node/subnet, does using public IP as destination introduce overhead?
+- Replace subnet ip with float ip
+    - RAPID include the local listen address inside the out-going packet, result in unreachbility back from receiver. 
+    - Discover its own public ip.
+    - Implement an input for floating ip.
+    - Replace subnet ip with float ip within the out-going message.

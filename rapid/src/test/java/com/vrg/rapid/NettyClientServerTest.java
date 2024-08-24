@@ -45,7 +45,7 @@ public class NettyClientServerTest {
                     .setPort(9000).build();
             final SharedResources resources = new SharedResources(server);
             final NettyClientServer serverMessaging = new NettyClientServer(server, resources);
-            serverInstance = new Cluster.Builder(server)
+            serverInstance = new Cluster.Builder(server, server)
                     .setMessagingClientAndServer(serverMessaging, serverMessaging)
                     .start();
             assertNotNull(serverInstance);
@@ -90,7 +90,7 @@ public class NettyClientServerTest {
                 final Endpoint server = Endpoint.newBuilder().setHostname(ByteString.copyFromUtf8("127.0.0.1"))
                         .setPort(9001 + i).build();
                 final NettyClientServer serverMessaging = new NettyClientServer(server, resources);
-                final Cluster cluster = new Cluster.Builder(server)
+                final Cluster cluster = new Cluster.Builder(server, server)
                         .setMessagingClientAndServer(serverMessaging, serverMessaging)
                         .start();
                 clusters.add(cluster);
