@@ -32,9 +32,20 @@ mkdir test_log
 [1] Suresh, Lalith, et al. "Stable and consistent membership at scale with rapid." 2018 USENIX Annual Technical Conference (USENIX ATC 18). 2018.
 
 # ToDo:
+## Aug 23 2024 
 - Assuming two processes run under the same node/subnet, does using public IP as destination introduce overhead?
-- Replace subnet ip with float ip
+
+- Replace subnet ip with float ip (Finished, Aug 24)
     - RAPID include the local listen address inside the out-going packet, result in unreachbility back from receiver. 
     - Discover its own public ip.
     - Implement an input for floating ip.
     - Replace subnet ip with float ip within the out-going message.
+
+## Aug 24 2024
+- Public IP introduces failure on retries. Need to figure out:
+    - Observation:
+        - Failure Location: Retries.java 73
+        - Failure Type: Unavailable or Timeout 
+        - Errors only occur in seedAddress
+        - Cluster size is correct.
+    - Why connectio failure but cluster size is correct? Unavailable or Timeout
