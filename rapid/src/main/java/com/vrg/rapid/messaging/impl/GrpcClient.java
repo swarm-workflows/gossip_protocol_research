@@ -44,6 +44,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Supplier;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.Executors;
 
 
 /**
@@ -103,14 +106,38 @@ public class GrpcClient implements IMessagingClient {
         Objects.requireNonNull(remote);
         Objects.requireNonNull(msg);
 
+        // final Supplier<ListenableFuture<RapidResponse>> call = () -> {
+        //     final MembershipServiceFutureStub stub = getFutureStub(remote)
+        //             .withDeadlineAfter(getTimeoutForMessageMs(msg),
+        //                     TimeUnit.MILLISECONDS);
+        //     return stub.sendRequest(msg);
+        // };
+
         final Supplier<ListenableFuture<RapidResponse>> call = () -> {
             final MembershipServiceFutureStub stub = getFutureStub(remote)
                     .withDeadlineAfter(getTimeoutForMessageMs(msg),
-                            TimeUnit.MILLISECONDS);
-            return stub.sendRequest(msg);
+                     TimeUnit.MILLISECONDS);
+            
+            // Create a ScheduledExecutorService to delay the request
+            final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+            final ScheduledFuture<ListenableFuture<RapidResponse>> delayedCall = scheduler.schedule(() -> {
+                return stub.sendRequest(msg);
+            }, 1, TimeUnit.MILLISECONDS); // Schedule the call with a 1 millisecond delay
+        
+            // Shut down the executor after the task is scheduled
+            scheduler.shutdown();
+        
+            try {
+                // Return the future from the scheduled task
+                return delayedCall.get();
+            } catch (final InterruptedException | ExecutionException e) {
+                throw new RuntimeException(e);
+            }
         };
+
+        
         final Runnable onCallFailure = () -> channelMap.invalidate(remote);
-        // LOG.info("remote:{}", remote);
+        LOG.info("sendMessage remote:{}", remote);
         return Retries.callWithRetries(call, remote, settings.getGrpcDefaultRetries(), onCallFailure,
                                        backgroundExecutor);
     }
@@ -129,7 +156,7 @@ public class GrpcClient implements IMessagingClient {
                     return stub.sendRequest(msg);
                 };
                 final Runnable onCallFailure = () -> channelMap.invalidate(remote);
-                // LOG.info("remote:{}", remote);
+                LOG.info("sendMessage BestEffort remote:{}", remote);
                 return Retries.callWithRetries(call, remote, 0, onCallFailure, backgroundExecutor);
             }).get();
         } catch (final InterruptedException | ExecutionException e) {

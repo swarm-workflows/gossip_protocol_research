@@ -48,4 +48,26 @@ mkdir test_log
         - Failure Type: Unavailable or Timeout 
         - Errors only occur in seedAddress
         - Cluster size is correct.
-    - Why connectio failure but cluster size is correct? Unavailable or Timeout
+    - Why connection fails but cluster size is correct? Unavailable or Timeout
+    - Solved: firewall-cmd should not include --permanent
+        - `sudo firewall-cmd --zone=public --add-port=1234-10086/tcp`
+        - `sudo firewall-cmd --zone=public --add-port=1234-10086/udp`
+
+- Add time out to simulate latency
+    - Sender: 
+        - add timestamp to each message
+    - Receiver:
+        - Get current time t_receive
+        - Get timestamp from message t_send
+        - Get time variant delta_t = t_receive - t_send
+        - get minimum latency l=  latency(send, rec)
+        - if delta_t > l:
+            do nothing, pass
+        - else:
+            sleep for (l - delta_t)
+            pass
+    - Seems solved with scheduler. Need to verify with synchroinization measurement.
+
+- Measure synchronization / broadcast time.
+    - 
+

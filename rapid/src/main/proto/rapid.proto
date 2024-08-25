@@ -60,6 +60,7 @@ message PreJoinMessage
    NodeId nodeId = 2;
    repeated int32 ringNumber = 3;
    int64 configurationId = 4;
+   int64 timestamp = 5;
 }
 
 message JoinMessage
@@ -69,6 +70,7 @@ message JoinMessage
    repeated int32 ringNumber = 3;
    int64 configurationId = 4;
    Metadata metadata = 5;
+   int64 timestamp = 6;
 }
 
 message JoinResponse
@@ -80,6 +82,7 @@ message JoinResponse
    repeated NodeId identifiers = 5;
    repeated Endpoint metadataKeys = 6;
    repeated Metadata metadataValues = 7;
+   int64 timestamp = 8;
 }
 
 enum JoinStatusCode {
@@ -96,6 +99,7 @@ message BatchedAlertMessage
 {
     Endpoint sender = 1;
     repeated AlertMessage messages = 3;
+    int64 timestamp = 4;
 }
 
 message AlertMessage
@@ -107,6 +111,7 @@ message AlertMessage
     repeated int32 ringNumber = 5;
     NodeId nodeId = 6;                      // Required only for join protocol
     Metadata metadata = 7;                // Required only for join protocol
+    int64 timestamp = 8;
 }
 
 enum EdgeStatus {
@@ -116,6 +121,7 @@ enum EdgeStatus {
 
 message Response
 {
+    int64 timestamp = 1;
 }
 
 
@@ -126,6 +132,7 @@ message FastRoundPhase2bMessage
     Endpoint sender = 1;
     int64 configurationId = 2;
     repeated Endpoint endpoints = 3;
+    int64 timestamp = 4;
 }
 
 
@@ -134,6 +141,7 @@ message Rank
 {
     int32 round = 1;
     int32 nodeIndex = 2;
+    int64 timestamp = 3;
 }
 
 message Phase1aMessage
@@ -141,6 +149,7 @@ message Phase1aMessage
     Endpoint sender = 1;
     int64 configurationId = 2;
     Rank rank = 3;
+    int64 timestamp = 4;
 }
 
 message Phase1bMessage
@@ -150,6 +159,7 @@ message Phase1bMessage
     Rank rnd = 3;
     Rank vrnd = 4;
     repeated Endpoint vval = 5;
+    int64 timestamp = 6;
 }
 
 message Phase2aMessage
@@ -158,6 +168,7 @@ message Phase2aMessage
     int64 configurationId = 2;
     Rank rnd = 3;
     repeated Endpoint vval = 5;
+    int64 timestamp = 6;
 }
 
 message Phase2bMessage
@@ -166,11 +177,13 @@ message Phase2bMessage
     int64 configurationId = 2;
     Rank rnd = 3;
     repeated Endpoint endpoints = 4;
+    int64 timestamp = 5;
 }
 
 
 message ConsensusResponse
 {
+    int64 timestamp = 1;
 }
 
 
@@ -185,6 +198,7 @@ message Metadata
 message LeaveMessage
 {
     Endpoint sender = 1;
+    int64 timestamp = 2;
 }
 
 // ******* Used by simple probing failure detector *******
@@ -193,11 +207,13 @@ message ProbeMessage
 {
     Endpoint sender = 1;
     repeated bytes payload = 3;
+    int64 timestamp = 4;
 }
 
 message ProbeResponse
 {
     NodeStatus status = 1;
+    int64 timestamp = 2;
 }
 
 enum NodeStatus {

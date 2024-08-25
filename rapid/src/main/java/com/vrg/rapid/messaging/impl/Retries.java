@@ -44,6 +44,7 @@ class Retries {
                                                    final Endpoint remote, final int retries,
                                                    final Runnable onCallFailure,
                                                    final ExecutorService backgroundExecutor) {
+        LOG.info("callWithRetries!\n");
         final SettableFuture<T> settable = SettableFuture.create();
         startCallWithRetry(call, remote, settable, retries, onCallFailure, backgroundExecutor);
         return settable;
@@ -82,6 +83,7 @@ class Retries {
     private static <T> void handleFailure(final Supplier<ListenableFuture<T>> code, final Endpoint remote,
                                           final SettableFuture<T> future, final int retries, final Throwable t,
                                           final Runnable onCallFailure, final ExecutorService backgroundExecutor) {
+        LOG.info("handleFailure!\n");
         if (retries > 0) {
             startCallWithRetry(code, remote, future, retries - 1, onCallFailure, backgroundExecutor);
         } else {
