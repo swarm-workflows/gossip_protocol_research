@@ -48,4 +48,5 @@ def send_packet_tcp(destination, port=37389):
 
 if __name__ == '__main__':
     # Example usage: send a packet to localhost on port 9999
-    send_packet_tcp('192.5.87.18', 1234)
+    # send_packet_tcp('192.5.87.18', 1234)
+    send_packet_tcp('129.114.109.252', 1234)
