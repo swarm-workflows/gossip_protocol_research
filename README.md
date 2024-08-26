@@ -69,5 +69,10 @@ mkdir test_log
     - Seems solved with scheduler. Need to verify with synchroinization measurement.
 
 - Measure synchronization / broadcast time.
-    - 
+    - Leverage the BroadcasterTest
+    - Problem
+        - How the receiver send back the response:
+            - Gossip again?
+            - Or send back to broadcast port 1234 directly?
+        - Will the broadcaster future thread block the the futures behind?
 
