@@ -75,4 +75,9 @@ mkdir test_log
             - Gossip again?
             - Or send back to broadcast port 1234 directly?
         - Will the broadcaster future thread block the the futures behind?
+        - 重整的概念
+        - Hamilton cycle reuiqre N steps
+        - If we fix 2 points then only requires N / 2 steps
+        - 3 points --> N / 3 stpes.
+        - N / 4 points --> 4 steps
 
