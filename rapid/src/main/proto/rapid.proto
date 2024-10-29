@@ -20,6 +20,7 @@ message Endpoint
 // All-in-one message type.
 message RapidRequest
 {
+   MessageId messageId = 11;
    oneof content {
         PreJoinMessage preJoinMessage = 1;
         JoinMessage joinMessage = 2;
@@ -36,6 +37,7 @@ message RapidRequest
 
 message RapidResponse
 {
+    MessageId messageId = 5;
    oneof content {
         JoinResponse joinResponse = 1;
         Response response = 2;
@@ -48,6 +50,12 @@ message RapidResponse
 // ******* Join protocol messages *******
 
 message NodeId
+{
+   int64 high = 1;
+   int64 low = 2;
+}
+
+message MessageId
 {
    int64 high = 1;
    int64 low = 2;

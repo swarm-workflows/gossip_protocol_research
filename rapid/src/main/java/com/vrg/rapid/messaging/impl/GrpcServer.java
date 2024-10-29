@@ -25,6 +25,8 @@ import com.vrg.rapid.pb.NodeStatus;
 import com.vrg.rapid.pb.ProbeResponse;
 import com.vrg.rapid.pb.RapidRequest;
 import com.vrg.rapid.pb.RapidResponse;
+import com.github.benmanes.caffeine.cache.Cache;
+import com.github.benmanes.caffeine.cache.Caffeine;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import io.grpc.inprocess.InProcessServerBuilder;
@@ -37,6 +39,8 @@ import org.slf4j.LoggerFactory;
 import javax.annotation.Nullable;
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
 
@@ -58,6 +62,7 @@ public class GrpcServer extends MembershipServiceGrpc.MembershipServiceImplBase 
     private MembershipService membershipService;
     @Nullable private Server server;
     private final boolean useInProcessServer;
+    private final Cache<String, Boolean> messageCache;
 
     // Used to queue messages in the RPC layer until we are ready with
     // a MembershipService object
@@ -67,6 +72,11 @@ public class GrpcServer extends MembershipServiceGrpc.MembershipServiceImplBase 
         this.grpcExecutor = sharedResources.getServerExecutor();
         this.eventLoopGroup = useInProcessTransport ? null : sharedResources.getEventLoopGroup();
         this.useInProcessServer = useInProcessTransport;
+        // Initialize the cache with a maximum size and expiration time
+        this.messageCache = Caffeine.newBuilder()
+        .expireAfterWrite(10, TimeUnit.MINUTES)
+        .maximumSize(10_000)
+        .build();
     }
 
 
@@ -76,7 +86,31 @@ public class GrpcServer extends MembershipServiceGrpc.MembershipServiceImplBase 
     @Override
     public void sendRequest(final RapidRequest rapidRequest,
                             final StreamObserver<RapidResponse> responseObserver) {
+        if (rapidRequest.getContentCase() == RapidRequest.ContentCase.FASTROUNDPHASE2BMESSAGE ||
+            rapidRequest.getContentCase() == RapidRequest.ContentCase.PHASE1AMESSAGE ||
+            rapidRequest.getContentCase() == RapidRequest.ContentCase.PHASE2AMESSAGE ||
+            rapidRequest.getContentCase() == RapidRequest.ContentCase.PHASE2BMESSAGE ||
+            rapidRequest.getContentCase() == RapidRequest.ContentCase.BATCHEDALERTMESSAGE) {
+            final String messageId = rapidRequest.getMessageId().getHigh() + "-" 
+            + rapidRequest.getMessageId().getLow();
+            if (messageCache.getIfPresent(messageId) != null) {
+                // Duplicate message, ignore or send acknowledgment
+                LOG.info("Duplicate message received with ID: {}", messageId);
+                // responseObserver.onNext(createDuplicateResponse());
+                // responseObserver.onCompleted();
+                return;
+            }
+            // Store the message ID in the cache
+            messageCache.put(messageId, Boolean.TRUE);
+            final List<Endpoint> recipients = membershipService.getSubjectsOf();
+            final List<ListenableFuture<RapidResponse>> futures = new ArrayList<>(recipients.size());
+            for (final Endpoint recipient: recipients) {
+                futures.add(membershipService.getMessagingClient().sendMessageBestEffort(recipient, rapidRequest));
+            }
+        }
+
         if (membershipService != null) {
+            // Forward the message to another node or handle accordingly
             final ListenableFuture<RapidResponse> result = membershipService.handleMessage(rapidRequest);
             Futures.addCallback(result, new ResponseCallback(responseObserver), grpcExecutor);
         }

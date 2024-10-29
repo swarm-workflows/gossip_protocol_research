@@ -147,7 +147,8 @@ public final class MembershipService {
         alertBatcherJob = this.backgroundTasksExecutor.scheduleAtFixedRate(new AlertBatcher(),
                 0, settings.getBatchingWindowInMs(), TimeUnit.MILLISECONDS);
 
-        this.broadcaster.setMembership(membershipView.getRing(0));
+        // this.broadcaster.setMembership(membershipView.getRing(0));
+        this.broadcaster.setMembership(membershipView.getSubjectsOf(myAddr));
         // this::edgeFailureNotification is invoked by the failure detector whenever an edge
         // to an observer is marked faulty.
         this.failureDetectorJobs = new ArrayList<>();
@@ -427,7 +428,8 @@ public final class MembershipService {
         fastPaxosInstance = new FastPaxos(myAddr, currentConfigurationId, membershipView.getMembershipSize(),
                                           messagingClient, broadcaster, backgroundTasksExecutor,
                                           this::decideViewChange, settings);
-        broadcaster.setMembership(membershipView.getRing(0));
+        // broadcaster.setMembership(membershipView.getRing(0));
+        broadcaster.setMembership(membershipView.getSubjectsOf(myAddr));
 
         // Inform EdgeFailureDetector about membership change
         if (membershipView.isHostPresent(myAddr)) {
@@ -504,6 +506,21 @@ public final class MembershipService {
         synchronized (membershipUpdateLock) {
             return membershipView.getRing(0);
         }
+    }
+
+        /**
+     * Gets the list of endpoints currently in the membership view.
+     *
+     * @return list of endpoints in the membership view
+     */
+    public List<Endpoint> getSubjectsOf() {
+        synchronized (membershipUpdateLock) {
+            return membershipView.getSubjectsOf(myAddr);
+        }
+    }
+
+    public IMessagingClient getMessagingClient() {
+            return messagingClient;
     }
 
     /**
