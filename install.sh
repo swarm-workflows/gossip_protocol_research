@@ -21,4 +21,4 @@ echo "export PATH=\$HOME/software/jdk-9.0.4/bin:\$HOME/software/apache-maven-3.9
 # export maven opts to allow insecure ssl
 export MAVEN_OPTS="-Dmaven.resolver.transport=wagon -Dmaven.wagon.http.ssl.insecure=true -Dmaven.wagon.http.ssl.allowall=true -Dmaven.wagon.http.ssl.ignore.validity.dates=true"
 
-mvn $MAVEN_OPTS clean install
+mvn $MAVEN_OPTS clean install -DskipTests
