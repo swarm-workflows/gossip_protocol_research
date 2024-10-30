@@ -124,6 +124,7 @@ public class ClusterTest {
         final HostAndPort addr2 = HostAndPort.fromParts("127.0.0.7", 1256);
         final Cluster seed = new Cluster.Builder(addr1).start();
         final Cluster joiner = new Cluster.Builder(addr2).join(addr1);
+        // final Cluster joiner = new Cluster.Builder(addr2).start();
         assertEquals(2, seed.getMembershipSize());
         assertEquals(2, joiner.getMembershipSize());
         joiner.shutdown();
