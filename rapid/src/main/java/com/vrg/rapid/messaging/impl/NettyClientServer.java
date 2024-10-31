@@ -368,4 +368,9 @@ public class NettyClientServer implements IMessagingClient, IMessagingServer {
                     serverHandler);
         }
     }
+    
+    @Override
+    public Endpoint getAddress() {
+        return listenAddress;
+    }
 }

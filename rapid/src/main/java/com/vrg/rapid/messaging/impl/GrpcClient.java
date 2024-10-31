@@ -232,4 +232,9 @@ public class GrpcClient implements IMessagingClient {
             super(msg);
         }
     }
+    
+    @Override
+    public Endpoint getAddress() {
+        return address;
+    }
 }

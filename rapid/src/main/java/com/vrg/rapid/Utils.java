@@ -24,6 +24,7 @@ import com.vrg.rapid.pb.FastRoundPhase2bMessage;
 import com.vrg.rapid.pb.JoinMessage;
 import com.vrg.rapid.pb.JoinResponse;
 import com.vrg.rapid.pb.NodeId;
+import com.vrg.rapid.pb.MessageId;
 import com.vrg.rapid.pb.Phase1aMessage;
 import com.vrg.rapid.pb.Phase1bMessage;
 import com.vrg.rapid.pb.Phase2aMessage;
@@ -50,6 +51,13 @@ final class Utils {
      */
     static NodeId nodeIdFromUUID(final UUID uuid) {
         return NodeId.newBuilder().setHigh(uuid.getMostSignificantBits())
+                                  .setLow(uuid.getLeastSignificantBits()).build();
+    }
+    /**
+     * Helpers for type conversions
+     */
+    static MessageId messageIdFromUUID(final UUID uuid) {
+        return MessageId.newBuilder().setHigh(uuid.getMostSignificantBits())
                                   .setLow(uuid.getLeastSignificantBits()).build();
     }
 
@@ -146,50 +154,75 @@ final class Utils {
      * every message we want to send out.
      */
     static RapidRequest toRapidRequest(final PreJoinMessage msg) {
-        return RapidRequest.newBuilder().setPreJoinMessage(msg).build();
+        // final UUID uuid = UUID.randomUUID();
+        return RapidRequest.newBuilder().setPreJoinMessage(msg)
+                                        .setMessageId(messageIdFromUUID(UUID.randomUUID()))
+                                        .build();
     }
 
     static RapidRequest toRapidRequest(final JoinMessage msg) {
-        return RapidRequest.newBuilder().setJoinMessage(msg).build();
+        return RapidRequest.newBuilder().setJoinMessage(msg)
+                                        .setMessageId(messageIdFromUUID(UUID.randomUUID()))
+                                        .build();
     }
 
     static RapidRequest toRapidRequest(final BatchedAlertMessage msg) {
-        return RapidRequest.newBuilder().setBatchedAlertMessage(msg).build();
+        return RapidRequest.newBuilder().setBatchedAlertMessage(msg)
+                                        .setMessageId(messageIdFromUUID(UUID.randomUUID()))
+                                        .build();
     }
 
     static RapidRequest toRapidRequest(final ProbeMessage msg) {
-        return RapidRequest.newBuilder().setProbeMessage(msg).build();
+        return RapidRequest.newBuilder().setProbeMessage(msg)
+                                        .setMessageId(messageIdFromUUID(UUID.randomUUID()))
+                                        .build();
     }
 
     static RapidRequest toRapidRequest(final FastRoundPhase2bMessage msg) {
-        return RapidRequest.newBuilder().setFastRoundPhase2BMessage(msg).build();
+        return RapidRequest.newBuilder().setFastRoundPhase2BMessage(msg)
+                                        .setMessageId(messageIdFromUUID(UUID.randomUUID()))
+                                        .build();
     }
 
     static RapidRequest toRapidRequest(final Phase1aMessage msg) {
-        return RapidRequest.newBuilder().setPhase1AMessage(msg).build();
+        return RapidRequest.newBuilder().setPhase1AMessage(msg)
+                                        .setMessageId(messageIdFromUUID(UUID.randomUUID()))
+                                        .build();
     }
 
     static RapidRequest toRapidRequest(final Phase1bMessage msg) {
-        return RapidRequest.newBuilder().setPhase1BMessage(msg).build();
+        return RapidRequest.newBuilder().setPhase1BMessage(msg)
+                                        .setMessageId(messageIdFromUUID(UUID.randomUUID()))
+                                        .build();
     }
 
     static RapidRequest toRapidRequest(final Phase2aMessage msg) {
-        return RapidRequest.newBuilder().setPhase2AMessage(msg).build();
+        return RapidRequest.newBuilder().setPhase2AMessage(msg)
+                                        .setMessageId(messageIdFromUUID(UUID.randomUUID()))
+                                        .build();
     }
 
     static RapidRequest toRapidRequest(final Phase2bMessage msg) {
-        return RapidRequest.newBuilder().setPhase2BMessage(msg).build();
+        return RapidRequest.newBuilder().setPhase2BMessage(msg)
+                                        .setMessageId(messageIdFromUUID(UUID.randomUUID()))
+                                        .build();
     }
 
     static RapidResponse toRapidResponse(final JoinResponse msg) {
-        return RapidResponse.newBuilder().setJoinResponse(msg).build();
+        return RapidResponse.newBuilder().setJoinResponse(msg)
+                                        .setMessageId(messageIdFromUUID(UUID.randomUUID()))
+                                        .build();
     }
 
     static RapidResponse toRapidResponse(final ConsensusResponse msg) {
-        return RapidResponse.newBuilder().setConsensusResponse(msg).build();
+        return RapidResponse.newBuilder().setConsensusResponse(msg)
+                                        .setMessageId(messageIdFromUUID(UUID.randomUUID()))
+                                        .build();
     }
 
     static RapidResponse toRapidResponse(final ProbeResponse msg) {
-        return RapidResponse.newBuilder().setProbeResponse(msg).build();
+        return RapidResponse.newBuilder().setProbeResponse(msg)
+                                        .setMessageId(messageIdFromUUID(UUID.randomUUID()))
+                                        .build();
     }
 }

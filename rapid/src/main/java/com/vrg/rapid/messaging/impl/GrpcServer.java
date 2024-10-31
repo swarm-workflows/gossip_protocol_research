@@ -86,13 +86,15 @@ public class GrpcServer extends MembershipServiceGrpc.MembershipServiceImplBase 
     @Override
     public void sendRequest(final RapidRequest rapidRequest,
                             final StreamObserver<RapidResponse> responseObserver) {
+        System.out.println("Received RapidRequest: " + rapidRequest);
+        final String messageId = rapidRequest.getMessageId().getHigh() + "-" 
+            + rapidRequest.getMessageId().getLow();
+        System.out.println("MessageId: " + messageId);
         if (rapidRequest.getContentCase() == RapidRequest.ContentCase.FASTROUNDPHASE2BMESSAGE ||
             rapidRequest.getContentCase() == RapidRequest.ContentCase.PHASE1AMESSAGE ||
             rapidRequest.getContentCase() == RapidRequest.ContentCase.PHASE2AMESSAGE ||
             rapidRequest.getContentCase() == RapidRequest.ContentCase.PHASE2BMESSAGE ||
             rapidRequest.getContentCase() == RapidRequest.ContentCase.BATCHEDALERTMESSAGE) {
-            final String messageId = rapidRequest.getMessageId().getHigh() + "-" 
-            + rapidRequest.getMessageId().getLow();
             if (messageCache.getIfPresent(messageId) != null) {
                 // Duplicate message, ignore or send acknowledgment
                 LOG.info("Duplicate message received with ID: {}", messageId);
@@ -111,6 +113,7 @@ public class GrpcServer extends MembershipServiceGrpc.MembershipServiceImplBase 
 
         if (membershipService != null) {
             // Forward the message to another node or handle accordingly
+            System.out.println("MembershipService != null");
             final ListenableFuture<RapidResponse> result = membershipService.handleMessage(rapidRequest);
             Futures.addCallback(result, new ResponseCallback(responseObserver), grpcExecutor);
         }

@@ -20,7 +20,6 @@ message Endpoint
 // All-in-one message type.
 message RapidRequest
 {
-   MessageId messageId = 11;
    oneof content {
         PreJoinMessage preJoinMessage = 1;
         JoinMessage joinMessage = 2;
@@ -33,17 +32,20 @@ message RapidRequest
         Phase2bMessage phase2bMessage = 9;
         LeaveMessage leaveMessage = 10;
    }
+
+    MessageId messageId = 11;
 }
 
 message RapidResponse
 {
-    MessageId messageId = 5;
    oneof content {
         JoinResponse joinResponse = 1;
         Response response = 2;
         ConsensusResponse consensusResponse = 3;
         ProbeResponse probeResponse = 4;
    }
+   
+   MessageId messageId = 5;
 }
 
 

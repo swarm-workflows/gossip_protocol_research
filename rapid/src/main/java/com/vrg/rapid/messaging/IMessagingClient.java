@@ -47,4 +47,6 @@ public interface IMessagingClient {
      * Signals to the messaging client that it should cleanup all resources in use.
      */
     void shutdown();
+    
+    Endpoint getAddress();
 }

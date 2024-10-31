@@ -148,7 +148,14 @@ public final class MembershipService {
                 0, settings.getBatchingWindowInMs(), TimeUnit.MILLISECONDS);
 
         // this.broadcaster.setMembership(membershipView.getRing(0));
-        this.broadcaster.setMembership(membershipView.getSubjectsOf(myAddr));
+        List<Endpoint> subjects = membershipView.getSubjectsOf(myAddr);
+
+        if (subjects.isEmpty()) {
+            subjects = new ArrayList<>(); // Create a mutable list
+            subjects.add(myAddr); // Add myAddr to the list
+        }
+        
+        this.broadcaster.setMembership(subjects);
         // this::edgeFailureNotification is invoked by the failure detector whenever an edge
         // to an observer is marked faulty.
         this.failureDetectorJobs = new ArrayList<>();
@@ -232,7 +239,7 @@ public final class MembershipService {
      */
     private ListenableFuture<RapidResponse> handleMessage(final JoinMessage joinMessage) {
         final SettableFuture<RapidResponse> future = SettableFuture.create();
-
+        System.out.println("getJoinMessage");
         sharedResources.getProtocolExecutor().execute(() -> {
             final long currentConfiguration = membershipView.getCurrentConfigurationId();
             if (currentConfiguration == joinMessage.getConfigurationId()) {
@@ -252,6 +259,7 @@ public final class MembershipService {
                         .addAllRingNumber(joinMessage.getRingNumberList())
                         .setMetadata(joinMessage.getMetadata())
                         .build();
+                LOG.trace("Call enqueueAlertMessage");
                 enqueueAlertMessage(msg);
             } else {
                 // This handles the corner case where the configuration changed between phase 1 and phase 2
@@ -286,6 +294,7 @@ public final class MembershipService {
                 future.set(Utils.toRapidResponse(responseBuilder.build())); // new configuration
             }
         });
+        LOG.trace("sharedResources.getProtocolExecutor!");
         return future;
     }
 
@@ -429,7 +438,15 @@ public final class MembershipService {
                                           messagingClient, broadcaster, backgroundTasksExecutor,
                                           this::decideViewChange, settings);
         // broadcaster.setMembership(membershipView.getRing(0));
-        broadcaster.setMembership(membershipView.getSubjectsOf(myAddr));
+        // broadcaster.setMembership(membershipView.getSubjectsOf(myAddr));
+        List<Endpoint> subjects = membershipView.getSubjectsOf(myAddr);
+
+        if (subjects.isEmpty()) {
+            subjects = new ArrayList<>(); // Create a mutable list
+            subjects.add(myAddr); // Add myAddr to the list
+        }
+        
+        this.broadcaster.setMembership(subjects);
 
         // Inform EdgeFailureDetector about membership change
         if (membershipView.isHostPresent(myAddr)) {
@@ -587,6 +604,7 @@ public final class MembershipService {
      * @param msg the AlertMessage to be broadcasted
      */
     private void enqueueAlertMessage(final AlertMessage msg) {
+        LOG.trace("enqueueAlertMessage" + myAddr);
         batchSchedulerLock.lock();
         try {
             lastEnqueueTimestamp = System.currentTimeMillis();
@@ -631,12 +649,14 @@ public final class MembershipService {
 
         @Override
         public void run() {
+            LOG.trace("Inside run, " + myAddr);
             batchSchedulerLock.lock();
             try {
                 // Wait one BATCHING_WINDOW_IN_MS since last add before sending out
+                LOG.trace("Inside run::try, " + myAddr);
                 if (!sendQueue.isEmpty() && lastEnqueueTimestamp > 0
                         && (System.currentTimeMillis() - lastEnqueueTimestamp) > settings.getBatchingWindowInMs()) {
-                    LOG.trace("Scheduler is sending out {} messages", sendQueue.size());
+                    LOG.trace("Scheduler is sending out {} messages, " + myAddr, sendQueue.size());
                     final ArrayList<AlertMessage> messages = new ArrayList<>(sendQueue.size());
                     final int numDrained = sendQueue.drainTo(messages);
                     assert numDrained > 0;

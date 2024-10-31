@@ -473,6 +473,12 @@ public class PaxosTests {
         public void shutdown() {
             throw new UnsupportedOperationException();
         }
+        
+        @Override
+        public Endpoint getAddress() {
+            final Endpoint address = Utils.hostFromParts("127.0.0.7", 1234);
+            return address;
+        }
     }
 
     private static class NoOpClient implements IMessagingClient {
@@ -488,6 +494,12 @@ public class PaxosTests {
 
         @Override
         public void shutdown() {
+        }
+        
+        @Override
+        public Endpoint getAddress() {
+            final Endpoint address = Utils.hostFromParts("127.0.0.7", 1234);
+            return address;
         }
     }
 
