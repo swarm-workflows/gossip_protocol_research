@@ -36,7 +36,7 @@ import java.time.format.DateTimeFormatter;
 public class StandaloneAgent {
     private static final Logger LOG = LoggerFactory.getLogger(StandaloneAgent.class);
     private static final int SLEEP_INTERVAL_MS = 1000;
-    private static final int MAX_TRIES = 400;
+    private static final int MAX_TRIES = 2000;
     final HostAndPort listenAddress;
     final HostAndPort seedAddress;
     @Nullable private Cluster cluster = null;

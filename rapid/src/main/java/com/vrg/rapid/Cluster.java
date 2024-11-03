@@ -72,7 +72,7 @@ public final class Cluster {
     private static final int K = 10;
     private static final int H = 9;
     private static final int L = 4;
-    private static final int RETRIES = 5;
+    private static final int RETRIES = 20;
     private final MembershipService membershipService;
     private final IMessagingServer rpcServer;
     private final SharedResources sharedResources;

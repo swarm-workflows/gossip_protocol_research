@@ -1,16 +1,22 @@
 
 
-#! /bin/bash 
-# IP=192.168.100.201
-# initial_IP=192.168.100.228
-# java -jar examples/target/standalone-agent.jar --listenAddress $IP:1234 --seedAddress $initial_IP:1234 &> ./test_log/rapid.1234 &
-# for each in `seq 1235 1283`;
-# do
-#     java -jar examples/target/standalone-agent.jar --listenAddress $IP:$each --seedAddress $IP:1234 &> ./test_log/rapid.$each &
-# done
+#!/usr/bin/env zsh 
 IP=127.0.0.1
-java -jar examples/target/standalone-agent.jar --listenAddress $IP:1234 --seedAddress $IP:1234 &> tmp/rapid.1234 &
-for each in `seq 1235 1345`;
-do
-    java -jar examples/target/standalone-agent.jar --listenAddress $IP:$each --seedAddress $IP:1234 &> tmp/rapid.$each &
+java -jar examples/target/standalone-agent.jar --listenAddress $IP:1234 --seedAddress $IP:1234 > tmp/rapid.1234 2>&1 &
+
+batch_size=50  # 每批启动的进程数量
+delay=60   # 每批启动之间的延迟时间，单位是秒
+batch_count=0  # 初始化计数器
+
+for each in $(seq 1235 1545); do
+    # java -jar examples/target/standalone-agent.jar --listenAddress $IP:$each --seedAddress $IP:1234 > tmp/rapid.$each 2>&1 &
+    java -jar examples/target/standalone-agent.jar --listenAddress $IP:$each --seedAddress $IP:1234 > /dev/null 2>&1 &
+
+    # 每启动batch_size个进程，等待delay秒
+    ((batch_count++))
+
+    if (( batch_count % batch_size == 0 )); then
+        echo "Waiting for $delay seconds before starting the next batch..."
+        sleep $delay
+    fi
 done
