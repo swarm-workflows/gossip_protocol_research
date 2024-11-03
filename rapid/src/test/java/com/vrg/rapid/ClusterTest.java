@@ -325,7 +325,7 @@ public class ClusterTest {
     @Test(timeout = 30000)
     public void failTenRandomNodes() throws IOException, InterruptedException {
         useStaticFd = true;
-        final int numNodes = 50;
+        final int numNodes = 100;
         final int numFailingNodes = 10;
         final Endpoint seedEndpoint = Utils.hostFromParts("127.0.0.7", basePort);
         createCluster(numNodes, seedEndpoint);
