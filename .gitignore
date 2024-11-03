@@ -1,4 +1,5 @@
 test_log/
+tmp/
 test.sh
 target/
 *.iml
