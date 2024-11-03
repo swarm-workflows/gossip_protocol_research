@@ -119,7 +119,7 @@ public class GrpcClient implements IMessagingClient {
         };
         final Runnable onCallFailure = () -> channelMap.invalidate(remote);
         return Retries.callWithRetries(call, remote, settings.getGrpcDefaultRetries(), onCallFailure,
-                                       backgroundExecutor);
+                                       backgroundExecutor, msg);
     }
 
     /**
@@ -137,11 +137,13 @@ public class GrpcClient implements IMessagingClient {
             return backgroundExecutor.submit(() -> {
                 final Supplier<ListenableFuture<RapidResponse>> call = () -> {
                     final MembershipServiceFutureStub stub;
-                    stub = getFutureStub(remote).withDeadlineAfter(getTimeoutForMessageMs(msg), TimeUnit.MILLISECONDS);
+                    stub = getFutureStub(remote)
+                    .withDeadlineAfter(getTimeoutForMessageMs(msg), TimeUnit.MILLISECONDS);
+                    // stub = getFutureStub(remote);
                     return stub.sendRequest(msg);
                 };
                 final Runnable onCallFailure = () -> channelMap.invalidate(remote);
-                return Retries.callWithRetries(call, remote, 0, onCallFailure, backgroundExecutor);
+                return Retries.callWithRetries(call, remote, 0, onCallFailure, backgroundExecutor, msg);
             }).get();
         } catch (final InterruptedException | ExecutionException e) {
             Thread.currentThread().interrupt();

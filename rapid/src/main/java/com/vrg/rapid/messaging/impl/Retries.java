@@ -19,6 +19,8 @@ import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.SettableFuture;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.vrg.rapid.pb.Endpoint;
+import com.vrg.rapid.pb.RapidRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,9 +45,10 @@ class Retries {
     static <T> ListenableFuture<T> callWithRetries(final Supplier<ListenableFuture<T>> call,
                                                    final Endpoint remote, final int retries,
                                                    final Runnable onCallFailure,
-                                                   final ExecutorService backgroundExecutor) {
+                                                   final ExecutorService backgroundExecutor,
+                                                final RapidRequest msg) {
         final SettableFuture<T> settable = SettableFuture.create();
-        startCallWithRetry(call, remote, settable, retries, onCallFailure, backgroundExecutor);
+        startCallWithRetry(call, remote, settable, retries, onCallFailure, backgroundExecutor, msg);
         return settable;
     }
 
@@ -55,7 +58,9 @@ class Retries {
     @SuppressWarnings("checkstyle:illegalcatch")
     private static <T> void startCallWithRetry(final Supplier<ListenableFuture<T>> call, final Endpoint remote,
                                                final SettableFuture<T> signal, final int retries,
-                                               final Runnable onCallFailure, final ExecutorService backgroundExecutor) {
+                                               final Runnable onCallFailure, 
+                                               final ExecutorService backgroundExecutor, 
+                                               final RapidRequest msg) {
         if (Thread.currentThread().isInterrupted()) {
             signal.setException(new InterruptedException("Thread has been interrupted"));
             return;
@@ -70,8 +75,12 @@ class Retries {
             @Override
             public void onFailure(final Throwable throwable) {
                 onCallFailure.run();
-                LOG.error("Retrying call to {} because of exception {}", remote, throwable);
-                handleFailure(call, remote, signal, retries, throwable, onCallFailure, backgroundExecutor);
+                LOG.error("Retrying call to {} because of exception {}",
+                 remote, throwable);
+                //   assert false : "Execution halted for debugging purposes in onFailure.";
+
+                handleFailure(call, remote, signal, retries, throwable, onCallFailure, 
+                backgroundExecutor, msg);
             }
         }, backgroundExecutor);
     }
@@ -81,9 +90,11 @@ class Retries {
      */
     private static <T> void handleFailure(final Supplier<ListenableFuture<T>> code, final Endpoint remote,
                                           final SettableFuture<T> future, final int retries, final Throwable t,
-                                          final Runnable onCallFailure, final ExecutorService backgroundExecutor) {
+                                          final Runnable onCallFailure, 
+                                          final ExecutorService backgroundExecutor,
+                                          final RapidRequest msg) {
         if (retries > 0) {
-            startCallWithRetry(code, remote, future, retries - 1, onCallFailure, backgroundExecutor);
+            startCallWithRetry(code, remote, future, retries - 1, onCallFailure, backgroundExecutor, msg);
         } else {
             future.setException(t);
         }

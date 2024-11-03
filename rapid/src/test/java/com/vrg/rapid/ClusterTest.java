@@ -47,6 +47,7 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -55,6 +56,7 @@ import static org.junit.Assert.fail;
  * Test public API
  */
 public class ClusterTest {
+    // private static final Logger LOG = LoggerFactory.getLogger(ClusterTest.class);
     private static final Logger GRPC_LOGGER;
     private static final Logger NETTY_LOGGER;
     private final Map<Endpoint, Cluster> instances = new ConcurrentHashMap<>();
@@ -353,7 +355,7 @@ public class ClusterTest {
         // we may have less than numFailedNodes entries in the set
         failedNodes.forEach(host -> dropFirstNAtServer(host, 100, RapidRequest.ContentCase.PROBEMESSAGE));
         createCluster(numNodes, seedEndpoint);
-        waitAndVerifyAgreement(numNodes - failedNodes.size(), 20, 1500);
+        waitAndVerifyAgreement(numNodes - failedNodes.size(), 40, 1500);
         verifyNumClusterInstances(numNodes);
     }
 

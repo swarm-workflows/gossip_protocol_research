@@ -75,11 +75,6 @@
 [INFO] >>> findbugs:3.0.4:check (analyze-compile) > :findbugs @ rapid-project >>>
 [INFO] 
 [INFO] --- findbugs:3.0.4:findbugs (findbugs) @ rapid-project ---
-WARNING: An illegal reflective access operation has occurred
-WARNING: Illegal reflective access by org.codehaus.groovy.reflection.CachedClass$3$1 (file:/home/cc/.m2/repository/org/codehaus/groovy/groovy/2.4.7/groovy-2.4.7.jar) to method java.lang.Object.finalize()
-WARNING: Please consider reporting this to the maintainers of org.codehaus.groovy.reflection.CachedClass$3$1
-WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
-WARNING: All illegal access operations will be denied in a future release
 [INFO] 
 [INFO] <<< findbugs:3.0.4:check (analyze-compile) < :findbugs @ rapid-project <<<
 [INFO] 
@@ -119,8 +114,6 @@ WARNING: All illegal access operations will be denied in a future release
 [INFO] --- compiler:3.3:compile (default-compile) @ rapid ---
 [INFO] Changes detected - recompiling the module!
 [INFO] Compiling 75 source files to /home/cc/gossip_protocol_research/rapid/target/classes
-Note: Some input files use or override a deprecated API.
-Note: Recompile with -Xlint:deprecation for details.
 [INFO] 
 [INFO] >>> findbugs:3.0.4:check (analyze-compile) > :findbugs @ rapid >>>
 [INFO] 
@@ -229,8 +222,6 @@ Note: Recompile with -Xlint:deprecation for details.
 [INFO] --- compiler:3.3:testCompile (default-testCompile) @ rapid ---
 [INFO] Changes detected - recompiling the module!
 [INFO] Compiling 14 source files to /home/cc/gossip_protocol_research/rapid/target/test-classes
-Note: /home/cc/gossip_protocol_research/rapid/src/test/java/com/vrg/rapid/LoggableTests.java uses or overrides a deprecated API.
-Note: Recompile with -Xlint:deprecation for details.
 [INFO] 
 [INFO] --- surefire:2.20:test (default-test) @ rapid ---
 [INFO] 
@@ -238,61 +229,61 @@ Note: Recompile with -Xlint:deprecation for details.
 [INFO]  T E S T S
 [INFO] -------------------------------------------------------
 [INFO] Running com.vrg.rapid.ClusterTest
- INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1267, config:-7240266323558031674, size:1}
- INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1246, config:-7240266323558031674, size:1}
- INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1243, config:-7240266323558031674, size:1}
- INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1264, config:-7240266323558031674, size:1}
- INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1241, config:-7240266323558031674, size:1}
- INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1253, config:-7240266323558031674, size:1}
- INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1251, config:-7240266323558031674, size:1}
- INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1279, config:-7240266323558031674, size:1}
- INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1269, config:-7240266323558031674, size:1}
- INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1268, config:-7240266323558031674, size:1}
- INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1261, config:-7240266323558031674, size:1}
- INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1256, config:-7240266323558031674, size:1}
- INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1252, config:-7240266323558031674, size:1}
- INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1242, config:-7240266323558031674, size:1}
- INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1238, config:-7240266323558031674, size:1}
- INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1260, config:-7240266323558031674, size:1}
- INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1282, config:-7240266323558031674, size:1}
- INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1270, config:-7240266323558031674, size:1}
- INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1281, config:-7240266323558031674, size:1}
- INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1237, config:-7240266323558031674, size:1}
- INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1271, config:-7240266323558031674, size:1}
- INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1265, config:-7240266323558031674, size:1}
- INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1280, config:-7240266323558031674, size:1}
- INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1240, config:-7240266323558031674, size:1}
- INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1247, config:-7240266323558031674, size:1}
- INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1276, config:-7240266323558031674, size:1}
- INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1239, config:-7240266323558031674, size:1}
- INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1272, config:-7240266323558031674, size:1}
- INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1258, config:-7240266323558031674, size:1}
- INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1262, config:-7240266323558031674, size:1}
- INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1235, config:-7240266323558031674, size:1}
- INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1274, config:-7240266323558031674, size:1}
- INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1283, config:-7240266323558031674, size:1}
- INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1278, config:-7240266323558031674, size:1}
- INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1259, config:-7240266323558031674, size:1}
- INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1273, config:-7240266323558031674, size:1}
- INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1263, config:-7240266323558031674, size:1}
- INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1275, config:-7240266323558031674, size:1}
- INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1250, config:-7240266323558031674, size:1}
- INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1255, config:-7240266323558031674, size:1}
- INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1277, config:-7240266323558031674, size:1}
- INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1248, config:-7240266323558031674, size:1}
- INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1236, config:-7240266323558031674, size:1}
- INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1254, config:-7240266323558031674, size:1}
- INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1249, config:-7240266323558031674, size:1}
- INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1244, config:-7240266323558031674, size:1}
- INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1266, config:-7240266323558031674, size:1}
- INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1245, config:-7240266323558031674, size:1}
- INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1257, config:-7240266323558031674, size:1}
+ INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1265, config:-6654859925541132048, size:1}
+ INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1240, config:-6654859925541132048, size:1}
+ INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1276, config:-6654859925541132048, size:1}
+ INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1258, config:-6654859925541132048, size:1}
+ INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1249, config:-6654859925541132048, size:1}
+ INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1253, config:-6654859925541132048, size:1}
+ INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1262, config:-6654859925541132048, size:1}
+ INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1275, config:-6654859925541132048, size:1}
+ INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1269, config:-6654859925541132048, size:1}
+ INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1237, config:-6654859925541132048, size:1}
+ INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1282, config:-6654859925541132048, size:1}
+ INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1243, config:-6654859925541132048, size:1}
+ INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1239, config:-6654859925541132048, size:1}
+ INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1246, config:-6654859925541132048, size:1}
+ INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1241, config:-6654859925541132048, size:1}
+ INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1260, config:-6654859925541132048, size:1}
+ INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1242, config:-6654859925541132048, size:1}
+ INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1254, config:-6654859925541132048, size:1}
+ INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1281, config:-6654859925541132048, size:1}
+ INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1251, config:-6654859925541132048, size:1}
+ INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1267, config:-6654859925541132048, size:1}
+ INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1245, config:-6654859925541132048, size:1}
+ INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1268, config:-6654859925541132048, size:1}
+ INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1280, config:-6654859925541132048, size:1}
+ INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1283, config:-6654859925541132048, size:1}
+ INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1270, config:-6654859925541132048, size:1}
+ INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1236, config:-6654859925541132048, size:1}
+ INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1244, config:-6654859925541132048, size:1}
+ INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1235, config:-6654859925541132048, size:1}
+ INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1256, config:-6654859925541132048, size:1}
+ INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1273, config:-6654859925541132048, size:1}
+ INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1263, config:-6654859925541132048, size:1}
+ INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1247, config:-6654859925541132048, size:1}
+ INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1250, config:-6654859925541132048, size:1}
+ INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1259, config:-6654859925541132048, size:1}
+ INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1266, config:-6654859925541132048, size:1}
+ INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1248, config:-6654859925541132048, size:1}
+ INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1277, config:-6654859925541132048, size:1}
+ INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1271, config:-6654859925541132048, size:1}
+ INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1272, config:-6654859925541132048, size:1}
+ INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1255, config:-6654859925541132048, size:1}
+ INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1264, config:-6654859925541132048, size:1}
+ INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1261, config:-6654859925541132048, size:1}
+ INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1238, config:-6654859925541132048, size:1}
+ INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1278, config:-6654859925541132048, size:1}
+ INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1252, config:-6654859925541132048, size:1}
+ INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1274, config:-6654859925541132048, size:1}
+ INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1257, config:-6654859925541132048, size:1}
+ INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:221) - Join at seed for {seed:127.0.0.7:1234, sender:127.0.0.7:1279, config:-6654859925541132048, size:1}
  INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:345) - Proposing membership change of size 49
- INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:397) - Decide view change called in current configuration -7240266323558031674 (1 nodes), for proposal [127.0.0.7:1271, 127.0.0.7:1256, 127.0.0.7:1272, 127.0.0.7:1241, 127.0.0.7:1281, 127.0.0.7:1247, 127.0.0.7:1265, 127.0.0.7:1270, 127.0.0.7:1280, 127.0.0.7:1255, 127.0.0.7:1273, 127.0.0.7:1246, 127.0.0.7:1269, 127.0.0.7:1250, 127.0.0.7:1237, 127.0.0.7:1261, 127.0.0.7:1275, 127.0.0.7:1254, 127.0.0.7:1239, 127.0.0.7:1279, 127.0.0.7:1267, 127.0.0.7:1242, 127.0.0.7:1278, 127.0.0.7:1243, 127.0.0.7:1244, 127.0.0.7:1257, 127.0.0.7:1249, 127.0.0.7:1277, 127.0.0.7:1258, 127.0.0.7:1252, 127.0.0.7:1236, 127.0.0.7:1238, 127.0.0.7:1253, 127.0.0.7:1248, 127.0.0.7:1260, 127.0.0.7:1274, 127.0.0.7:1263, 127.0.0.7:1262, 127.0.0.7:1235, 127.0.0.7:1276, 127.0.0.7:1283, 127.0.0.7:1266, 127.0.0.7:1245, 127.0.0.7:1251, 127.0.0.7:1259, 127.0.0.7:1264, 127.0.0.7:1240, 127.0.0.7:1268, 127.0.0.7:1282, ]
-     [FAILED] [Seed: -6642648462217565892] injectAsymmetricDrops
-[ERROR] Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 29.581 s <<< FAILURE! - in com.vrg.rapid.ClusterTest
-[ERROR] injectAsymmetricDrops(com.vrg.rapid.ClusterTest)  Time elapsed: 29.521 s  <<< FAILURE!
-java.lang.AssertionError: Cluster:127.0.0.7:1264 expected:<41> but was:<50>
+ INFO [protocol-127.0.0.7:1234-0] (MembershipService.java:397) - Decide view change called in current configuration -6654859925541132048 (1 nodes), for proposal [127.0.0.7:1271, 127.0.0.7:1256, 127.0.0.7:1272, 127.0.0.7:1241, 127.0.0.7:1281, 127.0.0.7:1247, 127.0.0.7:1265, 127.0.0.7:1270, 127.0.0.7:1280, 127.0.0.7:1255, 127.0.0.7:1273, 127.0.0.7:1246, 127.0.0.7:1269, 127.0.0.7:1250, 127.0.0.7:1237, 127.0.0.7:1261, 127.0.0.7:1275, 127.0.0.7:1254, 127.0.0.7:1239, 127.0.0.7:1279, 127.0.0.7:1267, 127.0.0.7:1242, 127.0.0.7:1278, 127.0.0.7:1243, 127.0.0.7:1244, 127.0.0.7:1257, 127.0.0.7:1249, 127.0.0.7:1277, 127.0.0.7:1258, 127.0.0.7:1252, 127.0.0.7:1236, 127.0.0.7:1238, 127.0.0.7:1253, 127.0.0.7:1248, 127.0.0.7:1260, 127.0.0.7:1274, 127.0.0.7:1263, 127.0.0.7:1262, 127.0.0.7:1235, 127.0.0.7:1276, 127.0.0.7:1283, 127.0.0.7:1266, 127.0.0.7:1245, 127.0.0.7:1251, 127.0.0.7:1259, 127.0.0.7:1264, 127.0.0.7:1240, 127.0.0.7:1268, 127.0.0.7:1282, ]
+     [FAILED] [Seed: 7099291398437688820] injectAsymmetricDrops
+[ERROR] Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 29.684 s <<< FAILURE! - in com.vrg.rapid.ClusterTest
+[ERROR] injectAsymmetricDrops(com.vrg.rapid.ClusterTest)  Time elapsed: 29.628 s  <<< FAILURE!
+java.lang.AssertionError: Cluster:127.0.0.7:1264 expected:<42> but was:<50>
 	at com.vrg.rapid.ClusterTest.verifyCluster(ClusterTest.java:676)
 	at com.vrg.rapid.ClusterTest.waitAndVerifyAgreement(ClusterTest.java:732)
 	at com.vrg.rapid.ClusterTest.injectAsymmetricDrops(ClusterTest.java:358)
@@ -301,23 +292,23 @@ java.lang.AssertionError: Cluster:127.0.0.7:1264 expected:<41> but was:<50>
 [INFO] Results:
 [INFO] 
 [ERROR] Failures: 
-[ERROR]   ClusterTest.injectAsymmetricDrops:358->waitAndVerifyAgreement:732->verifyCluster:676 Cluster:127.0.0.7:1264 expected:<41> but was:<50>
+[ERROR]   ClusterTest.injectAsymmetricDrops:358->waitAndVerifyAgreement:732->verifyCluster:676 Cluster:127.0.0.7:1264 expected:<42> but was:<50>
 [INFO] 
 [ERROR] Tests run: 1, Failures: 1, Errors: 0, Skipped: 0
 [INFO] 
 [INFO] ------------------------------------------------------------------------
 [INFO] Reactor Summary:
 [INFO] 
-[INFO] Build Tools 1.0 .................................... SUCCESS [  0.611 s]
-[INFO] rapid-project 0.9.0-SNAPSHOT ....................... SUCCESS [  1.393 s]
-[INFO] rapid 0.9.0-SNAPSHOT ............................... FAILURE [ 42.737 s]
+[INFO] Build Tools 1.0 .................................... SUCCESS [  0.577 s]
+[INFO] rapid-project 0.9.0-SNAPSHOT ....................... SUCCESS [  1.242 s]
+[INFO] rapid 0.9.0-SNAPSHOT ............................... FAILURE [ 42.885 s]
 [INFO] examples 0.9.0-SNAPSHOT ............................ SKIPPED
 [INFO] integration-tests 0.9.0-SNAPSHOT ................... SKIPPED
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD FAILURE
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time:  44.984 s
-[INFO] Finished at: 2024-11-02T07:23:16Z
+[INFO] Total time:  44.930 s
+[INFO] Finished at: 2024-11-02T07:18:24Z
 [INFO] ------------------------------------------------------------------------
 [ERROR] Failed to execute goal org.apache.maven.plugins:maven-surefire-plugin:2.20:test (default-test) on project rapid: There are test failures.
 [ERROR] 

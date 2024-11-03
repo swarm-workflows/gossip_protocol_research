@@ -239,7 +239,8 @@ public final class MembershipService {
      */
     private ListenableFuture<RapidResponse> handleMessage(final JoinMessage joinMessage) {
         final SettableFuture<RapidResponse> future = SettableFuture.create();
-        System.out.println("getJoinMessage");
+        LOG.trace("getJoinMessage");
+        
         sharedResources.getProtocolExecutor().execute(() -> {
             final long currentConfiguration = membershipView.getCurrentConfigurationId();
             if (currentConfiguration == joinMessage.getConfigurationId()) {
