@@ -75,11 +75,23 @@
                 <version>3.2.2</version>
                 <configuration>
                     <includes>
+                        <include>**/MessagingTest.java</include>
+                    </includes>
+                    <test>MessagingTest#broadcasterTest</test>
+                    <redirectTestOutputToFile>false</redirectTestOutputToFile>
+                </configuration>
+            </plugin>
+            <!-- <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.2.2</version>
+                <configuration>
+                    <includes>
                         <include>**/ClusterTest.java</include>
                     </includes>
                     <test>ClusterTest#failTenRandomNodes</test>
                 </configuration>
-            </plugin>
+            </plugin> -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>

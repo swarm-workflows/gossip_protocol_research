@@ -19,6 +19,7 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.cache.RemovalListener;
 import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.SettableFuture;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.vrg.rapid.Settings;
 import com.vrg.rapid.SharedResources;
@@ -36,11 +37,17 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.Executors;
+import com.google.common.util.concurrent.FutureCallback;
+import com.google.common.util.concurrent.MoreExecutors;
+// import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Nullable;
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Supplier;
@@ -66,6 +73,9 @@ public class GrpcClient implements IMessagingClient {
     private final LoadingCache<Endpoint, Channel> channelMap;
     private final ExecutorService grpcExecutor;
     private final ExecutorService backgroundExecutor;
+     // Declare a ScheduledExecutorService
+    private final ScheduledExecutorService scheduledExecutor = Executors.newSingleThreadScheduledExecutor();
+
     @Nullable private final EventLoopGroup eventLoopGroup;
     private final AtomicBoolean isShuttingDown = new AtomicBoolean(false);
     private final ISettings settings;
@@ -102,54 +112,195 @@ public class GrpcClient implements IMessagingClient {
     /**
      * From IMessagingClient
      */
+    // @Override
+    // public ListenableFuture<RapidResponse> sendMessage(final Endpoint remote, final RapidRequest msg) {
+    //     Objects.requireNonNull(remote);
+    //     Objects.requireNonNull(msg);
+    //     final Supplier<ListenableFuture<RapidResponse>> call = () -> {
+    //         final MembershipServiceFutureStub stub = getFutureStub(remote)
+    //                 .withDeadlineAfter(getTimeoutForMessageMs(msg),
+    //                         TimeUnit.MILLISECONDS);
+    //         return stub.sendRequest(msg);
+    //     };
+    //     final Runnable onCallFailure = () -> channelMap.invalidate(remote);
+    //     return Retries.callWithRetries(call, remote, settings.getGrpcDefaultRetries(), onCallFailure,
+    //                                    backgroundExecutor, msg);
+    // }
+
     @Override
     public ListenableFuture<RapidResponse> sendMessage(final Endpoint remote, final RapidRequest msg) {
         Objects.requireNonNull(remote);
         Objects.requireNonNull(msg);
-        // final LocalDateTime now = LocalDateTime.now();
-        // final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        // final String formattedDateTime = now.format(formatter); // "1986-04-08 12:30"
-        // LOG.info("retry send_message from {} to {}, message_size={}, t={}", address, 
-        //     remote, msg.getSerializedSize(), formattedDateTime);
-        final Supplier<ListenableFuture<RapidResponse>> call = () -> {
-            final MembershipServiceFutureStub stub = getFutureStub(remote)
-                    .withDeadlineAfter(getTimeoutForMessageMs(msg),
-                            TimeUnit.MILLISECONDS);
-            return stub.sendRequest(msg);
-        };
-        final Runnable onCallFailure = () -> channelMap.invalidate(remote);
-        return Retries.callWithRetries(call, remote, settings.getGrpcDefaultRetries(), onCallFailure,
-                                       backgroundExecutor, msg);
+        final SettableFuture<RapidResponse> resultFuture = SettableFuture.create();
+
+        // 延迟50毫秒后执行实际RPC调用
+        ScheduledFuture<?> scheduledFuture = scheduledExecutor.schedule(() -> {
+            final Supplier<ListenableFuture<RapidResponse>> call = () -> {
+                final MembershipServiceFutureStub stub = getFutureStub(remote)
+                        .withDeadlineAfter(getTimeoutForMessageMs(msg), TimeUnit.MILLISECONDS);
+                return stub.sendRequest(msg);
+            };
+
+            final Runnable onCallFailure = () -> channelMap.invalidate(remote);
+
+            // 使用Retries进行RPC调用
+            final ListenableFuture<RapidResponse> rpcFuture = Retries.callWithRetries(
+                call, 
+                remote, 
+                settings.getGrpcDefaultRetries(), 
+                onCallFailure, 
+                backgroundExecutor, 
+                msg
+            );
+
+            // 将RPC调用结果回调到resultFuture
+            Futures.addCallback(rpcFuture, new RapidResponseFutureCallback(resultFuture),
+                                MoreExecutors.directExecutor());
+
+        }, 20, TimeUnit.MILLISECONDS);
+
+        // 根据需要决定是否要在这里等待scheduledFuture执行完成
+        // 如果不想阻塞当前线程，可以去掉下面的try-catch块
+        try {
+            scheduledFuture.get();
+        } catch (final InterruptedException | ExecutionException e) {
+            Thread.currentThread().interrupt();
+            // 将异常传递给resultFuture
+            resultFuture.setException(e);
+        }
+
+        return resultFuture;
     }
+
+    // @Override
+    // public ListenableFuture<RapidResponse> sendMessage(final Endpoint remote, final RapidRequest msg) {
+    //     Objects.requireNonNull(remote);
+    //     Objects.requireNonNull(msg);
+
+    //     final SettableFuture<RapidResponse> delayedFuture = SettableFuture.create();
+
+    //     backgroundExecutor.schedule(() -> {
+    //         final MembershipServiceFutureStub stub = getFutureStub(remote)
+    //                 .withDeadlineAfter(getTimeoutForMessageMs(msg), TimeUnit.MILLISECONDS);
+    //         final ListenableFuture<RapidResponse> responseFuture = stub.sendRequest(msg);
+    //         Futures.addCallback(responseFuture, new FutureCallback<RapidResponse>() {
+    //             @Override
+    //             public void onSuccess(final RapidResponse result) {
+    //                 delayedFuture.set(result);
+    //             }
+
+    //             @Override
+    //             public void onFailure(final Throwable t) {
+    //                 delayedFuture.setException(t);
+    //             }
+    //         }, MoreExecutors.directExecutor());
+    //     }, 50, TimeUnit.MILLISECONDS); // 延迟50ms再调用
+
+    //     final Supplier<ListenableFuture<RapidResponse>> call = () -> delayedFuture;
+    //     final Runnable onCallFailure = () -> channelMap.invalidate(remote);
+
+    //     return Retries.callWithRetries(call, remote, settings.getGrpcDefaultRetries(),
+    //                                 onCallFailure, backgroundExecutor, msg);
+    // }
+
 
     /**
      * From IMessagingClient
      */
+    // @Override
+    // public ListenableFuture<RapidResponse> sendMessageBestEffort(final Endpoint remote, final RapidRequest msg) {
+    //     Objects.requireNonNull(msg);
+    //     try {
+    //         return backgroundExecutor.submit(() -> {
+    //             final Supplier<ListenableFuture<RapidResponse>> call = () -> {
+    //                 final MembershipServiceFutureStub stub;
+    //                 stub = getFutureStub(remote)
+    //                 .withDeadlineAfter(getTimeoutForMessageMs(msg), TimeUnit.MILLISECONDS);
+    //                 // stub = getFutureStub(remote);
+    //                 return stub.sendRequest(msg);
+    //             };
+    //             final Runnable onCallFailure = () -> channelMap.invalidate(remote);
+    //             return Retries.callWithRetries(call, remote, 0, onCallFailure, backgroundExecutor, msg);
+    //         }).get();
+    //     } catch (final InterruptedException | ExecutionException e) {
+    //         Thread.currentThread().interrupt();
+    //         return Futures.immediateFailedFuture(e);
+    //     }
+    // }
+
+   
+    // Use the scheduledExecutor for scheduling tasks with delays
     @Override
     public ListenableFuture<RapidResponse> sendMessageBestEffort(final Endpoint remote, final RapidRequest msg) {
         Objects.requireNonNull(msg);
-        // final LocalDateTime now = LocalDateTime.now();
-        // final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        // final String formattedDateTime = now.format(formatter); // "1986-04-08 12:30"
-        // LOG.info("best effort send_message from {} to {}, message_size={}, t={}", address, 
-        //     remote, msg.getSerializedSize(), formattedDateTime);
+        final SettableFuture<RapidResponse> resultFuture = SettableFuture.create();
+
+        // Schedule the delayed execution
+        ScheduledFuture<?> scheduledFuture = scheduledExecutor.schedule(() -> {
+            final Supplier<ListenableFuture<RapidResponse>> call = () -> {
+                final MembershipServiceFutureStub stub = getFutureStub(remote)
+                        .withDeadlineAfter(getTimeoutForMessageMs(msg), TimeUnit.MILLISECONDS);
+                return stub.sendRequest(msg);
+            };
+
+            final Runnable onCallFailure = () -> channelMap.invalidate(remote);
+
+            final ListenableFuture<RapidResponse> rpcFuture =
+                Retries.callWithRetries(call, remote, 0, onCallFailure, backgroundExecutor, msg);
+
+            Futures.addCallback(rpcFuture, new RapidResponseFutureCallback(resultFuture),
+             MoreExecutors.directExecutor());
+
+        }, 20, TimeUnit.MILLISECONDS);
+
         try {
-            return backgroundExecutor.submit(() -> {
-                final Supplier<ListenableFuture<RapidResponse>> call = () -> {
-                    final MembershipServiceFutureStub stub;
-                    stub = getFutureStub(remote)
-                    .withDeadlineAfter(getTimeoutForMessageMs(msg), TimeUnit.MILLISECONDS);
-                    // stub = getFutureStub(remote);
-                    return stub.sendRequest(msg);
-                };
-                final Runnable onCallFailure = () -> channelMap.invalidate(remote);
-                return Retries.callWithRetries(call, remote, 0, onCallFailure, backgroundExecutor, msg);
-            }).get();
+            scheduledFuture.get();
         } catch (final InterruptedException | ExecutionException e) {
+            // Handle exceptions thrown by the scheduled task if needed
             Thread.currentThread().interrupt();
-            return Futures.immediateFailedFuture(e);
+            // log or handle error
         }
+
+        return resultFuture;
     }
+
+    // @Override
+    // public ListenableFuture<RapidResponse> sendMessageBestEffort(final Endpoint remote, final RapidRequest msg) {
+    //     Objects.requireNonNull(msg);
+
+    //     final SettableFuture<RapidResponse> resultFuture = SettableFuture.create();
+    //     // Schedule a task after 50ms delay to simulate network latency
+    //     backgroundExecutor.schedule(() -> {
+    //         final Supplier<ListenableFuture<RapidResponse>> call = () -> {
+    //             final MembershipServiceFutureStub stub = getFutureStub(remote)
+    //                     .withDeadlineAfter(getTimeoutForMessageMs(msg), TimeUnit.MILLISECONDS);
+    //             return stub.sendRequest(msg);
+    //         };
+
+    //         final Runnable onCallFailure = () -> channelMap.invalidate(remote);
+
+    //         // Make the RPC call with no retries (0), asynchronously
+    //         ListenableFuture<RapidResponse> rpcFuture =
+    //             Retries.callWithRetries(call, remote, 0, onCallFailure, backgroundExecutor, msg);
+
+    //         // Link the RPC future to the resultFuture
+    //         Futures.addCallback(rpcFuture, new FutureCallback<RapidResponse>() {
+    //             @Override
+    //             public void onSuccess(RapidResponse result) {
+    //                 resultFuture.set(result);
+    //             }
+
+    //             @Override
+    //             public void onFailure(Throwable t) {
+    //                 resultFuture.setException(t);
+    //             }
+    //         }, MoreExecutors.directExecutor());
+
+    //     }, 50, TimeUnit.MILLISECONDS);
+
+    //     return resultFuture;
+    // }
+
 
     /**
      * Recover resources. For future use in case we provide custom grpcExecutor for the ManagedChannels.
@@ -238,5 +389,25 @@ public class GrpcClient implements IMessagingClient {
     @Override
     public Endpoint getAddress() {
         return address;
+    }
+
+    // Define the static inner class at the bottom of your file or somewhere appropriate:
+    // @Override
+    private static class RapidResponseFutureCallback implements FutureCallback<RapidResponse> {
+        private final SettableFuture<RapidResponse> resultFuture;
+
+        RapidResponseFutureCallback(final SettableFuture<RapidResponse> resultFuture) {
+            this.resultFuture = resultFuture;
+        }
+
+        @Override
+        public void onSuccess(final RapidResponse result) {
+            resultFuture.set(result);
+        }
+
+        @Override
+        public void onFailure(final Throwable t) {
+            resultFuture.setException(t);
+        }
     }
 }

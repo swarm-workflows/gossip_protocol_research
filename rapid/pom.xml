@@ -32,18 +32,18 @@
     </parent>
     <reporting>
         <plugins>
-            <!-- <plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.2.2</version>
                 <configuration>
                     <includes>
-                        <include>**/ClusterTest.java</include>
+                        <include>**/MessagingTest.java</include>
                     </includes>
-                    <test>ClusterTest#singleNodeJoinsThroughSeed</test>
+                    <test>MessagingTest#broadcasterTest</test>
                     <redirectTestOutputToFile>false</redirectTestOutputToFile>
                 </configuration>
-            </plugin> -->
+            </plugin>
             <!-- <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>

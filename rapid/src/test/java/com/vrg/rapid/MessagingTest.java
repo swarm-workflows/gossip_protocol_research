@@ -415,6 +415,7 @@ public class MessagingTest {
                 assertNotNull(future);
                 final RapidResponse response = future.get();
                 assertNotNull(response);
+                System.out.println("asdasdasdasdasdasdasdasdasdas");
             }
         }
         client.shutdown();
