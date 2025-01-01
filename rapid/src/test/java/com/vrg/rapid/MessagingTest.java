@@ -35,7 +35,7 @@ import com.vrg.rapid.pb.RapidResponse;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import java.util.concurrent.TimeUnit;
+// import java.util.concurrent.TimeUnit;
 import javax.annotation.Nullable;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -43,7 +43,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
+import java.util.Objects; 
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
@@ -395,7 +395,6 @@ public class MessagingTest {
      */
     @Test
     public void broadcasterTest() throws IOException, ExecutionException, InterruptedException {
-        final long startTime = System.nanoTime();
         final int N = 100;
         final List<Endpoint> endpointList = new ArrayList<>(N);
         final int serverPort = 1234;
@@ -411,6 +410,7 @@ public class MessagingTest {
         // broadcaster.setMembership(endpointList);
         broadcaster.setMembership(services.get(0).getSubjectsOf());
         for (int i = 0; i < 10; i++) {
+            System.out.println("当前时间（毫秒精度）: " + System.currentTimeMillis()  + ", Endpoint: " + endpointList.get(0)); 
             final List<ListenableFuture<RapidResponse>> futures =
                     broadcaster.broadcast(Utils.toRapidRequest(FastRoundPhase2bMessage.getDefaultInstance()));
             for (final ListenableFuture<RapidResponse> future : futures) {
@@ -422,10 +422,10 @@ public class MessagingTest {
         }
         client.shutdown();
 
-        final long endTime = System.nanoTime();
-        final long durationNs = endTime - startTime;
-        final long durationMs = TimeUnit.NANOSECONDS.toMillis(durationNs);
-        System.out.println("broadcasterTest execution took: " + durationMs + " ms");
+        // final long endTime = System.nanoTime();
+        // final long durationNs = endTime - startTime;
+        // final long durationMs = TimeUnit.NANOSECONDS.toMillis(durationNs);
+        // System.out.println("broadcasterTest execution took: " + durationMs + " ms");
     }
 
 

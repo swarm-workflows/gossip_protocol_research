@@ -123,7 +123,8 @@
       * @param proposalMessage the membership change proposal towards a configuration change.
       */
      private void handleFastRoundProposal(final FastRoundPhase2bMessage proposalMessage) {
-         if (proposalMessage.getConfigurationId() != configurationId) {
+        System.out.println("当前时间（毫秒精度）: " + System.currentTimeMillis()  + ", Endpoint: " + myAddr); 
+        if (proposalMessage.getConfigurationId() != configurationId) {
              if (LOG.isTraceEnabled()) {
                  LOG.trace("Settings ID mismatch for proposal: current_config:{} proposal:{}", configurationId,
                          TextFormat.shortDebugString(proposalMessage));

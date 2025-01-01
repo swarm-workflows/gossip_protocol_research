@@ -79,7 +79,7 @@ public final class MembershipService {
     private final MembershipView membershipView;
     private final MultiNodeCutDetector cutDetection;
     private final Endpoint myAddr;
-    private final IBroadcaster broadcaster;
+    public final IBroadcaster broadcaster;
     private final Map<Endpoint, LinkedBlockingDeque<SettableFuture<RapidResponse>>> joinersToRespondTo =
             new HashMap<>();
     private final Map<Endpoint, NodeId> joinerUuid = new HashMap<>();
@@ -194,6 +194,7 @@ public final class MembershipService {
             case PHASE1BMESSAGE:
             case PHASE2AMESSAGE:
             case PHASE2BMESSAGE:
+                System.out.println("当前时间（毫秒精度）: " + System.currentTimeMillis()  + ", Endpoint: " + myAddr); 
                 return handleConsensusMessages(msg);
             case LEAVEMESSAGE:
                 return handleLeaveMessage(msg);

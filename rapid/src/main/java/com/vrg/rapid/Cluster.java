@@ -69,11 +69,11 @@ import java.util.function.Consumer;
  */
 public final class Cluster {
     private static final Logger LOG = LoggerFactory.getLogger(Cluster.class);
-    private static final int K = 10;
-    private static final int H = 9;
-    private static final int L = 4;
+    private static final int K = 5;
+    private static final int H = 4;
+    private static final int L = 3;
     private static final int RETRIES = 20;
-    private final MembershipService membershipService;
+    public final MembershipService membershipService;
     private final IMessagingServer rpcServer;
     private final SharedResources sharedResources;
     private final Endpoint listenAddress;

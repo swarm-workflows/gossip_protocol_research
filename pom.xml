@@ -75,9 +75,11 @@
                 <version>3.2.2</version>
                 <configuration>
                     <includes>
-                        <include>**/MessagingTest.java</include>
+                        <!-- <include>**/MessagingTest.java</include> -->
+                        <include>**/ClusterTest.java</include>
                     </includes>
-                    <test>MessagingTest#broadcasterTest</test>
+                    <!-- <test>MessagingTest#broadcasterTest</test> -->
+                    <test>ClusterTest#hundredNodesJoinInParallel</test>
                     <redirectTestOutputToFile>false</redirectTestOutputToFile>
                 </configuration>
             </plugin>

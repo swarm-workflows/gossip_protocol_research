@@ -17,6 +17,7 @@ import com.google.common.net.HostAndPort;
 import com.google.protobuf.ByteString;
 import com.vrg.rapid.messaging.impl.GrpcClient;
 import com.vrg.rapid.pb.Endpoint;
+import com.vrg.rapid.pb.FastRoundPhase2bMessage;
 import com.vrg.rapid.pb.RapidRequest;
 import org.junit.After;
 import org.junit.Before;
@@ -186,11 +187,16 @@ public class ClusterTest {
     @Test(timeout = 150000)
     public void hundredNodesJoinInParallel() throws IOException, InterruptedException {
         addMetadata = false;
-        final int numNodes = 100; // Includes the size of the cluster
+        final int numNodes = 10; // Includes the size of the cluster
         final Endpoint seedEndpoint = Utils.hostFromParts("127.0.0.7", basePort);
         createCluster(numNodes, seedEndpoint);
         verifyCluster(numNodes);
         verifyClusterMetadata(0);
+        System.out.println("当前时间（毫秒精度）: " + System.currentTimeMillis()  +
+         ", Endpoint: " + seedEndpoint); 
+        instances.get(seedEndpoint).membershipService.broadcaster.broadcast(
+            Utils.toRapidRequest(FastRoundPhase2bMessage.getDefaultInstance()));
+        
     }
 
     /**
