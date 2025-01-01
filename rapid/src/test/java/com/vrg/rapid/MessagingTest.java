@@ -35,7 +35,7 @@ import com.vrg.rapid.pb.RapidResponse;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
+import java.util.concurrent.TimeUnit;
 import javax.annotation.Nullable;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -57,9 +57,9 @@ import static org.junit.Assert.fail;
  * Tests to drive the messaging sub-system
  */
 public class MessagingTest {
-    private static final int K = 10;
-    private static final int H = 8;
-    private static final int L = 3;
+    private static final int K = 3;
+    private static final int H = 2;
+    private static final int L = 1;
 
     private static final int SERVER_PORT_BASE = 1134;
     private static final String LOCALHOST_IP = "127.0.0.7";
@@ -395,6 +395,7 @@ public class MessagingTest {
      */
     @Test
     public void broadcasterTest() throws IOException, ExecutionException, InterruptedException {
+        final long startTime = System.nanoTime();
         final int N = 100;
         final List<Endpoint> endpointList = new ArrayList<>(N);
         final int serverPort = 1234;
@@ -407,7 +408,8 @@ public class MessagingTest {
         final Settings settings = new Settings();
         final IMessagingClient client = new GrpcClient(clientAddr, resources, settings);
         final UnicastToAllBroadcaster broadcaster = new UnicastToAllBroadcaster(client);
-        broadcaster.setMembership(endpointList);
+        // broadcaster.setMembership(endpointList);
+        broadcaster.setMembership(services.get(0).getSubjectsOf());
         for (int i = 0; i < 10; i++) {
             final List<ListenableFuture<RapidResponse>> futures =
                     broadcaster.broadcast(Utils.toRapidRequest(FastRoundPhase2bMessage.getDefaultInstance()));
@@ -415,10 +417,15 @@ public class MessagingTest {
                 assertNotNull(future);
                 final RapidResponse response = future.get();
                 assertNotNull(response);
-                System.out.println("asdasdasdasdasdasdasdasdasdas");
+                // System.out.println("asdasdasdasdasdasdasdasdasdas");
             }
         }
         client.shutdown();
+
+        final long endTime = System.nanoTime();
+        final long durationNs = endTime - startTime;
+        final long durationMs = TimeUnit.NANOSECONDS.toMillis(durationNs);
+        System.out.println("broadcasterTest execution took: " + durationMs + " ms");
     }
 
 

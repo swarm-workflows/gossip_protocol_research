@@ -41,6 +41,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.Executors;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.MoreExecutors;
+import java.util.Random;
 // import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Nullable;
@@ -75,6 +76,9 @@ public class GrpcClient implements IMessagingClient {
     private final ExecutorService backgroundExecutor;
      // Declare a ScheduledExecutorService
     private final ScheduledExecutorService scheduledExecutor = Executors.newSingleThreadScheduledExecutor();
+
+    private final double meanLatency = 5; // Mean latency in milliseconds
+    private final double stdDevLatency = 1.5; // Standard deviation in milliseconds
 
     @Nullable private final EventLoopGroup eventLoopGroup;
     private final AtomicBoolean isShuttingDown = new AtomicBoolean(false);
@@ -127,6 +131,27 @@ public class GrpcClient implements IMessagingClient {
     //                                    backgroundExecutor, msg);
     // }
 
+    // Method to calculate latency based on sender and receiver ports
+    // @Override
+    public double getLatency(final Endpoint sender, final Endpoint receiver) {
+        // if (!sender.getHostname().equals(receiverIp)) {
+        //     throw new IllegalArgumentException("This function assumes sender and receiver share the same IP.");
+        // }
+        final Random random = new Random();
+        // Combine sender and receiver port into a hash for determinism
+        final int hash_1 = Integer.hashCode(sender.getPort() * 31 + receiver.getPort());
+        final int hash_2 = Integer.hashCode(receiver.getPort() * 31 + sender.getPort());
+        final int combinedHash = hash_1 ^ hash_2;
+        random.setSeed(combinedHash); // Seed the random generator
+        
+        // Generate a Gaussian value and scale it to mean and standard deviation
+        final double gaussian = random.nextGaussian();
+        final double latency = meanLatency + gaussian * stdDevLatency;
+        
+        // Ensure latency is non-negative
+        return Math.max(latency, 1);
+    }
+
     @Override
     public ListenableFuture<RapidResponse> sendMessage(final Endpoint remote, final RapidRequest msg) {
         Objects.requireNonNull(remote);
@@ -157,7 +182,7 @@ public class GrpcClient implements IMessagingClient {
             Futures.addCallback(rpcFuture, new RapidResponseFutureCallback(resultFuture),
                                 MoreExecutors.directExecutor());
 
-        }, 20, TimeUnit.MILLISECONDS);
+        }, (int) getLatency(address, remote), TimeUnit.MILLISECONDS);
 
         // 根据需要决定是否要在这里等待scheduledFuture执行完成
         // 如果不想阻塞当前线程，可以去掉下面的try-catch块
@@ -251,7 +276,7 @@ public class GrpcClient implements IMessagingClient {
             Futures.addCallback(rpcFuture, new RapidResponseFutureCallback(resultFuture),
              MoreExecutors.directExecutor());
 
-        }, 20, TimeUnit.MILLISECONDS);
+        }, (int) getLatency(address, remote), TimeUnit.MILLISECONDS);
 
         try {
             scheduledFuture.get();
