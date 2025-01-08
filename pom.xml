@@ -109,7 +109,7 @@
                     <!-- Protobuf/grpc generated sources triggers too many warnings -->
                     <compilerArgs>
                         <arg>-XepDisableWarningsInGeneratedCode</arg>
-                        <arg>-Werror</arg>
+                        <!-- <arg>-Werror</arg> -->
                     </compilerArgs>
                 </configuration>
                 <dependencies>

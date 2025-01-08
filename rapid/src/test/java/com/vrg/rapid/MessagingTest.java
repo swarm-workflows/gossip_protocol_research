@@ -397,7 +397,7 @@ public class MessagingTest {
     public void broadcasterTest() throws IOException, ExecutionException, InterruptedException {
         final int N = 100;
         final List<Endpoint> endpointList = new ArrayList<>(N);
-        final int serverPort = 1234;
+        final int serverPort = 1234; 
         for (int i = 0; i < N; i++) {
             final Endpoint serverAddr = Utils.hostFromParts(LOCALHOST_IP, serverPort + i + 1);
             createAndStartMembershipService(serverAddr);

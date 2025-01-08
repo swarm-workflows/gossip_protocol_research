@@ -87,13 +87,13 @@ public class GrpcServer extends MembershipServiceGrpc.MembershipServiceImplBase 
     public void sendRequest(final RapidRequest rapidRequest,
                             final StreamObserver<RapidResponse> responseObserver) {
         final String messageId = rapidRequest.getMessageId().getHigh() + "-" 
-            + rapidRequest.getMessageId().getLow();
-            LOG.trace("Received RapidRequest: " + rapidRequest + " " + messageId);
+        + rapidRequest.getMessageId().getLow();
+        LOG.trace("Received RapidRequest: " + rapidRequest + " " + messageId);
         if (rapidRequest.getContentCase() == RapidRequest.ContentCase.FASTROUNDPHASE2BMESSAGE ||
-            rapidRequest.getContentCase() == RapidRequest.ContentCase.PHASE1AMESSAGE ||
-            rapidRequest.getContentCase() == RapidRequest.ContentCase.PHASE2AMESSAGE ||
-            rapidRequest.getContentCase() == RapidRequest.ContentCase.PHASE2BMESSAGE ||
-            rapidRequest.getContentCase() == RapidRequest.ContentCase.BATCHEDALERTMESSAGE) {
+        rapidRequest.getContentCase() == RapidRequest.ContentCase.PHASE1AMESSAGE ||
+        rapidRequest.getContentCase() == RapidRequest.ContentCase.PHASE2AMESSAGE ||
+        rapidRequest.getContentCase() == RapidRequest.ContentCase.PHASE2BMESSAGE ||
+        rapidRequest.getContentCase() == RapidRequest.ContentCase.BATCHEDALERTMESSAGE) {
             if (messageCache.getIfPresent(messageId) != null) {
                 // Duplicate message, ignore or send acknowledgment
                 LOG.trace("Duplicate message received with ID: {}", messageId);
@@ -101,15 +101,10 @@ public class GrpcServer extends MembershipServiceGrpc.MembershipServiceImplBase 
                 // responseObserver.onCompleted();
                 return;
             }
-            // Store the message ID in the cache
-            messageCache.put(messageId, Boolean.TRUE);
-            final List<Endpoint> recipients = membershipService.getSubjectsOf();
-            final List<ListenableFuture<RapidResponse>> futures = new ArrayList<>(recipients.size());
-            for (final Endpoint recipient: recipients) {
-                futures.add(membershipService.getMessagingClient().sendMessageBestEffort(recipient, rapidRequest));
-            }
         }
-
+        if (rapidRequest.getContentCase() == RapidRequest.ContentCase.FASTROUNDPHASE2BMESSAGE) {
+            System.out.println("当前时间（毫秒精度）: " + System.currentTimeMillis()  + ", Endpoint: " + address); 
+        }
         if (membershipService != null) {
             // Forward the message to another node or handle accordingly
             // System.out.println("MembershipService != null");
@@ -129,6 +124,19 @@ public class GrpcServer extends MembershipServiceGrpc.MembershipServiceImplBase 
             responseObserver.onNext(BOOTSTRAPPING_MESSAGE);
             responseObserver.onCompleted();
         }
+    if (rapidRequest.getContentCase() == RapidRequest.ContentCase.FASTROUNDPHASE2BMESSAGE ||
+        rapidRequest.getContentCase() == RapidRequest.ContentCase.PHASE1AMESSAGE ||
+        rapidRequest.getContentCase() == RapidRequest.ContentCase.PHASE2AMESSAGE ||
+        rapidRequest.getContentCase() == RapidRequest.ContentCase.PHASE2BMESSAGE ||
+        rapidRequest.getContentCase() == RapidRequest.ContentCase.BATCHEDALERTMESSAGE) {
+        // Store the message ID in the cache
+        messageCache.put(messageId, Boolean.TRUE);
+        final List<Endpoint> recipients = membershipService.getSubjectsOf();
+        final List<ListenableFuture<RapidResponse>> futures = new ArrayList<>(recipients.size());
+        for (final Endpoint recipient: recipients) {
+            futures.add(membershipService.getMessagingClient().sendMessageBestEffort(recipient, rapidRequest));
+        }
+    }
     }
 
     /**

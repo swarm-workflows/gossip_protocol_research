@@ -48,14 +48,14 @@ import java.util.Set;
  final class MembershipView {
      private final int K;
     //  private final Random random = new Random();
-    private final double meanLatency = 5.0; // Example value
-    private final double stdDevLatency = 1.5; // Example value
+    private final double meanLatency = 50.0; // Example value
+    private final double stdDevLatency = 15; // Example value
     private final Map<String, Double> latencyCache = new HashMap<>();
      private static final LongHashFunction HASH_FUNCTION = LongHashFunction.xx(0);
      private final ReadWriteLock rwLock = new ReentrantReadWriteLock();
      @GuardedBy("rwLock") private final ArrayList<AddressComparator> addressComparators;
      @GuardedBy("rwLock") private final ArrayList<NavigableSet<Endpoint>> rings;
-     @GuardedBy("rwLock") private final List<Endpoint> ringlist;
+     @GuardedBy("rwLock") private final ArrayList<List<Endpoint>> ringlist;
      @GuardedBy("rwLock") private final Set<NodeId> identifiersSeen = new TreeSet<>(NodeIdComparator.INSTANCE);
      @GuardedBy("rwLock") private final Map<Endpoint, List<Endpoint>> cachedObservers = new HashMap<>();
      @GuardedBy("rwLock") private final Set<Endpoint> allNodes = new HashSet<>();
@@ -70,7 +70,7 @@ import java.util.Set;
          this.K = K;
          this.rings = new ArrayList<>(K);
         //  this.rings = new ArrayList<>(K - 1);
-         this.ringlist = new ArrayList<>();
+         this.ringlist = new ArrayList<>(K);
          this.addressComparators = new ArrayList<>(K);
         //  this.addressComparators = new ArrayList<>(K - 1);
         //  for (int k = 0; k < K - 1; k++) {
@@ -90,6 +90,7 @@ import java.util.Set;
          this.K = K;
         //  this.rings = new ArrayList<>(K - 1);
          this.rings = new ArrayList<>(K);
+         this.ringlist = new ArrayList<>(K);
         //  this.addressComparators = new ArrayList<>(K - 1);
          this.addressComparators = new ArrayList<>(K);
         //  for (int k = 0; k < K - 1; k++) {
@@ -102,7 +103,9 @@ import java.util.Set;
              this.rings.add(set);
          }
          final List<Endpoint> endpointList = new ArrayList<>(endpoints);
-         this.ringlist = DGRO(endpointList);
+         for (int k = 0; k < K; k++){
+            this.ringlist.add(DGRO(endpointList));
+         }
          this.identifiersSeen.addAll(nodeIds);
          this.currentConfiguration = new Configuration(identifiersSeen, rings.get(0));
      }
@@ -129,7 +132,7 @@ import java.util.Set;
         // Generate a Gaussian value and scale it to mean and standard deviation
         final double gaussian = random.nextGaussian();
         // Ensure latency is non-negative
-        final double latency = Math.max(meanLatency + gaussian * stdDevLatency, 1);
+        final double latency = Math.max(meanLatency + gaussian * stdDevLatency, 10);
 
         // Cache the computed latency for future use
         latencyCache.put(key, latency);
@@ -157,7 +160,6 @@ import java.util.Set;
                 if (latency < minLatency) {
                     selectedNode = j;
                     minLatency = latency;
-                    // break;
                 }
             }
             currentNode = (i == endpoints.size() - 1) ? 0 : selectedNode;
@@ -246,18 +248,19 @@ import java.util.Set;
         double minLatency = Double.MAX_VALUE;
         // double prev_latency = 0;
         double latency = 0;
-        for (int i = 0; i < ringlist.size(); i++) {
-          
-            
-            latency = getLatency(node, ringlist.get(i)) + getLatency(node, ringlist.get((i + 1) 
-            % ringlist.size()));
-            if (latency < minLatency) {
-                selectedNode = (i + 1) % ringlist.size();
-                minLatency = latency;
-                // break;
-            }
+        for (int k = 0; k < ringlist.size(); k++){
+            for (int i = 0; i < ringlist.get(k).size(); i++) {
+                latency = getLatency(node, ringlist.get(k).get(i)) + 
+                getLatency(node, ringlist.get(k).get((i + 1) % ringlist.get(k).size()));
+                if (latency < minLatency) {
+                    selectedNode = (i + 1) % ringlist.get(k).size();
+                    minLatency = latency;
+                    // break;
+                }
+        
+            ringlist.get(k).add(selectedNode, node);}
         }
-        ringlist.add(selectedNode, node);
+        
         // ringlist.add(0, node);
     }
  
@@ -306,15 +309,17 @@ import java.util.Set;
      
 
      void deleteDGRO(final Endpoint node) {
-        for (int i = 0; i < ringlist.size(); i++) {
+        for (int k = 0; k < ringlist.size(); k++){
+            for (int i = 0; i < ringlist.get(k).size(); i++) {
         //    if(ringlist.get(i) == node){
         //     ringlist.remove(i);
         //     break;
         //    }
-        if (ringlist.get(i).equals(node)) {
-            ringlist.remove(i);
-            break;
-        }
+                if (ringlist.get(k).get(i).equals(node)) {
+                    ringlist.get(k).remove(i);
+                    break;
+                }
+            }
         }
     }
      
@@ -362,20 +367,24 @@ import java.util.Set;
          final List<Endpoint> observers = new ArrayList<>();
  
         //  for (int k = 0; k < K - 1; k++) {
-         for (int k = 0; k < K; k++) {
-             final NavigableSet<Endpoint> list = rings.get(k);
-             // final ArrayList<Endpoint> list = new ArrayList<>(list_);
-             final Endpoint successor = list.higher(node);
-             // final Endpoint successor = list.higher(node);
-             if (successor == null) {
-                 observers.add(list.first());
-             }
-             else {
-                 observers.add(successor);
-             }
-         }
-         observers.add(ringlist.get((ringlist.indexOf(node) + 1)
+        // //  for (int k = 0; k < K; k++) {
+        //      final NavigableSet<Endpoint> list = rings.get(k);
+        //      // final ArrayList<Endpoint> list = new ArrayList<>(list_);
+        //      final Endpoint successor = list.higher(node);
+        //      // final Endpoint successor = list.higher(node);
+        //      if (successor == null) {
+        //          observers.add(list.first());
+        //      }
+        //      else {
+        //          observers.add(successor);
+        //      }
+        //  }
+        //  ringlist.get((ringlist.indexOf(node) + 1)
+        //   % getMembershipSize());
+        for (int k = 0; k < ringlist.size(); ++k){
+         observers.add(ringlist.get(k).get((ringlist.get(k).indexOf(node) + 1)
           % getMembershipSize()));
+        }
         //  final NavigableSet<Endpoint> list_ = rings.get(0);
         //  final ArrayList<Endpoint> list = new ArrayList<>(list_);
         //  for (int i = 0; i < list.size(); ++i) {
@@ -410,6 +419,7 @@ import java.util.Set;
          //         observers.add(successor);
          //     }
          // }
+         
          return observers;
      }
  
@@ -466,18 +476,22 @@ import java.util.Set;
          final List<Endpoint> subjects = new ArrayList<>();
  
         //  for (int k = 0; k < K - 1; k++) {
-         for (int k = 0; k < K; k++) {
-             final NavigableSet<Endpoint> list = rings.get(k);
-             final Endpoint predecessor = list.lower(node);
-             if (predecessor == null) {
-                 subjects.add(list.last());
-             }
-             else {
-                 subjects.add(predecessor);
-             }
-         }
-         subjects.add(ringlist.get((ringlist.indexOf(node) - 1)
+        // //  for (int k = 0; k < K; k++) {
+        //      final NavigableSet<Endpoint> list = rings.get(k);
+        //      final Endpoint predecessor = list.lower(node);
+        //      if (predecessor == null) {
+        //          subjects.add(list.last());
+        //      }
+        //      else {
+        //          subjects.add(predecessor);
+        //      }
+        //  }
+        //  ringlist.get((ringlist.indexOf(node) - 1 + getMembershipSize())
+        //  % getMembershipSize());
+        for(int k = 0; k < K; ++k){
+         subjects.add(ringlist.get(k).get((ringlist.get(k).indexOf(node) - 1 + getMembershipSize())
          % getMembershipSize()));
+        }
         //  final NavigableSet<Endpoint> list_ = rings.get(0);
         //  final ArrayList<Endpoint> list = new ArrayList<>(list_);
         //  for (int i = 0; i < list.size(); ++i) {

@@ -49,13 +49,13 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Consumer;
-
+ 
 /**
  * The public API for Rapid. Users create Cluster objects using either Cluster.start()
  * or Cluster.join(), depending on whether the user is starting a new cluster or not:
  *
  * <pre>
- * {@code
+ * {@code   
  *   Endpoint seedAddress = Endpoint.hostFromString("127.0.0.7", 1234);
  *   Cluster c = Cluster.Builder(seedAddress).start();
  *   ...
@@ -66,12 +66,12 @@ import java.util.function.Consumer;
  *
  * The API does not yet support a node, as identified by a hostname and port, to
  * be part of multiple separate clusters.
- */
+ */ 
 public final class Cluster {
     private static final Logger LOG = LoggerFactory.getLogger(Cluster.class);
-    private static final int K = 5;
-    private static final int H = 4;
-    private static final int L = 3;
+    private static final int K = 3;
+    private static final int H = 2; 
+    private static final int L = 1;
     private static final int RETRIES = 20;
     public final MembershipService membershipService;
     private final IMessagingServer rpcServer;

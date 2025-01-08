@@ -46,9 +46,9 @@ import java.util.Random;
 
 import javax.annotation.Nullable;
 import java.util.Objects;
-import java.util.concurrent.ExecutionException;
+// import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.ScheduledFuture;
+// import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Supplier;
@@ -77,8 +77,8 @@ public class GrpcClient implements IMessagingClient {
      // Declare a ScheduledExecutorService
     private final ScheduledExecutorService scheduledExecutor = Executors.newSingleThreadScheduledExecutor();
 
-    private final double meanLatency = 5; // Mean latency in milliseconds
-    private final double stdDevLatency = 1.5; // Standard deviation in milliseconds
+    private final double meanLatency = 100; // Mean latency in milliseconds
+    private final double stdDevLatency = 10; // Standard deviation in milliseconds
 
     @Nullable private final EventLoopGroup eventLoopGroup;
     private final AtomicBoolean isShuttingDown = new AtomicBoolean(false);
@@ -149,7 +149,7 @@ public class GrpcClient implements IMessagingClient {
         final double latency = meanLatency + gaussian * stdDevLatency;
         
         // Ensure latency is non-negative
-        return Math.max(latency, 1);
+        return Math.max(latency, 50);
     }
 
     @Override
@@ -159,7 +159,7 @@ public class GrpcClient implements IMessagingClient {
         final SettableFuture<RapidResponse> resultFuture = SettableFuture.create();
 
         // 延迟50毫秒后执行实际RPC调用
-        ScheduledFuture<?> scheduledFuture = scheduledExecutor.schedule(() -> {
+        scheduledExecutor.schedule(() -> {
             final Supplier<ListenableFuture<RapidResponse>> call = () -> {
                 final MembershipServiceFutureStub stub = getFutureStub(remote)
                         .withDeadlineAfter(getTimeoutForMessageMs(msg), TimeUnit.MILLISECONDS);
@@ -183,16 +183,17 @@ public class GrpcClient implements IMessagingClient {
                                 MoreExecutors.directExecutor());
 
         }, (int) getLatency(address, remote), TimeUnit.MILLISECONDS);
+        // }, 100, TimeUnit.MILLISECONDS);
 
         // 根据需要决定是否要在这里等待scheduledFuture执行完成
         // 如果不想阻塞当前线程，可以去掉下面的try-catch块
-        try {
-            scheduledFuture.get();
-        } catch (final InterruptedException | ExecutionException e) {
-            Thread.currentThread().interrupt();
-            // 将异常传递给resultFuture
-            resultFuture.setException(e);
-        }
+        // try {
+        //     scheduledFuture.get();
+        // } catch (final InterruptedException | ExecutionException e) {
+        //     Thread.currentThread().interrupt();
+        //     // 将异常传递给resultFuture
+        //     resultFuture.setException(e);
+        // }
 
         return resultFuture;
     }
@@ -261,7 +262,7 @@ public class GrpcClient implements IMessagingClient {
         final SettableFuture<RapidResponse> resultFuture = SettableFuture.create();
 
         // Schedule the delayed execution
-        ScheduledFuture<?> scheduledFuture = scheduledExecutor.schedule(() -> {
+        scheduledExecutor.schedule(() -> {
             final Supplier<ListenableFuture<RapidResponse>> call = () -> {
                 final MembershipServiceFutureStub stub = getFutureStub(remote)
                         .withDeadlineAfter(getTimeoutForMessageMs(msg), TimeUnit.MILLISECONDS);
@@ -277,14 +278,15 @@ public class GrpcClient implements IMessagingClient {
              MoreExecutors.directExecutor());
 
         }, (int) getLatency(address, remote), TimeUnit.MILLISECONDS);
+        // }, 100, TimeUnit.MILLISECONDS);
 
-        try {
-            scheduledFuture.get();
-        } catch (final InterruptedException | ExecutionException e) {
-            // Handle exceptions thrown by the scheduled task if needed
-            Thread.currentThread().interrupt();
-            // log or handle error
-        }
+        // try {
+        //     scheduledFuture.get();
+        // } catch (final InterruptedException | ExecutionException e) {
+        //     // Handle exceptions thrown by the scheduled task if needed
+        //     Thread.currentThread().interrupt();
+        //     // log or handle error
+        // }
 
         return resultFuture;
     }
