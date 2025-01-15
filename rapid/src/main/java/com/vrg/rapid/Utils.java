@@ -41,7 +41,7 @@ import java.util.UUID;
 /**
  * Utility methods to convert protobuf types
  */
-final class Utils {
+final public class Utils {
 
     private Utils() {
     }
@@ -74,7 +74,7 @@ final class Utils {
     /**
      * Validate incoming host:port strings using Guava's HostAndPort
      */
-    static Endpoint hostFromParts(final String hostname, final int port) {
+    public static Endpoint hostFromParts(final String hostname, final int port) {
         final HostAndPort hostAndPort = HostAndPort.fromParts(hostname, port); // Validates input
         return Endpoint.newBuilder()
                 .setHostname(ByteString.copyFromUtf8(hostAndPort.getHost()))
@@ -153,56 +153,56 @@ final class Utils {
      * Helpers to avoid the boilerplate of constructing a new RapidRequest/RapidResponse for
      * every message we want to send out.
      */
-    static RapidRequest toRapidRequest(final PreJoinMessage msg) {
+    public static RapidRequest toRapidRequest(final PreJoinMessage msg) {
         // final UUID uuid = UUID.randomUUID();
         return RapidRequest.newBuilder().setPreJoinMessage(msg)
                                         .setMessageId(messageIdFromUUID(UUID.randomUUID()))
                                         .build();
     }
 
-    static RapidRequest toRapidRequest(final JoinMessage msg) {
+    public static RapidRequest toRapidRequest(final JoinMessage msg) {
         return RapidRequest.newBuilder().setJoinMessage(msg)
                                         .setMessageId(messageIdFromUUID(UUID.randomUUID()))
                                         .build();
     }
 
-    static RapidRequest toRapidRequest(final BatchedAlertMessage msg) {
+    public static RapidRequest toRapidRequest(final BatchedAlertMessage msg) {
         return RapidRequest.newBuilder().setBatchedAlertMessage(msg)
                                         .setMessageId(messageIdFromUUID(UUID.randomUUID()))
                                         .build();
     }
 
-    static RapidRequest toRapidRequest(final ProbeMessage msg) {
+    public static RapidRequest toRapidRequest(final ProbeMessage msg) {
         return RapidRequest.newBuilder().setProbeMessage(msg)
                                         .setMessageId(messageIdFromUUID(UUID.randomUUID()))
                                         .build();
     }
 
-    static RapidRequest toRapidRequest(final FastRoundPhase2bMessage msg) {
+    public static RapidRequest toRapidRequest(final FastRoundPhase2bMessage msg) {
         return RapidRequest.newBuilder().setFastRoundPhase2BMessage(msg)
                                         .setMessageId(messageIdFromUUID(UUID.randomUUID()))
                                         .build();
     }
 
-    static RapidRequest toRapidRequest(final Phase1aMessage msg) {
+    public static RapidRequest toRapidRequest(final Phase1aMessage msg) {
         return RapidRequest.newBuilder().setPhase1AMessage(msg)
                                         .setMessageId(messageIdFromUUID(UUID.randomUUID()))
                                         .build();
     }
 
-    static RapidRequest toRapidRequest(final Phase1bMessage msg) {
+    public static RapidRequest toRapidRequest(final Phase1bMessage msg) {
         return RapidRequest.newBuilder().setPhase1BMessage(msg)
                                         .setMessageId(messageIdFromUUID(UUID.randomUUID()))
                                         .build();
     }
 
-    static RapidRequest toRapidRequest(final Phase2aMessage msg) {
+    public static RapidRequest toRapidRequest(final Phase2aMessage msg) {
         return RapidRequest.newBuilder().setPhase2AMessage(msg)
                                         .setMessageId(messageIdFromUUID(UUID.randomUUID()))
                                         .build();
     }
 
-    static RapidRequest toRapidRequest(final Phase2bMessage msg) {
+    public static RapidRequest toRapidRequest(final Phase2bMessage msg) {
         return RapidRequest.newBuilder().setPhase2BMessage(msg)
                                         .setMessageId(messageIdFromUUID(UUID.randomUUID()))
                                         .build();

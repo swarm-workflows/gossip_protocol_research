@@ -76,7 +76,7 @@ public final class MembershipService {
     private static final int DEFAULT_FAILURE_DETECTOR_INITIAL_DELAY_IN_MS = 0;
     static final int DEFAULT_FAILURE_DETECTOR_INTERVAL_IN_MS = 1000;
     private static final int LEAVE_MESSAGE_TIMEOUT = 1500;
-    private final MembershipView membershipView;
+    public final MembershipView membershipView;
     private final MultiNodeCutDetector cutDetection;
     private final Endpoint myAddr;
     public final IBroadcaster broadcaster;
@@ -84,7 +84,7 @@ public final class MembershipService {
             new HashMap<>();
     private final Map<Endpoint, NodeId> joinerUuid = new HashMap<>();
     private final Map<Endpoint, Metadata> joinerMetadata = new HashMap<>();
-    private final IMessagingClient messagingClient;
+    public final IMessagingClient messagingClient;
     private final MetadataManager metadataManager;
 
     // Event subscriptions
@@ -148,7 +148,8 @@ public final class MembershipService {
                 0, settings.getBatchingWindowInMs(), TimeUnit.MILLISECONDS);
 
         // this.broadcaster.setMembership(membershipView.getRing(0));
-        List<Endpoint> subjects = membershipView.getSubjectsOf(myAddr);
+        List<Endpoint> subjects = membershipView.getGossipOutOf(myAddr);
+        // List<Endpoint> subjects = membershipView.getSubjectsOf(myAddr);
 
         if (subjects.isEmpty()) {
             subjects = new ArrayList<>(); // Create a mutable list
@@ -429,6 +430,7 @@ public final class MembershipService {
         final long currentConfigurationId = membershipView.getCurrentConfigurationId();
         // Publish an event to the listeners.
         final List<Endpoint> currentMembership = membershipView.getRing(0);
+        membershipView.reconstructDGRO();
         final ClusterStatusChange clusterStatusChange = new ClusterStatusChange(currentConfigurationId,
                                                                                 currentMembership, statusChanges);
         subscriptions.get(ClusterEvents.VIEW_CHANGE).forEach(cb -> cb.accept(clusterStatusChange));
@@ -441,7 +443,8 @@ public final class MembershipService {
                                           this::decideViewChange, settings);
         // broadcaster.setMembership(membershipView.getRing(0));
         // broadcaster.setMembership(membershipView.getSubjectsOf(myAddr));
-        List<Endpoint> subjects = membershipView.getSubjectsOf(myAddr);
+        List<Endpoint> subjects = membershipView.getGossipOutOf(myAddr);
+        // List<Endpoint> subjects = membershipView.getSubjectsOf(myAddr);
 
         if (subjects.isEmpty()) {
             subjects = new ArrayList<>(); // Create a mutable list

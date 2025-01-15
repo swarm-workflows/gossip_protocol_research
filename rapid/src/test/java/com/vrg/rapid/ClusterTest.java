@@ -187,14 +187,29 @@ public class ClusterTest {
     @Test(timeout = 150000)
     public void hundredNodesJoinInParallel() throws IOException, InterruptedException {
         addMetadata = false;
-        final int numNodes = 50; // Includes the size of the cluster
+        final int numNodes = 100; // Includes the size of the cluster
         final Endpoint seedEndpoint = Utils.hostFromParts("127.0.0.7", basePort);
         createCluster(numNodes, seedEndpoint);
         verifyCluster(numNodes);
         verifyClusterMetadata(0);
         for (int i = 0; i < 1; i++) {
-        System.out.println("当前时间（毫秒精度）: " + System.currentTimeMillis()  +
-         ", Endpoint: " + seedEndpoint); 
+
+            // for (final Map.Entry<String, Double> entry : instances.get(seedEndpoint).membershipService
+            //     .membershipView.latencyCache.entrySet()) {
+            //     System.out.println("clusterTest:" + entry.getKey() + " -> " + entry.getValue());
+            // }
+            // for (int j = 0; j < instances.get(seedEndpoint).membershipService
+            // .membershipView.ringlist.size(); j++) {
+            //     System.out.println("Ring " + j + ":");
+            //     for (final Endpoint endpoint : instances.get(seedEndpoint).membershipService
+            //     .membershipView.ringlist.get(j)) {
+            //         System.out.print(endpoint.getPort() + " ");
+            //     }
+            //     System.out.println();
+            // }
+            instances.get(seedEndpoint).membershipService.membershipView.reconstructDGRO();
+            System.out.println("当前时间（毫秒精度）: " + System.currentTimeMillis()  +
+         ", Endpoint: " + seedEndpoint);
         instances.get(seedEndpoint).membershipService.broadcaster.broadcast(
             Utils.toRapidRequest(FastRoundPhase2bMessage.getDefaultInstance()));
         }

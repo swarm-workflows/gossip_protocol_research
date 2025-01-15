@@ -45,6 +45,9 @@ import java.util.Random;
 // import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Nullable;
+
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 // import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -65,6 +68,7 @@ public class GrpcClient implements IMessagingClient {
     private static final Logger LOG = LoggerFactory.getLogger(GrpcClient.class);
     private static final int DEFAULT_BUF_SIZE = 4096;
     public static final boolean DEFAULT_GRPC_USE_IN_PROCESS_TRANSPORT = false;
+    public final Map<String, Double> latencyCache = new HashMap<>();
     public static final int DEFAULT_GRPC_TIMEOUT_MS = 1000;
     public static final int DEFAULT_GRPC_DEFAULT_RETRIES = 5;
     public static final int DEFAULT_GRPC_JOIN_TIMEOUT = DEFAULT_GRPC_TIMEOUT_MS * 5;
@@ -77,8 +81,8 @@ public class GrpcClient implements IMessagingClient {
      // Declare a ScheduledExecutorService
     private final ScheduledExecutorService scheduledExecutor = Executors.newSingleThreadScheduledExecutor();
 
-    private final double meanLatency = 100; // Mean latency in milliseconds
-    private final double stdDevLatency = 10; // Standard deviation in milliseconds
+    private final double meanLatency = 50; // Mean latency in milliseconds
+    private final double stdDevLatency = 15; // Standard deviation in milliseconds
 
     @Nullable private final EventLoopGroup eventLoopGroup;
     private final AtomicBoolean isShuttingDown = new AtomicBoolean(false);
@@ -137,6 +141,18 @@ public class GrpcClient implements IMessagingClient {
         // if (!sender.getHostname().equals(receiverIp)) {
         //     throw new IllegalArgumentException("This function assumes sender and receiver share the same IP.");
         // }
+        // for (final Map.Entry<String, Double> entry : latencyCache.entrySet()) {
+        //     System.out.println("GrpcClient: " + address + ": " 
+        //     + entry.getKey() + " -> " + entry.getValue());
+        // } 
+        final String key = sender.getPort() < receiver.getPort()
+        ? sender.getPort() + "-" + receiver.getPort()
+        : receiver.getPort() + "-" + sender.getPort();
+
+// Check if the latency for this pair is already computed
+        if (latencyCache.containsKey(key)) {
+            return latencyCache.get(key);
+        }
         final Random random = new Random();
         // Combine sender and receiver port into a hash for determinism
         final int hash_1 = Integer.hashCode(sender.getPort() * 31 + receiver.getPort());
@@ -146,10 +162,12 @@ public class GrpcClient implements IMessagingClient {
         
         // Generate a Gaussian value and scale it to mean and standard deviation
         final double gaussian = random.nextGaussian();
-        final double latency = meanLatency + gaussian * stdDevLatency;
+        final double latency = Math.max(meanLatency + gaussian * stdDevLatency, 10);
         
+        latencyCache.put(key, latency);
+
         // Ensure latency is non-negative
-        return Math.max(latency, 50);
+        return latency;
     }
 
     @Override

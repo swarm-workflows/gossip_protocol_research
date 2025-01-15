@@ -189,7 +189,7 @@ public final class Cluster {
          *
          * @param listenAddress The listen address of the node being instantiated
          */
-        Builder(final Endpoint listenAddress) {
+        public Builder(final Endpoint listenAddress) {
             this.listenAddress = listenAddress;
         }
 
@@ -300,7 +300,7 @@ public final class Cluster {
          * @param seedAddress Seed node for the bootstrap protocol
          * @throws IOException Thrown if we cannot successfully start a server
          */
-        Cluster join(final Endpoint seedAddress) throws IOException, InterruptedException {
+        public Cluster join(final Endpoint seedAddress) throws IOException, InterruptedException {
             NodeId currentIdentifier = Utils.nodeIdFromUUID(UUID.randomUUID());
             sharedResources = new SharedResources(listenAddress);
             messagingServer = messagingServer != null
