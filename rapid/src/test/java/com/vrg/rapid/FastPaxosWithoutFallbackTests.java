@@ -63,6 +63,7 @@ public class FastPaxosWithoutFallbackTests {
     @TestCaseName("{method}[N={0},Q={1}]")
     public void fastQuorumTestNoConflicts(final int N, final int quorum) throws InterruptedException,
             ExecutionException {
+        System.out.println("fastQuorumTestNoConflicts"); 
         final int serverPort = 1234;
         final Endpoint node = Utils.hostFromParts("127.0.0.7", serverPort);
         final Endpoint proposalNode = Utils.hostFromParts("127.0.0.7", serverPort + 1);
@@ -100,6 +101,7 @@ public class FastPaxosWithoutFallbackTests {
     public void fastQuorumTestWithConflicts(final int N, final int quorum, final int numConflicts,
                                             final boolean changeExpected)
             throws InterruptedException, IOException, ExecutionException {
+                System.out.println("fastQuorumTestWithConflicts"); 
         final int serverPort = 1234;
         final Endpoint node = Utils.hostFromParts("127.0.0.7", serverPort);
         final Endpoint proposalNode = Utils.hostFromParts("127.0.0.7", serverPort + 1);
@@ -169,6 +171,7 @@ public class FastPaxosWithoutFallbackTests {
         final MembershipView view = new MembershipView(K);
         for (int i = basePort; i < basePort + N; i++) {
             view.ringAdd(Utils.hostFromParts("127.0.0.7", i), Utils.nodeIdFromUUID(UUID.randomUUID()));
+            view.reconstructDGRO();
         }
         return view;
     }

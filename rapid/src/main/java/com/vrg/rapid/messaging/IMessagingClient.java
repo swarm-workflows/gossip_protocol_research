@@ -33,6 +33,8 @@ public interface IMessagingClient {
     @CanIgnoreReturnValue
     ListenableFuture<RapidResponse> sendMessage(final Endpoint remote, final RapidRequest msg);
 
+
+    // public double getLatency(final Endpoint sender, final Endpoint receiver);
     /**
      * Send a message to a remote node with best-effort guarantees
      *

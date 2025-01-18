@@ -20,14 +20,17 @@ import com.google.common.util.concurrent.SettableFuture;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.vrg.rapid.pb.Endpoint;
 import com.vrg.rapid.pb.RapidRequest;
+import com.vrg.rapid.pb.RapidResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.function.Supplier;
 
 class Retries {
+
     private static final Logger LOG = LoggerFactory.getLogger(Retries.class);
 
     /**
@@ -38,17 +41,17 @@ class Retries {
      *
      * @param call A supplier of a ListenableFuture, representing the call being retried.
      * @param retries The number of retry attempts to be performed before giving up
-     * @param <T> The type of the response.
+     * @param <RapidResponse> The type of the response.
      * @return Returns a ListenableFuture of type T, that hosts the result of the supplied {@code call}.
      */
     @CanIgnoreReturnValue
-    static <T> ListenableFuture<T> callWithRetries(final Supplier<ListenableFuture<T>> call,
+    static SettableFuture<ResponseWithLatency> callWithRetries(final Supplier<ListenableFuture<RapidResponse>> call,
                                                    final Endpoint remote, final int retries,
                                                    final Runnable onCallFailure,
                                                    final ExecutorService backgroundExecutor,
-                                                final RapidRequest msg) {
-        final SettableFuture<T> settable = SettableFuture.create();
-        startCallWithRetry(call, remote, settable, retries, onCallFailure, backgroundExecutor, msg);
+                                                final RapidRequest msg, final Map<Endpoint, Long> latencyMap) {
+        final SettableFuture<ResponseWithLatency> settable = SettableFuture.create();
+        startCallWithRetry(call, remote, settable, retries, onCallFailure, backgroundExecutor, msg, latencyMap);
         return settable;
     }
 
@@ -56,31 +59,38 @@ class Retries {
      * Adapted from https://github.com/spotify/futures-extra/.../AsyncRetrier.java
      */
     @SuppressWarnings("checkstyle:illegalcatch")
-    private static <T> void startCallWithRetry(final Supplier<ListenableFuture<T>> call, final Endpoint remote,
-                                               final SettableFuture<T> signal, final int retries,
+    private static void startCallWithRetry(final Supplier<ListenableFuture<RapidResponse>> call, final Endpoint remote,
+                                               final SettableFuture<ResponseWithLatency> signal, final int retries,
                                                final Runnable onCallFailure, 
                                                final ExecutorService backgroundExecutor, 
-                                               final RapidRequest msg) {
+                                               final RapidRequest msg, final Map<Endpoint, Long> latencyMap) {
         if (Thread.currentThread().isInterrupted()) {
             signal.setException(new InterruptedException("Thread has been interrupted"));
             return;
         }
-        final ListenableFuture<T> callFuture = call.get();
-        Futures.addCallback(callFuture, new FutureCallback<T>() {
+        final long startTime = System.nanoTime();
+        final ListenableFuture<RapidResponse> callFuture = call.get();
+        Futures.addCallback(callFuture, new FutureCallback<RapidResponse>() {
+            
             @Override
-            public void onSuccess(final T result) {
-                signal.set(result);
+            public void onSuccess(final RapidResponse result) {
+                long endTime = System.nanoTime();
+                long latencyMs = (endTime - startTime) / 1_000_000;
+                // result.setLatencyMs(latencyMs);
+                latencyMap.put(remote, latencyMs);
+                ResponseWithLatency wrappedResult = new ResponseWithLatency(result, latencyMs);
+                signal.set(wrappedResult);
             }
 
             @Override
             public void onFailure(final Throwable throwable) {
                 onCallFailure.run();
-                LOG.error("Retrying call to {} because of exception {}",
-                 remote, throwable);
+                // LOG.error("Retrying call to {} because of exception {}",
+                //  remote, throwable);
                 //   assert false : "Execution halted for debugging purposes in onFailure.";
-
+                
                 handleFailure(call, remote, signal, retries, throwable, onCallFailure, 
-                backgroundExecutor, msg);
+                backgroundExecutor, msg, latencyMap);
             }
         }, backgroundExecutor);
     }
@@ -88,14 +98,16 @@ class Retries {
     /**
      * Adapted from https://github.com/spotify/futures-extra/.../AsyncRetrier.java
      */
-    private static <T> void handleFailure(final Supplier<ListenableFuture<T>> code, final Endpoint remote,
-                                          final SettableFuture<T> future, final int retries, final Throwable t,
+    private static void handleFailure(final Supplier<ListenableFuture<RapidResponse>> code, final Endpoint remote,
+                                          final SettableFuture<ResponseWithLatency> future, final int retries, final Throwable t,
                                           final Runnable onCallFailure, 
                                           final ExecutorService backgroundExecutor,
-                                          final RapidRequest msg) {
+                                          final RapidRequest msg,
+                                          final Map<Endpoint, Long> latencyMap) {
         if (retries > 0) {
-            startCallWithRetry(code, remote, future, retries - 1, onCallFailure, backgroundExecutor, msg);
+            startCallWithRetry(code, remote, future, retries - 1, onCallFailure, backgroundExecutor, msg, latencyMap);
         } else {
+            latencyMap.put(remote, (long)-1);
             future.setException(t);
         }
     }

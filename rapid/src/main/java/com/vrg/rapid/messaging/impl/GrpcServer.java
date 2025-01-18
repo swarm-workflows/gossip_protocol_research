@@ -102,9 +102,9 @@ public class GrpcServer extends MembershipServiceGrpc.MembershipServiceImplBase 
                 return;
             }
         }
-        if (rapidRequest.getContentCase() == RapidRequest.ContentCase.FASTROUNDPHASE2BMESSAGE) {
-            System.out.println("当前时间（毫秒精度）: " + System.currentTimeMillis()  + ", Endpoint: " + address); 
-        }
+        // if (rapidRequest.getContentCase() == RapidRequest.ContentCase.FASTROUNDPHASE2BMESSAGE) {
+        //     System.out.println("当前时间（毫秒精度）: " + System.currentTimeMillis()  + ", Endpoint: " + address); 
+        // }
         if (membershipService != null) {
             // Forward the message to another node or handle accordingly
             // System.out.println("MembershipService != null");

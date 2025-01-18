@@ -373,4 +373,10 @@ public class NettyClientServer implements IMessagingClient, IMessagingServer {
     public Endpoint getAddress() {
         return listenAddress;
     }
+
+    // @Override
+    // public double getLatency(Endpoint sender, Endpoint receiver) {
+    //     // TODO Auto-generated method stub
+    //     throw new UnsupportedOperationException("Unimplemented method 'getLatency'");
+    // }
 }

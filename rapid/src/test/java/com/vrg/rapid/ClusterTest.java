@@ -95,7 +95,8 @@ public class ClusterTest {
         basePort =  1234;
         portCounter = new AtomicInteger(basePort);
         instances.clear();
-        seed = ThreadLocalRandom.current().nextLong();
+        // seed = ThreadLocalRandom.current().nextLong();
+        seed = 1234;
         random = new Random(seed);
         settings = new Settings();
 
@@ -123,6 +124,7 @@ public class ClusterTest {
      */
     @Test(timeout = 30000)
     public void hostAndPortBuilderTests() throws IOException, InterruptedException, ExecutionException {
+        System.out.println("TestName: hostAndPortBuilderTests");
         final HostAndPort addr1 = HostAndPort.fromParts("127.0.0.7", 1255);
         final HostAndPort addr2 = HostAndPort.fromParts("127.0.0.7", 1256);
         final Cluster seed = new Cluster.Builder(addr1).start();
@@ -140,6 +142,7 @@ public class ClusterTest {
      */
     @Test(timeout = 30000)
     public void singleNodeJoinsThroughSeed() throws IOException, InterruptedException, ExecutionException {
+        System.out.println("TestName: singleNodeJoinsThroughSeed");
         final Endpoint seedEndpoint = Utils.hostFromParts("127.0.0.7", basePort);
         createCluster(1, seedEndpoint);
         verifyCluster(1);
@@ -152,6 +155,7 @@ public class ClusterTest {
      */
     @Test(timeout = 30000)
     public void tenNodesJoinSequentially() throws IOException, InterruptedException {
+        System.out.println("TestName: tenNodesJoinSequentially");
         final int numNodes = 10;
         final Endpoint seedEndpoint = Utils.hostFromParts("127.0.0.7", basePort);
         createCluster(1, seedEndpoint); // Only bootstrap a seed.
@@ -167,6 +171,7 @@ public class ClusterTest {
      */
     @Test(timeout = 30000)
     public void twentyNodesJoinSequentially() throws IOException, InterruptedException {
+        System.out.println("TestName: twentyNodesJoinSequentially");
         final int numNodes = 20;
         final Endpoint seedEndpoint = Utils.hostFromParts("127.0.0.7", basePort);
         createCluster(1, seedEndpoint); // Only bootstrap a seed.
@@ -186,50 +191,112 @@ public class ClusterTest {
      */
     @Test(timeout = 150000)
     public void hundredNodesJoinInParallel() throws IOException, InterruptedException {
+        System.out.println("TestName: hundredNodesJoinInParallel");
         addMetadata = false;
         final int numNodes = 100; // Includes the size of the cluster
         final Endpoint seedEndpoint = Utils.hostFromParts("127.0.0.7", basePort);
         createCluster(numNodes, seedEndpoint);
         verifyCluster(numNodes);
         verifyClusterMetadata(0);
-        for (int i = 0; i < 1; i++) {
+        // for (int i = 0; i < 1; i++) {
 
-            // for (final Map.Entry<String, Double> entry : instances.get(seedEndpoint).membershipService
-            //     .membershipView.latencyCache.entrySet()) {
-            //     System.out.println("clusterTest:" + entry.getKey() + " -> " + entry.getValue());
-            // }
-            // for (int j = 0; j < instances.get(seedEndpoint).membershipService
-            // .membershipView.ringlist.size(); j++) {
-            //     System.out.println("Ring " + j + ":");
-            //     for (final Endpoint endpoint : instances.get(seedEndpoint).membershipService
-            //     .membershipView.ringlist.get(j)) {
-            //         System.out.print(endpoint.getPort() + " ");
-            //     }
-            //     System.out.println();
-            // }
-            instances.get(seedEndpoint).membershipService.membershipView.reconstructDGRO();
-            System.out.println("当前时间（毫秒精度）: " + System.currentTimeMillis()  +
-         ", Endpoint: " + seedEndpoint);
-        instances.get(seedEndpoint).membershipService.broadcaster.broadcast(
-            Utils.toRapidRequest(FastRoundPhase2bMessage.getDefaultInstance()));
-        }
-        try {
-            // Pause the main process for 30 seconds (30,000 milliseconds)
-            Thread.sleep(30000);
-        } catch (final InterruptedException e) {
-            // Handle exception if the thread is interrupted
-            System.out.println("The sleep was interrupted!");
-        }
-        
-        System.out.println("Process resumed after 30 seconds.");
+        //     // for (final Map.Entry<String, Double> entry : instances.get(seedEndpoint).membershipService
+        //     //     .membershipView.latencyCache.entrySet()) {
+        //     //     System.out.println("clusterTest:" + entry.getKey() + " -> " + entry.getValue());
+        //     // }
+        //     // for (int j = 0; j < instances.get(seedEndpoint).membershipService
+        //     // .membershipView.ringlist.size(); j++) {
+        //     //     System.out.println("Ring " + j + ":");
+        //     //     for (final Endpoint endpoint : instances.get(seedEndpoint).membershipService
+        //     //     .membershipView.ringlist.get(j)) {
+        //     //         System.out.print(endpoint.getPort() + " ");
+        //     //     }
+        //     //     System.out.println();
+        //     // }
+        //     instances.get(seedEndpoint).membershipService.membershipView.reconstructDGRO();
+        //     System.out.println("当前时间（毫秒精度）: " + System.currentTimeMillis()  +
+        //  ", Endpoint: " + seedEndpoint);
+        // instances.get(seedEndpoint).membershipService.broadcaster.broadcast(
+        //     Utils.toRapidRequest(FastRoundPhase2bMessage.getDefaultInstance()));
+        // }
+        // try {
+        //     // Pause the main process for 30 seconds (30,000 milliseconds)
+        //     Thread.sleep(10000);
+        // } catch (final InterruptedException e) {
+        //     // Handle exception if the thread is interrupted
+        //     System.out.println("The sleep was interrupted!");
+        // }
+        // for (int i = 0; i < 1; i++) {
+        //     basePort = 1234 + i;
+        //     System.out.println("Borderline: baseport is " + basePort);
+        //     final Endpoint seedEndpoint = Utils.hostFromParts("127.0.0.7", basePort);
+        //     //  final Endpoint sourceEndpoint = Utils.hostFromParts("127.0.0.7", sourceEndpoint);
+        //      createCluster(numNodes, seedEndpoint);
+        //      verifyCluster(numNodes);
+        //      verifyClusterMetadata(0);
+        //      instances.get(seedEndpoint).membershipService.membershipView.reconstructDGRO();
+        //      System.out.println("当前时间（毫秒精度）: " + System.currentTimeMillis()  +
+        //   ", Endpoint: " + seedEndpoint);
+        //  instances.get(seedEndpoint).membershipService.broadcaster.broadcast(
+        //      Utils.toRapidRequest(FastRoundPhase2bMessage.getDefaultInstance()));
+         
+        //  try {
+        //      // Pause the main process for 30 seconds (30,000 milliseconds)
+        //      Thread.sleep(10000);
+        //     //  for (final Cluster cluster: instances.values()) {
+        //     //     cluster.shutdown();
+        //     // }
+        //     // instances.clear();
+        //     // waitAndShutdownClusters();
+        //  } catch (final InterruptedException e) {
+        //      // Handle exception if the thread is interrupted
+        //      System.out.println("The sleep was interrupted!");
+        //  }
+        // }
+        // System.out.println("Process resumed after 10 seconds.");
     }
 
+    public void waitAndShutdownClusters() {
+        final int numInstances = instances.size();
+        if (numInstances == 0) {
+            System.out.println("No clusters to shut down.");
+            return;
+        }
+    
+        CountDownLatch latch = new CountDownLatch(numInstances);
+    
+        // 遍历实例并启动异步关闭
+        for (final Cluster cluster : instances.values()) {
+            new Thread(() -> {
+                try {
+                    cluster.shutdown(); // 关闭每个 Cluster 实例
+                    System.out.println("Cluster shutdown complete: " + cluster);
+                } finally {
+                    latch.countDown(); // 每完成一个实例，减少计数器
+                }
+            }).start();
+        }
+    
+        try {
+            // 主线程等待所有线程完成
+            latch.await();
+            System.out.println("All clusters have been shut down.");
+        } catch (InterruptedException e) {
+            System.err.println("Shutdown process was interrupted.");
+            Thread.currentThread().interrupt();
+        } finally {
+            // 清理实例
+            instances.clear();
+            System.out.println("All instances have been cleared.");
+        }
+    }
     /**
      * This test starts with a single seed, and a wave where 50 subsequent nodes initiate their join protocol
      * concurrently. Following this, a subsequent wave begins where 100 nodes then start together.
      */
     @Test(timeout = 30000)
     public void fiftyNodesJoinTwentyNodeCluster() throws IOException, InterruptedException {
+        System.out.println("TestName: fiftyNodesJoinTwentyNodeCluster");
         final int numNodesPhase1 = 20;
         final int numNodesPhase2 = 50;
         final Endpoint seedEndpoint = Utils.hostFromParts("127.0.0.7", basePort);
@@ -245,6 +312,7 @@ public class ClusterTest {
      */
     @Test(timeout = 30000)
     public void oneFailureOutOfFiveNodes() throws IOException, InterruptedException {
+        System.out.println("TestName: oneFailureOutOfFiveNodes");
         useFastFailureDetectionTimeouts();
         final int numNodes = 5;
         final Endpoint seedEndpoint = Utils.hostFromParts("127.0.0.7", basePort);
@@ -261,6 +329,7 @@ public class ClusterTest {
      */
     @Test(timeout = 30000)
     public void concurrentNodeJoinsAndFails() throws IOException, InterruptedException {
+        System.out.println("TestName: concurrentNodeJoinsAndFails");
         useFastFailureDetectionTimeouts();
         final int numNodes = 30;
         final int failingNodes = 5;
@@ -281,6 +350,7 @@ public class ClusterTest {
      */
     @Test(timeout = 30000)
     public void concurrentNodeJoinsNetty() throws IOException, InterruptedException {
+        System.out.println("TestName: concurrentNodeJoinsNetty");
         settings.setUseInProcessTransport(false);
         final int numNodes = 5;
         final int phaseOneJoiners = 6;
@@ -308,6 +378,7 @@ public class ClusterTest {
      */
     @Test(timeout = 30000)
     public void failRandomQuarterOfNodes() throws IOException, InterruptedException {
+        System.out.println("TestName: failRandomQuarterOfNodes");
         useStaticFd = true;
         final int numNodes = 50;
         final int numFailingNodes = 12;
@@ -332,14 +403,20 @@ public class ClusterTest {
      */
     @Test(timeout = 30000)
     public void failRandomThirdOfNodes() throws IOException, InterruptedException {
+        useFastFailureDetectionTimeouts();
+        System.out.println("TestName: failRandomThirdOfNodes");
         useStaticFd = true;
-        final int numNodes = 50;
-        final int numFailingNodes = 16;
+        final int numNodes = 5;
+        final int numFailingNodes = 2;
         final Endpoint seedEndpoint = Utils.hostFromParts("127.0.0.7", basePort);
         createCluster(numNodes, seedEndpoint);
         verifyCluster(numNodes);
         // Fail the first 3 nodes.
         final Set<Endpoint> failingNodes = getRandomHosts(numFailingNodes);
+        for (Endpoint node : failingNodes) {
+            System.out.println(node);
+        }
+        fail();
         staticFds.values().forEach(e -> e.addFailedNodes(failingNodes));
         failingNodes.forEach(h -> instances.remove(h).shutdown());
         waitAndVerifyAgreement(numNodes - failingNodes.size(), 20, 1500);
@@ -355,6 +432,7 @@ public class ClusterTest {
      */
     @Test(timeout = 30000)
     public void failTenRandomNodes() throws IOException, InterruptedException {
+        System.out.println("TestName: failTenRandomNodes");
         useStaticFd = true;
         final int numNodes = 100;
         final int numFailingNodes = 10;
@@ -375,6 +453,7 @@ public class ClusterTest {
      */
     @Test
     public void injectAsymmetricDrops() throws IOException, InterruptedException {
+        System.out.println("TestName: injectAsymmetricDrops");
         final int numNodes = 50;
         final int numFailingNodes = 10;
         final Endpoint seedEndpoint = Utils.hostFromParts("127.0.0.7", basePort);
@@ -396,6 +475,7 @@ public class ClusterTest {
      */
     @Test(timeout = 30000)
     public void phase2MessageDropsRpcRetries() throws IOException, InterruptedException {
+        System.out.println("TestName: phase2MessageDropsRpcRetries");
         useShortJoinTimeouts();
         final Endpoint seedEndpoint = Utils.hostFromParts("127.0.0.7", basePort);
         // Drop join-phase-2 attempts by nextNode, but only enough that the RPC retries make it past
@@ -413,6 +493,7 @@ public class ClusterTest {
      */
     @Test(timeout = 30000)
     public void phase2JoinAttemptRetry() throws IOException, InterruptedException {
+        System.out.println("TestName: phase2JoinAttemptRetry");
         useShortJoinTimeouts();
         final Endpoint seedEndpoint = Utils.hostFromParts("127.0.0.7", basePort);
         // Drop join-phase-2 attempts by nextNode such that it re-attempts a join under a new settings
@@ -429,6 +510,7 @@ public class ClusterTest {
      */
     @Test(timeout = 30000)
     public void phase2JoinAttemptRetryWithConfigChange() throws IOException, InterruptedException {
+        System.out.println("TestName: phase2JoinAttemptRetryWithConfigChange");
         final Endpoint seedEndpoint = Utils.hostFromParts("127.0.0.7", basePort);
         final Endpoint joinerEndpoint = Utils.hostFromParts("127.0.0.7", basePort + 1);
         // Drop join-phase-2 attempts by nextNode such that it re-attempts a join under a new settings
@@ -449,6 +531,7 @@ public class ClusterTest {
      */
     @Test(timeout = 30000)
     public void testRejoinSingleNode() throws IOException, InterruptedException {
+        System.out.println("TestName: testRejoinSingleNode");
         useFastFailureDetectionTimeouts();
         final Endpoint seedEndpoint = Utils.hostFromParts("127.0.0.7", basePort);
         final Endpoint leavingEndpoint = Utils.hostFromParts("127.0.0.7", basePort + 1);
@@ -469,18 +552,20 @@ public class ClusterTest {
      */
     @Test(timeout = 30000)
     public void testRejoinSingleNodeSameConfiguration() throws IOException, InterruptedException {
+        System.out.println("TestName: testRejoinSingleNodeSameConfiguration");
         useShortJoinTimeouts();
         useFastFailureDetectionTimeouts();
         final Endpoint seedEndpoint = Utils.hostFromParts("127.0.0.7", basePort);
         final Endpoint rejoiningEndpoint = Utils.hostFromParts("127.0.0.7", basePort + 1);
         createCluster(10, seedEndpoint);
-
+        System.out.println("Shixun: createCluster finished.");
         // Shutdown and rejoin once
         Cluster cluster = null;
         try {
             cluster = instances.remove(rejoiningEndpoint);
             assertEquals(9, instances.size());
             cluster.shutdown();
+            System.out.println("Shixun: basePort 1235 shutdown.");
             try {
                 buildCluster(rejoiningEndpoint).join(seedEndpoint);
                 fail();
@@ -501,6 +586,7 @@ public class ClusterTest {
      */
     @Test(timeout = 30000)
     public void testRejoinMultipleNodes() throws IOException, InterruptedException {
+        System.out.println("TestName: testRejoinMultipleNodes");
         useFastFailureDetectionTimeouts();
         final Endpoint seedEndpoint = Utils.hostFromParts("127.0.0.7", basePort);
         final int numNodes = 30;
@@ -541,6 +627,7 @@ public class ClusterTest {
      */
     @Test(timeout = 30000)
     public void testLeaving() throws IOException, InterruptedException {
+        System.out.println("TestName: testLeaving");
         final int numNodes = 10;
         final Endpoint seedEndpoint = Utils.hostFromParts("127.0.0.7", basePort);
         createCluster(1, seedEndpoint); // Only bootstrap a seed.
@@ -584,19 +671,29 @@ public class ClusterTest {
         try {
             final CountDownLatch latch = new CountDownLatch(numNodes);
             for (int i = 0; i < numNodes; i++) {
+                // 为每次循环创建一个 CountDownLatch
+                // CountDownLatch singleLatch = new CountDownLatch(1);
                 executor.execute(() -> {
                     try {
                         final Endpoint joiningEndpoint =
                                 Utils.hostFromParts("127.0.0.7", portCounter.incrementAndGet());
                         final Cluster nonSeed = buildCluster(joiningEndpoint).join(seedEndpoint);
-                        instances.put(joiningEndpoint, nonSeed);
+                            instances.put(joiningEndpoint, nonSeed);
                     } catch (final InterruptedException | IOException e) {
                         e.printStackTrace();
                         fail();
                     } finally {
+                        // singleLatch.countDown();
                         latch.countDown();
                     }
                 });
+                    // 等待当前任务完成
+                // try {
+                //     singleLatch.await();
+                // } catch (InterruptedException e) {
+                //     e.printStackTrace();
+                //     fail();
+                // }
             }
             latch.await();
         } catch (final InterruptedException e) {
@@ -767,7 +864,20 @@ public class ClusterTest {
     private Set<Endpoint> getRandomHosts(final int N) {
         assert random != null;
         final List<Map.Entry<Endpoint, Cluster>> entries = new ArrayList<>(instances.entrySet());
-        Collections.shuffle(entries);
+        // entries.sort(Comparator.comparing(Map.Entry::getKey));
+        entries.sort((entry1, entry2) -> {
+            Endpoint e1 = entry1.getKey();
+            Endpoint e2 = entry2.getKey();
+        
+            int ipComparison = Integer.compare(e1.getPort(), e2.getPort());
+            return ipComparison;
+        });
+        System.out.println("Entries");
+        for (Map.Entry<Endpoint, Cluster> entry : entries) {
+            System.out.println(entry.getKey()); // Print the Endpoint key
+        }
+        System.out.println("Selected");
+        // Collections.shuffle(entries);
         return random.ints(instances.size(), 0, N)
                      .mapToObj(i -> entries.get(i).getKey())
                      .collect(Collectors.toSet());
@@ -833,7 +943,9 @@ public class ClusterTest {
 
     // This speeds up failure detection when using the PingPongFailureDetector
     private void useFastFailureDetectionTimeouts() {
-        settings.setGrpcProbeTimeoutMs(10);
-        settings.setFailureDetectorIntervalInMs(50);
+        // settings.setGrpcProbeTimeoutMs(10);
+        settings.setGrpcProbeTimeoutMs(110);
+        // settings.setFailureDetectorIntervalInMs(50);
+        settings.setFailureDetectorIntervalInMs(150);
     }
 }

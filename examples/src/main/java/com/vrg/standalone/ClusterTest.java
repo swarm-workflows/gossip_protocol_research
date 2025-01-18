@@ -10,79 +10,82 @@
  * EITHER EXPRESS OR IMPLIED. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-
- import com.google.common.net.HostAndPort;
+package com.vrg.standalone;
+//  import com.google.common.net.HostAndPort;
  import com.vrg.rapid.Cluster;
  import com.vrg.rapid.Utils;
  import com.vrg.rapid.Settings;
- import com.vrg.rapid.ClusterStatusChange;
- import org.apache.commons.cli.CommandLine;
- import org.apache.commons.cli.CommandLineParser;
- import org.apache.commons.cli.DefaultParser;
- import org.apache.commons.cli.Options;
- import org.apache.commons.cli.ParseException;
- import org.slf4j.Logger;
- import org.slf4j.LoggerFactory;
+//  import com.vrg.rapid.ClusterStatusChange;
+//  import org.apache.commons.cli.CommandLine;
+//  import org.apache.commons.cli.CommandLineParser;
+//  import org.apache.commons.cli.DefaultParser;
+//  import org.apache.commons.cli.Options;
+//  import org.apache.commons.cli.ParseException;
+//  import org.slf4j.Logger;
+import java.util.logging.Logger;
+
+//  import org.slf4j.LoggerFactory;
  
  import javax.annotation.Nullable;
  import java.io.IOException;
  
- import java.time.LocalDateTime;
- import java.time.format.DateTimeFormatter;
+//  import java.time.LocalDateTime;
+//  import java.time.format.DateTimeFormatter;
  
  import com.google.protobuf.ByteString;
- import com.vrg.rapid.messaging.impl.GrpcClient;
+//  import com.vrg.rapid.messaging.impl.GrpcClient;
  import com.vrg.rapid.pb.Endpoint;
  import com.vrg.rapid.pb.FastRoundPhase2bMessage;
- import com.vrg.rapid.pb.RapidRequest;
+//  import com.vrg.rapid.pb.RapidRequest;
  
  import java.nio.charset.Charset;
  import java.util.ArrayList;
  import java.util.Collections;
- import java.util.HashSet;
+//  import java.util.HashSet;
  import java.util.List;
  import java.util.Map;
  import java.util.Random;
  import java.util.Set;
  import java.util.concurrent.ConcurrentHashMap;
  import java.util.concurrent.CountDownLatch;
- import java.util.concurrent.ExecutionException;
+//  import java.util.concurrent.ExecutionException;
  import java.util.concurrent.ExecutorService;
  import java.util.concurrent.Executors;
  import java.util.concurrent.ThreadLocalRandom;
  import java.util.concurrent.atomic.AtomicInteger;
  import java.util.logging.Level;
  import java.util.stream.Collectors;
- import java.util.stream.IntStream;
+//  import java.util.stream.IntStream;
  import static org.junit.Assert.fail;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+
  /**
   * Test public API
   */
  public class ClusterTest {
-     // private static final Logger LOG = LoggerFactory.getLogger(ClusterTest.class);
-     private static final Logger GRPC_LOGGER;
-     private static final Logger NETTY_LOGGER;
+     // public static final Logger LOG = LoggerFactory.getLogger(ClusterTest.class);
+     public static final Logger GRPC_LOGGER;
+     public static final Logger NETTY_LOGGER;
      public final Map<Endpoint, Cluster> instances = new ConcurrentHashMap<>();
-    //  private final Map<Endpoint, StaticFailureDetector.Factory> staticFds = new ConcurrentHashMap<>();
-    //  private final Map<Endpoint, List<ServerDropInterceptors.FirstN>> serverInterceptors = new ConcurrentHashMap<>();
-    //  private final Map<Endpoint, List<ClientInterceptors.Delayer>> clientInterceptors = new ConcurrentHashMap<>();
-     private boolean useStaticFd = false;
-     private boolean addMetadata = true;
-     @Nullable private Random random = null;
-     private long seed;
-     private int basePort;
-     @Nullable private AtomicInteger portCounter = null;
-     private Settings settings = new Settings();
+    //  public final Map<Endpoint, StaticFailureDetector.Factory> staticFds = new ConcurrentHashMap<>();
+    //  public final Map<Endpoint, List<ServerDropInterceptors.FirstN>> serverInterceptors = new ConcurrentHashMap<>();
+    //  public final Map<Endpoint, List<ClientInterceptors.Delayer>> clientInterceptors = new ConcurrentHashMap<>();
+     public boolean useStaticFd = false;
+     public boolean addMetadata = true;
+     @Nullable public Random random = null;
+     public long seed;
+     public int basePort;
+     @Nullable public AtomicInteger portCounter = null;
+     public Settings settings = new Settings();
  
-    //  static {
-    //      // gRPC and netty logs clutter the test output
-    //      GRPC_LOGGER = Logger.getLogger("io.grpc");
-    //      GRPC_LOGGER.setLevel(Level.OFF);
-    //      NETTY_LOGGER = Logger.getLogger("io.grpc.netty.NettyServerHandler");
-    //      NETTY_LOGGER.setLevel(Level.OFF);
-    //  }
+     static {
+         // gRPC and netty logs clutter the test output
+         GRPC_LOGGER = Logger.getLogger("io.grpc");
+         GRPC_LOGGER.setLevel(Level.OFF);
+         NETTY_LOGGER = Logger.getLogger("io.grpc.netty.NettyServerHandler");
+         NETTY_LOGGER.setLevel(Level.OFF);
+     }
  
 
  
@@ -94,11 +97,29 @@ import static org.junit.Assert.assertTrue;
       */
       public static void main(String[] args) {
         ClusterTest clusterTest = new ClusterTest();
-        clusterTest.beforeTest();
-        clusterTest.run();
+        // clusterTest.beforeTest();
+        int numNodes = 50;
+        if (args.length > 0) {
+            try {
+                // 从命令行参数读取 numNodes
+                numNodes = Integer.parseInt(args[0]);
+            } catch (NumberFormatException e) {
+                System.err.println("Invalid number format for numNodes. Using default value: 50");
+            }
+        }
+    
+        System.out.println("Number of nodes: " + numNodes);
+    
+        try{
+            clusterTest.run(numNodes);
+        }
+        catch (final IOException | InterruptedException e) {
+            // Handle exception if the thread is interrupted
+            System.out.println("The sleep was interrupted!");
+        }
         }
 
-        public void beforeTest() {
+        ClusterTest() {
             basePort =  1234;
             portCounter = new AtomicInteger(basePort);
             instances.clear();
@@ -113,46 +134,75 @@ import static org.junit.Assert.assertTrue;
             useStaticFd = false;
             addMetadata = true;
         }
-        
-     public void run() throws IOException, InterruptedException {
+
+     public void run(final int numNodes) throws IOException, InterruptedException {
          addMetadata = false;
-         final int numNodes = 100; // Includes the size of the cluster
-         final Endpoint seedEndpoint = Utils.hostFromParts("127.0.0.7", basePort);
-         createCluster(numNodes, seedEndpoint);
-         verifyCluster(numNodes);
-         verifyClusterMetadata(0);
-         for (int i = 0; i < 1; i++) {
- 
-             // for (final Map.Entry<String, Double> entry : instances.get(seedEndpoint).membershipService
-             //     .membershipView.latencyCache.entrySet()) {
-             //     System.out.println("clusterTest:" + entry.getKey() + " -> " + entry.getValue());
-             // }
-             // for (int j = 0; j < instances.get(seedEndpoint).membershipService
-             // .membershipView.ringlist.size(); j++) {
-             //     System.out.println("Ring " + j + ":");
-             //     for (final Endpoint endpoint : instances.get(seedEndpoint).membershipService
-             //     .membershipView.ringlist.get(j)) {
-             //         System.out.print(endpoint.getPort() + " ");
-             //     }
-             //     System.out.println();
-             // }
+        //  final int numNodes = 50; // Includes the size of the cluster
+         for (int i = 0; i < numNodes; i++) {
+            basePort = 1234 + i;
+            System.out.println("Borderline: baseport is " + basePort);
+            final Endpoint seedEndpoint = Utils.hostFromParts("127.0.0.7", basePort);
+            //  final Endpoint sourceEndpoint = Utils.hostFromParts("127.0.0.7", sourceEndpoint);
+             createCluster(numNodes, seedEndpoint);
+             verifyCluster(numNodes);
+             verifyClusterMetadata(0);
              instances.get(seedEndpoint).membershipService.membershipView.reconstructDGRO();
              System.out.println("当前时间（毫秒精度）: " + System.currentTimeMillis()  +
           ", Endpoint: " + seedEndpoint);
          instances.get(seedEndpoint).membershipService.broadcaster.broadcast(
              Utils.toRapidRequest(FastRoundPhase2bMessage.getDefaultInstance()));
-         }
+         
          try {
              // Pause the main process for 30 seconds (30,000 milliseconds)
-             Thread.sleep(30000);
+             Thread.sleep(5000);
+            //  for (final Cluster cluster: instances.values()) {
+            //     cluster.shutdown();
+            // }
+            // instances.clear();
+            waitAndShutdownClusters();
          } catch (final InterruptedException e) {
              // Handle exception if the thread is interrupted
              System.out.println("The sleep was interrupted!");
          }
+        }
          
-         System.out.println("Process resumed after 30 seconds.");
+        //  System.out.println("Process resumed after 30 seconds.");
      }
- 
+     
+     public void waitAndShutdownClusters() {
+        final int numInstances = instances.size();
+        if (numInstances == 0) {
+            System.out.println("No clusters to shut down.");
+            return;
+        }
+    
+        CountDownLatch latch = new CountDownLatch(numInstances);
+    
+        // 遍历实例并启动异步关闭
+        for (final Cluster cluster : instances.values()) {
+            new Thread(() -> {
+                try {
+                    cluster.shutdown(); // 关闭每个 Cluster 实例
+                    System.out.println("Cluster shutdown complete: " + cluster);
+                } finally {
+                    latch.countDown(); // 每完成一个实例，减少计数器
+                }
+            }).start();
+        }
+    
+        try {
+            // 主线程等待所有线程完成
+            latch.await();
+            System.out.println("All clusters have been shut down.");
+        } catch (InterruptedException e) {
+            System.err.println("Shutdown process was interrupted.");
+            Thread.currentThread().interrupt();
+        } finally {
+            // 清理实例
+            instances.clear();
+            System.out.println("All instances have been cleared.");
+        }
+    }
      /**
       * Creates a cluster of size {@code numNodes} with a seed {@code seedEndpoint}.
       *
@@ -162,7 +212,7 @@ import static org.junit.Assert.assertTrue;
       * @throws IOException Thrown if the Cluster.start() or join() methods throw an IOException when trying
       *                     to register an RpcServer.
       */
-     private void createCluster(final int numNodes, final Endpoint seedEndpoint) throws IOException {
+     public void createCluster(final int numNodes, final Endpoint seedEndpoint) throws IOException {
          final Cluster seed = buildCluster(seedEndpoint).start();
          instances.put(seedEndpoint, seed);
         //  assertEquals(1, seed.getMemberlist().size());
@@ -178,15 +228,18 @@ import static org.junit.Assert.assertTrue;
       * @param seedEndpoint Endpoint that represents the seed node to initialize and be used as the contact point
       *                 for subsequent joiners.
       */
-     private void extendCluster(final int numNodes, final Endpoint seedEndpoint) {
+     public void extendCluster(final int numNodes, final Endpoint seedEndpoint) {
          final ExecutorService executor = Executors.newWorkStealingPool(numNodes);
          try {
              final CountDownLatch latch = new CountDownLatch(numNodes);
-             for (int i = 0; i < numNodes; i++) {
-                 executor.execute(() -> {
+             for (int i = 0; i <= numNodes; i++) {
+                final int currentport = i + 1234;
+                if(currentport == basePort) continue; 
+                executor.execute(() -> {
                      try {
                          final Endpoint joiningEndpoint =
-                                 Utils.hostFromParts("127.0.0.7", portCounter.incrementAndGet());
+                                //  Utils.hostFromParts("127.0.0.7", portCounter.incrementAndGet());
+                                 Utils.hostFromParts("127.0.0.7", currentport);
                          final Cluster nonSeed = buildCluster(joiningEndpoint).join(seedEndpoint);
                          instances.put(joiningEndpoint, nonSeed);
                      } catch (final InterruptedException | IOException e) {
@@ -213,7 +266,7 @@ import static org.junit.Assert.assertTrue;
       * @param seedEndpoint Endpoint that represents the seed node to initialize and be used as the contact point
       *                 for subsequent joiners.
       */
-     private void extendCluster(final Endpoint joiningNode, final Endpoint seedEndpoint) {
+     public void extendCluster(final Endpoint joiningNode, final Endpoint seedEndpoint) {
          final ExecutorService executor = Executors.newWorkStealingPool(1);
          try {
              final CountDownLatch latch = new CountDownLatch(1);
@@ -244,7 +297,7 @@ import static org.junit.Assert.assertTrue;
       * @param seedEndpoint Endpoint that represents the seed node to initialize and be used as the contact point
       *                 for subsequent joiners.
       */
-     private void extendClusterNonBlocking(final int numNodes, final Endpoint seedEndpoint) {
+     public void extendClusterNonBlocking(final int numNodes, final Endpoint seedEndpoint) {
          final ExecutorService executor = Executors.newWorkStealingPool(numNodes);
          try {
              for (int i = 0; i < numNodes; i++) {
@@ -270,7 +323,7 @@ import static org.junit.Assert.assertTrue;
       *
       * @param nodesToFail list of Endpoint objects representing the nodes to fail
       */
-     private void failSomeNodes(final List<Endpoint> nodesToFail) {
+     public void failSomeNodes(final List<Endpoint> nodesToFail) {
          final ExecutorService executor = Executors.newWorkStealingPool(nodesToFail.size());
          try {
              final CountDownLatch latch = new CountDownLatch(nodesToFail.size());
@@ -300,7 +353,7 @@ import static org.junit.Assert.assertTrue;
       *
       * @param expectedSize expected size of each cluster
       */
-     private void verifyCluster(final int expectedSize) {
+     public void verifyCluster(final int expectedSize) {
          final List<Endpoint> any = instances.entrySet().iterator().next().getValue().getMemberlist();
          for (final Cluster cluster : instances.values()) {
              assertEquals(cluster.toString(), expectedSize, cluster.getMemberlist().size());
@@ -317,7 +370,7 @@ import static org.junit.Assert.assertTrue;
       *
       * @param expectedSize expected size of each cluster
       */
-     private void verifyClusterMetadata(final int expectedSize) {
+     public void verifyClusterMetadata(final int expectedSize) {
          for (final Cluster cluster : instances.values()) {
              assertEquals(cluster.getClusterMetadata().size(), expectedSize);
          }
@@ -328,7 +381,7 @@ import static org.junit.Assert.assertTrue;
       *
       * @param expectedSize expected size of each cluster
       */
-     private void verifyNumClusterInstances(final int expectedSize) {
+     public void verifyNumClusterInstances(final int expectedSize) {
          assertEquals(expectedSize, instances.size());
      }
  
@@ -340,7 +393,7 @@ import static org.junit.Assert.assertTrue;
       * @param maxTries number of tries to checkSubject if the cluster has stabilized.
       * @param intervalInMs the time duration between checks.
       */
-     private void waitAndVerifyAgreement(final int expectedSize, final int maxTries, final int intervalInMs)
+     public void waitAndVerifyAgreement(final int expectedSize, final int maxTries, final int intervalInMs)
              throws InterruptedException {
          int tries = maxTries;
          while (--tries > 0) {
@@ -363,7 +416,7 @@ import static org.junit.Assert.assertTrue;
      }
  
      // Helper that provides a list of N random nodes that have already been added to the instances map
-     private Set<Endpoint> getRandomHosts(final int N) {
+     public Set<Endpoint> getRandomHosts(final int N) {
          assert random != null;
          final List<Map.Entry<Endpoint, Cluster>> entries = new ArrayList<>(instances.entrySet());
          Collections.shuffle(entries);
@@ -373,7 +426,7 @@ import static org.junit.Assert.assertTrue;
      }
  
      // Helper that provides a list of N random nodes from portStart to portEnd
-     private Set<Endpoint> getRandomHosts(final int portStart, final int portEnd, final int N) {
+     public Set<Endpoint> getRandomHosts(final int portStart, final int portEnd, final int N) {
          assert random != null;
          return random.ints(N, portStart, portEnd)
                  .mapToObj(i -> Utils.hostFromParts("127.0.0.7", i))
@@ -381,7 +434,7 @@ import static org.junit.Assert.assertTrue;
      }
  
      // Helper to use static-failure-detectors and inject interceptors
-     private Cluster.Builder buildCluster(final Endpoint endpoint) {
+     public Cluster.Builder buildCluster(final Endpoint endpoint) {
          Cluster.Builder builder = new Cluster.Builder(endpoint).useSettings(settings);
         //  if (useStaticFd) {
         //      final StaticFailureDetector.Factory fdFactory = new StaticFailureDetector.Factory(new HashSet<>());
@@ -410,14 +463,14 @@ import static org.junit.Assert.assertTrue;
      }
  
     //  // Helper that drops the first N requests at a server of a given type
-    //  private <T, E> void dropFirstNAtServer(final Endpoint endpoint, final int N,
+    //  public <T, E> void dropFirstNAtServer(final Endpoint endpoint, final int N,
     //                                         final RapidRequest.ContentCase contentCase) {
     //      serverInterceptors.computeIfAbsent(endpoint, (k) -> new ArrayList<>(1))
     //              .add(new ServerDropInterceptors.FirstN(N, contentCase));
     //  }
  
     //  // Helper that delays requests of a given type at the client
-    //  private <T, E> CountDownLatch blockAtClient(final Endpoint endpoint, final RapidRequest.ContentCase messageType) {
+    //  public <T, E> CountDownLatch blockAtClient(final Endpoint endpoint, final RapidRequest.ContentCase messageType) {
     //      final CountDownLatch latch = new CountDownLatch(1);
     //      clientInterceptors.computeIfAbsent(endpoint, (k) -> new ArrayList<>(1))
     //              .add(new ClientInterceptors.Delayer(latch, messageType));
@@ -425,13 +478,13 @@ import static org.junit.Assert.assertTrue;
     //  }
  
      // This speeds up the retry attempts during the join protocol
-     private void useShortJoinTimeouts() {
+     public void useShortJoinTimeouts() {
          settings.setGrpcTimeoutMs(100);
          settings.setGrpcJoinTimeoutMs(500); // use short timeouts
      }
  
      // This speeds up failure detection when using the PingPongFailureDetector
-     private void useFastFailureDetectionTimeouts() {
+     public void useFastFailureDetectionTimeouts() {
          settings.setGrpcProbeTimeoutMs(10);
          settings.setFailureDetectorIntervalInMs(50);
      }

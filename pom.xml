@@ -58,31 +58,30 @@
         <plugins>
             <!-- Error-prone -->
             
-            <!-- <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.2.2</version>
-                <configuration>
-                    <includes>
-                        <include>**/MessagingTest.java</include>
-                    </includes>
-                    <test>MessagingTest#droppedMessage</test>
-                </configuration>
-            </plugin> -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.2.2</version>
                 <configuration>
                     <includes>
-                        <!-- <include>**/MessagingTest.java</include> -->
                         <include>**/ClusterTest.java</include>
                     </includes>
-                    <!-- <test>MessagingTest#broadcasterTest</test> -->
+                    <!-- <test>ClusterTest#concurrentNodeJoinsNetty</test> -->
+                    <test>ClusterTest#failRandomThirdOfNodes</test>
+                </configuration>
+            </plugin>
+            <!-- <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.2.2</version>
+                <configuration>
+                    <includes>
+                        <include>**/ClusterTest.java</include>
+                    </includes>
                     <test>ClusterTest#hundredNodesJoinInParallel</test>
                     <redirectTestOutputToFile>false</redirectTestOutputToFile>
                 </configuration>
-            </plugin>
+            </plugin> -->
             <!-- <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>

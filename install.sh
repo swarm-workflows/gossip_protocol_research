@@ -15,8 +15,8 @@ export JAVA_HOME=$HOME/software/jdk-9.0.4
 export PATH=$HOME/software/jdk-9.0.4/bin:$HOME/software/apache-maven-3.9.6/bin:$PATH
 
 # add exports in the bashrc to persist
-echo "export JAVA_HOME=\$HOME/software/jdk-9.0.4" >> $HOME/.bashrc
-echo "export PATH=\$HOME/software/jdk-9.0.4/bin:\$HOME/software/apache-maven-3.9.6/bin:\$PATH" >> $HOME/.bashrc
+echo "export JAVA_HOME=\$HOME/software/jdk-9.0.4" >> $HOME/.zshrc
+echo "export PATH=\$HOME/software/jdk-9.0.4/bin:\$HOME/software/apache-maven-3.9.6/bin:\$PATH" >> $HOME/.zshrc
 
 # export maven opts to allow insecure ssl
 export MAVEN_OPTS="-Dmaven.resolver.transport=wagon -Dmaven.wagon.http.ssl.insecure=true -Dmaven.wagon.http.ssl.allowall=true -Dmaven.wagon.http.ssl.ignore.validity.dates=true"

@@ -92,6 +92,7 @@ public class MessagingTest {
     @Test
     public void joinFirstNode() throws InterruptedException, IOException,
             MembershipView.NodeAlreadyInRingException, ExecutionException {
+                System.out.println("joinFirstNode");
         final int serverPort = 1234;
         final int clientPort = 1235;
         final Endpoint serverAddr = Utils.hostFromParts(LOCALHOST_IP, serverPort);
@@ -113,6 +114,7 @@ public class MessagingTest {
     @Test
     public void joinFirstNodeRetryWithErrors()
             throws InterruptedException, IOException, MembershipView.NodeAlreadyInRingException, ExecutionException {
+        System.out.println("joinFirstNodeRetryWithErrors");
         final int serverPort = 1234;
         final NodeId nodeIdentifier = Utils.nodeIdFromUUID(UUID.randomUUID());
         final Endpoint serverAddr = Utils.hostFromParts(LOCALHOST_IP, serverPort);
@@ -150,6 +152,7 @@ public class MessagingTest {
     @Test
     public void joinWithMultipleNodesCheckConfiguration()
             throws InterruptedException, IOException, MembershipView.NodeAlreadyInRingException, ExecutionException {
+        System.out.println("joinWithMultipleNodesCheckConfiguration");
         final NodeId nodeIdentifier = Utils.nodeIdFromUUID(UUID.randomUUID());
         final int numNodes = 1000;
         final Endpoint serverAddr = Utils.hostFromParts(LOCALHOST_IP, SERVER_PORT_BASE);
@@ -189,6 +192,7 @@ public class MessagingTest {
     public void joinWithMultipleNodesCheckRace()
             throws InterruptedException, IOException, MembershipView.NodeAlreadyInRingException, ExecutionException {
         // Initialize 10 node cluster
+        System.out.println("joinWithMultipleNodesCheckRace");
         final int numNodes = 10;
         final Endpoint serverAddr = Utils.hostFromParts(LOCALHOST_IP, SERVER_PORT_BASE);
         for (int i = 0; i < numNodes; i++) {
@@ -268,6 +272,7 @@ public class MessagingTest {
     @Test
     public void joinWithSingleNodeBootstrap()
             throws InterruptedException, IOException, MembershipView.NodeAlreadyInRingException, ExecutionException {
+        System.out.println("joinWithSingleNodeBootstrap");
         final NodeId nodeIdentifier = Utils.nodeIdFromUUID(UUID.randomUUID());
         final Endpoint serverAddr = Utils.hostFromParts(LOCALHOST_IP, SERVER_PORT_BASE);
         final MembershipView membershipView = new MembershipView(K);
@@ -302,6 +307,7 @@ public class MessagingTest {
     @Test
     public void bootstrapAndThenProbeTest()
             throws InterruptedException, IOException, MembershipView.NodeAlreadyInRingException, ExecutionException {
+        System.out.println("bootstrapAndThenProbeTest"); 
         final NodeId nodeIdentifier = Utils.nodeIdFromUUID(UUID.randomUUID());
         final Endpoint serverAddr = Utils.hostFromParts(LOCALHOST_IP, SERVER_PORT_BASE);
         final MembershipView membershipView = new MembershipView(K);
@@ -343,6 +349,7 @@ public class MessagingTest {
     @Test
     public void probeBeforeBootstrapTest()
             throws InterruptedException, IOException, MembershipView.NodeAlreadyInRingException, ExecutionException {
+        System.out.println("probeBeforeBootstrapTest"); 
         final Endpoint serverAddr1 = Utils.hostFromParts(LOCALHOST_IP, SERVER_PORT_BASE);
         final Endpoint serverAddr2 = Utils.hostFromParts(LOCALHOST_IP, SERVER_PORT_BASE + 1);
         final NodeId nodeIdentifier1 = Utils.nodeIdFromUUID(UUID.randomUUID());
@@ -373,6 +380,7 @@ public class MessagingTest {
     @Test
     public void droppedMessage() throws InterruptedException,
             IOException, MembershipView.NodeAlreadyInRingException {
+        System.out.println("droppedMessage"); 
         final int serverPort = 1234;
         final Endpoint serverAddr = Utils.hostFromParts(LOCALHOST_IP, serverPort);
         final List<ServerDropInterceptors.FirstN> interceptors = new ArrayList<>();
@@ -395,9 +403,36 @@ public class MessagingTest {
      */
     @Test
     public void broadcasterTest() throws IOException, ExecutionException, InterruptedException {
+        System.out.println("broadcasterTest"); 
+        // final int N = 100;
+        // final List<Endpoint> endpointList = new ArrayList<>(N);
+        // final int serverPort = 1234; 
+        // for (int i = 0; i < N; i++) {
+        //     final Endpoint serverAddr = Utils.hostFromParts(LOCALHOST_IP, serverPort + i + 1);
+        //     createAndStartMembershipService(serverAddr);
+        //     endpointList.add(serverAddr);
+        // }
+        // final Endpoint clientAddr = Utils.hostFromParts(LOCALHOST_IP, serverPort);
+        // final Settings settings = new Settings();
+        // final IMessagingClient client = new GrpcClient(clientAddr, resources, settings);
+        // final UnicastToAllBroadcaster broadcaster = new UnicastToAllBroadcaster(client);
+        // // broadcaster.setMembership(endpointList);
+        // broadcaster.setMembership(services.get(0).getSubjectsOf());
+        // for (int i = 0; i < 10; i++) {
+        //     // System.out.println("当前时间（毫秒精度）: " + System.currentTimeMillis()  + ", Endpoint: " + endpointList.get(0)); 
+        //     final List<ListenableFuture<RapidResponse>> futures =
+        //             broadcaster.broadcast(Utils.toRapidRequest(FastRoundPhase2bMessage.getDefaultInstance()));
+        //     for (final ListenableFuture<RapidResponse> future : futures) {
+        //         assertNotNull(future);
+        //         final RapidResponse response = future.get();
+        //         assertNotNull(response);
+        //         // System.out.println("asdasdasdasdasdasdasdasdasdas");
+        //     }
+        // }
+        // client.shutdown();
         final int N = 100;
         final List<Endpoint> endpointList = new ArrayList<>(N);
-        final int serverPort = 1234; 
+        final int serverPort = 1234;
         for (int i = 0; i < N; i++) {
             final Endpoint serverAddr = Utils.hostFromParts(LOCALHOST_IP, serverPort + i + 1);
             createAndStartMembershipService(serverAddr);
@@ -407,17 +442,14 @@ public class MessagingTest {
         final Settings settings = new Settings();
         final IMessagingClient client = new GrpcClient(clientAddr, resources, settings);
         final UnicastToAllBroadcaster broadcaster = new UnicastToAllBroadcaster(client);
-        // broadcaster.setMembership(endpointList);
-        broadcaster.setMembership(services.get(0).getSubjectsOf());
+        broadcaster.setMembership(endpointList);
         for (int i = 0; i < 10; i++) {
-            System.out.println("当前时间（毫秒精度）: " + System.currentTimeMillis()  + ", Endpoint: " + endpointList.get(0)); 
             final List<ListenableFuture<RapidResponse>> futures =
                     broadcaster.broadcast(Utils.toRapidRequest(FastRoundPhase2bMessage.getDefaultInstance()));
             for (final ListenableFuture<RapidResponse> future : futures) {
                 assertNotNull(future);
                 final RapidResponse response = future.get();
                 assertNotNull(response);
-                // System.out.println("asdasdasdasdasdasdasdasdasdas");
             }
         }
         client.shutdown();
@@ -434,6 +466,7 @@ public class MessagingTest {
      */
     @Test
     public void rpcClientErrorHandling() throws InterruptedException {
+        System.out.println("rpcClientErrorHandling"); 
         final int basePort = 1234;
         final Endpoint clientAddr = Utils.hostFromParts(LOCALHOST_IP, basePort);
         final Endpoint dst = Utils.hostFromParts(LOCALHOST_IP, 4321);
@@ -455,6 +488,7 @@ public class MessagingTest {
      */
     @Test
     public void rpcClientErrorHandlingAfterShutdown() throws InterruptedException {
+        System.out.println("rpcClientErrorHandlingAfterShutdown"); 
         final int basePort = 1234;
         final Endpoint clientAddr = Utils.hostFromParts(LOCALHOST_IP, basePort);
         final Endpoint dst = Utils.hostFromParts(LOCALHOST_IP, 4321);
@@ -464,6 +498,8 @@ public class MessagingTest {
         client.shutdown();
         resources.shutdown();
         try {
+            // System.out.println("Source:" + clientAddr + "-->Dest:" + dst + "| Latency: " 
+            // + (int) client.getLatency(clientAddr, dst)); 
             client.sendMessage(dst, Utils.toRapidRequest(ProbeMessage.getDefaultInstance())).get();
             fail("sendProbeMessage did not throw an exception");
         } catch (final ExecutionException | GrpcClient.ShuttingDownException ignored) {

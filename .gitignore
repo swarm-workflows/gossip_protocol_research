@@ -1,4 +1,7 @@
+output*
+output
 test_log/
+test_data
 tmp/
 test.sh
 target/

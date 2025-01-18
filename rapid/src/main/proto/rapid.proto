@@ -46,6 +46,7 @@ message RapidResponse
    }
    
    MessageId messageId = 5;
+   int64 latencyMs = 6; // Latency in milliseconds
 }
 
 

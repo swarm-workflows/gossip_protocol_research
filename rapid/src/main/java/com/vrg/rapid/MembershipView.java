@@ -79,6 +79,7 @@ import java.util.Set;
              final AddressComparator comparatorWithSeed = new AddressComparator(k);
              this.addressComparators.add(comparatorWithSeed);
              this.rings.add(new TreeSet<>(comparatorWithSeed));
+             this.ringlist.add(new ArrayList<Endpoint>());
          }
          this.currentConfiguration = new Configuration(identifiersSeen, rings.get(0));
      }
@@ -133,7 +134,7 @@ import java.util.Set;
         // Generate a Gaussian value and scale it to mean and standard deviation
         final double gaussian = random.nextGaussian();
         // Ensure latency is non-negative
-        final double latency = Math.max(meanLatency + gaussian * stdDevLatency, 10);
+        final double latency = Math.min(100, Math.max(meanLatency + gaussian * stdDevLatency, 10));
 
         // Cache the computed latency for future use
         latencyCache.put(key, latency);
@@ -529,7 +530,7 @@ import java.util.Set;
             final Endpoint predecessor = list.lower(node);
             if (predecessor == null) {
                 subjects.add(list.last());
-            }
+            } 
             else {
                 subjects.add(predecessor);
             }

@@ -49,6 +49,7 @@ import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
 // import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 // import java.util.concurrent.ScheduledFuture;
@@ -76,6 +77,7 @@ public class GrpcClient implements IMessagingClient {
 
     private final Endpoint address;
     private final LoadingCache<Endpoint, Channel> channelMap;
+    private final Map<Endpoint, Long> latencyMap;
     private final ExecutorService grpcExecutor;
     private final ExecutorService backgroundExecutor;
      // Declare a ScheduledExecutorService
@@ -115,6 +117,7 @@ public class GrpcClient implements IMessagingClient {
                         return getChannel(endpoint);
                     }
                 });
+        this.latencyMap = new ConcurrentHashMap<>();
     }
 
     /**
@@ -162,7 +165,7 @@ public class GrpcClient implements IMessagingClient {
         
         // Generate a Gaussian value and scale it to mean and standard deviation
         final double gaussian = random.nextGaussian();
-        final double latency = Math.max(meanLatency + gaussian * stdDevLatency, 10);
+        final double latency = Math.min(100, Math.max(meanLatency + gaussian * stdDevLatency, 10));
         
         latencyCache.put(key, latency);
 
@@ -174,10 +177,22 @@ public class GrpcClient implements IMessagingClient {
     public ListenableFuture<RapidResponse> sendMessage(final Endpoint remote, final RapidRequest msg) {
         Objects.requireNonNull(remote);
         Objects.requireNonNull(msg);
-        final SettableFuture<RapidResponse> resultFuture = SettableFuture.create();
+        SettableFuture<RapidResponse> resultFutureSettable = SettableFuture.create();
+        SettableFuture<RapidResponse> resultFuture = SettableFuture.create();
+        if (isShuttingDown.get()) {
+            // 如果正在关闭，立即返回异常
+            // throw new IllegalStateException("Cannot send message: Client is shutting down");
+            resultFutureSettable.setException(new IllegalStateException("Cannot send message: Client is shutting down"));
+            return resultFutureSettable;
+        }
 
         // 延迟50毫秒后执行实际RPC调用
         scheduledExecutor.schedule(() -> {
+            if (isShuttingDown.get()) {
+                // 在关闭状态中，直接设置异常
+                resultFutureSettable.setException(new IllegalStateException("Task cancelled: Client is shutting down"));
+                return;
+            }
             final Supplier<ListenableFuture<RapidResponse>> call = () -> {
                 final MembershipServiceFutureStub stub = getFutureStub(remote)
                         .withDeadlineAfter(getTimeoutForMessageMs(msg), TimeUnit.MILLISECONDS);
@@ -187,31 +202,24 @@ public class GrpcClient implements IMessagingClient {
             final Runnable onCallFailure = () -> channelMap.invalidate(remote);
 
             // 使用Retries进行RPC调用
-            final ListenableFuture<RapidResponse> rpcFuture = Retries.callWithRetries(
+            final SettableFuture<ResponseWithLatency> rpcFutureWithLatency = Retries.callWithRetries(
                 call, 
                 remote, 
                 settings.getGrpcDefaultRetries(), 
                 onCallFailure, 
                 backgroundExecutor, 
-                msg
+                msg,
+                latencyMap
             );
 
-            // 将RPC调用结果回调到resultFuture
-            Futures.addCallback(rpcFuture, new RapidResponseFutureCallback(resultFuture),
+            Futures.addCallback(Futures.transform(
+                rpcFutureWithLatency,
+                ResponseWithLatency::getResponse, // Extract the RapidResponse from ResponseWithLatency
+                MoreExecutors.directExecutor()   // Use direct executor to run the transformation on the same thread
+            ), new RapidResponseFutureCallback(resultFuture),
                                 MoreExecutors.directExecutor());
 
         }, (int) getLatency(address, remote), TimeUnit.MILLISECONDS);
-        // }, 100, TimeUnit.MILLISECONDS);
-
-        // 根据需要决定是否要在这里等待scheduledFuture执行完成
-        // 如果不想阻塞当前线程，可以去掉下面的try-catch块
-        // try {
-        //     scheduledFuture.get();
-        // } catch (final InterruptedException | ExecutionException e) {
-        //     Thread.currentThread().interrupt();
-        //     // 将异常传递给resultFuture
-        //     resultFuture.setException(e);
-        // }
 
         return resultFuture;
     }
@@ -278,6 +286,13 @@ public class GrpcClient implements IMessagingClient {
     public ListenableFuture<RapidResponse> sendMessageBestEffort(final Endpoint remote, final RapidRequest msg) {
         Objects.requireNonNull(msg);
         final SettableFuture<RapidResponse> resultFuture = SettableFuture.create();
+        if (isShuttingDown.get()) {
+            // 如果正在关闭，立即返回异常
+            // throw new IllegalStateException("Cannot send message: Client is shutting down");
+            // SettableFuture<RapidResponse> resultFutureSettable = SettableFuture.create();
+            resultFuture.setException(new IllegalStateException("Cannot send message: Client is shutting down"));
+            return resultFuture;
+        }
 
         // Schedule the delayed execution
         scheduledExecutor.schedule(() -> {
@@ -289,11 +304,20 @@ public class GrpcClient implements IMessagingClient {
 
             final Runnable onCallFailure = () -> channelMap.invalidate(remote);
 
-            final ListenableFuture<RapidResponse> rpcFuture =
-                Retries.callWithRetries(call, remote, 0, onCallFailure, backgroundExecutor, msg);
+            final ListenableFuture<ResponseWithLatency> rpcFutureWithLatency =
+                Retries.callWithRetries(call, remote, 0, onCallFailure, backgroundExecutor, msg, latencyMap);
 
-            Futures.addCallback(rpcFuture, new RapidResponseFutureCallback(resultFuture),
+            Futures.addCallback(Futures.transform(
+                rpcFutureWithLatency,
+                ResponseWithLatency::getResponse, // Extract the RapidResponse from ResponseWithLatency
+                MoreExecutors.directExecutor()   // Use direct executor to run the transformation on the same thread
+            ), new RapidResponseFutureCallback(resultFuture),
              MoreExecutors.directExecutor());
+            // resultFuture = Futures.transform(
+            //     rpcFutureWithLatency,
+            //     ResponseWithLatency::getResponse, // Extract the RapidResponse from ResponseWithLatency
+            //     MoreExecutors.directExecutor()   // Use direct executor to run the transformation on the same thread
+            // );
 
         }, (int) getLatency(address, remote), TimeUnit.MILLISECONDS);
         // }, 100, TimeUnit.MILLISECONDS);
@@ -354,6 +378,22 @@ public class GrpcClient implements IMessagingClient {
     public void shutdown() {
         isShuttingDown.set(true);
         channelMap.invalidateAll();
+        scheduledExecutor.shutdown();
+        scheduledExecutor.shutdownNow();
+        // try {
+        //     // 等待正在执行的任务完成
+        //     if (!scheduledExecutor.awaitTermination(1, TimeUnit.SECONDS)) {
+        //         // System.err.println("Forcing shutdown: Tasks did not finish in time");
+        //         // 强制终止所有任务
+        //         scheduledExecutor.shutdownNow();
+        //     }
+        // } catch (InterruptedException e) {
+        //     Thread.currentThread().interrupt();
+        //     // System.err.println("Shutdown interrupted");
+        //     scheduledExecutor.shutdownNow();
+        // }
+
+        // System.out.println("Client shutdown complete.");
     }
 
     private MembershipServiceFutureStub getFutureStub(final Endpoint remote) {
@@ -447,6 +487,7 @@ public class GrpcClient implements IMessagingClient {
 
         @Override
         public void onSuccess(final RapidResponse result) {
+            // latencyMap.put(endpoint, latencyMs);
             resultFuture.set(result);
         }
 
@@ -455,4 +496,5 @@ public class GrpcClient implements IMessagingClient {
             resultFuture.setException(t);
         }
     }
+    
 }
