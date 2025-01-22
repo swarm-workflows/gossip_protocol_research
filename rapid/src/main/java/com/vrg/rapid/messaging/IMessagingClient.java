@@ -18,6 +18,10 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.vrg.rapid.pb.Endpoint;
 import com.vrg.rapid.pb.RapidRequest;
 import com.vrg.rapid.pb.RapidResponse;
+// import java.util.HashMap;
+import java.util.Map;
+// import java.util.Objects;
+// import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Represents the sending part of the messaging API
@@ -51,4 +55,5 @@ public interface IMessagingClient {
     void shutdown();
     
     Endpoint getAddress();
+    Map<Endpoint, Long> getLatencyMap();
 }

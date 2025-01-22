@@ -35,14 +35,18 @@ import io.grpc.stub.StreamObserver;
 import io.netty.channel.EventLoopGroup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import java.util.Collections;
 import javax.annotation.Nullable;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 
 /**
@@ -131,11 +135,87 @@ public class GrpcServer extends MembershipServiceGrpc.MembershipServiceImplBase 
         rapidRequest.getContentCase() == RapidRequest.ContentCase.BATCHEDALERTMESSAGE) {
         // Store the message ID in the cache
         messageCache.put(messageId, Boolean.TRUE);
-        final List<Endpoint> recipients = membershipService.getSubjectsOf();
-        final List<ListenableFuture<RapidResponse>> futures = new ArrayList<>(recipients.size());
-        for (final Endpoint recipient: recipients) {
-            futures.add(membershipService.getMessagingClient().sendMessageBestEffort(recipient, rapidRequest));
+        List<Endpoint> recipients = membershipService.membershipView.getGossipOutOf(address);
+        List<Endpoint> noResponseEndpoints = membershipService.getMessagingClient().getLatencyMap().keySet().stream()
+                        .filter(e -> membershipService.getMessagingClient().getLatencyMap().
+                        getOrDefault(e, -1L) == -1L) // Filter available endpoints
+                        .collect(Collectors.toList());
+        List<Endpoint> availableEndpoints = new ArrayList<>();
+        // List<Endpoint> availableEndpoints = membershipService.getMembershipView();
+        // for (Endpoint endpoint : recipients) {
+        //     if (!noResponseEndpoints.contains(endpoint)) {
+        //         availableEndpoints.add(endpoint);
+        //     }
+        // }
+        // recipients = availableEndpoints;
+        // availableEndpoints = new ArrayList<>();
+        for (Endpoint endpoint : membershipService.getMembershipView()) {
+            if (!noResponseEndpoints.contains(endpoint)) {
+                availableEndpoints.add(endpoint);
+            }
         }
+    
+        // for (final Endpoint recipient : availableEndpoints) {
+        //     StreamObserver<RapidResponse> redistributeObserver = new StreamObserver<RapidResponse>() {
+        //         @Override
+        //         public void onNext(RapidResponse response) {
+        //             LOG.info("Received response from redistributed message to {}: {}", recipient, response);
+        //         }
+        
+        //         @Override
+        //         public void onError(Throwable t) {
+        //             LOG.warn("Redistribution to {} failed: {}", recipient, t.getMessage());
+        //         }
+        
+        //         @Override
+        //         public void onCompleted() {
+        //             LOG.info("Redistribution to {} completed.", recipient);
+        //         }
+        //     };
+        
+        //     // Forward the message
+        //     ListenableFuture<RapidResponse> result = membershipService.getMessagingClient()
+        //             .sendMessageBestEffort(recipient, rapidRequest);
+        //     Futures.addCallback(result, new ResponseCallback(redistributeObserver), grpcExecutor);
+        // }
+        int count = 0;
+        // Random random = new Random(membershipService.getMessagingClient().getAddress().getPort());
+        // Collections.shuffle(availableEndpoints);
+        // for (final Endpoint recipient : availableEndpoints) {
+        for (final Endpoint recipient : recipients) {
+            if(count == 5)break;
+            Endpoint target = recipient;
+            // if (noResponseEndpoints.contains(recipient)) {
+            //     target = availableEndpoints.get(count % availableEndpoints.size());
+            // }
+            // Create a new instance of the static inner observer
+            StreamObserver<RapidResponse> redistributeObserver = new RedistributeObserver(target);
+        
+            // Forward the message
+            ListenableFuture<RapidResponse> result = membershipService.getMessagingClient()
+                    .sendMessageBestEffort(target, rapidRequest);
+            // Use the static ResponseCallback (if you also replaced it)
+            Futures.addCallback(result, new ResponseCallback(redistributeObserver), grpcExecutor);
+            // membershipService.getMessagingClient()
+            //         .sendMessageBestEffort(recipient, rapidRequest);
+            count++;
+        }
+
+        for (final Endpoint recipient: availableEndpoints) {
+            if(count == 6)break;
+            // Create a new instance of the static inner observer
+            StreamObserver<RapidResponse> redistributeObserver = new RedistributeObserver(recipient);
+        
+            // Forward the message
+            ListenableFuture<RapidResponse> result = membershipService.getMessagingClient()
+                    .sendMessageBestEffort(recipient, rapidRequest);
+            // Use the static ResponseCallback (if you also replaced it)
+            Futures.addCallback(result, new ResponseCallback(redistributeObserver), grpcExecutor);
+            // membershipService.getMessagingClient()
+            //         .sendMessageBestEffort(recipient, rapidRequest);
+            count++;
+        }
+
     }
     }
 
@@ -212,6 +292,29 @@ public class GrpcServer extends MembershipServiceGrpc.MembershipServiceImplBase 
         @Override
         public void onFailure(final Throwable throwable) {
             LOG.error("RPC failed {}", throwable);
+        }
+    }
+    private static class RedistributeObserver implements StreamObserver<RapidResponse> {
+        private final Endpoint recipient;
+
+        // Pass in anything the observer needs, like the recipient or other state
+        public RedistributeObserver(final Endpoint recipient) {
+            this.recipient = recipient;
+        }
+
+        @Override
+        public void onNext(RapidResponse response) {
+            LOG.info("Received response from redistributed message to {}: {}", recipient, response);
+        }
+
+        @Override
+        public void onError(Throwable t) {
+            LOG.warn("Redistribution to {} failed: {}", recipient, t.getMessage());
+        }
+
+        @Override
+        public void onCompleted() {
+            LOG.info("Redistribution to {} completed.", recipient);
         }
     }
 }

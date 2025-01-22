@@ -55,6 +55,8 @@ import org.slf4j.LoggerFactory;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.io.Serializable;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
@@ -66,6 +68,7 @@ public class NettyClientServer implements IMessagingClient, IMessagingServer {
     private static final Logger LOG = LoggerFactory.getLogger(NettyClientServer.class);
     private static final FutureLoader FUTURE_LOADER = new FutureLoader();
     private static final int DEFAULT_TIMEOUT_SECONDS = 30;
+    private final Map<Endpoint, Long> latencyMap;
     private final Endpoint listenAddress;
     private final LoadingCache<Endpoint, ChannelFuture> channelCache;
     private final LoadingCache<Long, SettableFuture<RapidResponse>> outstandingRequests;
@@ -105,6 +108,8 @@ public class NettyClientServer implements IMessagingClient, IMessagingServer {
             .option(ChannelOption.TCP_NODELAY, true)
             .option(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT)
             .handler(new ClientChannelInitializer(clientHandler));
+        this.latencyMap = new ConcurrentHashMap<>();
+        this.latencyMap.put(listenAddress, (long)0);
     }
 
     /**
@@ -379,4 +384,8 @@ public class NettyClientServer implements IMessagingClient, IMessagingServer {
     //     // TODO Auto-generated method stub
     //     throw new UnsupportedOperationException("Unimplemented method 'getLatency'");
     // }
+        
+    public Map<Endpoint, Long> getLatencyMap(){
+        return latencyMap;
+    }
 }

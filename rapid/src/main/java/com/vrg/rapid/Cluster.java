@@ -76,7 +76,7 @@ public final class Cluster {
     public final MembershipService membershipService;
     private final IMessagingServer rpcServer;
     private final SharedResources sharedResources;
-    private final Endpoint listenAddress;
+    public final Endpoint listenAddress;
     private boolean hasShutdown = false;
 
     private Cluster(final IMessagingServer rpcServer,

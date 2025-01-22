@@ -78,7 +78,7 @@ public final class MembershipService {
     private static final int LEAVE_MESSAGE_TIMEOUT = 1500;
     public final MembershipView membershipView;
     private final MultiNodeCutDetector cutDetection;
-    private final Endpoint myAddr;
+    public final Endpoint myAddr;
     public final IBroadcaster broadcaster;
     private final Map<Endpoint, LinkedBlockingDeque<SettableFuture<RapidResponse>>> joinersToRespondTo =
             new HashMap<>();
@@ -156,7 +156,7 @@ public final class MembershipService {
             subjects.add(myAddr); // Add myAddr to the list
         }
         
-        this.broadcaster.setMembership(subjects);
+        this.broadcaster.setMembership(subjects, getMembershipView());
         // this::edgeFailureNotification is invoked by the failure detector whenever an edge
         // to an observer is marked faulty.
         this.failureDetectorJobs = new ArrayList<>();
@@ -451,7 +451,7 @@ public final class MembershipService {
             subjects.add(myAddr); // Add myAddr to the list
         }
         
-        this.broadcaster.setMembership(subjects);
+        this.broadcaster.setMembership(subjects, getMembershipView());
 
         // Inform EdgeFailureDetector about membership change
         if (membershipView.isHostPresent(myAddr)) {
@@ -524,7 +524,7 @@ public final class MembershipService {
      *
      * @return list of endpoints in the membership view
      */
-    List<Endpoint> getMembershipView() {
+    public List<Endpoint> getMembershipView() {
         synchronized (membershipUpdateLock) {
             return membershipView.getRing(0);
         }

@@ -26,5 +26,5 @@ import java.util.List;
 public interface IBroadcaster {
     List<ListenableFuture<RapidResponse>> broadcast(RapidRequest rapidRequest);
 
-    void setMembership(List<Endpoint> recipients);
+    void setMembership(List<Endpoint> recipients, List<Endpoint> fullMembership);
 }

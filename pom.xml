@@ -66,8 +66,8 @@
                     <includes>
                         <include>**/ClusterTest.java</include>
                     </includes>
-                    <!-- <test>ClusterTest#concurrentNodeJoinsNetty</test> -->
-                    <test>ClusterTest#failRandomThirdOfNodes</test>
+                    <!-- <test>ClusterTest#testRejoinMultipleNodes</test> -->
+                    <!-- <test>ClusterTest#failRandomThirdOfNodes</test> -->
                 </configuration>
             </plugin>
             <!-- <plugin>

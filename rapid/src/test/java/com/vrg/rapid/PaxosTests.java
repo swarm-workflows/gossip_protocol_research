@@ -440,7 +440,7 @@ public class PaxosTests {
         }
 
         @Override
-        public void setMembership(final List<Endpoint> recipients) {
+        public void setMembership(final List<Endpoint> recipients, final List<Endpoint> fullMembership) {
             throw new UnsupportedOperationException();
         }
     }
@@ -451,11 +451,13 @@ public class PaxosTests {
     private static class DirectMessagingClient implements IMessagingClient {
         private final Map<Endpoint, FastPaxos> paxosInstances;
         private final Map<Endpoint, ExecutorService> executors;
+        private final Map<Endpoint, Long> latencyMap;
 
         DirectMessagingClient(final Map<Endpoint, FastPaxos> paxosInstances,
                               final Map<Endpoint, ExecutorService> executors) {
             this.paxosInstances = paxosInstances;
             this.executors = executors;
+            this.latencyMap =  new ConcurrentHashMap<>();
         }
 
         @Override
@@ -479,6 +481,11 @@ public class PaxosTests {
             final Endpoint address = Utils.hostFromParts("127.0.0.7", 1234);
             return address;
         }
+
+            
+        public Map<Endpoint, Long> getLatencyMap(){
+            return latencyMap;
+        }
     }
 
     private static class NoOpClient implements IMessagingClient {
@@ -501,6 +508,11 @@ public class PaxosTests {
             final Endpoint address = Utils.hostFromParts("127.0.0.7", 1234);
             return address;
         }
+
+            
+        public Map<Endpoint, Long> getLatencyMap(){
+            return new ConcurrentHashMap<>();
+        }
     }
 
     private static class NoOpBroadcaster implements IBroadcaster {
@@ -510,7 +522,7 @@ public class PaxosTests {
         }
 
         @Override
-        public void setMembership(final List<Endpoint> recipients) {
+        public void setMembership(final List<Endpoint> recipients, final List<Endpoint> fullMembership) {
         }
     }
 

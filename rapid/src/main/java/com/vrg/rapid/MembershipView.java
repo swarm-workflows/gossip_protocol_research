@@ -461,7 +461,7 @@ import java.util.Set;
          }
      }
 
-     List<Endpoint> getGossipOutOf(final Endpoint node) {
+     public List<Endpoint> getGossipOutOf(final Endpoint node) {
         Objects.requireNonNull(node);
         rwLock.readLock().lock();
         try {
@@ -524,7 +524,7 @@ import java.util.Set;
      private List<Endpoint> computeGossipOutOf(final Endpoint node) {
         final List<Endpoint> subjects = new ArrayList<>();
         subjects_record.clear();
-        for (int k = 0; k < 3; k++) {
+        for (int k = 0; k < 2; k++) {
         // for (int k = 0; k < K; k++) {
             final NavigableSet<Endpoint> list = rings.get(k);
             final Endpoint predecessor = list.lower(node);
@@ -535,7 +535,7 @@ import java.util.Set;
                 subjects.add(predecessor);
             }
         }
-        for (int k = 0; k < 0; ++k) {
+        for (int k = 0; k < 1; ++k) {
             final Endpoint ep = ringlist.get(k).get((ringlist.get(k).indexOf(node) - 1 + getMembershipSize())
             % getMembershipSize());
             // subjects_record.add(ep);
