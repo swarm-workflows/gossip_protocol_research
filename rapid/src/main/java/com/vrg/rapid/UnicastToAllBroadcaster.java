@@ -69,22 +69,22 @@ final class UnicastToAllBroadcaster implements IBroadcaster {
                 availableEndpoints.add(endpoint);
             }
         }
-        int count = 0;
         // Random random = new Random(messagingClient.getAddress().getPort());
         // Collections.shuffle(availableEndpoints);
+        // int count = 0;
         // for (final Endpoint recipient: availableEndpoints) {
         for (final Endpoint recipient: recipients) {
-            if(count == 5) break;
+            // if(count == 5) break;
             Endpoint target = recipient;
             futures.add(messagingClient.sendMessageBestEffort(target, msg));
-            count++;
+            // count++;
         }
-        for (final Endpoint recipient: availableEndpoints) {
-            if(count == 6) break;
-            Endpoint target = recipient;
-            futures.add(messagingClient.sendMessageBestEffort(target, msg));
-            count++;
-        }
+        // for (final Endpoint recipient: availableEndpoints) {
+        //     if(count == 6) break;
+        //     Endpoint target = recipient;
+        //     futures.add(messagingClient.sendMessageBestEffort(target, msg));
+        //     count++;
+        // }
         return futures;
     }
 

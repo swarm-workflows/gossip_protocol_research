@@ -263,7 +263,7 @@ public final class Cluster {
                                 : new GrpcClient(listenAddress, sharedResources, settings);
             final NodeId currentIdentifier = Utils.nodeIdFromUUID(UUID.randomUUID());
             final MembershipView membershipView = new MembershipView(K, Collections.singletonList(currentIdentifier),
-                    Collections.singletonList(listenAddress));
+                    Collections.singletonList(listenAddress), listenAddress);
             final MultiNodeCutDetector cutDetector = new MultiNodeCutDetector(K, H, L);
             edgeFailureDetector = edgeFailureDetector != null ? edgeFailureDetector
                     : new PingPongFailureDetector.Factory(listenAddress, messagingClient);
@@ -456,7 +456,7 @@ public final class Cluster {
             assert !allEndpoints.isEmpty();
 
             final MembershipView membershipViewFinal =
-                    new MembershipView(K, identifiersSeen, allEndpoints);
+                    new MembershipView(K, identifiersSeen, allEndpoints, listenAddress);
             final MultiNodeCutDetector cutDetector = new MultiNodeCutDetector(K, H, L);
             edgeFailureDetector = edgeFailureDetector != null ? edgeFailureDetector
                                                   : new PingPongFailureDetector.Factory(listenAddress, messagingClient);

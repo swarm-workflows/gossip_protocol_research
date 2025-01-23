@@ -149,6 +149,7 @@ public final class MembershipService {
 
         // this.broadcaster.setMembership(membershipView.getRing(0));
         List<Endpoint> subjects = membershipView.getGossipOutOf(myAddr);
+        if(subjects.size() == 0)System.out.println("MembershipService constructor: subjects size is 0");
         // List<Endpoint> subjects = membershipView.getSubjectsOf(myAddr);
 
         if (subjects.isEmpty()) {
@@ -430,7 +431,7 @@ public final class MembershipService {
         final long currentConfigurationId = membershipView.getCurrentConfigurationId();
         // Publish an event to the listeners.
         final List<Endpoint> currentMembership = membershipView.getRing(0);
-        membershipView.reconstructDGRO();
+        membershipView.reconstructDGRO(myAddr);
         final ClusterStatusChange clusterStatusChange = new ClusterStatusChange(currentConfigurationId,
                                                                                 currentMembership, statusChanges);
         subscriptions.get(ClusterEvents.VIEW_CHANGE).forEach(cb -> cb.accept(clusterStatusChange));
@@ -444,6 +445,7 @@ public final class MembershipService {
         // broadcaster.setMembership(membershipView.getRing(0));
         // broadcaster.setMembership(membershipView.getSubjectsOf(myAddr));
         List<Endpoint> subjects = membershipView.getGossipOutOf(myAddr);
+        if(subjects.size() == 0)System.out.println("Decide view change: subjects size is 0");
         // List<Endpoint> subjects = membershipView.getSubjectsOf(myAddr);
 
         if (subjects.isEmpty()) {

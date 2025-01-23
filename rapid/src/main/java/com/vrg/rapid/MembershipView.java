@@ -47,15 +47,18 @@ import java.util.Set;
  @ThreadSafe
  public final class MembershipView {
      public final int K;
+     public final int M = 6;
     //  private final Random random = new Random();
     private final double meanLatency = 50.0; // Example value
     private final double stdDevLatency = 15; // Example value
     private final List<Endpoint> subjects_record = new ArrayList<>();
+    
     public final Map<String, Double> latencyCache = new HashMap<>();
      private static final LongHashFunction HASH_FUNCTION = LongHashFunction.xx(0);
      private final ReadWriteLock rwLock = new ReentrantReadWriteLock();
      @GuardedBy("rwLock") private final ArrayList<AddressComparator> addressComparators;
      @GuardedBy("rwLock") private final ArrayList<NavigableSet<Endpoint>> rings;
+     @GuardedBy("rwLock") public List<Endpoint> subjects_dgro = new ArrayList<>();
      @GuardedBy("rwLock") public final ArrayList<List<Endpoint>> ringlist;
      @GuardedBy("rwLock") private final Set<NodeId> identifiersSeen = new TreeSet<>(NodeIdComparator.INSTANCE);
      @GuardedBy("rwLock") private final Map<Endpoint, List<Endpoint>> cachedObservers = new HashMap<>();
@@ -87,7 +90,7 @@ import java.util.Set;
      /**
       * Used to bootstrap a membership view from the fields of a MembershipView.Settings object.
       */
-     MembershipView(final int K, final Collection<NodeId> nodeIds, final Collection<Endpoint> endpoints) {
+     MembershipView(final int K, final Collection<NodeId> nodeIds, final Collection<Endpoint> endpoints, final Endpoint node) {
          assert K > 0;
          this.K = K;
         //  this.rings = new ArrayList<>(K - 1);
@@ -108,6 +111,13 @@ import java.util.Set;
          for (int k = 0; k < K; k++) {
             this.ringlist.add(DGRO(endpointList, k));
          }
+         this.subjects_dgro.clear();
+         for (int k = 0; k < this.M; ++k) {
+            final Endpoint ep = ringlist.get(k).get((ringlist.get(k).indexOf(node) - 1 + getMembershipSize())
+            % getMembershipSize());
+            // subjects_record.add(ep);
+            this.subjects_dgro.add(ep);
+       }
          this.identifiersSeen.addAll(nodeIds);
          this.currentConfiguration = new Configuration(identifiersSeen, rings.get(0));
      }
@@ -142,19 +152,24 @@ import java.util.Set;
         return latency;
     }
     
-    public void reconstructDGRO() {
+    public void reconstructDGRO(final Endpoint node) {
+        rwLock.writeLock().lock();
+        try{
         final List<Endpoint> endpointList = getRing(0);
+        subjects_dgro.clear();
         for (int k = 0; k < K; k++) {
             ringlist.set(k, DGRO(endpointList, k));
             // ringlist.get(k) = DGRO(endpointList, k);
          }
-        //  for (int j = 0; j < ringlist.size(); j++) {
-        //      System.out.println("Ring " + j + ":");
-        //      for (final Endpoint endpoint : ringlist.get(j)) {
-        //          System.out.print(endpoint.getPort() + " ");
-        //      }
-        //      System.out.println();
-        //  }
+        for (int k = 0; k < M; ++k) {
+            final Endpoint ep = ringlist.get(k).get((ringlist.get(k).indexOf(node) - 1 + getMembershipSize())
+            % getMembershipSize());
+            // subjects_record.add(ep);
+            subjects_dgro.add(ep);
+       }
+        } finally {
+        rwLock.writeLock().unlock();
+    }
     }
 
      public List<Endpoint> DGRO(final List<Endpoint> endpoints, final int k) {
@@ -522,26 +537,30 @@ import java.util.Set;
      }
 
      private List<Endpoint> computeGossipOutOf(final Endpoint node) {
-        final List<Endpoint> subjects = new ArrayList<>();
-        subjects_record.clear();
-        for (int k = 0; k < 2; k++) {
-        // for (int k = 0; k < K; k++) {
-            final NavigableSet<Endpoint> list = rings.get(k);
-            final Endpoint predecessor = list.lower(node);
-            if (predecessor == null) {
-                subjects.add(list.last());
-            } 
-            else {
-                subjects.add(predecessor);
-            }
-        }
-        for (int k = 0; k < 1; ++k) {
-            final Endpoint ep = ringlist.get(k).get((ringlist.get(k).indexOf(node) - 1 + getMembershipSize())
-            % getMembershipSize());
-            // subjects_record.add(ep);
-            subjects.add(ep);
-       }
-        return subjects;
+    //     if(subjects_dgro.size() == 0){
+    //         System.out.println(node + " subject_dgro size is 0");
+    //     for (int k = 0; k < M; ++k) {
+    //         final Endpoint ep = ringlist.get(k).get((ringlist.get(k).indexOf(node) - 1 + getMembershipSize())
+    //         % getMembershipSize());
+    //         // subjects_record.add(ep);
+    //         subjects_dgro.add(ep);
+    //    }
+    // }
+    //    final List<Endpoint> subjects = new ArrayList<>();
+    //    // subjects_record.clear();
+    //    for (int k = 0; k < M; k++) {
+    //    // for (int k = 0; k < K; k++) {
+    //        final NavigableSet<Endpoint> list = rings.get(k);
+    //        final Endpoint predecessor = list.lower(node);
+    //        if (predecessor == null) {
+    //            subjects.add(list.last());
+    //        } 
+    //        else {
+    //            subjects.add(predecessor);
+    //        }
+    //    }
+    // return subjects;
+    return subjects_dgro;
     }
  
      /**

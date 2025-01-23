@@ -171,7 +171,7 @@ public class FastPaxosWithoutFallbackTests {
         final MembershipView view = new MembershipView(K);
         for (int i = basePort; i < basePort + N; i++) {
             view.ringAdd(Utils.hostFromParts("127.0.0.7", i), Utils.nodeIdFromUUID(UUID.randomUUID()));
-            view.reconstructDGRO();
+            view.reconstructDGRO(Utils.hostFromParts("127.0.0.7", i));
         }
         return view;
     }

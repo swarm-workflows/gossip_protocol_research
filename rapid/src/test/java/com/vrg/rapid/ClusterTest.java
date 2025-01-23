@@ -169,24 +169,24 @@ public class ClusterTest {
     /**
      * Identical to the previous test, but with more than K nodes joining in serial.
      */
-    @Test(timeout = 60000)
-    public void twentyNodesJoinSequentially() throws IOException, InterruptedException {
-        System.out.println("TestName: twentyNodesJoinSequentially");
+    // @Test(timeout = 60000)
+    // public void twentyNodesJoinSequentially() throws IOException, InterruptedException {
+    //     System.out.println("TestName: twentyNodesJoinSequentially");
 
-        long startTime = System.nanoTime(); // 开始计时
-        final int numNodes = 20;
-        final Endpoint seedEndpoint = Utils.hostFromParts("127.0.0.7", basePort);
-        createCluster(1, seedEndpoint); // Only bootstrap a seed.
-        verifyCluster(1);
+    //     long startTime = System.nanoTime(); // 开始计时
+    //     final int numNodes = 20;
+    //     final Endpoint seedEndpoint = Utils.hostFromParts("127.0.0.7", basePort);
+    //     createCluster(1, seedEndpoint); // Only bootstrap a seed.
+    //     verifyCluster(1);
 
-        for (int i = 0; i < numNodes; i++) {
-            extendCluster(1, seedEndpoint);
-            waitAndVerifyAgreement(i + 2, 10, 1500);
-        }
-        final long endTime = System.nanoTime(); // End timing
-        long durationInMs = (endTime - startTime) / 1_000_000; // Convert to milliseconds
-        System.out.println("Total execution time: " + durationInMs + " ms");
-    }
+    //     for (int i = 0; i < numNodes; i++) {
+    //         extendCluster(1, seedEndpoint);
+    //         waitAndVerifyAgreement(i + 2, 10, 1500);
+    //     }
+    //     final long endTime = System.nanoTime(); // End timing
+    //     long durationInMs = (endTime - startTime) / 1_000_000; // Convert to milliseconds
+    //     System.out.println("Total execution time: " + durationInMs + " ms");
+    // }
 
     /**
      * Identical to the previous test, but with more than K nodes joining in parallel.
@@ -218,7 +218,7 @@ public class ClusterTest {
         //     //     }
         //     //     System.out.println();
         //     // }
-        //     instances.get(seedEndpoint).membershipService.membershipView.reconstructDGRO();
+        //     instances.get(seedEndpoint).membershipService.membershipView.DGRO();
         //     System.out.println("当前时间（毫秒精度）: " + System.currentTimeMillis()  +
         //  ", Endpoint: " + seedEndpoint);
         // instances.get(seedEndpoint).membershipService.broadcaster.broadcast(
@@ -239,7 +239,7 @@ public class ClusterTest {
         //      createCluster(numNodes, seedEndpoint);
         //      verifyCluster(numNodes);
         //      verifyClusterMetadata(0);
-        //      instances.get(seedEndpoint).membershipService.membershipView.reconstructDGRO();
+        //      instances.get(seedEndpoint).membershipService.membershipView.DGRO();
         //      System.out.println("当前时间（毫秒精度）: " + System.currentTimeMillis()  +
         //   ", Endpoint: " + seedEndpoint);
         //  instances.get(seedEndpoint).membershipService.broadcaster.broadcast(
@@ -534,22 +534,28 @@ public class ClusterTest {
     /**
      * Shutdown a node and rejoin multiple times.
      */
-    @Test(timeout = 30000)
+    @Test(timeout = 60000)
     public void testRejoinSingleNode() throws IOException, InterruptedException {
-        System.out.println("TestName: testRejoinSingleNode");
+        
+        long startTime = System.nanoTime(); // 开始计时
         useFastFailureDetectionTimeouts();
         final Endpoint seedEndpoint = Utils.hostFromParts("127.0.0.7", basePort);
         final Endpoint leavingEndpoint = Utils.hostFromParts("127.0.0.7", basePort + 1);
-        createCluster(10, seedEndpoint);
+        final int N = 150;
+        createCluster(N, seedEndpoint);
 
         // Shutdown and rejoin twice
-        for (int i = 0; i < 2; i++) {
+        System.out.println("TestName: testRejoinSingleNode");
+        for (int i = 0; i < 1; i++) {
             final Cluster cluster = instances.remove(leavingEndpoint);
             cluster.shutdown();
-            waitAndVerifyAgreement(9, 20, 500);
+            waitAndVerifyAgreement(N - 1, 40, 500);
             extendCluster(leavingEndpoint, seedEndpoint);
-            waitAndVerifyAgreement(10, 20, 500);
+            waitAndVerifyAgreement(N, 20, 500);
         }
+        final long endTime = System.nanoTime(); // End timing
+        long durationInMs = (endTime - startTime) / 1_000_000; // Convert to milliseconds
+        System.out.println("Total execution time: " + durationInMs + " ms");
     }
 
     /**

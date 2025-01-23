@@ -136,6 +136,7 @@ public class GrpcServer extends MembershipServiceGrpc.MembershipServiceImplBase 
         // Store the message ID in the cache
         messageCache.put(messageId, Boolean.TRUE);
         List<Endpoint> recipients = membershipService.membershipView.getGossipOutOf(address);
+        // if(recipients.size() == 0)System.out.println(rapidRequest.getContentCase() + " GRPCServer: subjects size is 0. Membership size is " + membershipService.getMembershipView().size() + " subjects_dgro size is " + membershipService.membershipView.subjects_dgro.size());
         List<Endpoint> noResponseEndpoints = membershipService.getMessagingClient().getLatencyMap().keySet().stream()
                         .filter(e -> membershipService.getMessagingClient().getLatencyMap().
                         getOrDefault(e, -1L) == -1L) // Filter available endpoints
@@ -178,12 +179,12 @@ public class GrpcServer extends MembershipServiceGrpc.MembershipServiceImplBase 
         //             .sendMessageBestEffort(recipient, rapidRequest);
         //     Futures.addCallback(result, new ResponseCallback(redistributeObserver), grpcExecutor);
         // }
-        int count = 0;
+        // int count = 0;
         // Random random = new Random(membershipService.getMessagingClient().getAddress().getPort());
         // Collections.shuffle(availableEndpoints);
         // for (final Endpoint recipient : availableEndpoints) {
         for (final Endpoint recipient : recipients) {
-            if(count == 5)break;
+            // if(count == 5)break;
             Endpoint target = recipient;
             // if (noResponseEndpoints.contains(recipient)) {
             //     target = availableEndpoints.get(count % availableEndpoints.size());
@@ -198,23 +199,23 @@ public class GrpcServer extends MembershipServiceGrpc.MembershipServiceImplBase 
             Futures.addCallback(result, new ResponseCallback(redistributeObserver), grpcExecutor);
             // membershipService.getMessagingClient()
             //         .sendMessageBestEffort(recipient, rapidRequest);
-            count++;
+            // count++;
         }
-
-        for (final Endpoint recipient: availableEndpoints) {
-            if(count == 6)break;
-            // Create a new instance of the static inner observer
-            StreamObserver<RapidResponse> redistributeObserver = new RedistributeObserver(recipient);
+        // int count = 0;
+        // for (final Endpoint recipient: availableEndpoints) {
+        //     if(count == 1)break;
+        //     // Create a new instance of the static inner observer
+        //     StreamObserver<RapidResponse> redistributeObserver = new RedistributeObserver(recipient);
         
-            // Forward the message
-            ListenableFuture<RapidResponse> result = membershipService.getMessagingClient()
-                    .sendMessageBestEffort(recipient, rapidRequest);
-            // Use the static ResponseCallback (if you also replaced it)
-            Futures.addCallback(result, new ResponseCallback(redistributeObserver), grpcExecutor);
-            // membershipService.getMessagingClient()
-            //         .sendMessageBestEffort(recipient, rapidRequest);
-            count++;
-        }
+        //     // Forward the message
+        //     ListenableFuture<RapidResponse> result = membershipService.getMessagingClient()
+        //             .sendMessageBestEffort(recipient, rapidRequest);
+        //     // Use the static ResponseCallback (if you also replaced it)
+        //     Futures.addCallback(result, new ResponseCallback(redistributeObserver), grpcExecutor);
+        //     // membershipService.getMessagingClient()
+        //     //         .sendMessageBestEffort(recipient, rapidRequest);
+        //     count++;
+        // }
 
     }
     }
