@@ -51,11 +51,11 @@ final class UnicastToAllBroadcaster implements IBroadcaster {
     public synchronized List<ListenableFuture<RapidResponse>> broadcast(final RapidRequest msg) {
         final List<ListenableFuture<RapidResponse>> futures = new ArrayList<>(recipients.size());
         LOG.trace("unicastToAll.broadcast " + messagingClient.getAddress() + "size=" + recipients.size());
-        List<Endpoint> noResponseEndpoints = messagingClient.getLatencyMap().keySet().stream()
-        .filter(e -> messagingClient.getLatencyMap().
-        getOrDefault(e, -1L) == -1L) // Filter available endpoints
-        .collect(Collectors.toList());
-        List<Endpoint> availableEndpoints = new ArrayList<>();
+        // List<Endpoint> noResponseEndpoints = messagingClient.getLatencyMap().keySet().stream()
+        // .filter(e -> messagingClient.getLatencyMap().
+        // getOrDefault(e, -1L) == -1L) // Filter available endpoints
+        // .collect(Collectors.toList());
+        List<Endpoint> availableEndpoints = new ArrayList<>(fullMembership);
         // List<Endpoint> availableEndpoints = fullMembership;
         // for (Endpoint endpoint : recipients) {
         //     if (!noResponseEndpoints.contains(endpoint)) {
@@ -64,27 +64,33 @@ final class UnicastToAllBroadcaster implements IBroadcaster {
         // }
         // recipients = availableEndpoints;
         // availableEndpoints = new ArrayList<>();
-        for (Endpoint endpoint : fullMembership) {
-            if (!noResponseEndpoints.contains(endpoint)) {
-                availableEndpoints.add(endpoint);
-            }
-        }
+        // for (Endpoint endpoint : fullMembership) {
+        //     if (!noResponseEndpoints.contains(endpoint)) {
+        //         availableEndpoints.add(endpoint);
+        //     }
+        // }
         // Random random = new Random(messagingClient.getAddress().getPort());
-        // Collections.shuffle(availableEndpoints);
-        // int count = 0;
+        Collections.shuffle(availableEndpoints);
+        int count = 0;
         // for (final Endpoint recipient: availableEndpoints) {
         for (final Endpoint recipient: recipients) {
-            // if(count == 5) break;
+            // if (noResponseEndpoints.contains(recipient)) {
+            //     continue;
+            // }
+            // if(count == 3) break;
             Endpoint target = recipient;
             futures.add(messagingClient.sendMessageBestEffort(target, msg));
-            // count++;
+            count++;
         }
-        // for (final Endpoint recipient: availableEndpoints) {
-        //     if(count == 6) break;
-        //     Endpoint target = recipient;
-        //     futures.add(messagingClient.sendMessageBestEffort(target, msg));
-        //     count++;
-        // }
+        for (final Endpoint recipient: availableEndpoints) {
+            if(count == 8) break;
+            // if (noResponseEndpoints.contains(recipient)) {
+            //     continue;
+            // }
+            Endpoint target = recipient;
+            futures.add(messagingClient.sendMessageBestEffort(target, msg));
+            count++;
+        }
         return futures;
     }
 
@@ -97,16 +103,19 @@ final class UnicastToAllBroadcaster implements IBroadcaster {
         final List<Endpoint> arr = new ArrayList<>(recipients);
         Collections.shuffle(arr, ThreadLocalRandom.current());
         this.recipients = arr;
-        this.fullMembership = fullMembership;
+        this.fullMembership = new ArrayList<>(fullMembership);
+        
+        // this.recipients.remove(messagingClient.getAddress());
+        // this.fullMembership.remove(messagingClient.getAddress());
 
-        HashSet<Endpoint> recipientSet = new HashSet<>(recipients);
+        // HashSet<Endpoint> recipientSet = new HashSet<>(recipients);
 
         // 筛选出 fullMembership 中不在 recipients 中的元素
-        this.difference = new ArrayList<>();
-        for (Endpoint endpoint : fullMembership) {
-            if (!recipientSet.contains(endpoint)) {
-                difference.add(endpoint);
-            }
-        }
+        // this.difference = new ArrayList<>();
+        // for (Endpoint endpoint : fullMembership) {
+        //     if (!recipientSet.contains(endpoint)) {
+        //         difference.add(endpoint);
+        //     }
+        // }
     }
 }

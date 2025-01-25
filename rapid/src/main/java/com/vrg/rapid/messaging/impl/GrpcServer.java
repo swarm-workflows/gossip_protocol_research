@@ -78,8 +78,8 @@ public class GrpcServer extends MembershipServiceGrpc.MembershipServiceImplBase 
         this.useInProcessServer = useInProcessTransport;
         // Initialize the cache with a maximum size and expiration time
         this.messageCache = Caffeine.newBuilder()
-        .expireAfterWrite(10, TimeUnit.MINUTES)
-        .maximumSize(10_000)
+        .expireAfterWrite(1000, TimeUnit.SECONDS)
+        .maximumSize(1000)
         .build();
     }
 
@@ -90,24 +90,24 @@ public class GrpcServer extends MembershipServiceGrpc.MembershipServiceImplBase 
     @Override
     public void sendRequest(final RapidRequest rapidRequest,
                             final StreamObserver<RapidResponse> responseObserver) {
-        final String messageId = rapidRequest.getMessageId().getHigh() + "-" 
-        + rapidRequest.getMessageId().getLow();
-        LOG.trace("Received RapidRequest: " + rapidRequest + " " + messageId);
-        if (rapidRequest.getContentCase() == RapidRequest.ContentCase.FASTROUNDPHASE2BMESSAGE ||
-        rapidRequest.getContentCase() == RapidRequest.ContentCase.PHASE1AMESSAGE ||
-        rapidRequest.getContentCase() == RapidRequest.ContentCase.PHASE2AMESSAGE ||
-        rapidRequest.getContentCase() == RapidRequest.ContentCase.PHASE2BMESSAGE ||
-        rapidRequest.getContentCase() == RapidRequest.ContentCase.BATCHEDALERTMESSAGE) {
-            if (messageCache.getIfPresent(messageId) != null) {
-                // Duplicate message, ignore or send acknowledgment
-                LOG.trace("Duplicate message received with ID: {}", messageId);
-                // responseObserver.onNext(createDuplicateResponse());
-                // responseObserver.onCompleted();
-                return;
-            }
-        }
         // if (rapidRequest.getContentCase() == RapidRequest.ContentCase.FASTROUNDPHASE2BMESSAGE) {
         //     System.out.println("当前时间（毫秒精度）: " + System.currentTimeMillis()  + ", Endpoint: " + address); 
+        // }
+        final String messageId = rapidRequest.getMessageId().getHigh() + "-" 
+        + rapidRequest.getMessageId().getLow();
+        
+        // if (
+        //     rapidRequest.getContentCase() == RapidRequest.ContentCase.FASTROUNDPHASE2BMESSAGE ||
+        //     rapidRequest.getContentCase() == RapidRequest.ContentCase.PHASE1AMESSAGE ||
+        //     rapidRequest.getContentCase() == RapidRequest.ContentCase.PHASE2AMESSAGE ||
+        //     rapidRequest.getContentCase() == RapidRequest.ContentCase.PHASE2BMESSAGE ||
+        //     rapidRequest.getContentCase() == RapidRequest.ContentCase.BATCHEDALERTMESSAGE) {
+        //     // Store the message ID in the cache
+        //     // final String messageId = rapidRequest.getMessageId().getHigh() + "-" 
+        //     // + rapidRequest.getMessageId().getLow();
+        //     if (messageCache.getIfPresent(messageId) != null) {
+        //         return;
+        //     }
         // }
         if (membershipService != null) {
             // Forward the message to another node or handle accordingly
@@ -128,20 +128,28 @@ public class GrpcServer extends MembershipServiceGrpc.MembershipServiceImplBase 
             responseObserver.onNext(BOOTSTRAPPING_MESSAGE);
             responseObserver.onCompleted();
         }
-    if (rapidRequest.getContentCase() == RapidRequest.ContentCase.FASTROUNDPHASE2BMESSAGE ||
+    if (
+        rapidRequest.getContentCase() == RapidRequest.ContentCase.FASTROUNDPHASE2BMESSAGE ||
         rapidRequest.getContentCase() == RapidRequest.ContentCase.PHASE1AMESSAGE ||
         rapidRequest.getContentCase() == RapidRequest.ContentCase.PHASE2AMESSAGE ||
         rapidRequest.getContentCase() == RapidRequest.ContentCase.PHASE2BMESSAGE ||
         rapidRequest.getContentCase() == RapidRequest.ContentCase.BATCHEDALERTMESSAGE) {
         // Store the message ID in the cache
+        if (messageCache.getIfPresent(messageId) != null) {
+            return;
+        }
+        // long start = System.nanoTime();
         messageCache.put(messageId, Boolean.TRUE);
+        // long end = System.nanoTime();
+        // System.out.println("Cache put took: " + (end - start) + " ns");
+        // System.out.println("Address " + address + " messageId: " + messageId + "Cache put took: " + (end - start) + " ns");
         List<Endpoint> recipients = membershipService.membershipView.getGossipOutOf(address);
         // if(recipients.size() == 0)System.out.println(rapidRequest.getContentCase() + " GRPCServer: subjects size is 0. Membership size is " + membershipService.getMembershipView().size() + " subjects_dgro size is " + membershipService.membershipView.subjects_dgro.size());
-        List<Endpoint> noResponseEndpoints = membershipService.getMessagingClient().getLatencyMap().keySet().stream()
-                        .filter(e -> membershipService.getMessagingClient().getLatencyMap().
-                        getOrDefault(e, -1L) == -1L) // Filter available endpoints
-                        .collect(Collectors.toList());
-        List<Endpoint> availableEndpoints = new ArrayList<>();
+        // List<Endpoint> noResponseEndpoints = membershipService.getMessagingClient().getLatencyMap().keySet().stream()
+        //                 .filter(e -> membershipService.getMessagingClient().getLatencyMap().
+        //                 getOrDefault(e, -1L) == -1L) // Filter available endpoints
+        //                 .collect(Collectors.toList());
+        List<Endpoint> availableEndpoints = new ArrayList<>(membershipService.getMembershipView());
         // List<Endpoint> availableEndpoints = membershipService.getMembershipView();
         // for (Endpoint endpoint : recipients) {
         //     if (!noResponseEndpoints.contains(endpoint)) {
@@ -150,11 +158,12 @@ public class GrpcServer extends MembershipServiceGrpc.MembershipServiceImplBase 
         // }
         // recipients = availableEndpoints;
         // availableEndpoints = new ArrayList<>();
-        for (Endpoint endpoint : membershipService.getMembershipView()) {
-            if (!noResponseEndpoints.contains(endpoint)) {
-                availableEndpoints.add(endpoint);
-            }
-        }
+        // availableEndpoints = membershipService.getMembershipView();
+        // for (Endpoint endpoint : membershipService.getMembershipView()) {
+        //     if (!noResponseEndpoints.contains(endpoint)) {
+        //         availableEndpoints.add(endpoint);
+        //     }
+        // }
     
         // for (final Endpoint recipient : availableEndpoints) {
         //     StreamObserver<RapidResponse> redistributeObserver = new StreamObserver<RapidResponse>() {
@@ -179,12 +188,15 @@ public class GrpcServer extends MembershipServiceGrpc.MembershipServiceImplBase 
         //             .sendMessageBestEffort(recipient, rapidRequest);
         //     Futures.addCallback(result, new ResponseCallback(redistributeObserver), grpcExecutor);
         // }
-        // int count = 0;
+        int count = 0;
         // Random random = new Random(membershipService.getMessagingClient().getAddress().getPort());
-        // Collections.shuffle(availableEndpoints);
+        Collections.shuffle(availableEndpoints);
         // for (final Endpoint recipient : availableEndpoints) {
         for (final Endpoint recipient : recipients) {
             // if(count == 5)break;
+            // if (noResponseEndpoints.contains(recipient)) {
+            //     continue;
+            // }
             Endpoint target = recipient;
             // if (noResponseEndpoints.contains(recipient)) {
             //     target = availableEndpoints.get(count % availableEndpoints.size());
@@ -199,23 +211,26 @@ public class GrpcServer extends MembershipServiceGrpc.MembershipServiceImplBase 
             Futures.addCallback(result, new ResponseCallback(redistributeObserver), grpcExecutor);
             // membershipService.getMessagingClient()
             //         .sendMessageBestEffort(recipient, rapidRequest);
-            // count++;
+            count++;
         }
         // int count = 0;
-        // for (final Endpoint recipient: availableEndpoints) {
-        //     if(count == 1)break;
-        //     // Create a new instance of the static inner observer
-        //     StreamObserver<RapidResponse> redistributeObserver = new RedistributeObserver(recipient);
+        for (final Endpoint recipient: availableEndpoints) {
+            if(count == 8)break;
+            // if (noResponseEndpoints.contains(recipient)) {
+            //     continue;
+            // }
+            // Create a new instance of the static inner observer
+            StreamObserver<RapidResponse> redistributeObserver = new RedistributeObserver(recipient);
         
-        //     // Forward the message
-        //     ListenableFuture<RapidResponse> result = membershipService.getMessagingClient()
-        //             .sendMessageBestEffort(recipient, rapidRequest);
-        //     // Use the static ResponseCallback (if you also replaced it)
-        //     Futures.addCallback(result, new ResponseCallback(redistributeObserver), grpcExecutor);
-        //     // membershipService.getMessagingClient()
-        //     //         .sendMessageBestEffort(recipient, rapidRequest);
-        //     count++;
-        // }
+            // Forward the message
+            ListenableFuture<RapidResponse> result = membershipService.getMessagingClient()
+                    .sendMessageBestEffort(recipient, rapidRequest);
+            // Use the static ResponseCallback (if you also replaced it)
+            Futures.addCallback(result, new ResponseCallback(redistributeObserver), grpcExecutor);
+            // membershipService.getMessagingClient()
+            //         .sendMessageBestEffort(recipient, rapidRequest);
+            count++;
+        }
 
     }
     }

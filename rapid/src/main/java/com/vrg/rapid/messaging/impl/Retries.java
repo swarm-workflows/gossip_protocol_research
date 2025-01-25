@@ -77,6 +77,8 @@ class Retries {
                 long endTime = System.nanoTime();
                 long latencyMs = (endTime - startTime) / 1_000_000;
                 // result.setLatencyMs(latencyMs);
+                LOG.trace("Remote call to {} success",
+                remote);
                 latencyMap.put(remote, latencyMs);
                 ResponseWithLatency wrappedResult = new ResponseWithLatency(result, latencyMs);
                 signal.set(wrappedResult);
@@ -85,8 +87,8 @@ class Retries {
             @Override
             public void onFailure(final Throwable throwable) {
                 onCallFailure.run();
-                // LOG.error("Retrying call to {} because of exception {}",
-                //  remote, throwable);
+                LOG.error("Retrying call to {} because of exception {}",
+                 remote, throwable);
                 //   assert false : "Execution halted for debugging purposes in onFailure.";
                 
                 handleFailure(call, remote, signal, retries, throwable, onCallFailure, 

@@ -149,7 +149,7 @@ public final class MembershipService {
 
         // this.broadcaster.setMembership(membershipView.getRing(0));
         List<Endpoint> subjects = membershipView.getGossipOutOf(myAddr);
-        if(subjects.size() == 0)System.out.println("MembershipService constructor: subjects size is 0");
+        // if(subjects.size() == 0)System.out.println("MembershipService constructor: subjects size is 0");
         // List<Endpoint> subjects = membershipView.getSubjectsOf(myAddr);
 
         if (subjects.isEmpty()) {
