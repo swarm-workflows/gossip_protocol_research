@@ -12,7 +12,7 @@
  */
 
 package com.vrg.rapid;
-
+import java.util.concurrent.ThreadLocalRandom;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.SettableFuture;
@@ -26,6 +26,7 @@ import com.vrg.rapid.pb.Endpoint;
 import com.vrg.rapid.pb.JoinMessage;
 import com.vrg.rapid.pb.JoinResponse;
 import com.vrg.rapid.pb.JoinStatusCode;
+import com.vrg.rapid.pb.LatencyMessage;
 import com.vrg.rapid.pb.LeaveMessage;
 import com.vrg.rapid.pb.Metadata;
 import com.vrg.rapid.pb.NodeId;
@@ -86,7 +87,9 @@ public final class MembershipService {
     private final Map<Endpoint, Metadata> joinerMetadata = new HashMap<>();
     public final IMessagingClient messagingClient;
     private final MetadataManager metadataManager;
-
+    private final List<ScheduledFuture<?>> latencyProbeJobs = new ArrayList<>();
+    private List<ScheduledFuture<?>> broadcastJobs = new ArrayList<>();
+    private List<ScheduledFuture<?>> dgroJobs = new ArrayList<>();
     // Event subscriptions
     private final Map<ClusterEvents, List<Consumer<ClusterStatusChange>>> subscriptions;
 
@@ -100,6 +103,9 @@ public final class MembershipService {
     private final LinkedBlockingQueue<AlertMessage> sendQueue = new LinkedBlockingQueue<>();
     private final Lock batchSchedulerLock = new ReentrantLock();
     private final ScheduledExecutorService backgroundTasksExecutor;
+    private final ScheduledExecutorService latencyExecutor;
+    private final ScheduledExecutorService broadcastExecutor;
+    private final ScheduledExecutorService dgroExecutor;
     private final ScheduledFuture<?> alertBatcherJob;
     private final List<ScheduledFuture<?>> failureDetectorJobs;
     private final SharedResources sharedResources;
@@ -144,6 +150,9 @@ public final class MembershipService {
 
         // Schedule background jobs
         this.backgroundTasksExecutor = sharedResources.getScheduledTasksExecutor();
+        this.latencyExecutor = sharedResources.getScheduledTasksExecutor();
+        this.broadcastExecutor = sharedResources.getScheduledTasksExecutor();
+        this.dgroExecutor = sharedResources.getScheduledTasksExecutor();
         alertBatcherJob = this.backgroundTasksExecutor.scheduleAtFixedRate(new AlertBatcher(),
                 0, settings.getBatchingWindowInMs(), TimeUnit.MILLISECONDS);
 
@@ -168,6 +177,9 @@ public final class MembershipService {
                                                this.broadcaster, this.backgroundTasksExecutor, this::decideViewChange,
                 this.settings);
         createFailureDetectorsForCurrentConfiguration();
+        createLatencyBroadcasters();
+        createLatencyProbesForCurrentConfiguration();
+        createDGRO();
 
         // Execute all VIEW_CHANGE callbacks. This informs applications that a start/join has successfully completed.
         final long configurationId = membershipView.getCurrentConfigurationId();
@@ -200,6 +212,8 @@ public final class MembershipService {
                 return handleConsensusMessages(msg);
             case LEAVEMESSAGE:
                 return handleLeaveMessage(msg);
+            case LATENCYMESSAGE:
+                return handleMessage(msg.getLatencyMessage());
             case CONTENT_NOT_SET:
             default:
                 throw new IllegalArgumentException("Unidentified RapidRequest type " + msg.getContentCase());
@@ -428,10 +442,25 @@ public final class MembershipService {
             }
         }
 
+        // if (membershipView.isHostPresent(myAddr)) {
+            long viewchangeTime = System.nanoTime();
+            // System.out.printf("Port {} + view changes to size {} at {}", myAddr.getPort(), getMembershipView().size(), viewchangeTime);
+            System.out.printf(
+            "Port %d + view changes to size %d at %d ms%n",
+            myAddr.getPort(),
+            getMembershipView().size(),
+            viewchangeTime / 1_000_000 // Convert nanoseconds to milliseconds
+            );
+        // }
+        if(proposal.size() >= 5){
+        stopLatencyBroadcasts();
+        stopLatencyProbes();
+        stopDGRO();
+        }
         final long currentConfigurationId = membershipView.getCurrentConfigurationId();
         // Publish an event to the listeners.
         final List<Endpoint> currentMembership = membershipView.getRing(0);
-        membershipView.reconstructDGRO(myAddr);
+        // membershipView.reconstructDGRO(myAddr);
         final ClusterStatusChange clusterStatusChange = new ClusterStatusChange(currentConfigurationId,
                                                                                 currentMembership, statusChanges);
         subscriptions.get(ClusterEvents.VIEW_CHANGE).forEach(cb -> cb.accept(clusterStatusChange));
@@ -454,17 +483,23 @@ public final class MembershipService {
         }
         
         this.broadcaster.setMembership(subjects, getMembershipView());
-
         // Inform EdgeFailureDetector about membership change
         if (membershipView.isHostPresent(myAddr)) {
             createFailureDetectorsForCurrentConfiguration();
+            // createLatencyBroadcasters();
+            // createLatencyProbesForCurrentConfiguration();
+            // createDGRO();
         } else {
             // We need to gracefully exit by calling a user handler and invalidating
             // the current session.
             LOG.trace("Got kicked out and is shutting down.");
             subscriptions.get(ClusterEvents.KICKED).forEach(cb -> cb.accept(clusterStatusChange));
         }
-
+        if(proposal.size() >= 5){
+            createLatencyBroadcasters();
+            createLatencyProbesForCurrentConfiguration();
+            createDGRO();
+        }
         // Send new configuration to all nodes joining through us
         respondToJoiners(proposal);
     }
@@ -477,6 +512,10 @@ public final class MembershipService {
         return Futures.immediateFuture(Utils.toRapidResponse(ProbeResponse.getDefaultInstance()));
     }
 
+    private ListenableFuture<RapidResponse> handleMessage(final LatencyMessage request) {
+        membershipView.updateLatencyMap(request.getSender(), request.getLatencyMapMap());
+        return Futures.immediateFuture(Utils.toRapidResponse(ProbeResponse.getDefaultInstance()));
+    }
 
     /**
      * Invoked by subscribers waiting for event notifications.
@@ -577,6 +616,9 @@ public final class MembershipService {
         alertBatcherJob.cancel(true);
         failureDetectorJobs.forEach(k -> k.cancel(true));
         messagingClient.shutdown();
+        stopLatencyProbes();
+        stopLatencyBroadcasts();
+
     }
 
     /**
@@ -755,6 +797,129 @@ public final class MembershipService {
      */
     private void cancelFailureDetectorJobs() {
         failureDetectorJobs.forEach(future -> future.cancel(true));
+    }
+
+    public void createLatencyProbesForCurrentConfiguration() {
+        // Create and schedule latency probes
+        List<ScheduledFuture<?>> jobs = getMembershipView().stream()
+                .map(endpoint -> latencyExecutor.scheduleAtFixedRate(
+                        createLatencyProbeTask(endpoint),
+                        // (long) (-5 * Math.log(1 - ThreadLocalRandom.current().nextDouble())),
+                        (long) (myAddr.getPort() % 5),
+                        60,
+                        TimeUnit.SECONDS))
+                .collect(Collectors.toList());
+
+        latencyProbeJobs.addAll(jobs);
+    }
+
+    /**
+     * Stops all ongoing latency probes.
+     */
+    public void stopLatencyProbes() {
+        latencyProbeJobs.forEach(job -> job.cancel(false));
+        latencyExecutor.shutdown();
+    }
+
+    /**
+     * Creates a latency probe task for a specific endpoint.
+     */
+    private Runnable createLatencyProbeTask(Endpoint endpoint) {
+        return () -> {
+            try {
+                // Send a best-effort message to the endpoint
+                RapidRequest probeMessage = RapidRequest.newBuilder().setProbeMessage(
+                ProbeMessage.newBuilder().setSender(myAddr).build()).build();
+                messagingClient.sendMessageBestEffort(endpoint, probeMessage);
+                // System.out.printf("Probed latency for endpoint %s%n", endpoint);
+            } catch (Exception e) {
+                // System.err.printf("Failed to probe latency for endpoint %s: %s%n", endpoint, e.getMessage());
+            }
+        };
+    }
+
+        /**
+     * Creates a periodic latency broadcaster for the current configuration.
+     */
+    public void createLatencyBroadcasters() {
+        // Create and schedule the periodic latency broadcaster task
+        ScheduledFuture<?> jobs = 
+        broadcastExecutor.scheduleAtFixedRate(
+                        createLatencyBroadcastTask(),
+                        10, // Initial delay
+                        60,
+                        TimeUnit.SECONDS);
+
+        broadcastJobs.add(jobs);
+    }
+
+    /**
+     * Creates a latency broadcast task for a specific endpoint.
+     */
+    private Runnable createLatencyBroadcastTask() {
+        return () -> {
+            try {
+                LOG.trace("Broadcasting latency map for {}", myAddr);
+
+                // Construct a LatencyMessage containing the current latency map
+                membershipView.updateLatencyMap(myAddr, messagingClient.getLatencyMap());
+                LatencyMessage.Builder latencyMessageBuilder = LatencyMessage.newBuilder()
+                        .setSender(myAddr).putAllLatencyMap(messagingClient.getLatencyMap()); // Convert Endpoint to string
+                LatencyMessage latencyMessage = latencyMessageBuilder.build();
+
+                // Wrap the LatencyMessage into a RapidRequest
+                RapidRequest rapidRequest = Utils.toRapidRequest(latencyMessage);
+
+                // Broadcast the message
+                broadcaster.broadcast(rapidRequest);
+
+                LOG.trace("Latency map broadcasted successfully for {}", myAddr);
+            } catch (Exception e) {
+                LOG.error("Error broadcasting latency map for {}: {}", myAddr, e.getMessage(), e);
+            }
+        };
+    }
+
+    /**
+     * Stops all ongoing latency broadcast jobs.
+     */
+    public void stopLatencyBroadcasts() {
+        broadcastJobs.forEach(job -> job.cancel(false));
+        broadcastExecutor.shutdown();
+    }
+
+    public void createDGRO() {
+        // Create and schedule the periodic latency broadcaster task
+        ScheduledFuture<?> jobs = 
+        dgroExecutor.scheduleAtFixedRate(
+                        createDGROTask(),
+                    20, // Initial delay
+                        60,
+                        TimeUnit.SECONDS);
+
+        dgroJobs.add(jobs);
+    }
+
+    /**
+     * Creates a latency broadcast task for a specific endpoint.
+     */
+    private Runnable createDGROTask() {
+        return () -> {
+            try {
+                membershipView.reconstructDGRO(myAddr);
+                // LOG.trace("Latency map broadcasted successfully for {}", myAddr);
+            } catch (Exception e) {
+                // LOG.error("Error broadcasting latency map for {}: {}", myAddr, e.getMessage(), e);
+            }
+        };
+    }
+
+    /**
+     * Stops all ongoing latency broadcast jobs.
+     */
+    public void stopDGRO() {
+        dgroJobs.forEach(job -> job.cancel(false));
+        dgroExecutor.shutdown();
     }
 
     /**

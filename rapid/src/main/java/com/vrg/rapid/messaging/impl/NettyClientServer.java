@@ -24,6 +24,7 @@ import com.google.common.util.concurrent.SettableFuture;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.protobuf.TextFormat;
 import com.vrg.rapid.MembershipService;
+import com.vrg.rapid.Utils;
 import com.vrg.rapid.SharedResources;
 import com.vrg.rapid.messaging.IMessagingClient;
 import com.vrg.rapid.messaging.IMessagingServer;
@@ -68,7 +69,7 @@ public class NettyClientServer implements IMessagingClient, IMessagingServer {
     private static final Logger LOG = LoggerFactory.getLogger(NettyClientServer.class);
     private static final FutureLoader FUTURE_LOADER = new FutureLoader();
     private static final int DEFAULT_TIMEOUT_SECONDS = 30;
-    private final Map<Endpoint, Long> latencyMap;
+    private final Map<String, Long> latencyMap;
     private final Endpoint listenAddress;
     private final LoadingCache<Endpoint, ChannelFuture> channelCache;
     private final LoadingCache<Long, SettableFuture<RapidResponse>> outstandingRequests;
@@ -109,7 +110,7 @@ public class NettyClientServer implements IMessagingClient, IMessagingServer {
             .option(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT)
             .handler(new ClientChannelInitializer(clientHandler));
         this.latencyMap = new ConcurrentHashMap<>();
-        this.latencyMap.put(listenAddress, (long)0);
+        this.latencyMap.put(Utils.stringFromHost(listenAddress), (long)0);
     }
 
     /**
@@ -385,7 +386,7 @@ public class NettyClientServer implements IMessagingClient, IMessagingServer {
     //     throw new UnsupportedOperationException("Unimplemented method 'getLatency'");
     // }
         
-    public Map<Endpoint, Long> getLatencyMap(){
+    public Map<String, Long> getLatencyMap(){
         return latencyMap;
     }
 }

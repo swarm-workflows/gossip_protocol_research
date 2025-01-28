@@ -51,11 +51,12 @@ import java.util.Set;
     //  private final Random random = new Random();
     private final double meanLatency = 50.0; // Example value
     private final double stdDevLatency = 15; // Example value
-    private final List<Endpoint> subjects_record = new ArrayList<>();
+    // private final List<Endpoint> subjects_record = new ArrayList<>();
     
     public final Map<String, Double> latencyCache = new HashMap<>();
      private static final LongHashFunction HASH_FUNCTION = LongHashFunction.xx(0);
      private final ReadWriteLock rwLock = new ReentrantReadWriteLock();
+     private final ReadWriteLock rwLockLatencyMap = new ReentrantReadWriteLock();
      @GuardedBy("rwLock") private final ArrayList<AddressComparator> addressComparators;
      @GuardedBy("rwLock") private final ArrayList<NavigableSet<Endpoint>> rings;
      @GuardedBy("rwLock") public List<Endpoint> subjects_dgro = new ArrayList<>();
@@ -66,6 +67,7 @@ import java.util.Set;
      @GuardedBy("rwLock") private long currentConfigurationId = -1;
      @GuardedBy("rwLock") private Configuration currentConfiguration;
      @GuardedBy("rwLock") private boolean shouldUpdateConfigurationId = true;
+     @GuardedBy("rwLockLatencyMap") public Map<Endpoint, Map<String, Long>> latencyMap = new HashMap<>();
 
      
  
@@ -90,7 +92,9 @@ import java.util.Set;
      /**
       * Used to bootstrap a membership view from the fields of a MembershipView.Settings object.
       */
-     MembershipView(final int K, final Collection<NodeId> nodeIds, final Collection<Endpoint> endpoints, final Endpoint node) {
+     MembershipView(final int K, final Collection<NodeId> nodeIds, final Collection<Endpoint> endpoints,
+    //   final Endpoint node,  final Map<Endpoint, Map<Endpoint, Long>> latencyMap) {
+      final Endpoint node) {
          assert K > 0;
          this.K = K;
         //  this.rings = new ArrayList<>(K - 1);
@@ -107,9 +111,13 @@ import java.util.Set;
              allNodes.addAll(endpoints);
              this.rings.add(set);
          }
-         final List<Endpoint> endpointList = new ArrayList<>(endpoints);
+        //  final List<Endpoint> endpointList = new ArrayList<>(endpoints);
          for (int k = 0; k < K; k++) {
-            this.ringlist.add(DGRO(endpointList, k));
+            // this.ringlist.add(DGRO(endpointList, k, latencyMap));
+            // List<Endpoint> tmp = getRing(k);
+            List<Endpoint> endpointList = new ArrayList<>(endpoints);
+            Collections.shuffle(endpointList);
+            this.ringlist.add(endpointList);
          }
          this.subjects_dgro.clear();
          for (int k = 0; k < this.M; ++k) {
@@ -144,20 +152,33 @@ import java.util.Set;
         // Generate a Gaussian value and scale it to mean and standard deviation
         final double gaussian = random.nextGaussian();
         // Ensure latency is non-negative
-        final double latency = Math.min(100, Math.max(meanLatency + gaussian * stdDevLatency, 10));
+        // final double latency = Math.min(100, Math.max(meanLatency + gaussian * stdDevLatency, 10));
+        final double latency = Math.max(meanLatency + gaussian * stdDevLatency, 10);
 
         // Cache the computed latency for future use
         latencyCache.put(key, latency);
 
         return latency;
     }
+
+    public void updateLatencyMap(Endpoint sender, Map<String, Long> senderLatencyMap){
+        rwLockLatencyMap.writeLock().lock();
+        try{
+        latencyMap.put(sender, senderLatencyMap);
+        } finally {
+            rwLockLatencyMap.writeLock().unlock();
+        }
+        return;
+    }
     
+    // public void reconstructDGRO(final Endpoint node, final Map<Endpoint, Map<Endpoint, Long>> latencyMap) {
     public void reconstructDGRO(final Endpoint node) {
         rwLock.writeLock().lock();
         try{
         final List<Endpoint> endpointList = getRing(0);
         subjects_dgro.clear();
         for (int k = 0; k < K; k++) {
+            // ringlist.set(k, DGRO(endpointList, k, latencyMap));
             ringlist.set(k, DGRO(endpointList, k));
             // ringlist.get(k) = DGRO(endpointList, k);
          }
@@ -172,29 +193,39 @@ import java.util.Set;
     }
     }
 
+    //  public List<Endpoint> DGRO(final List<Endpoint> endpoints, final int k, final Map<Endpoint, Map<Endpoint, Long>> latencyMap) {
      public List<Endpoint> DGRO(final List<Endpoint> endpoints, final int k) {
         int currentNode = k % endpoints.size();
         final List<Endpoint> newOrder = new ArrayList<>();
         final int[] degree = new int[endpoints.size()];
         Arrays.fill(degree, 0);
-
-        for (int i = 0; i < endpoints.size(); i++) {
-            newOrder.add(endpoints.get(currentNode));
-            degree[currentNode]++;
-             double minLatency = Double.MAX_VALUE;
-             int selectedNode = -1;
-
-            for (int j = 0; j < endpoints.size(); j++) {
-                if (degree[j] != 0) {
-                    continue;
+        rwLockLatencyMap.readLock().lock();
+        try{
+            for (int i = 0; i < endpoints.size(); i++) {
+                newOrder.add(endpoints.get(currentNode));
+                degree[currentNode]++;
+                double minLatency = Double.MAX_VALUE;
+                int selectedNode = -1;
+                Map<String, Long> tmp =  latencyMap.getOrDefault(endpoints.get(currentNode), Collections.emptyMap());
+                for (int j = 0; j < endpoints.size(); j++) {
+                    if (degree[j] != 0) {
+                        continue;
+                    }
+                    // final double latency = latencyMap.get(endpoints.get(currentNode)).get(Utils.stringFromHost(endpoints.get(j)));
+                    final double latency = tmp.getOrDefault(Utils.stringFromHost(endpoints.get(j)), 100L);
+                                //  .getOrDefault(Utils.stringFromHost(endpoints.get(j)), (long)getLatency(endpoints.get(currentNode), endpoints.get(j)));
+                    // if(latency != 100L)
+                    //             System.out.println(endpoints.get(currentNode) + " to " + endpoints.get(j) + ": latencyMap=" + latency + " getlatency=" 
+                    //             + getLatency(endpoints.get(currentNode), endpoints.get(j)));
+                    if (latency < minLatency) {
+                        selectedNode = j;
+                        minLatency = latency;
+                    }
                 }
-                final double latency = getLatency(endpoints.get(currentNode), endpoints.get(j));
-                if (latency < minLatency) {
-                    selectedNode = j;
-                    minLatency = latency;
-                }
+                currentNode = (i == endpoints.size() - 1) ? k % endpoints.size() : selectedNode;
             }
-            currentNode = (i == endpoints.size() - 1) ? k % endpoints.size() : selectedNode;
+        } finally {
+            rwLockLatencyMap.readLock().unlock();
         }
 
         return newOrder;
@@ -546,21 +577,21 @@ import java.util.Set;
     //         subjects_dgro.add(ep);
     //    }
     // }
-    //    final List<Endpoint> subjects = new ArrayList<>();
-    //    // subjects_record.clear();
-    //    for (int k = 0; k < M; k++) {
-    //    // for (int k = 0; k < K; k++) {
-    //        final NavigableSet<Endpoint> list = rings.get(k);
-    //        final Endpoint predecessor = list.lower(node);
-    //        if (predecessor == null) {
-    //            subjects.add(list.last());
-    //        } 
-    //        else {
-    //            subjects.add(predecessor);
-    //        }
-    //    }
-    // return subjects;
-    return subjects_dgro;
+       final List<Endpoint> subjects = new ArrayList<>();
+       // subjects_record.clear();
+       for (int k = 0; k < M; k++) {
+       // for (int k = 0; k < K; k++) {
+           final NavigableSet<Endpoint> list = rings.get(k);
+           final Endpoint predecessor = list.lower(node);
+           if (predecessor == null) {
+               subjects.add(list.last());
+           } 
+           else {
+               subjects.add(predecessor);
+           }
+       }
+    return subjects;
+    // return subjects_dgro;
     }
  
      /**

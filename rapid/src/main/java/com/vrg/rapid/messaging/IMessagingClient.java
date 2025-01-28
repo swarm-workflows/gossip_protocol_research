@@ -55,5 +55,5 @@ public interface IMessagingClient {
     void shutdown();
     
     Endpoint getAddress();
-    Map<Endpoint, Long> getLatencyMap();
+    Map<String, Long> getLatencyMap();
 }

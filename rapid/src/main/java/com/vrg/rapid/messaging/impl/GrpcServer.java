@@ -133,6 +133,7 @@ public class GrpcServer extends MembershipServiceGrpc.MembershipServiceImplBase 
         rapidRequest.getContentCase() == RapidRequest.ContentCase.PHASE1AMESSAGE ||
         rapidRequest.getContentCase() == RapidRequest.ContentCase.PHASE2AMESSAGE ||
         rapidRequest.getContentCase() == RapidRequest.ContentCase.PHASE2BMESSAGE ||
+        rapidRequest.getContentCase() == RapidRequest.ContentCase.LATENCYMESSAGE ||
         rapidRequest.getContentCase() == RapidRequest.ContentCase.BATCHEDALERTMESSAGE) {
         // Store the message ID in the cache
         if (messageCache.getIfPresent(messageId) != null) {

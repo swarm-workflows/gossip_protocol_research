@@ -31,6 +31,7 @@ import com.vrg.rapid.pb.Phase2aMessage;
 import com.vrg.rapid.pb.Phase2bMessage;
 import com.vrg.rapid.pb.PreJoinMessage;
 import com.vrg.rapid.pb.ProbeMessage;
+import com.vrg.rapid.pb.LatencyMessage;
 import com.vrg.rapid.pb.ProbeResponse;
 import com.vrg.rapid.pb.RapidRequest;
 import com.vrg.rapid.pb.RapidResponse;
@@ -69,6 +70,21 @@ final public class Utils {
         return Endpoint.newBuilder().setHostname(ByteString.copyFromUtf8(hostAndPort.getHost()))
                                     .setPort(hostAndPort.getPort())
                                     .build();
+    }
+
+    public static String stringFromHost(final Endpoint endpoint) {
+        if (endpoint == null) {
+            throw new IllegalArgumentException("Endpoint cannot be null");
+        }
+        if (endpoint.getHostname() == null || endpoint.getHostname().isEmpty()) {
+            throw new IllegalArgumentException("Endpoint must have a valid hostname");
+        }
+        if (endpoint.getPort() <= 0) {
+            throw new IllegalArgumentException("Endpoint must have a valid port");
+        }
+
+        // Convert hostname (ByteString) to UTF-8 string and append the port
+        return endpoint.getHostname().toStringUtf8() + ":" + endpoint.getPort();
     }
 
     /**
@@ -156,6 +172,13 @@ final public class Utils {
     public static RapidRequest toRapidRequest(final PreJoinMessage msg) {
         // final UUID uuid = UUID.randomUUID();
         return RapidRequest.newBuilder().setPreJoinMessage(msg)
+                                        .setMessageId(messageIdFromUUID(UUID.randomUUID()))
+                                        .build();
+    }
+
+    public static RapidRequest toRapidRequest(final LatencyMessage msg) {
+        // final UUID uuid = UUID.randomUUID();
+        return RapidRequest.newBuilder().setLatencyMessage(msg)
                                         .setMessageId(messageIdFromUUID(UUID.randomUUID()))
                                         .build();
     }

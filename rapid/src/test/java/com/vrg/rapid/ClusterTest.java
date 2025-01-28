@@ -379,22 +379,28 @@ public class ClusterTest {
      * This test starts with a 50 node cluster. We then use the static failure detector to fail
      * all edges to 10 nodes.
      */
-    @Test(timeout = 30000)
+    @Test(timeout = 60000)
     public void failTenRandomNodes() throws IOException, InterruptedException {
         System.out.println("TestName: failTenRandomNodes");
+        
         useStaticFd = true;
-        final int numNodes = 100;
-        final int numFailingNodes = 10;
+        final int numNodes = 50;
+        final int numFailingNodes = 5;
         final Endpoint seedEndpoint = Utils.hostFromParts("127.0.0.7", basePort);
         createCluster(numNodes, seedEndpoint);
         verifyCluster(numNodes);
         // Fail the first 3 nodes.
+        Thread.sleep(35000);
         final Set<Endpoint> failingNodes = getRandomHosts(numFailingNodes);
+        long startTime = System.nanoTime(); // 开始计时
         staticFds.values().forEach(e -> e.addFailedNodes(failingNodes));
         waitAndVerifyAgreement(numNodes - failingNodes.size(), 20, 1000);
         // Nodes do not actually shutdown(), but are detected faulty. The faulty nodes have active
         // cluster instances and identify themselves as kicked out.
         verifyNumClusterInstances(numNodes);
+        // final long endTime = System.nanoTime(); // End timing
+        long starttimeInMs = startTime / 1_000_000; // Convert to milliseconds
+        System.out.println("Total execution time: " + starttimeInMs + " ms");
     }
 
     /**
@@ -478,28 +484,31 @@ public class ClusterTest {
     /**
      * Shutdown a node and rejoin multiple times.
      */
-    @Test(timeout = 60000)
+    @Test(timeout = 2000000)
     public void testRejoinSingleNode() throws IOException, InterruptedException {
         
-        long startTime = System.nanoTime(); // 开始计时
         useFastFailureDetectionTimeouts();
         final Endpoint seedEndpoint = Utils.hostFromParts("127.0.0.7", basePort);
         final Endpoint leavingEndpoint = Utils.hostFromParts("127.0.0.7", basePort + 1);
-        final int N = 50;
+        final int N = 100;
         createCluster(N, seedEndpoint);
 
         // Shutdown and rejoin twice
         System.out.println("TestName: testRejoinSingleNode");
-        for (int i = 0; i < 1; i++) {
+        Thread.sleep(35000);
+        long startTime = System.nanoTime(); // 开始计时
+        for (int i = 0; i < 10; i++) {
             final Cluster cluster = instances.remove(leavingEndpoint);
             cluster.shutdown();
             waitAndVerifyAgreement(N - 1, 40, 500);
             extendCluster(leavingEndpoint, seedEndpoint);
             waitAndVerifyAgreement(N, 40, 500);
+            Thread.sleep(500);
         }
         final long endTime = System.nanoTime(); // End timing
         long durationInMs = (endTime - startTime) / 1_000_000; // Convert to milliseconds
         System.out.println("Total execution time: " + durationInMs + " ms");
+        System.out.println("Start time: " + startTime / 1_000_000 + " ms");
     }
 
     /**

@@ -31,9 +31,10 @@ message RapidRequest
         Phase2aMessage phase2aMessage = 8;
         Phase2bMessage phase2bMessage = 9;
         LeaveMessage leaveMessage = 10;
+        LatencyMessage latencyMessage = 11;
    }
 
-    MessageId messageId = 11;
+    MessageId messageId = 12;
 }
 
 message RapidResponse
@@ -100,6 +101,12 @@ enum JoinStatusCode {
     CONFIG_CHANGED = 3;
     MEMBERSHIP_REJECTED = 4;
 };
+
+// Define the LatencyMessage
+message LatencyMessage {
+    map<string, int64> latencyMap = 1;
+    Endpoint sender = 2;
+}
 
 // ******* Alert messages *******
 
@@ -183,6 +190,7 @@ message Phase2bMessage
 message ConsensusResponse
 {
 }
+
 
 
 // ******* Node Metadata *********

@@ -23,6 +23,7 @@ import com.google.common.util.concurrent.SettableFuture;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.vrg.rapid.Settings;
 import com.vrg.rapid.SharedResources;
+import com.vrg.rapid.Utils;
 import com.vrg.rapid.messaging.IMessagingClient;
 import com.vrg.rapid.pb.Endpoint;
 import com.vrg.rapid.pb.MembershipServiceGrpc;
@@ -77,7 +78,7 @@ public class GrpcClient implements IMessagingClient {
 
     private final Endpoint address;
     private final LoadingCache<Endpoint, Channel> channelMap;
-    private final Map<Endpoint, Long> latencyMap;
+    private final Map<String, Long> latencyMap;
     private final ExecutorService grpcExecutor;
     private final ExecutorService backgroundExecutor;
      // Declare a ScheduledExecutorService
@@ -118,7 +119,7 @@ public class GrpcClient implements IMessagingClient {
                     }
                 });
         this.latencyMap = new ConcurrentHashMap<>();
-        this.latencyMap.put(address, (long)0);
+        this.latencyMap.put(Utils.stringFromHost(address), (long)0);
     }
 
 
@@ -142,7 +143,8 @@ public class GrpcClient implements IMessagingClient {
         
         // Generate a Gaussian value and scale it to mean and standard deviation
         final double gaussian = random.nextGaussian();
-        final double latency = Math.min(100, Math.max(meanLatency + gaussian * stdDevLatency, 10));
+        // final double latency = Math.min(100, Math.max(meanLatency + gaussian * stdDevLatency, 10));
+        final double latency = Math.max(meanLatency + gaussian * stdDevLatency, 10);
         
         latencyCache.put(key, latency);
 
@@ -162,7 +164,7 @@ public class GrpcClient implements IMessagingClient {
             resultFutureSettable.setException(new IllegalStateException("Cannot send message: Client is shutting down"));
             return resultFutureSettable;
         }
-
+        final long startTime = System.nanoTime();
         // 延迟50毫秒后执行实际RPC调用
         scheduledExecutor.schedule(() -> {
             if (isShuttingDown.get()) {
@@ -186,7 +188,9 @@ public class GrpcClient implements IMessagingClient {
                 onCallFailure, 
                 backgroundExecutor, 
                 msg,
-                latencyMap
+                latencyMap,
+                startTime,
+                getTimeoutForMessageMs(msg)
             );
 
             Futures.addCallback(Futures.transform(
@@ -213,7 +217,7 @@ public class GrpcClient implements IMessagingClient {
             resultFuture.setException(new IllegalStateException("Cannot send message: Client is shutting down"));
             return resultFuture;
         }
-
+        final long startTime = System.nanoTime();
         // Schedule the delayed execution
         scheduledExecutor.schedule(() -> {
             if (isShuttingDown.get()) {
@@ -230,7 +234,9 @@ public class GrpcClient implements IMessagingClient {
             final Runnable onCallFailure = () -> channelMap.invalidate(remote);
 
             final ListenableFuture<ResponseWithLatency> rpcFutureWithLatency =
-                Retries.callWithRetries(call, remote, 0, onCallFailure, backgroundExecutor, msg, latencyMap);
+                Retries.callWithRetries(call, remote, 0, onCallFailure, 
+                backgroundExecutor, msg, latencyMap, startTime,
+                getTimeoutForMessageMs(msg));
 
             Futures.addCallback(Futures.transform(
                 rpcFutureWithLatency,
@@ -371,7 +377,7 @@ public class GrpcClient implements IMessagingClient {
         }
     }
     
-    public Map<Endpoint, Long> getLatencyMap(){
+    public Map<String, Long> getLatencyMap(){
         return latencyMap;
     }
 

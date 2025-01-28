@@ -451,7 +451,7 @@ public class PaxosTests {
     private static class DirectMessagingClient implements IMessagingClient {
         private final Map<Endpoint, FastPaxos> paxosInstances;
         private final Map<Endpoint, ExecutorService> executors;
-        private final Map<Endpoint, Long> latencyMap;
+        private final Map<String, Long> latencyMap;
 
         DirectMessagingClient(final Map<Endpoint, FastPaxos> paxosInstances,
                               final Map<Endpoint, ExecutorService> executors) {
@@ -483,7 +483,7 @@ public class PaxosTests {
         }
 
             
-        public Map<Endpoint, Long> getLatencyMap(){
+        public Map<String, Long> getLatencyMap(){
             return latencyMap;
         }
     }
@@ -510,7 +510,7 @@ public class PaxosTests {
         }
 
             
-        public Map<Endpoint, Long> getLatencyMap(){
+        public Map<String, Long> getLatencyMap(){
             return new ConcurrentHashMap<>();
         }
     }

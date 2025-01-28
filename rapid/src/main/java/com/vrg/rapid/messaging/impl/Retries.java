@@ -19,6 +19,7 @@ import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.SettableFuture;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.vrg.rapid.pb.Endpoint;
+import com.vrg.rapid.Utils;
 import com.vrg.rapid.pb.RapidRequest;
 import com.vrg.rapid.pb.RapidResponse;
 
@@ -49,9 +50,9 @@ class Retries {
                                                    final Endpoint remote, final int retries,
                                                    final Runnable onCallFailure,
                                                    final ExecutorService backgroundExecutor,
-                                                final RapidRequest msg, final Map<Endpoint, Long> latencyMap) {
+                                                final RapidRequest msg, final Map<String, Long> latencyMap, Long startTime, int timeout) {
         final SettableFuture<ResponseWithLatency> settable = SettableFuture.create();
-        startCallWithRetry(call, remote, settable, retries, onCallFailure, backgroundExecutor, msg, latencyMap);
+        startCallWithRetry(call, remote, settable, retries,retries, onCallFailure, backgroundExecutor, msg, latencyMap, startTime, timeout);
         return settable;
     }
 
@@ -60,26 +61,26 @@ class Retries {
      */
     @SuppressWarnings("checkstyle:illegalcatch")
     private static void startCallWithRetry(final Supplier<ListenableFuture<RapidResponse>> call, final Endpoint remote,
-                                               final SettableFuture<ResponseWithLatency> signal, final int retries,
+                                               final SettableFuture<ResponseWithLatency> signal, final int retries, final int initialR,
                                                final Runnable onCallFailure, 
                                                final ExecutorService backgroundExecutor, 
-                                               final RapidRequest msg, final Map<Endpoint, Long> latencyMap) {
+                                               final RapidRequest msg, final Map<String, Long> latencyMap, Long startTime, int timeout) {
         if (Thread.currentThread().isInterrupted()) {
             signal.setException(new InterruptedException("Thread has been interrupted"));
             return;
         }
-        final long startTime = System.nanoTime();
         final ListenableFuture<RapidResponse> callFuture = call.get();
         Futures.addCallback(callFuture, new FutureCallback<RapidResponse>() {
             
             @Override
             public void onSuccess(final RapidResponse result) {
                 long endTime = System.nanoTime();
-                long latencyMs = (endTime - startTime) / 1_000_000;
+                long latencyMs = (endTime - startTime) / 1_000_000 - (initialR - retries) * (long) timeout;
                 // result.setLatencyMs(latencyMs);
                 LOG.trace("Remote call to {} success",
                 remote);
-                latencyMap.put(remote, latencyMs);
+                // if(msg.getContentCase() == RapidRequest.ContentCase.PROBEMESSAGE)
+                latencyMap.put(Utils.stringFromHost(remote), latencyMs);
                 ResponseWithLatency wrappedResult = new ResponseWithLatency(result, latencyMs);
                 signal.set(wrappedResult);
             }
@@ -91,8 +92,8 @@ class Retries {
                  remote, throwable);
                 //   assert false : "Execution halted for debugging purposes in onFailure.";
                 
-                handleFailure(call, remote, signal, retries, throwable, onCallFailure, 
-                backgroundExecutor, msg, latencyMap);
+                handleFailure(call, remote, signal, retries, initialR, throwable, onCallFailure, 
+                backgroundExecutor, msg, latencyMap, startTime, timeout);
             }
         }, backgroundExecutor);
     }
@@ -101,15 +102,15 @@ class Retries {
      * Adapted from https://github.com/spotify/futures-extra/.../AsyncRetrier.java
      */
     private static void handleFailure(final Supplier<ListenableFuture<RapidResponse>> code, final Endpoint remote,
-                                          final SettableFuture<ResponseWithLatency> future, final int retries, final Throwable t,
+                                          final SettableFuture<ResponseWithLatency> future, final int retries, final int initialR, final Throwable t,
                                           final Runnable onCallFailure, 
                                           final ExecutorService backgroundExecutor,
                                           final RapidRequest msg,
-                                          final Map<Endpoint, Long> latencyMap) {
+                                          final Map<String, Long> latencyMap, Long startTime, int timeout) {
         if (retries > 0) {
-            startCallWithRetry(code, remote, future, retries - 1, onCallFailure, backgroundExecutor, msg, latencyMap);
+            startCallWithRetry(code, remote, future, retries - 1, initialR, onCallFailure, backgroundExecutor, msg, latencyMap, startTime, timeout);
         } else {
-            latencyMap.put(remote, (long)-1);
+            latencyMap.put(Utils.stringFromHost(remote), (long)-1);
             future.setException(t);
         }
     }
