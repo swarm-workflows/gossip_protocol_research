@@ -15,6 +15,11 @@ package com.vrg.standalone;
  import com.vrg.rapid.Cluster;
  import com.vrg.rapid.Utils;
  import com.vrg.rapid.Settings;
+ import java.io.IOException;
+ import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 //  import com.vrg.rapid.ClusterStatusChange;
 //  import org.apache.commons.cli.CommandLine;
 //  import org.apache.commons.cli.CommandLineParser;
@@ -27,7 +32,6 @@ import java.util.logging.Logger;
 //  import org.slf4j.LoggerFactory;
  
  import javax.annotation.Nullable;
- import java.io.IOException;
  
 //  import java.time.LocalDateTime;
 //  import java.time.format.DateTimeFormatter;
@@ -39,13 +43,16 @@ import java.util.logging.Logger;
 //  import com.vrg.rapid.pb.RapidRequest;
  
  import java.nio.charset.Charset;
- import java.util.ArrayList;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
  import java.util.Collections;
+ import java.io.OutputStream;
 //  import java.util.HashSet;
  import java.util.List;
  import java.util.Map;
  import java.util.Random;
- import java.util.Set;
+import java.util.Scanner;
+import java.util.Set;
  import java.util.concurrent.ConcurrentHashMap;
  import java.util.concurrent.CountDownLatch;
 //  import java.util.concurrent.ExecutionException;
@@ -67,15 +74,23 @@ import static org.junit.Assert.assertTrue;
      // public static final Logger LOG = LoggerFactory.getLogger(ClusterTest.class);
      public static final Logger GRPC_LOGGER;
      public static final Logger NETTY_LOGGER;
+     private volatile boolean running = true;
+     private Thread serverThread;
      public final Map<Endpoint, Cluster> instances = new ConcurrentHashMap<>();
     //  public final Map<Endpoint, StaticFailureDetector.Factory> staticFds = new ConcurrentHashMap<>();
     //  public final Map<Endpoint, List<ServerDropInterceptors.FirstN>> serverInterceptors = new ConcurrentHashMap<>();
     //  public final Map<Endpoint, List<ClientInterceptors.Delayer>> clientInterceptors = new ConcurrentHashMap<>();
      public boolean useStaticFd = false;
-     public boolean addMetadata = true;
+     public boolean addMetadata = false;
      @Nullable public Random random = null;
      public long seed;
      public int basePort;
+     private int confirmedConnections = 0;
+     public int numNodes;
+     public int targetNodes;
+     public int nodeId;
+     public String testID;
+     public String baseIP;
      @Nullable public AtomicInteger portCounter = null;
      public Settings settings = new Settings();
  
@@ -95,29 +110,6 @@ import static org.junit.Assert.assertTrue;
       * The test starts with a single seed and all N - 1 subsequent nodes initiate their join protocol at the same
       * time. This tests a single seed's ability to bootstrap a large cluster in one step.
       */
-      public static void main(String[] args) {
-        ClusterTest clusterTest = new ClusterTest();
-        // clusterTest.beforeTest();
-        int numNodes = 50;
-        if (args.length > 0) {
-            try {
-                // 从命令行参数读取 numNodes
-                numNodes = Integer.parseInt(args[0]);
-            } catch (NumberFormatException e) {
-                System.err.println("Invalid number format for numNodes. Using default value: 50");
-            }
-        }
-    
-        System.out.println("Number of nodes: " + numNodes);
-    
-        try{
-            clusterTest.run(numNodes);
-        }
-        catch (final IOException | InterruptedException e) {
-            // Handle exception if the thread is interrupted
-            System.out.println("The sleep was interrupted!");
-        }
-        }
 
         ClusterTest() {
             basePort =  1234;
@@ -132,76 +124,167 @@ import static org.junit.Assert.assertTrue;
             // Tests need to set more aggressive frequent failure detection intervals if required
             settings.setFailureDetectorIntervalInMs(1000);
             useStaticFd = false;
-            addMetadata = true;
+            addMetadata = false;
         }
 
+        public void setupCluster(String baseIP, int port, int numNodes, String testID, int targetNodes, int nodeId) throws IOException, InterruptedException {
+            this.baseIP = baseIP;
+            this.basePort = port;
+            this.numNodes = numNodes;
+            this.testID = testID;
+            this.targetNodes = targetNodes;
+            this.nodeId = nodeId;
+
+            System.out.println("Initializing cluster...");
+            
+            // Check if we can connect to the cluster
+            if(nodeId == 0){
+                // Set up server to reponse the connectToCluster
+                setupBaseServer();
+            }
+            if (!connectToCluster()) {
+                System.err.println("Failed to connect to the cluster at " + baseIP + ":" + (port - 1));
+                return;
+            }
+            
+            synchronized (this) {
+                while (confirmedConnections < 1) {
+                    wait();
+                }
+            }
+    
+
+            System.out.println("Connected to cluster. Launching " + numNodes + " nodes...");
+
+            System.out.println("Cluster is ready with " + targetNodes + " nodes. Starting test: " + testID);
+            try{
+                run(numNodes);
+            } catch (IOException | InterruptedException e) {
+                System.err.println("Error run" + e.getMessage());
+            }
+            System.out.println("Finish running");
+            stopBaseServer();
+            System.out.println("Finish stopBaseServer.");
+        }
+        
+    private void setupBaseServer() throws IOException {
+        serverThread = new Thread(() -> {
+            int cnt = 0;
+            try (ServerSocket serverSocket = new ServerSocket(basePort - 1)) {
+                serverSocket.setSoTimeout(1000);
+                System.out.println("Base server is running on port " + (basePort - 1));
+                while (running) {
+                    System.out.println("seupBaseServer cnt=" + cnt);
+                    cnt++;
+                    try {
+                        Socket clientSocket = serverSocket.accept();
+                        System.out.println("Accepted connection from " + clientSocket.getInetAddress());
+                        // Send confirmation message to the client
+                        try (OutputStream out = clientSocket.getOutputStream()) {
+                            out.write("CONFIRMED".getBytes(StandardCharsets.UTF_8));
+                            out.flush();
+                        }
+                        synchronized (this) {
+                            confirmedConnections++;
+                            notifyAll();
+                        }
+                    } catch (IOException e) {
+                        if (running) {
+                            System.err.println("Error handling client connection: " + e.getMessage());
+                        }
+                    }
+                }
+            } catch (IOException e) {
+                if (running) {
+                    System.err.println("Error starting base server: " + e.getMessage());
+                }
+            }
+            System.out.println("SetupBaseServer finished.");
+        });
+        serverThread.start();
+    }
+    
+    private void stopBaseServer() {
+        running = false;
+        if (serverThread != null) {
+            serverThread.interrupt();
+            try {
+                System.out.println("Before servreThread.join .");
+                serverThread.join();
+                System.out.println("Stopping base server.");
+            } catch (InterruptedException e) {
+                System.err.println("Error stopping base server: " + e.getMessage());
+            }
+        }
+    }
+
+    private boolean connectToCluster() {
+        try (Socket socket = new Socket(baseIP, basePort - 1)) {
+            System.out.println("Successfully connected to the cluster at " + baseIP + ":" + (basePort - 1));
+            return true;
+        } catch (IOException e) {
+            System.err.println("Error: Could not connect to " + baseIP + ":" + (basePort - 1));
+            return false;
+        }
+    }
+
      public void run(final int numNodes) throws IOException, InterruptedException {
-         addMetadata = false;
-        //  final int numNodes = 50; // Includes the size of the cluster
-         for (int i = 0; i < numNodes; i++) {
-            basePort = 1234 + i;
-            System.out.println("Borderline: baseport is " + basePort);
-            final Endpoint seedEndpoint = Utils.hostFromParts("127.0.0.7", basePort);
-            //  final Endpoint sourceEndpoint = Utils.hostFromParts("127.0.0.7", sourceEndpoint);
+            final Endpoint seedEndpoint = Utils.hostFromParts(baseIP, basePort);
              createCluster(numNodes, seedEndpoint);
-             verifyCluster(numNodes);
-             verifyClusterMetadata(0);
-             instances.get(seedEndpoint).membershipService.membershipView.reconstructDGRO();
-             System.out.println("当前时间（毫秒精度）: " + System.currentTimeMillis()  +
+             verifyCluster(targetNodes);
+          if("1".equals(testID)){
+            System.out.println("当前时间（毫秒精度）: " + System.currentTimeMillis()  +
           ", Endpoint: " + seedEndpoint);
-         instances.get(seedEndpoint).membershipService.broadcaster.broadcast(
+            instances.get(seedEndpoint).membershipService.broadcaster.broadcast(
              Utils.toRapidRequest(FastRoundPhase2bMessage.getDefaultInstance()));
-         
+          }
          try {
-             // Pause the main process for 30 seconds (30,000 milliseconds)
-             Thread.sleep(5000);
-            //  for (final Cluster cluster: instances.values()) {
-            //     cluster.shutdown();
-            // }
-            // instances.clear();
+             Thread.sleep(10000);
             waitAndShutdownClusters();
          } catch (final InterruptedException e) {
              // Handle exception if the thread is interrupted
              System.out.println("The sleep was interrupted!");
          }
-        }
-         
-        //  System.out.println("Process resumed after 30 seconds.");
-     }
+    }
      
      public void waitAndShutdownClusters() {
-        final int numInstances = instances.size();
-        if (numInstances == 0) {
-            System.out.println("No clusters to shut down.");
-            return;
+        // final int numInstances = instances.size();
+        // if (numInstances == 0) {
+        //     System.out.println("No clusters to shut down.");
+        //     return;
+        // }
+    
+        // CountDownLatch latch = new CountDownLatch(numInstances);
+    
+        // // 遍历实例并启动异步关闭
+        // for (final Cluster cluster : instances.values()) {
+        //     new Thread(() -> {
+        //         try {
+        //             cluster.shutdown(); // 关闭每个 Cluster 实例
+        //             System.out.println("Cluster shutdown complete: " + cluster);
+        //         } finally {
+        //             latch.countDown(); // 每完成一个实例，减少计数器
+        //         }
+        //     }).start();
+        // }
+    
+        // try {
+        //     // 主线程等待所有线程完成
+        //     latch.await();
+        //     System.out.println("All clusters have been shut down.");
+        // } catch (InterruptedException e) {
+        //     System.err.println("Shutdown process was interrupted.");
+        //     Thread.currentThread().interrupt();
+        // } finally {
+        //     // 清理实例
+        //     instances.clear();
+        //     System.out.println("All instances have been cleared.");
+        // }
+        for (final Cluster cluster: instances.values()) {
+            cluster.shutdown();
         }
-    
-        CountDownLatch latch = new CountDownLatch(numInstances);
-    
-        // 遍历实例并启动异步关闭
-        for (final Cluster cluster : instances.values()) {
-            new Thread(() -> {
-                try {
-                    cluster.shutdown(); // 关闭每个 Cluster 实例
-                    System.out.println("Cluster shutdown complete: " + cluster);
-                } finally {
-                    latch.countDown(); // 每完成一个实例，减少计数器
-                }
-            }).start();
-        }
-    
-        try {
-            // 主线程等待所有线程完成
-            latch.await();
-            System.out.println("All clusters have been shut down.");
-        } catch (InterruptedException e) {
-            System.err.println("Shutdown process was interrupted.");
-            Thread.currentThread().interrupt();
-        } finally {
-            // 清理实例
-            instances.clear();
+        instances.clear();
             System.out.println("All instances have been cleared.");
-        }
     }
      /**
       * Creates a cluster of size {@code numNodes} with a seed {@code seedEndpoint}.
