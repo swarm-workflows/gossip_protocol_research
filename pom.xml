@@ -58,7 +58,7 @@
         <plugins>
             <!-- Error-prone -->
             
-            <!-- <plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.2.2</version>
@@ -66,9 +66,9 @@
                     <includes>
                         <include>**/ClusterTest.java</include>
                     </includes>
-                    <test>ClusterTest#phase2JoinAttemptRetry</test>
+                    <test>ClusterTest#testRejoinSingleNode</test>
                 </configuration>
-            </plugin> -->
+            </plugin>
             <!-- <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
