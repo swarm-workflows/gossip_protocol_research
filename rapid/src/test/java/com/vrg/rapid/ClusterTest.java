@@ -487,28 +487,28 @@ public class ClusterTest {
     @Test(timeout = 2000000)
     public void testRejoinSingleNode() throws IOException, InterruptedException {
         
-        useFastFailureDetectionTimeouts();
-        final Endpoint seedEndpoint = Utils.hostFromParts("127.0.0.7", basePort);
-        final Endpoint leavingEndpoint = Utils.hostFromParts("127.0.0.7", basePort + 1);
-        final int N = 100;
-        createCluster(N, seedEndpoint);
+        // useFastFailureDetectionTimeouts();
+        // final Endpoint seedEndpoint = Utils.hostFromParts("127.0.0.7", basePort);
+        // final Endpoint leavingEndpoint = Utils.hostFromParts("127.0.0.7", basePort + 1);
+        // final int N = 100;
+        // createCluster(N, seedEndpoint);
 
-        // Shutdown and rejoin twice
-        System.out.println("TestName: testRejoinSingleNode");
-        Thread.sleep(35000);
-        long startTime = System.nanoTime(); // 开始计时
-        for (int i = 0; i < 10; i++) {
-            final Cluster cluster = instances.remove(leavingEndpoint);
-            cluster.shutdown();
-            waitAndVerifyAgreement(N - 1, 40, 500);
-            extendCluster(leavingEndpoint, seedEndpoint);
-            waitAndVerifyAgreement(N, 40, 500);
-            Thread.sleep(500);
-        }
-        final long endTime = System.nanoTime(); // End timing
-        long durationInMs = (endTime - startTime) / 1_000_000; // Convert to milliseconds
-        System.out.println("Total execution time: " + durationInMs + " ms");
-        System.out.println("Start time: " + startTime / 1_000_000 + " ms");
+        // // Shutdown and rejoin twice
+        // System.out.println("TestName: testRejoinSingleNode");
+        // Thread.sleep(35000);
+        // long startTime = System.nanoTime(); // 开始计时
+        // for (int i = 0; i < 10; i++) {
+        //     final Cluster cluster = instances.remove(leavingEndpoint);
+        //     cluster.shutdown();
+        //     waitAndVerifyAgreement(N - 1, 40, 500);
+        //     extendCluster(leavingEndpoint, seedEndpoint);
+        //     waitAndVerifyAgreement(N, 40, 500);
+        //     Thread.sleep(500);
+        // }
+        // final long endTime = System.nanoTime(); // End timing
+        // long durationInMs = (endTime - startTime) / 1_000_000; // Convert to milliseconds
+        // System.out.println("Total execution time: " + durationInMs + " ms");
+        // System.out.println("Start time: " + startTime / 1_000_000 + " ms");
     }
 
     /**

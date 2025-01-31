@@ -1,0 +1,7 @@
+baseIP: "127.0.0.7"
+port: 1234
+numNodes: 10
+testID: "1"
+targetNodes: 10
+nodeId: 0
+targetServers: 1

@@ -36,7 +36,8 @@ public class ClusterLauncher {
                 config.getNumNodes(),
                 config.getTestID(),
                 config.getTargetNodes(),
-                config.getNodeId()
+                config.getNodeId(),
+                config.getTargetServers()
             );
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();

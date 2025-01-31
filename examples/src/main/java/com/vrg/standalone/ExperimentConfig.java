@@ -10,6 +10,7 @@ public class ExperimentConfig {
     private String testID;
     private int targetNodes;
     private int nodeId;
+    private int targetServers;
 
     // Getters
     public String getBaseIP() { return baseIP; }
@@ -18,6 +19,7 @@ public class ExperimentConfig {
     public String getTestID() { return testID; }
     public int getTargetNodes() { return targetNodes; }
     public int getNodeId() { return nodeId; }
+    public int getTargetServers() { return targetServers; }
 
     // 从 experiment.yaml 读取配置
     public static ExperimentConfig loadConfig(String filename) {
@@ -32,6 +34,8 @@ public class ExperimentConfig {
             config.testID = (String) data.getOrDefault("testID", "defaultTest");
             config.targetNodes = (int) data.getOrDefault("targetNodes", 10);
             config.nodeId = (int) data.getOrDefault("nodeId", -1);
+            config.targetServers = (int) data.getOrDefault("targetServers", 1);
+            
             return config;
         } catch (Exception e) {
             throw new RuntimeException("Error loading configuration: " + e.getMessage(), e);

@@ -89,6 +89,7 @@ import static org.junit.Assert.assertTrue;
      public int numNodes;
      public int targetNodes;
      public int nodeId;
+     public int targetServers;
      public String testID;
      public String baseIP;
      @Nullable public AtomicInteger portCounter = null;
@@ -127,13 +128,14 @@ import static org.junit.Assert.assertTrue;
             addMetadata = false;
         }
 
-        public void setupCluster(String baseIP, int port, int numNodes, String testID, int targetNodes, int nodeId) throws IOException, InterruptedException {
+        public void setupCluster(String baseIP, int port, int numNodes, String testID, int targetNodes, int nodeId, int targetServers) throws IOException, InterruptedException {
             this.baseIP = baseIP;
             this.basePort = port;
             this.numNodes = numNodes;
             this.testID = testID;
             this.targetNodes = targetNodes;
             this.nodeId = nodeId;
+            this.targetServers = targetServers;
 
             System.out.println("Initializing cluster...");
             
@@ -148,7 +150,7 @@ import static org.junit.Assert.assertTrue;
             }
             
             synchronized (this) {
-                while (confirmedConnections < 1) {
+                while (confirmedConnections < targetServers) {
                     wait();
                 }
             }
@@ -174,7 +176,7 @@ import static org.junit.Assert.assertTrue;
                 serverSocket.setSoTimeout(1000);
                 System.out.println("Base server is running on port " + (basePort - 1));
                 while (running) {
-                    System.out.println("seupBaseServer cnt=" + cnt);
+                    // System.out.println("seupBaseServer cnt=" + cnt);
                     cnt++;
                     try {
                         Socket clientSocket = serverSocket.accept();
@@ -189,9 +191,9 @@ import static org.junit.Assert.assertTrue;
                             notifyAll();
                         }
                     } catch (IOException e) {
-                        if (running) {
-                            System.err.println("Error handling client connection: " + e.getMessage());
-                        }
+                        // if (running) {
+                        //     System.err.println("Error handling client connection: " + e.getMessage());
+                        // }
                     }
                 }
             } catch (IOException e) {

@@ -208,7 +208,7 @@ public final class MembershipService {
             case PHASE1BMESSAGE:
             case PHASE2AMESSAGE:
             case PHASE2BMESSAGE:
-                // System.out.println("当前时间（毫秒精度）: " + System.currentTimeMillis()  + ", Endpoint: " + myAddr); 
+                System.out.println("当前时间（毫秒精度）: " + System.currentTimeMillis()  + ", Endpoint: " + myAddr); 
                 return handleConsensusMessages(msg);
             case LEAVEMESSAGE:
                 return handleLeaveMessage(msg);
