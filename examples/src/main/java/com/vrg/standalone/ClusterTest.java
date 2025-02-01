@@ -383,6 +383,50 @@ import static org.junit.Assert.assertTrue;
              executor.shutdown();
          }
      }
+
+     public void extendClusterWithRetry(final int numNodes, final Endpoint seedEndpoint) {
+        final ExecutorService executor = Executors.newWorkStealingPool(numNodes);
+        final int maxAttempts = 5; // Maximum number of retry attempts
+        final int retryDelay = 1000; // Delay between retries in milliseconds
+    
+        try {
+            final CountDownLatch latch = new CountDownLatch(numNodes);
+            for (int i = 0; i < numNodes; i++) {
+                final int currentPort = i + 1234;
+                if (nodeId == 0 && currentPort == basePort) continue;
+                executor.execute(() -> {
+                    int attempts = 0;
+                    boolean success = false;
+                    while (attempts < maxAttempts && !success) {
+                        attempts++;
+                        try {
+                            final Endpoint joiningEndpoint = Utils.hostFromParts(myIP, currentPort);
+                            final Cluster nonSeed = buildCluster(joiningEndpoint).join(seedEndpoint);
+                            instances.put(joiningEndpoint, nonSeed);
+                            success = true;
+                        } catch (final InterruptedException | IOException e) {
+                            System.err.println("Attempt " + attempts + " failed: " + e.getMessage());
+                            try {
+                                Thread.sleep(retryDelay);
+                            } catch (InterruptedException ie) {
+                                Thread.currentThread().interrupt();
+                            }
+                        }
+                    }
+                    if (!success) {
+                        fail();
+                    }
+                    latch.countDown();
+                });
+            }
+            latch.await();
+        } catch (final InterruptedException e) {
+            e.printStackTrace();
+            fail();
+        } finally {
+            executor.shutdown();
+        }
+    }
  
      /**
       * Add {@code numNodes} instances to a cluster.
@@ -413,45 +457,6 @@ import static org.junit.Assert.assertTrue;
              executor.shutdown();
          }
      }
-
-     public void extendClusterWithRetry(final Endpoint joiningNode, final Endpoint seedEndpoint) {
-        final ExecutorService executor = Executors.newWorkStealingPool(1);
-        final int maxAttempts = 5; // Maximum number of retry attempts
-        final int retryDelay = 1000; // Delay between retries in milliseconds
-    
-        try {
-            final CountDownLatch latch = new CountDownLatch(1);
-            executor.execute(() -> {
-                int attempts = 0;
-                boolean success = false;
-                while (attempts < maxAttempts && !success) {
-                    attempts++;
-                    try {
-                        final Cluster nonSeed = buildCluster(joiningNode).join(seedEndpoint);
-                        instances.put(joiningNode, nonSeed);
-                        success = true;
-                    } catch (final InterruptedException | IOException e) {
-                        System.err.println("Attempt " + attempts + " failed: " + e.getMessage());
-                        try {
-                            Thread.sleep(retryDelay);
-                        } catch (InterruptedException ie) {
-                            Thread.currentThread().interrupt();
-                        }
-                    }
-                }
-                if (!success) {
-                    fail();
-                }
-                latch.countDown();
-            });
-            latch.await();
-        } catch (final InterruptedException e) {
-            e.printStackTrace();
-            fail();
-        } finally {
-            executor.shutdown();
-        }
-    }
  
  
      /**
