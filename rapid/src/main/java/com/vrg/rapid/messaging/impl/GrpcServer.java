@@ -271,6 +271,7 @@ public class GrpcServer extends MembershipServiceGrpc.MembershipServiceImplBase 
      */
     @Override
     public void start() throws IOException {
+        System.out.println("Starting server at " + address);
         if (useInProcessServer) {
             final ServerBuilder builder = InProcessServerBuilder.forName(address.toString());
             server = builder.addService(this)
@@ -278,6 +279,7 @@ public class GrpcServer extends MembershipServiceGrpc.MembershipServiceImplBase 
                     .build()
                     .start();
         } else {
+            System.out.println("NettyServerBuilder");
             server = NettyServerBuilder.forAddress(
                         new InetSocketAddress(address.getHostname().toStringUtf8(), address.getPort())
                     )
@@ -286,6 +288,7 @@ public class GrpcServer extends MembershipServiceGrpc.MembershipServiceImplBase 
                     .executor(grpcExecutor)
                     .build()
                     .start();
+            System.out.println("Server initialized");
         }
 
         // Use stderr here since the logger may have been reset by its JVM shutdown hook.

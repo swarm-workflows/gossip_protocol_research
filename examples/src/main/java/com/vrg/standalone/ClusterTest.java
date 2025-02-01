@@ -126,7 +126,7 @@ import static org.junit.Assert.assertTrue;
             settings = new Settings();
     
             // Tests need to opt out of the in-process channel
-            settings.setUseInProcessTransport(true);
+            // settings.setUseInProcessTransport(true);
             // Tests need to set more aggressive frequent failure detection intervals if required
             settings.setFailureDetectorIntervalInMs(1000);
             useStaticFd = false;
@@ -168,7 +168,7 @@ import static org.junit.Assert.assertTrue;
         try{
             run(numNodes);
         } catch (IOException | InterruptedException e) {
-            System.err.println("Error run" + e.getMessage());
+            System.err.println("Error run: " + e.getMessage());
         }
         System.out.println("Finish running");
         stopBaseServer();
