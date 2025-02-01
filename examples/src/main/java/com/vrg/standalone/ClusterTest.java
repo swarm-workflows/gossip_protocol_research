@@ -232,7 +232,8 @@ import static org.junit.Assert.assertTrue;
 
      public void run(final int numNodes) throws IOException, InterruptedException {
             final Endpoint seedEndpoint = Utils.hostFromParts(baseIP, basePort);
-             createCluster(numNodes, seedEndpoint);
+            if(nodeId == 0) createCluster(numNodes, seedEndpoint);
+            else extendCluster(numNodes, seedEndpoint);
              verifyCluster(targetNodes);
           if("1".equals(testID)){
             System.out.println("当前时间（毫秒精度）: " + System.currentTimeMillis()  +
