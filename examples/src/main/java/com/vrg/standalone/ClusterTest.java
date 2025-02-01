@@ -234,7 +234,7 @@ import static org.junit.Assert.assertTrue;
             final Endpoint seedEndpoint = Utils.hostFromParts(baseIP, basePort);
             if(nodeId == 0) createCluster(numNodes, seedEndpoint);
             else extendCluster(numNodes, seedEndpoint);
-             verifyCluster(targetNodes);
+            waitAndVerifyAgreement(targetNodes, 10, 1000);
           if("1".equals(testID)){
             System.out.println("当前时间（毫秒精度）: " + System.currentTimeMillis()  +
           ", Endpoint: " + seedEndpoint);
@@ -251,38 +251,6 @@ import static org.junit.Assert.assertTrue;
     }
      
      public void waitAndShutdownClusters() {
-        // final int numInstances = instances.size();
-        // if (numInstances == 0) {
-        //     System.out.println("No clusters to shut down.");
-        //     return;
-        // }
-    
-        // CountDownLatch latch = new CountDownLatch(numInstances);
-    
-        // // 遍历实例并启动异步关闭
-        // for (final Cluster cluster : instances.values()) {
-        //     new Thread(() -> {
-        //         try {
-        //             cluster.shutdown(); // 关闭每个 Cluster 实例
-        //             System.out.println("Cluster shutdown complete: " + cluster);
-        //         } finally {
-        //             latch.countDown(); // 每完成一个实例，减少计数器
-        //         }
-        //     }).start();
-        // }
-    
-        // try {
-        //     // 主线程等待所有线程完成
-        //     latch.await();
-        //     System.out.println("All clusters have been shut down.");
-        // } catch (InterruptedException e) {
-        //     System.err.println("Shutdown process was interrupted.");
-        //     Thread.currentThread().interrupt();
-        // } finally {
-        //     // 清理实例
-        //     instances.clear();
-        //     System.out.println("All instances have been cleared.");
-        // }
         for (final Cluster cluster: instances.values()) {
             cluster.shutdown();
         }
@@ -320,7 +288,7 @@ import static org.junit.Assert.assertTrue;
              final CountDownLatch latch = new CountDownLatch(numNodes);
              for (int i = 0; i <= numNodes; i++) {
                 final int currentport = i + 1234;
-                if(currentport == basePort) continue; 
+                if(nodeId == 0 && currentport == basePort) continue; 
                 executor.execute(() -> {
                      try {
                          final Endpoint joiningEndpoint =
@@ -330,6 +298,7 @@ import static org.junit.Assert.assertTrue;
                          instances.put(joiningEndpoint, nonSeed);
                      } catch (final InterruptedException | IOException e) {
                          e.printStackTrace();
+                         System.out.println(e);
                          fail();
                      } finally {
                          latch.countDown();
