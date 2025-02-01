@@ -189,21 +189,20 @@ import static org.junit.Assert.assertTrue;
             }
         } else {
             // Logic for nodeId != 0 to wait for information from the base server
-            while (true) {
-                try (Socket socket = new Socket(baseIP, basePort - 1);
-                BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8))) {
-                    String response = in.readLine();
-                    if ("FINISHED".equals(response)) {
-                        break;
+            try (ServerSocket serverSocket = new ServerSocket(basePort)) {
+                while (true) {
+                    try (Socket socket = serverSocket.accept();
+                         BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8))) {
+                        String response = in.readLine();
+                        if ("FINISHED".equals(response)) {
+                            break;
+                        }
+                    } catch (IOException e) {
+                        // Handle exception
                     }
-                } catch (IOException e) {
-                    // Handle exception
                 }
-                try {
-                    Thread.sleep(1000); // Wait before retrying
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                }
+            } catch (IOException e) {
+                System.err.println("Error setting up server socket: " + e.getMessage());
             }
         }
     }
