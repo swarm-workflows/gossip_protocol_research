@@ -15,8 +15,11 @@ package com.vrg.standalone;
  import com.vrg.rapid.Cluster;
  import com.vrg.rapid.Utils;
  import com.vrg.rapid.Settings;
- import java.io.IOException;
- import java.net.ServerSocket;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
@@ -85,6 +88,7 @@ import static org.junit.Assert.assertTrue;
      @Nullable public Random random = null;
      public long seed;
      public int basePort;
+     public String myIP;
      private int confirmedConnections = 0;
      public int numNodes;
      public int targetNodes;
@@ -92,6 +96,7 @@ import static org.junit.Assert.assertTrue;
      public int targetServers;
      public String testID;
      public String baseIP;
+     private List<String> connectedHosts = new ArrayList<>();
      @Nullable public AtomicInteger portCounter = null;
      public Settings settings = new Settings();
  
@@ -128,47 +133,77 @@ import static org.junit.Assert.assertTrue;
             addMetadata = false;
         }
 
-        public void setupCluster(String baseIP, int port, int numNodes, String testID, int targetNodes, int nodeId, int targetServers) throws IOException, InterruptedException {
-            this.baseIP = baseIP;
-            this.basePort = port;
-            this.numNodes = numNodes;
-            this.testID = testID;
-            this.targetNodes = targetNodes;
-            this.nodeId = nodeId;
-            this.targetServers = targetServers;
+    public void setupCluster(String baseIP, String myIP, int port, int numNodes, String testID, 
+    int targetNodes, int nodeId, int targetServers) throws IOException, InterruptedException {
+        this.baseIP = baseIP;
+        this.myIP = myIP;
+        this.basePort = port;
+        this.numNodes = numNodes;
+        this.testID = testID;
+        this.targetNodes = targetNodes;
+        this.nodeId = nodeId;
+        this.targetServers = targetServers;
 
-            System.out.println("Initializing cluster...");
-            
-            // Check if we can connect to the cluster
-            if(nodeId == 0){
-                // Set up server to reponse the connectToCluster
-                setupBaseServer();
-            }
-            if (!connectToCluster()) {
-                System.err.println("Failed to connect to the cluster at " + baseIP + ":" + (port - 1));
-                return;
-            }
-            
-            synchronized (this) {
-                while (confirmedConnections < targetServers) {
-                    wait();
-                }
-            }
-    
-
-            System.out.println("Connected to cluster. Launching " + numNodes + " nodes...");
-
-            System.out.println("Cluster is ready with " + targetNodes + " nodes. Starting test: " + testID);
-            try{
-                run(numNodes);
-            } catch (IOException | InterruptedException e) {
-                System.err.println("Error run" + e.getMessage());
-            }
-            System.out.println("Finish running");
-            stopBaseServer();
-            System.out.println("Finish stopBaseServer.");
+        System.out.println("Initializing cluster...");
+        
+        // Check if we can connect to the cluster
+        if(nodeId == 0){
+            // Set up server to reponse the connectToCluster
+            setupBaseServer();
+        }
+        if (!connectToCluster()) {
+            System.err.println("Failed to connect to the cluster at " + baseIP + ":" + (port - 1));
+            return;
         }
         
+        waitForConnections();
+
+
+        System.out.println("Connected to cluster. Launching " + numNodes + " nodes...");
+
+        System.out.println("Cluster is ready with " + targetNodes + " nodes. Starting test: " + testID);
+        try{
+            run(numNodes);
+        } catch (IOException | InterruptedException e) {
+            System.err.println("Error run" + e.getMessage());
+        }
+        System.out.println("Finish running");
+        stopBaseServer();
+        System.out.println("Finish stopBaseServer.");
+    }
+    
+    private void waitForConnections() {
+        if (nodeId == 0) {
+            synchronized (this) {
+                while (confirmedConnections < targetServers) {
+                    try {
+                        wait();
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                    }
+                }
+            }
+        } else {
+            // Logic for nodeId != 0 to wait for information from the base server
+            while (true) {
+                try (Socket socket = new Socket(baseIP, basePort - 1);
+                BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8))) {
+                    String response = in.readLine();
+                    if ("FINISHED".equals(response)) {
+                        break;
+                    }
+                } catch (IOException e) {
+                    // Handle exception
+                }
+                try {
+                    Thread.sleep(1000); // Wait before retrying
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+            }
+        }
+    }
+
     private void setupBaseServer() throws IOException {
         serverThread = new Thread(() -> {
             int cnt = 0;
@@ -180,7 +215,9 @@ import static org.junit.Assert.assertTrue;
                     cnt++;
                     try {
                         Socket clientSocket = serverSocket.accept();
+                        String clientAddress = clientSocket.getInetAddress().getHostAddress();
                         System.out.println("Accepted connection from " + clientSocket.getInetAddress());
+                        connectedHosts.add(clientAddress);
                         // Send confirmation message to the client
                         try (OutputStream out = clientSocket.getOutputStream()) {
                             out.write("CONFIRMED".getBytes(StandardCharsets.UTF_8));
@@ -189,6 +226,9 @@ import static org.junit.Assert.assertTrue;
                         synchronized (this) {
                             confirmedConnections++;
                             notifyAll();
+                            if (confirmedConnections >= targetServers) {
+                                broadcastFinish();
+                            }
                         }
                     } catch (IOException e) {
                         // if (running) {
@@ -205,7 +245,35 @@ import static org.junit.Assert.assertTrue;
         });
         serverThread.start();
     }
-    
+
+    private void broadcastFinish() {
+        System.out.println("Broadcasting finish to other servers.");
+        for (String host : connectedHosts) {
+            boolean success = false;
+            int attempts = 0;
+            int maxAttempts = 5; // Maximum number of retry attempts
+            while (!success && attempts < maxAttempts) {
+                attempts++;
+                try (Socket socket = new Socket(host, basePort - 1);
+                    OutputStream out = socket.getOutputStream()) {
+                    out.write("FINISHED".getBytes(StandardCharsets.UTF_8));
+                    out.flush();
+                    success = true;
+                } catch (IOException e) {
+                    System.err.println("Error broadcasting to " + host + " on attempt " + attempts + ": " + e.getMessage());
+                    try {
+                        Thread.sleep(1000); // Wait before retrying
+                    } catch (InterruptedException ie) {
+                        Thread.currentThread().interrupt();
+                    }
+                }
+            }
+            if (!success) {
+                System.err.println("Failed to broadcast to " + host + " after " + maxAttempts + " attempts.");
+            }
+        }
+    }
+
     private void stopBaseServer() {
         running = false;
         if (serverThread != null) {
@@ -291,9 +359,7 @@ import static org.junit.Assert.assertTrue;
                 if(nodeId == 0 && currentport == basePort) continue; 
                 executor.execute(() -> {
                      try {
-                         final Endpoint joiningEndpoint =
-                                //  Utils.hostFromParts("127.0.0.7", portCounter.incrementAndGet());
-                                 Utils.hostFromParts("127.0.0.7", currentport);
+                         final Endpoint joiningEndpoint = Utils.hostFromParts(myIP, currentport);
                          final Cluster nonSeed = buildCluster(joiningEndpoint).join(seedEndpoint);
                          instances.put(joiningEndpoint, nonSeed);
                      } catch (final InterruptedException | IOException e) {
@@ -359,7 +425,7 @@ import static org.junit.Assert.assertTrue;
                  executor.execute(() -> {
                      try {
                          final Endpoint joiningEndpoint =
-                                 Utils.hostFromParts("127.0.0.7", portCounter.incrementAndGet());
+                                 Utils.hostFromParts(myIP, portCounter.incrementAndGet());
                          final Cluster nonSeed = buildCluster(joiningEndpoint).join(seedEndpoint);
                          instances.put(joiningEndpoint, nonSeed);
                      } catch (final InterruptedException | IOException e) {

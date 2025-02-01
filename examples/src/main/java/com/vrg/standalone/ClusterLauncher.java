@@ -21,6 +21,7 @@ public class ClusterLauncher {
         // 打印配置
         System.out.println("\nLaunching Cluster with settings:");
         System.out.println("Base IP: " + config.getBaseIP());
+        System.out.println("My IP: " + config.getMyIP());
         System.out.println("Port: " + config.getPort());
         System.out.println("Number of nodes: " + config.getNumNodes());
         System.out.println("Test ID: " + config.getTestID());
@@ -32,6 +33,7 @@ public class ClusterLauncher {
         try {
             clusterTest.setupCluster(
                 config.getBaseIP(),
+                config.getMyIP(),
                 config.getPort(),
                 config.getNumNodes(),
                 config.getTestID(),

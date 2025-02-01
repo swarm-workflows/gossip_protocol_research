@@ -5,6 +5,7 @@ import java.util.Map;
 
 public class ExperimentConfig {
     private String baseIP;
+    private String myIP;
     private int port;
     private int numNodes;
     private String testID;
@@ -14,6 +15,7 @@ public class ExperimentConfig {
 
     // Getters
     public String getBaseIP() { return baseIP; }
+    public String getMyIP() { return myIP; }
     public int getPort() { return port; }
     public int getNumNodes() { return numNodes; }
     public String getTestID() { return testID; }
@@ -29,13 +31,14 @@ public class ExperimentConfig {
 
             ExperimentConfig config = new ExperimentConfig();
             config.baseIP = (String) data.getOrDefault("baseIP", "127.0.0.7");
+            config.myIP = (String) data.getOrDefault("myIP", "127.0.0.7");
             config.port = (int) data.getOrDefault("port", 1234);
             config.numNodes = (int) data.getOrDefault("numNodes", 10);
             config.testID = (String) data.getOrDefault("testID", "defaultTest");
             config.targetNodes = (int) data.getOrDefault("targetNodes", 10);
             config.nodeId = (int) data.getOrDefault("nodeId", -1);
             config.targetServers = (int) data.getOrDefault("targetServers", 1);
-            
+
             return config;
         } catch (Exception e) {
             throw new RuntimeException("Error loading configuration: " + e.getMessage(), e);
