@@ -194,6 +194,7 @@ import static org.junit.Assert.assertTrue;
                     try (Socket socket = serverSocket.accept();
                          BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8))) {
                         String response = in.readLine();
+                        System.out.println("Accepted connection from " + socket.getInetAddress());
                         if ("FINISHED".equals(response)) {
                             break;
                         }
@@ -231,6 +232,7 @@ import static org.junit.Assert.assertTrue;
                             notifyAll();
                             if (confirmedConnections >= targetServers) {
                                 broadcastFinish();
+                                running = false;
                             }
                         }
                     } catch (IOException e) {
