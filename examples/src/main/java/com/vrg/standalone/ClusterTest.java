@@ -189,7 +189,7 @@ import static org.junit.Assert.assertTrue;
             }
         } else {
             // Logic for nodeId != 0 to wait for information from the base server
-            try (ServerSocket serverSocket = new ServerSocket(basePort)) {
+            try (ServerSocket serverSocket = new ServerSocket(basePort - 1)) {
                 while (true) {
                     try (Socket socket = serverSocket.accept();
                          BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8))) {
