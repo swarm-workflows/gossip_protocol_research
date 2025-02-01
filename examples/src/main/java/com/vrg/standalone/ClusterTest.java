@@ -163,9 +163,8 @@ import static org.junit.Assert.assertTrue;
         waitForConnections();
 
 
+        System.out.println("Cluster is ready with " + targetServers + " servers. Starting test: " + testID);
         System.out.println("Connected to cluster. Launching " + numNodes + " nodes...");
-
-        System.out.println("Cluster is ready with " + targetNodes + " nodes. Starting test: " + testID);
         try{
             run(numNodes);
         } catch (IOException | InterruptedException e) {
@@ -306,7 +305,7 @@ import static org.junit.Assert.assertTrue;
      public void run(final int numNodes) throws IOException, InterruptedException {
             final Endpoint seedEndpoint = Utils.hostFromParts(baseIP, basePort);
             if(nodeId == 0) createCluster(numNodes, seedEndpoint);
-            else extendCluster(numNodes, seedEndpoint);
+            else extendClusterWithRetry(numNodes, seedEndpoint);
             waitAndVerifyAgreement(targetNodes, 10, 1000);
           if("1".equals(testID)){
             System.out.println("当前时间（毫秒精度）: " + System.currentTimeMillis()  +
@@ -414,6 +413,45 @@ import static org.junit.Assert.assertTrue;
              executor.shutdown();
          }
      }
+
+     public void extendClusterWithRetry(final Endpoint joiningNode, final Endpoint seedEndpoint) {
+        final ExecutorService executor = Executors.newWorkStealingPool(1);
+        final int maxAttempts = 5; // Maximum number of retry attempts
+        final int retryDelay = 1000; // Delay between retries in milliseconds
+    
+        try {
+            final CountDownLatch latch = new CountDownLatch(1);
+            executor.execute(() -> {
+                int attempts = 0;
+                boolean success = false;
+                while (attempts < maxAttempts && !success) {
+                    attempts++;
+                    try {
+                        final Cluster nonSeed = buildCluster(joiningNode).join(seedEndpoint);
+                        instances.put(joiningNode, nonSeed);
+                        success = true;
+                    } catch (final InterruptedException | IOException e) {
+                        System.err.println("Attempt " + attempts + " failed: " + e.getMessage());
+                        try {
+                            Thread.sleep(retryDelay);
+                        } catch (InterruptedException ie) {
+                            Thread.currentThread().interrupt();
+                        }
+                    }
+                }
+                if (!success) {
+                    fail();
+                }
+                latch.countDown();
+            });
+            latch.await();
+        } catch (final InterruptedException e) {
+            e.printStackTrace();
+            fail();
+        } finally {
+            executor.shutdown();
+        }
+    }
  
  
      /**
