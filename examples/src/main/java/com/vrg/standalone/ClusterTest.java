@@ -158,7 +158,6 @@ import static org.junit.Assert.assertTrue;
             catch (Exception e) {
             System.err.println("Failed to connect to the cluster at " + baseIP + ":" + (port - 1));
             }
-            return;
         }
         
         waitForConnections();
