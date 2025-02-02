@@ -96,20 +96,20 @@ public class GrpcServer extends MembershipServiceGrpc.MembershipServiceImplBase 
         final String messageId = rapidRequest.getMessageId().getHigh() + "-" 
         + rapidRequest.getMessageId().getLow();
         
-        if (
-            rapidRequest.getContentCase() == RapidRequest.ContentCase.FASTROUNDPHASE2BMESSAGE ||
-            rapidRequest.getContentCase() == RapidRequest.ContentCase.PHASE1AMESSAGE ||
-            rapidRequest.getContentCase() == RapidRequest.ContentCase.PHASE2AMESSAGE ||
-            rapidRequest.getContentCase() == RapidRequest.ContentCase.PHASE2BMESSAGE ||
-            rapidRequest.getContentCase() == RapidRequest.ContentCase.LATENCYMESSAGE ||
-            rapidRequest.getContentCase() == RapidRequest.ContentCase.BATCHEDALERTMESSAGE) {
-            // Store the message ID in the cache
-            // final String messageId = rapidRequest.getMessageId().getHigh() + "-" 
-            // + rapidRequest.getMessageId().getLow();
-            if (messageCache.getIfPresent(messageId) != null) {
-                return;
-            }
-        }
+        // if (
+        //     rapidRequest.getContentCase() == RapidRequest.ContentCase.FASTROUNDPHASE2BMESSAGE ||
+        //     rapidRequest.getContentCase() == RapidRequest.ContentCase.PHASE1AMESSAGE ||
+        //     rapidRequest.getContentCase() == RapidRequest.ContentCase.PHASE2AMESSAGE ||
+        //     rapidRequest.getContentCase() == RapidRequest.ContentCase.PHASE2BMESSAGE ||
+        //     rapidRequest.getContentCase() == RapidRequest.ContentCase.LATENCYMESSAGE ||
+        //     rapidRequest.getContentCase() == RapidRequest.ContentCase.BATCHEDALERTMESSAGE) {
+        //     // Store the message ID in the cache
+        //     // final String messageId = rapidRequest.getMessageId().getHigh() + "-" 
+        //     // + rapidRequest.getMessageId().getLow();
+        //     if (messageCache.getIfPresent(messageId) != null) {
+        //         return;
+        //     }
+        // }
         if (membershipService != null) {
             // Forward the message to another node or handle accordingly
             // System.out.println("MembershipService != null");
@@ -196,9 +196,9 @@ public class GrpcServer extends MembershipServiceGrpc.MembershipServiceImplBase 
         // for (final Endpoint recipient : availableEndpoints) {
         for (final Endpoint recipient : recipients) {
             // if(count == 5)break;
-            // if (noResponseEndpoints.contains(recipient)) {
-            //     continue;
-            // }
+            if (noResponseEndpoints.contains(recipient)) {
+                continue;
+            }
             Endpoint target = recipient;
             // if (noResponseEndpoints.contains(recipient)) {
             //     target = availableEndpoints.get(count % availableEndpoints.size());
