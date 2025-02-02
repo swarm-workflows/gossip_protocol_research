@@ -272,7 +272,7 @@ public class GrpcServer extends MembershipServiceGrpc.MembershipServiceImplBase 
      */
     @Override
     public void start() throws IOException {
-        System.out.println("Starting server at " + address);
+        // System.out.println("Starting server at " + address);
         if (useInProcessServer) {
             final ServerBuilder builder = InProcessServerBuilder.forName(address.toString());
             server = builder.addService(this)
