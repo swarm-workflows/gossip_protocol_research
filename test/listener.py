@@ -1,8 +1,8 @@
 import socket
 
 def listen_for_packet():
-    # Create a UDP socket
-    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    # Create a UDP socket that can handle both IPv4 and IPv6
+    sock = socket.socket(socket.AF_INET6, socket.SOCK_DGRAM)
 
     # Bind the socket to all available interfaces on port 37389
     server_address = ('', 1234)
