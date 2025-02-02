@@ -5,7 +5,7 @@ def listen_for_packet():
     sock = socket.socket(socket.AF_INET6, socket.SOCK_DGRAM)
 
     # Bind the socket to all available interfaces on port 37389
-    server_address = ('0.0.0.0', 1234)
+    server_address = ('', 1234)
     sock.bind(server_address)
     print("Listening on port 37389 for incoming packets...")
 
