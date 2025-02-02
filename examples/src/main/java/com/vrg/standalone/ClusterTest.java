@@ -309,7 +309,7 @@ import static org.junit.Assert.assertTrue;
             waitAndVerifyAgreement(targetNodes, 10, 1000);
             Thread.sleep(35000);
             if("1".equals(testID)){
-            System.out.println("当前时间（毫秒精度）: " + System.currentTimeMillis()  +
+            System.out.println("Broadcast Start at " + System.currentTimeMillis()  +
           ", Endpoint: " + seedEndpoint);
           if(nodeId == 0) instances.get(seedEndpoint).membershipService.broadcaster.broadcast(
              Utils.toRapidRequest(FastRoundPhase2bMessage.getDefaultInstance()));
