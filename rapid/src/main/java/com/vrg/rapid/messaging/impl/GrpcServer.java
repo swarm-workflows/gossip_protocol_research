@@ -280,7 +280,7 @@ public class GrpcServer extends MembershipServiceGrpc.MembershipServiceImplBase 
                     .build()
                     .start();
         } else {
-            System.out.println("NettyServerBuilder");
+            // System.out.println("NettyServerBuilder");
             server = NettyServerBuilder.forAddress(
                         // new InetSocketAddress(address.getHostname().toStringUtf8(), address.getPort())
                         new InetSocketAddress("0.0.0.0", address.getPort())
@@ -290,7 +290,7 @@ public class GrpcServer extends MembershipServiceGrpc.MembershipServiceImplBase 
                     .executor(grpcExecutor)
                     .build()
                     .start();
-            System.out.println("Server initialized");
+            // System.out.println("Server initialized");
         }
 
         // Use stderr here since the logger may have been reset by its JVM shutdown hook.

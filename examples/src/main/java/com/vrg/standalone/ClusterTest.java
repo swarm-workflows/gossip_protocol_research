@@ -306,7 +306,9 @@ import static org.junit.Assert.assertTrue;
             final Endpoint seedEndpoint = Utils.hostFromParts(baseIP, basePort);
             if(nodeId == 0) createCluster(numNodes, seedEndpoint);
             else extendClusterWithRetry(numNodes, seedEndpoint);
+            System.out.println("Wait for targetNodes: " + targetNodes);
             waitAndVerifyAgreement(targetNodes, 10, 1000);
+            System.out.println("TargetNodes=" + targetNodes + " have joined the cluster.");
             Thread.sleep(35000);
             if("1".equals(testID)){
             System.out.println("Broadcast Start at " + System.currentTimeMillis()  +
