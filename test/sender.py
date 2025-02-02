@@ -25,4 +25,4 @@ def send_packet(destination, port):
 
 if __name__ == '__main__':
     # Example usage: send a packet to an IPv6 address on port 37389
-    send_packet('2605:2800:2011:201:f816:3eff:fe62:483c', 1234)
+    send_packet('10.134.4.2', 1234)
