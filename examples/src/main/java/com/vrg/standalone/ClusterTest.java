@@ -408,7 +408,7 @@ import static org.junit.Assert.assertTrue;
                             instances.put(joiningEndpoint, nonSeed);
                             success = true;
                         } catch (final InterruptedException | IOException e) {
-                            System.err.println("Attempt " + attempts + " failed: " + e.getMessage());
+                            System.out.println("Attempt " + attempts + " failed: " + e.getMessage());
                             try {
                                 Thread.sleep(retryDelay);
                             } catch (InterruptedException ie) {
