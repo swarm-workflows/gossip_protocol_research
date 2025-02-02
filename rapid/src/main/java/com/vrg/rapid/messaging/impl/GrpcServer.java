@@ -137,9 +137,9 @@ public class GrpcServer extends MembershipServiceGrpc.MembershipServiceImplBase 
         rapidRequest.getContentCase() == RapidRequest.ContentCase.LATENCYMESSAGE ||
         rapidRequest.getContentCase() == RapidRequest.ContentCase.BATCHEDALERTMESSAGE) {
         // Store the message ID in the cache
-        // if (messageCache.getIfPresent(messageId) != null) {
-        //     return;
-        // }
+        if (messageCache.getIfPresent(messageId) != null) {
+            return;
+        }
         // long start = System.nanoTime();
         messageCache.put(messageId, Boolean.TRUE);
         // long end = System.nanoTime();
@@ -196,9 +196,9 @@ public class GrpcServer extends MembershipServiceGrpc.MembershipServiceImplBase 
         // for (final Endpoint recipient : availableEndpoints) {
         for (final Endpoint recipient : recipients) {
             // if(count == 5)break;
-            if (noResponseEndpoints.contains(recipient)) {
-                continue;
-            }
+            // if (noResponseEndpoints.contains(recipient)) {
+            //     continue;
+            // }
             Endpoint target = recipient;
             // if (noResponseEndpoints.contains(recipient)) {
             //     target = availableEndpoints.get(count % availableEndpoints.size());
