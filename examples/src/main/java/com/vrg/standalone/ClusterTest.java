@@ -307,14 +307,15 @@ import static org.junit.Assert.assertTrue;
             if(nodeId == 0) createCluster(numNodes, seedEndpoint);
             else extendClusterWithRetry(numNodes, seedEndpoint);
             waitAndVerifyAgreement(targetNodes, 10, 1000);
-          if("1".equals(testID)){
+            Thread.sleep(35000);
+            if("1".equals(testID)){
             System.out.println("当前时间（毫秒精度）: " + System.currentTimeMillis()  +
           ", Endpoint: " + seedEndpoint);
-            instances.get(seedEndpoint).membershipService.broadcaster.broadcast(
+          if(nodeId == 0) instances.get(seedEndpoint).membershipService.broadcaster.broadcast(
              Utils.toRapidRequest(FastRoundPhase2bMessage.getDefaultInstance()));
           }
          try {
-             Thread.sleep(10000);
+             Thread.sleep(20000);
             waitAndShutdownClusters();
          } catch (final InterruptedException e) {
              // Handle exception if the thread is interrupted
