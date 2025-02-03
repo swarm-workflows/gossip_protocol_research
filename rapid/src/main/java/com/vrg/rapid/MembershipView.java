@@ -165,8 +165,8 @@ import java.util.Set;
         final double gaussian = random.nextGaussian();
         // Ensure latency is non-negative
         // final double latency = Math.min(100, Math.max(meanLatency + gaussian * stdDevLatency, 10));
-        // final double latency = Math.max(meanLatency + gaussian * stdDevLatency, 10);
-        final double latency = Math.min(Math.max(meanLatency + gaussian * stdDevLatency, 10), 50);
+        final double latency = Math.max(meanLatency + gaussian * stdDevLatency, 10);
+        // final double latency = Math.min(Math.max(meanLatency + gaussian * stdDevLatency, 10), 50);
 
         // Cache the computed latency for future use
         latencyCache.put(key, latency);
