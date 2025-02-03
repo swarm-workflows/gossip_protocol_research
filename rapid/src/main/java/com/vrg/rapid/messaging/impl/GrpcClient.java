@@ -84,8 +84,10 @@ public class GrpcClient implements IMessagingClient {
      // Declare a ScheduledExecutorService
     private final ScheduledExecutorService scheduledExecutor = Executors.newSingleThreadScheduledExecutor();
 
-    private final double meanLatency = 50; // Mean latency in milliseconds
-    private final double stdDevLatency = 15; // Standard deviation in milliseconds
+    // private final double meanLatency = 50; // Mean latency in milliseconds
+    // private final double stdDevLatency = 15; // Standard deviation in milliseconds
+    private final double meanLatency = 25; // Mean latency in milliseconds
+    private final double stdDevLatency = 10; // Standard deviation in milliseconds
 
     @Nullable private final EventLoopGroup eventLoopGroup;
     private final AtomicBoolean isShuttingDown = new AtomicBoolean(false);
@@ -144,7 +146,7 @@ public class GrpcClient implements IMessagingClient {
         // Generate a Gaussian value and scale it to mean and standard deviation
         final double gaussian = random.nextGaussian();
         // final double latency = Math.min(100, Math.max(meanLatency + gaussian * stdDevLatency, 10));
-        final double latency = Math.max(meanLatency + gaussian * stdDevLatency, 10);
+        final double latency = Math.min(Math.max(meanLatency + gaussian * stdDevLatency, 10), 50);
         
         latencyCache.put(key, latency);
 

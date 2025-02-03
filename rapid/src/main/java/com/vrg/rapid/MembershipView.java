@@ -50,8 +50,10 @@ import java.util.Set;
      public final int K;
      public final int M = 6;
     //  private final Random random = new Random();
-    private final double meanLatency = 50.0; // Example value
-    private final double stdDevLatency = 15; // Example value
+    // private final double meanLatency = 50.0; // Example value
+    // private final double stdDevLatency = 15; // Example value
+    private final double meanLatency = 25.0; // Example value
+    private final double stdDevLatency = 10; // Example value
     // private final List<Endpoint> subjects_record = new ArrayList<>();
     
     public final Map<String, Double> latencyCache = new HashMap<>();
@@ -154,7 +156,8 @@ import java.util.Set;
         final double gaussian = random.nextGaussian();
         // Ensure latency is non-negative
         // final double latency = Math.min(100, Math.max(meanLatency + gaussian * stdDevLatency, 10));
-        final double latency = Math.max(meanLatency + gaussian * stdDevLatency, 10);
+        // final double latency = Math.max(meanLatency + gaussian * stdDevLatency, 10);
+        final double latency = Math.min(Math.max(meanLatency + gaussian * stdDevLatency, 10), 50);
 
         // Cache the computed latency for future use
         latencyCache.put(key, latency);
