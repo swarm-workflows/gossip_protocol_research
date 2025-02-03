@@ -101,9 +101,6 @@ public class GrpcServer extends MembershipServiceGrpc.MembershipServiceImplBase 
         final String messageId = rapidRequest.getMessageId().getHigh() + "-" 
         + rapidRequest.getMessageId().getLow();
 
-        if(rapidRequest.getMessageId() == testMessageId){
-            System.out.println("Server receives PHASE2BMESSAGE: " + System.currentTimeMillis()  + ", Endpoint: " + address); 
-        }
         
         if (
             rapidRequest.getContentCase() == RapidRequest.ContentCase.FASTROUNDPHASE2BMESSAGE ||
@@ -115,6 +112,12 @@ public class GrpcServer extends MembershipServiceGrpc.MembershipServiceImplBase 
             // Store the message ID in the cache
             // final String messageId = rapidRequest.getMessageId().getHigh() + "-" 
             // + rapidRequest.getMessageId().getLow();
+            if(rapidRequest.getMessageId() == testMessageId){
+                System.out.println("Server receives PHASE2BMESSAGE: " + System.currentTimeMillis()  + ", Endpoint: " + address); 
+            }
+            else{
+                System.out.println(messageId + " " + testMessageId);
+            }
             if (messageCache.getIfPresent(messageId) != null) {
                 return;
             }
