@@ -178,7 +178,7 @@ import static org.junit.Assert.assertTrue;
     private void waitForConnections() {
         if (nodeId == 0) {
             synchronized (this) {
-                while (confirmedConnections < targetServers) {
+                while (confirmedConnections < targetServers - 1) {
                     try {
                         wait();
                     } catch (InterruptedException e) {
@@ -229,7 +229,7 @@ import static org.junit.Assert.assertTrue;
                         synchronized (this) {
                             confirmedConnections++;
                             notifyAll();
-                            if (confirmedConnections >= targetServers) {
+                            if (confirmedConnections >= targetServers - 1) {
                                 broadcastFinish();
                                 running = false;
                             }
