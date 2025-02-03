@@ -189,6 +189,13 @@ import java.util.Set;
     //         // subjects_record.add(ep);
     //         subjects_dgro.add(ep);
     //    }
+
+    for (int k = 0; k < 1; ++k) {
+                final Endpoint ep = ringlist.get(k).get((ringlist.get(k).indexOf(node) - 1 + getMembershipSize())
+                % getMembershipSize());
+                // subjects_record.add(ep);
+                subjects_dgro.add(ep);
+           }
         Map<String, Long> tmp =  latencyMap.getOrDefault(node, Collections.emptyMap());
          List<String> topEndpoints = tmp.entrySet().stream()
                 .sorted(Map.Entry.comparingByValue()) // 按值 (latency) 排序
