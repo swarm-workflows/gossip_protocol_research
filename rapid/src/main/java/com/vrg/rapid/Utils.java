@@ -57,7 +57,7 @@ final public class Utils {
     /**
      * Helpers for type conversions
      */
-    static MessageId messageIdFromUUID(final UUID uuid) {
+    public static MessageId messageIdFromUUID(final UUID uuid) {
         return MessageId.newBuilder().setHigh(uuid.getMostSignificantBits())
                                   .setLow(uuid.getLeastSignificantBits()).build();
     }
@@ -204,6 +204,12 @@ final public class Utils {
     public static RapidRequest toRapidRequest(final FastRoundPhase2bMessage msg) {
         return RapidRequest.newBuilder().setFastRoundPhase2BMessage(msg)
                                         .setMessageId(messageIdFromUUID(UUID.randomUUID()))
+                                        .build();
+    }
+
+    public static RapidRequest toRapidRequest(final FastRoundPhase2bMessage msg, final MessageId messageId) {
+        return RapidRequest.newBuilder().setFastRoundPhase2BMessage(msg)
+                                        .setMessageId(messageId)
                                         .build();
     }
 

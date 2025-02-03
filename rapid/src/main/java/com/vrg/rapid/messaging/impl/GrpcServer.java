@@ -18,9 +18,11 @@ import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.vrg.rapid.MembershipService;
 import com.vrg.rapid.SharedResources;
+import com.vrg.rapid.Utils;
 import com.vrg.rapid.messaging.IMessagingServer;
 import com.vrg.rapid.pb.Endpoint;
 import com.vrg.rapid.pb.MembershipServiceGrpc;
+import com.vrg.rapid.pb.MessageId;
 import com.vrg.rapid.pb.NodeStatus;
 import com.vrg.rapid.pb.ProbeResponse;
 import com.vrg.rapid.pb.RapidRequest;
@@ -43,6 +45,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -67,6 +70,8 @@ public class GrpcServer extends MembershipServiceGrpc.MembershipServiceImplBase 
     @Nullable private Server server;
     private final boolean useInProcessServer;
     private final Cache<String, Boolean> messageCache;
+    final UUID TEST_MESSAGE_UUID = UUID.fromString("00000000-0000-0000-0000-TESTMSGID");
+    MessageId testMessageId = Utils.messageIdFromUUID(TEST_MESSAGE_UUID);
 
     // Used to queue messages in the RPC layer until we are ready with
     // a MembershipService object
@@ -95,6 +100,10 @@ public class GrpcServer extends MembershipServiceGrpc.MembershipServiceImplBase 
         // }
         final String messageId = rapidRequest.getMessageId().getHigh() + "-" 
         + rapidRequest.getMessageId().getLow();
+
+        if(rapidRequest.getMessageId() == testMessageId){
+            System.out.println("Server receives PHASE2BMESSAGE: " + System.currentTimeMillis()  + ", Endpoint: " + address); 
+        }
         
         if (
             rapidRequest.getContentCase() == RapidRequest.ContentCase.FASTROUNDPHASE2BMESSAGE ||

@@ -166,7 +166,6 @@
      RapidResponse handleMessages(final RapidRequest request) {
          switch (request.getContentCase()) {
              case FASTROUNDPHASE2BMESSAGE:
-                System.out.println("Server receives FASTROUNDPHASE2BMESSAGE: " + System.currentTimeMillis()  + ", Endpoint: " + myAddr); 
                  handleFastRoundProposal(request.getFastRoundPhase2BMessage());
                  break;
              case PHASE1AMESSAGE:

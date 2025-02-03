@@ -42,10 +42,12 @@ import java.util.logging.Logger;
  import com.google.protobuf.ByteString;
 //  import com.vrg.rapid.messaging.impl.GrpcClient;
  import com.vrg.rapid.pb.Endpoint;
+ import com.vrg.rapid.Utils;
  import com.vrg.rapid.pb.FastRoundPhase2bMessage;
 //  import com.vrg.rapid.pb.RapidRequest;
- 
- import java.nio.charset.Charset;
+import com.vrg.rapid.pb.MessageId;
+
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
  import java.util.Collections;
@@ -56,7 +58,8 @@ import java.util.ArrayList;
  import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
- import java.util.concurrent.ConcurrentHashMap;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
  import java.util.concurrent.CountDownLatch;
 //  import java.util.concurrent.ExecutionException;
  import java.util.concurrent.ExecutorService;
@@ -326,9 +329,13 @@ import static org.junit.Assert.assertTrue;
             if("1".equals(testID)){
             System.out.println("Broadcast Start at " + System.currentTimeMillis()  +
           ", Endpoint: " + seedEndpoint);
-          if(nodeId == 0) instances.get(seedEndpoint).membershipService.broadcaster.broadcast(
-             Utils.toRapidRequest(FastRoundPhase2bMessage.getDefaultInstance()));
+          if(nodeId == 0){
+            final UUID TEST_MESSAGE_UUID = UUID.fromString("00000000-0000-0000-0000-TESTMSGID");
+            MessageId testMessageId = Utils.messageIdFromUUID(TEST_MESSAGE_UUID);
+            instances.get(seedEndpoint).membershipService.broadcaster.broadcast(
+                Utils.toRapidRequest(FastRoundPhase2bMessage.getDefaultInstance(), testMessageId));
           }
+          
          try {
              Thread.sleep(20000);
             waitAndShutdownClusters();
