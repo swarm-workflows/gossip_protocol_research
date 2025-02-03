@@ -39,6 +39,7 @@ import java.util.Set;
  import java.util.TreeSet;
  import java.util.concurrent.locks.ReadWriteLock;
  import java.util.concurrent.locks.ReentrantReadWriteLock;
+ import java.util.stream.Collectors;
  
  /**
   * Hosts K permutations of the memberlist that represent the monitoring relationship between nodes;
@@ -182,12 +183,32 @@ import java.util.Set;
             ringlist.set(k, DGRO(endpointList, k));
             // ringlist.get(k) = DGRO(endpointList, k);
          }
-        for (int k = 0; k < M; ++k) {
-            final Endpoint ep = ringlist.get(k).get((ringlist.get(k).indexOf(node) - 1 + getMembershipSize())
-            % getMembershipSize());
-            // subjects_record.add(ep);
-            subjects_dgro.add(ep);
-       }
+    //     for (int k = 0; k < M; ++k) {
+    //         final Endpoint ep = ringlist.get(k).get((ringlist.get(k).indexOf(node) - 1 + getMembershipSize())
+    //         % getMembershipSize());
+    //         // subjects_record.add(ep);
+    //         subjects_dgro.add(ep);
+    //    }
+        Map<String, Long> tmp =  latencyMap.getOrDefault(node, Collections.emptyMap());
+         List<String> topEndpoints = tmp.entrySet().stream()
+                .sorted(Map.Entry.comparingByValue()) // 按值 (latency) 排序
+                .limit(M) // 取前 8 个
+                .map(Map.Entry::getKey) // 只取 key（endpoint）
+                .collect(Collectors.toList());
+                for(int i = 0; i < topEndpoints.size(); i++){
+                    subjects_dgro.add(Utils.hostFromString(topEndpoints.get(i)));
+                }
+
+                // 2️⃣ 如果不足 8 个, 需要填充随机 endpoint
+                int remaining = M - subjects_dgro.size();
+                for (int i = 0; i < remaining; i++) {
+                    Endpoint seedString = node;
+                    int seed = seedString.hashCode() + i; // 生成不同的 seed
+                    Random random = new Random(seed);
+                    int max = ringlist.get(0).size();
+                    int randomInt = random.nextInt(max);
+                    subjects_dgro.add(ringlist.get(0).get(randomInt % rings.get(0).size()));
+                }
         } finally {
         rwLock.writeLock().unlock();
     }
@@ -579,7 +600,7 @@ import java.util.Set;
     // }
        final List<Endpoint> subjects = new ArrayList<>();
        // subjects_record.clear();
-       for (int k = 0; k < M; k++) {
+    //    for (int k = 0; k < M; k++) {
        // for (int k = 0; k < K; k++) {
         //    final NavigableSet<Endpoint> list = rings.get(k);
         //    final Endpoint predecessor = list.lower(node);
@@ -589,15 +610,17 @@ import java.util.Set;
         //    else {
         //        subjects.add(predecessor);
         //    }
-        String seedString = node.toString();
-        int seed = seedString.hashCode() + k; // 生成确定性 seed
-        Random random = new Random(seed);
-        int min = 0, max = ringlist.get(0).size();
-        int randomInt = random.nextInt(max - min + 1) + min;
-        subjects.add(ringlist.get(0).get(randomInt % rings.get(k).size()));
-       }
-    return subjects;
-    // return subjects_dgro;
+    //    }
+    //    for (int k = 0; k < M; k++) {
+    //      String seedString = node.toString();
+    //      int seed = seedString.hashCode() + k; // 生成确定性 seed
+    //      Random random = new Random(seed);
+    //      int min = 0, max = ringlist.get(0).size();
+    //      int randomInt = random.nextInt(max - min + 1) + min;
+    //      subjects.add(ringlist.get(0).get(randomInt % rings.get(k).size()));
+    //     }
+    // return subjects;
+    return subjects_dgro;
     }
  
      /**
