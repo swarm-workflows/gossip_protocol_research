@@ -37,6 +37,7 @@ public class StandaloneAgent {
     private static final Logger LOG = LoggerFactory.getLogger(StandaloneAgent.class);
     private static final int SLEEP_INTERVAL_MS = 1000;
     private static final int MAX_TRIES = 2000;
+    private static final int gossipType = 0;
     final HostAndPort listenAddress;
     final HostAndPort seedAddress;
     @Nullable private Cluster cluster = null;
@@ -49,11 +50,11 @@ public class StandaloneAgent {
     public void startCluster() throws IOException, InterruptedException {
         // The first node X of the cluster calls .start(), the rest call .join(X)
         if (listenAddress.equals(seedAddress)) {
-            cluster = new Cluster.Builder(listenAddress)
+            cluster = new Cluster.Builder(listenAddress, gossipType)
                     .start();
 
         } else {
-            cluster = new Cluster.Builder(listenAddress)
+            cluster = new Cluster.Builder(listenAddress, gossipType)
                     .join(seedAddress);
         }
         cluster.registerSubscription(com.vrg.rapid.ClusterEvents.VIEW_CHANGE_PROPOSAL,

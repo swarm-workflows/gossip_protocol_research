@@ -12,6 +12,7 @@ public class ExperimentConfig {
     private int targetNodes;
     private int nodeId;
     private int targetServers;
+    private int gossipType;
 
     // Getters
     public String getBaseIP() { return baseIP; }
@@ -22,6 +23,7 @@ public class ExperimentConfig {
     public int getTargetNodes() { return targetNodes; }
     public int getNodeId() { return nodeId; }
     public int getTargetServers() { return targetServers; }
+    public int getGossipType() { return gossipType; }
 
     // 从 experiment.yaml 读取配置
     public static ExperimentConfig loadConfig(String filename) {
@@ -38,6 +40,7 @@ public class ExperimentConfig {
             config.targetNodes = (int) data.getOrDefault("targetNodes", 10);
             config.nodeId = (int) data.getOrDefault("nodeId", -1);
             config.targetServers = (int) data.getOrDefault("targetServers", 1);
+            config.gossipType = (int) data.getOrDefault("gossipType", 0);
 
             return config;
         } catch (Exception e) {

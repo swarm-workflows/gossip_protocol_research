@@ -27,6 +27,7 @@ public class ClusterLauncher {
         System.out.println("Test ID: " + config.getTestID());
         System.out.println("Target nodes to wait: " + config.getTargetNodes());
         System.out.println("Node ID: " + config.getNodeId());
+        System.out.println("Gossip Type: " + config.getGossipType());
 
         // 传递配置到 ClusterTest
         ClusterTest clusterTest = new ClusterTest();
@@ -39,7 +40,8 @@ public class ClusterLauncher {
                 config.getTestID(),
                 config.getTargetNodes(),
                 config.getNodeId(),
-                config.getTargetServers()
+                config.getTargetServers(),
+                config.getGossipType()
             );
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();

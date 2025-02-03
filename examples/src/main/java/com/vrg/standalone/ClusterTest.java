@@ -97,6 +97,7 @@ import static org.junit.Assert.assertTrue;
      public int targetNodes;
      public int nodeId;
      public int targetServers;
+     public int gossipType;
      public String testID;
      public String baseIP;
      private List<String> connectedHosts = new ArrayList<>();
@@ -137,7 +138,7 @@ import static org.junit.Assert.assertTrue;
         }
 
     public void setupCluster(String baseIP, String myIP, int port, int numNodes, String testID, 
-    int targetNodes, int nodeId, int targetServers) throws IOException, InterruptedException {
+    int targetNodes, int nodeId, int targetServers, int gossipType) throws IOException, InterruptedException {
         this.baseIP = baseIP;
         this.myIP = myIP;
         this.basePort = port;
@@ -146,6 +147,7 @@ import static org.junit.Assert.assertTrue;
         this.targetNodes = targetNodes;
         this.nodeId = nodeId;
         this.targetServers = targetServers;
+        this.gossipType = gossipType;
 
         System.out.println("Initializing cluster...");
         
@@ -632,7 +634,7 @@ import static org.junit.Assert.assertTrue;
  
      // Helper to use static-failure-detectors and inject interceptors
      public Cluster.Builder buildCluster(final Endpoint endpoint) {
-         Cluster.Builder builder = new Cluster.Builder(endpoint).useSettings(settings);
+         Cluster.Builder builder = new Cluster.Builder(endpoint, gossipType).useSettings(settings);
         //  if (useStaticFd) {
         //      final StaticFailureDetector.Factory fdFactory = new StaticFailureDetector.Factory(new HashSet<>());
         //      builder = builder.setEdgeFailureDetectorFactory(fdFactory);

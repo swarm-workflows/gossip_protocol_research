@@ -37,6 +37,7 @@ public class AgentWithNettyMessaging extends StandaloneAgent {
     private static final Logger LOG = LoggerFactory.getLogger(AgentWithNettyMessaging.class);
     private static final int SLEEP_INTERVAL_MS = 1000;
     private static final int MAX_TRIES = 400;
+    private static final int gossipType = 0;
     @Nullable private Cluster cluster = null;
 
     private AgentWithNettyMessaging(final HostAndPort listenAddress, final HostAndPort seedAddress) {
@@ -56,12 +57,12 @@ public class AgentWithNettyMessaging extends StandaloneAgent {
         // and IMessagingServer interfaces.
         final NettyClientServer nettyMessaging = new NettyClientServer(endpoint);
         if (listenAddress.equals(seedAddress)) {
-            cluster = new Cluster.Builder(listenAddress)
+            cluster = new Cluster.Builder(listenAddress, gossipType)
                     .setMessagingClientAndServer(nettyMessaging, nettyMessaging)
                     .start();
 
         } else {
-            cluster = new Cluster.Builder(listenAddress)
+            cluster = new Cluster.Builder(listenAddress, gossipType)
                     .setMessagingClientAndServer(nettyMessaging, nettyMessaging)
                     .join(seedAddress);
         }
