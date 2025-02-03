@@ -70,7 +70,7 @@ public class GrpcServer extends MembershipServiceGrpc.MembershipServiceImplBase 
     @Nullable private Server server;
     private final boolean useInProcessServer;
     private final Cache<String, Boolean> messageCache;
-    final UUID TEST_MESSAGE_UUID = UUID.fromString("00000000-0000-0000-0000-000000000001");
+    static final UUID TEST_MESSAGE_UUID = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
     MessageId testMessageId = Utils.messageIdFromUUID(TEST_MESSAGE_UUID);
 
     // Used to queue messages in the RPC layer until we are ready with
@@ -116,7 +116,7 @@ public class GrpcServer extends MembershipServiceGrpc.MembershipServiceImplBase 
                 System.out.println("Server receives PHASE2BMESSAGE: " + System.currentTimeMillis()  + ", Endpoint: " + address); 
             }
             else{
-                System.out.println(messageId + " " + testMessageId);
+                System.out.println("messageId: " + messageId + "testMessageId: " + testMessageId);
             }
             if (messageCache.getIfPresent(messageId) != null) {
                 return;
