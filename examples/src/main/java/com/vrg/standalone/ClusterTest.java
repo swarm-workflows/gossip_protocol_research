@@ -326,18 +326,21 @@ import static org.junit.Assert.assertTrue;
             waitAndVerifyAgreement(targetNodes, 10, 1000);
             System.out.println("TargetNodes=" + targetNodes + " have joined the cluster.");
             Thread.sleep(35000);
-            if("1".equals(testID)){
-            System.out.println("Broadcast Start at " + System.currentTimeMillis()  +
-          ", Endpoint: " + seedEndpoint);
+        //     if("1".equals(testID)){
+        //     System.out.println("Broadcast Start at " + System.currentTimeMillis()  +
+        //   ", Endpoint: " + seedEndpoint);
+        //     }
           if(nodeId == 0){
             final UUID TEST_MESSAGE_UUID = UUID.fromString("00000000-0000-0000-0000-TESTMSGID");
             MessageId testMessageId = Utils.messageIdFromUUID(TEST_MESSAGE_UUID);
+            System.out.println("Broadcast Start at " + System.currentTimeMillis()  +
+             ", Endpoint: " + seedEndpoint);
             instances.get(seedEndpoint).membershipService.broadcaster.broadcast(
                 Utils.toRapidRequest(FastRoundPhase2bMessage.getDefaultInstance(), testMessageId));
           }
           
          try {
-             Thread.sleep(20000);
+            Thread.sleep(20000);
             waitAndShutdownClusters();
          } catch (final InterruptedException e) {
              // Handle exception if the thread is interrupted
