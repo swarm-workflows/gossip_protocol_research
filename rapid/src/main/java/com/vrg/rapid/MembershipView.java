@@ -598,7 +598,7 @@ import java.util.Set;
     //         subjects_dgro.add(ep);
     //    }
     // }
-       final List<Endpoint> subjects = new ArrayList<>();
+    //    final List<Endpoint> subjects = new ArrayList<>();
        // subjects_record.clear();
     //    for (int k = 0; k < M; k++) {
        // for (int k = 0; k < K; k++) {
