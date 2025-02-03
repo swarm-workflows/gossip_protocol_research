@@ -577,21 +577,25 @@ import java.util.Set;
     //         subjects_dgro.add(ep);
     //    }
     // }
-    //    final List<Endpoint> subjects = new ArrayList<>();
-    //    // subjects_record.clear();
-    //    for (int k = 0; k < M; k++) {
-    //    // for (int k = 0; k < K; k++) {
-    //        final NavigableSet<Endpoint> list = rings.get(k);
-    //        final Endpoint predecessor = list.lower(node);
-    //        if (predecessor == null) {
-    //            subjects.add(list.last());
-    //        } 
-    //        else {
-    //            subjects.add(predecessor);
-    //        }
-    //    }
-    // return subjects;
-    return subjects_dgro;
+       final List<Endpoint> subjects = new ArrayList<>();
+       // subjects_record.clear();
+       for (int k = 0; k < M; k++) {
+       // for (int k = 0; k < K; k++) {
+        //    final NavigableSet<Endpoint> list = rings.get(k);
+        //    final Endpoint predecessor = list.lower(node);
+        //    if (predecessor == null) {
+        //        subjects.add(list.last());
+        //    } 
+        //    else {
+        //        subjects.add(predecessor);
+        //    }
+        Random random = new Random();
+        int min = 0, max = rings.get(k).size();
+        int randomInt = random.nextInt(max - min + 1) + min;
+        subjects.add(ringlist.get(0).get(randomInt % rings.get(k).size()));
+       }
+    return subjects;
+    // return subjects_dgro;
     }
  
      /**
