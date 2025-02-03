@@ -70,7 +70,7 @@ public class GrpcServer extends MembershipServiceGrpc.MembershipServiceImplBase 
     @Nullable private Server server;
     private final boolean useInProcessServer;
     private final Cache<String, Boolean> messageCache;
-    final UUID TEST_MESSAGE_UUID = UUID.fromString("00000000-0000-0000-0000-TESTMSGID");
+    final UUID TEST_MESSAGE_UUID = UUID.fromString("00000000-0000-0000-0000-000000000001");
     MessageId testMessageId = Utils.messageIdFromUUID(TEST_MESSAGE_UUID);
 
     // Used to queue messages in the RPC layer until we are ready with

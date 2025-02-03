@@ -331,7 +331,7 @@ import static org.junit.Assert.assertTrue;
         //   ", Endpoint: " + seedEndpoint);
         //     }
           if(nodeId == 0){
-            final UUID TEST_MESSAGE_UUID = UUID.fromString("00000000-0000-0000-0000-TESTMSGID");
+            final UUID TEST_MESSAGE_UUID = UUID.fromString("00000000-0000-0000-0000-000000000001");
             MessageId testMessageId = Utils.messageIdFromUUID(TEST_MESSAGE_UUID);
             System.out.println("Broadcast Start at " + System.currentTimeMillis()  +
              ", Endpoint: " + seedEndpoint);
