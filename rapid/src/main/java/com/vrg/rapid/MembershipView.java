@@ -55,6 +55,13 @@ import java.util.Set;
     private final double meanLatency = 25.0; // Example value
     private final double stdDevLatency = 10; // Example value
     // private final List<Endpoint> subjects_record = new ArrayList<>();
+    // 0 for DGRO, 1 for RAPID (random ring),
+    // 2 for RANDOM, 3 for NN
+    // 4 for NN + 1 DGRO 
+    private final int gossip_type;
+    
+    
+    
     
     public final Map<String, Double> latencyCache = new HashMap<>();
      private static final LongHashFunction HASH_FUNCTION = LongHashFunction.xx(0);
@@ -74,9 +81,10 @@ import java.util.Set;
 
      
  
-     MembershipView(final int K) {
+     MembershipView(final int K, final int gossip_type) {
          assert K > 0;
          this.K = K;
+         this.gossip_type = gossip_type;
          this.rings = new ArrayList<>(K);
         //  this.rings = new ArrayList<>(K - 1);
          this.ringlist = new ArrayList<>(K);
@@ -97,9 +105,10 @@ import java.util.Set;
       */
      MembershipView(final int K, final Collection<NodeId> nodeIds, final Collection<Endpoint> endpoints,
     //   final Endpoint node,  final Map<Endpoint, Map<Endpoint, Long>> latencyMap) {
-      final Endpoint node) {
+      final Endpoint node, final int gossip_type) {
          assert K > 0;
          this.K = K;
+         this.gossip_type = gossip_type;
         //  this.rings = new ArrayList<>(K - 1);
          this.rings = new ArrayList<>(K);
          this.ringlist = new ArrayList<>(K);
@@ -186,21 +195,25 @@ import java.util.Set;
             ringlist.set(k, DGRO(endpointList, k));
             // ringlist.get(k) = DGRO(endpointList, k);
          }
-    //     for (int k = 0; k < M; ++k) {
-    //         final Endpoint ep = ringlist.get(k).get((ringlist.get(k).indexOf(node) - 1 + getMembershipSize())
-    //         % getMembershipSize());
-    //         // subjects_record.add(ep);
-    //         subjects_dgro.add(ep);
-    //    }
-
-    for (int k = 0; k < 1; ++k) {
+         if (gossip_type != 3 && gossip_type != 4){
+            for (int k = 0; k < M; ++k) {
                 final Endpoint ep = ringlist.get(k).get((ringlist.get(k).indexOf(node) - 1 + getMembershipSize())
                 % getMembershipSize());
                 // subjects_record.add(ep);
                 subjects_dgro.add(ep);
            }
-        Map<String, Long> tmp =  latencyMap.getOrDefault(node, Collections.emptyMap());
-         List<String> topEndpoints = tmp.entrySet().stream()
+         }
+         if(gossip_type == 4){
+            for (int k = 0; k < 1; ++k) {
+                final Endpoint ep = ringlist.get(k).get((ringlist.get(k).indexOf(node) - 1 + getMembershipSize())
+                % getMembershipSize());
+                // subjects_record.add(ep);
+                subjects_dgro.add(ep);
+           }  
+         }
+         if(gossip_type == 3){
+                Map<String, Long> tmp =  latencyMap.getOrDefault(node, Collections.emptyMap());
+                List<String> topEndpoints = tmp.entrySet().stream()
                 .sorted(Map.Entry.comparingByValue()) // 按值 (latency) 排序
                 .limit(M) // 取前 8 个
                 .map(Map.Entry::getKey) // 只取 key（endpoint）
@@ -219,6 +232,7 @@ import java.util.Set;
                     int randomInt = random.nextInt(max);
                     subjects_dgro.add(ringlist.get(0).get(randomInt % rings.get(0).size()));
                 }
+            }
         } finally {
         rwLock.writeLock().unlock();
     }
@@ -608,29 +622,32 @@ import java.util.Set;
     //         subjects_dgro.add(ep);
     //    }
     // }
-    //    final List<Endpoint> subjects = new ArrayList<>();
-       // subjects_record.clear();
-    //    for (int k = 0; k < M; k++) {
-       // for (int k = 0; k < K; k++) {
-        //    final NavigableSet<Endpoint> list = rings.get(k);
-        //    final Endpoint predecessor = list.lower(node);
-        //    if (predecessor == null) {
-        //        subjects.add(list.last());
-        //    } 
-        //    else {
-        //        subjects.add(predecessor);
-        //    }
-    //    }
-    //    for (int k = 0; k < M; k++) {
-    //      String seedString = node.toString();
-    //      int seed = seedString.hashCode() + k; // 生成确定性 seed
-    //      Random random = new Random(seed);
-    //      int min = 0, max = ringlist.get(0).size();
-    //      int randomInt = random.nextInt(max - min + 1) + min;
-    //      subjects.add(ringlist.get(0).get(randomInt % rings.get(k).size()));
-    //     }
-    // return subjects;
-    return subjects_dgro;
+    final List<Endpoint> subjects = new ArrayList<>();
+    if(gossip_type == 1){
+        for (int k = 0; k < M; k++) {
+            final NavigableSet<Endpoint> list = rings.get(k);
+            final Endpoint predecessor = list.lower(node);
+            if (predecessor == null) {
+                subjects.add(list.last());
+            } 
+            else {
+                subjects.add(predecessor);
+            }
+        }
+        return subjects;
+    }
+    else if(gossip_type == 2){
+        for (int k = 0; k < M; k++) {
+         String seedString = node.toString();
+         int seed = seedString.hashCode() + k; // 生成确定性 seed
+         Random random = new Random(seed);
+         int min = 0, max = ringlist.get(0).size();
+         int randomInt = random.nextInt(max - min + 1) + min;
+         subjects.add(ringlist.get(0).get(randomInt % rings.get(k).size()));
+        }
+        return subjects;
+    }
+    else return subjects_dgro;
     }
  
      /**

@@ -72,6 +72,7 @@ public final class Cluster {
     private static final int K = 10;
     private static final int H = 9; 
     private static final int L = 4;
+    private final int gossip_type;
     private static final int RETRIES = 5;
     public final MembershipService membershipService;
     private final IMessagingServer rpcServer;
@@ -82,11 +83,12 @@ public final class Cluster {
     private Cluster(final IMessagingServer rpcServer,
                     final MembershipService membershipService,
                     final SharedResources sharedResources,
-                    final Endpoint listenAddress) {
+                    final Endpoint listenAddress, final int gossip_type) {
         this.membershipService = membershipService;
         this.rpcServer = rpcServer;
         this.sharedResources = sharedResources;
         this.listenAddress = listenAddress;
+        this.gossip_type = gossip_type;
     }
 
     /**
@@ -161,6 +163,7 @@ public final class Cluster {
 
     public static class Builder {
         private final Endpoint listenAddress;
+        final int gossip_type;
         @Nullable private IEdgeFailureDetectorFactory edgeFailureDetector = null;
         private Metadata metadata = Metadata.getDefaultInstance();
         private Settings settings = new Settings();
@@ -177,11 +180,12 @@ public final class Cluster {
          *
          * @param listenAddress The listen address of the node being instantiated
          */
-        public Builder(final HostAndPort listenAddress) {
+        public Builder(final HostAndPort listenAddress, final int gossip_type) {
             this.listenAddress = Endpoint.newBuilder()
                     .setHostname(ByteString.copyFromUtf8(listenAddress.getHost()))
                     .setPort(listenAddress.getPort())
                     .build();
+            this.gossip_type = gossip_type;
         }
 
         /**
@@ -189,8 +193,9 @@ public final class Cluster {
          *
          * @param listenAddress The listen address of the node being instantiated
          */
-        public Builder(final Endpoint listenAddress) {
+        public Builder(final Endpoint listenAddress, final int gossip_type) {
             this.listenAddress = listenAddress;
+            this.gossip_type = gossip_type;
         }
 
         /**
@@ -263,7 +268,7 @@ public final class Cluster {
                                 : new GrpcClient(listenAddress, sharedResources, settings);
             final NodeId currentIdentifier = Utils.nodeIdFromUUID(UUID.randomUUID());
             final MembershipView membershipView = new MembershipView(K, Collections.singletonList(currentIdentifier),
-                    Collections.singletonList(listenAddress), listenAddress);
+                    Collections.singletonList(listenAddress), listenAddress, gossip_type);
             final MultiNodeCutDetector cutDetector = new MultiNodeCutDetector(K, H, L);
             edgeFailureDetector = edgeFailureDetector != null ? edgeFailureDetector
                     : new PingPongFailureDetector.Factory(listenAddress, messagingClient);
@@ -276,7 +281,7 @@ public final class Cluster {
                                             messagingClient, edgeFailureDetector, metadataMap, subscriptions);
             messagingServer.setMembershipService(membershipService);
             messagingServer.start();
-            return new Cluster(messagingServer, membershipService, sharedResources, listenAddress);
+            return new Cluster(messagingServer, membershipService, sharedResources, listenAddress, gossip_type);
         }
 
 
@@ -456,7 +461,7 @@ public final class Cluster {
             assert !allEndpoints.isEmpty();
 
             final MembershipView membershipViewFinal =
-                    new MembershipView(K, identifiersSeen, allEndpoints, listenAddress);
+                    new MembershipView(K, identifiersSeen, allEndpoints, listenAddress, gossip_type);
             final MultiNodeCutDetector cutDetector = new MultiNodeCutDetector(K, H, L);
             edgeFailureDetector = edgeFailureDetector != null ? edgeFailureDetector
                                                   : new PingPongFailureDetector.Factory(listenAddress, messagingClient);
@@ -470,7 +475,7 @@ public final class Cluster {
                 LOG.trace("{} has subjects {}", listenAddress,
                         membershipViewFinal.getObserversOf(listenAddress));
             }
-            return new Cluster(messagingServer, membershipService, sharedResources, listenAddress);
+            return new Cluster(messagingServer, membershipService, sharedResources, listenAddress, gossip_type);
         }
     }
 
