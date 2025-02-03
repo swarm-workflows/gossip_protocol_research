@@ -293,13 +293,26 @@ import static org.junit.Assert.assertTrue;
     }
 
     private boolean connectToCluster() {
-        try (Socket socket = new Socket(baseIP, basePort - 1)) {
-            System.out.println("Successfully connected to the cluster at " + baseIP + ":" + (basePort - 1));
-            return true;
-        } catch (IOException e) {
-            System.err.println("Error: Could not connect to " + baseIP + ":" + (basePort - 1));
-            return false;
+        int retries = 5;
+        int attempt = 0;
+        while (attempt < retries) {
+            try (Socket socket = new Socket(baseIP, basePort - 1)) {
+                System.out.println("Successfully connected to the cluster at " + baseIP + ":" + (basePort - 1));
+                return true;
+            } catch (IOException e) {
+                System.err.println("Attempt " + (attempt + 1) + ": Could not connect to " + baseIP + ":" + (basePort - 1));
+                attempt++;
+                try {
+                    Thread.sleep(2000); // Wait for 2 seconds before retrying
+                } catch (InterruptedException ie) {
+                    Thread.currentThread().interrupt();
+                    System.err.println("Retry interrupted");
+                    return false;
+                }
+            }
         }
+        System.err.println("Error: Could not connect to " + baseIP + ":" + (basePort - 1) + " after " + retries + " attempts");
+        return false;
     }
 
      public void run(final int numNodes) throws IOException, InterruptedException {
