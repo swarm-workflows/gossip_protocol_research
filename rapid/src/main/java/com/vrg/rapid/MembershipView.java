@@ -589,8 +589,10 @@ import java.util.Set;
         //    else {
         //        subjects.add(predecessor);
         //    }
-        Random random = new Random();
-        int min = 0, max = rings.get(k).size();
+        String seedString = node.toString();
+        int seed = seedString.hashCode() + k; // 生成确定性 seed
+        Random random = new Random(seed);
+        int min = 0, max = ringlist.get(0).size();
         int randomInt = random.nextInt(max - min + 1) + min;
         subjects.add(ringlist.get(0).get(randomInt % rings.get(k).size()));
        }
