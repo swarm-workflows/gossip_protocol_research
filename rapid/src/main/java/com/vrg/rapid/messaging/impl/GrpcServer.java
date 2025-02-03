@@ -118,11 +118,11 @@ public class GrpcServer extends MembershipServiceGrpc.MembershipServiceImplBase 
             if (messageCache.getIfPresent(messageId) != null) {
                 return;
             }
-            if(rapidRequest.getMessageId().equals(testMessageId)){
-                System.out.println("Server receives PHASE2BMESSAGE: " + System.currentTimeMillis()  + ", Endpoint: " + address); 
-            }
         }
-        if (membershipService != null) {
+        if(rapidRequest.getMessageId().equals(testMessageId)){
+            System.out.println("Server receives PHASE2BMESSAGE: " + System.currentTimeMillis()  + ", Endpoint: " + address); 
+        }
+        else if (membershipService != null) {
             // Forward the message to another node or handle accordingly
             // System.out.println("MembershipService != null");
             final ListenableFuture<RapidResponse> result = membershipService.handleMessage(rapidRequest);
