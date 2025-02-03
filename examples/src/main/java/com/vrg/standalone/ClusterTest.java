@@ -342,7 +342,7 @@ import static org.junit.Assert.assertTrue;
           }
           
          try {
-            Thread.sleep(40000);
+            Thread.sleep(60000);
             waitAndShutdownClusters();
          } catch (final InterruptedException e) {
              // Handle exception if the thread is interrupted
