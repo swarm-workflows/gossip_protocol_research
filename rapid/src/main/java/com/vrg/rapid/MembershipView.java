@@ -211,7 +211,7 @@ import java.util.Set;
                 subjects_dgro.add(ep);
            }  
          }
-         if(gossip_type == 3){
+         if(gossip_type == 3 || gossip_type == 4){
                 Map<String, Long> tmp =  latencyMap.getOrDefault(node, Collections.emptyMap());
                 List<String> topEndpoints = tmp.entrySet().stream()
                 .sorted(Map.Entry.comparingByValue()) // 按值 (latency) 排序
