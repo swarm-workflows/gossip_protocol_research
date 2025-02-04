@@ -806,7 +806,7 @@ public final class MembershipService {
                 .map(endpoint -> latencyExecutor.scheduleAtFixedRate(
                         createLatencyProbeTask(endpoint),
                         // (long) (-5 * Math.log(1 - ThreadLocalRandom.current().nextDouble())),
-                        (long) (myAddr.getPort() % 5),
+                        (long) (myAddr.getPort() % 3),
                         60,
                         TimeUnit.SECONDS))
                 .collect(Collectors.toList());
