@@ -855,7 +855,7 @@ public final class MembershipService {
         broadcastExecutor.scheduleAtFixedRate(
                         createLatencyBroadcastTask(),
                         // 40 + (long)myAddr.getPort() % 10, // Initial delay
-                        50 + 2 * (long)myAddr.getPort() % 10, // Initial delay
+                        45 + 2 * (long)myAddr.getPort() % 10, // Initial delay
                         180,
                         TimeUnit.SECONDS);
 
@@ -902,7 +902,7 @@ public final class MembershipService {
         ScheduledFuture<?> jobs = 
         dgroExecutor.scheduleAtFixedRate(
                         createDGROTask(),
-                        80, // Initial delay
+                        70, // Initial delay
                         180,
                         TimeUnit.SECONDS);
 
