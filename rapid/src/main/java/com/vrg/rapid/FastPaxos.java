@@ -43,7 +43,7 @@
   */
  class FastPaxos {
      private static final Logger LOG = LoggerFactory.getLogger(FastPaxos.class);
-     static final long BASE_DELAY = 5000;
+     static final long BASE_DELAY = 10000;
      private final double jitterRate;
      private final Endpoint myAddr;
      private final long configurationId;
