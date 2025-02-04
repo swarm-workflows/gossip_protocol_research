@@ -102,13 +102,13 @@ public class GrpcServer extends MembershipServiceGrpc.MembershipServiceImplBase 
         + rapidRequest.getMessageId().getLow();
 
         
-        if (
-            rapidRequest.getContentCase() == RapidRequest.ContentCase.FASTROUNDPHASE2BMESSAGE ||
-            rapidRequest.getContentCase() == RapidRequest.ContentCase.PHASE1AMESSAGE ||
-            rapidRequest.getContentCase() == RapidRequest.ContentCase.PHASE2AMESSAGE ||
-            rapidRequest.getContentCase() == RapidRequest.ContentCase.PHASE2BMESSAGE ||
-            rapidRequest.getContentCase() == RapidRequest.ContentCase.LATENCYMESSAGE ||
-            rapidRequest.getContentCase() == RapidRequest.ContentCase.BATCHEDALERTMESSAGE) {
+        // if (
+        //     rapidRequest.getContentCase() == RapidRequest.ContentCase.FASTROUNDPHASE2BMESSAGE ||
+        //     rapidRequest.getContentCase() == RapidRequest.ContentCase.PHASE1AMESSAGE ||
+        //     rapidRequest.getContentCase() == RapidRequest.ContentCase.PHASE2AMESSAGE ||
+        //     rapidRequest.getContentCase() == RapidRequest.ContentCase.PHASE2BMESSAGE ||
+        //     rapidRequest.getContentCase() == RapidRequest.ContentCase.LATENCYMESSAGE ||
+        //     rapidRequest.getContentCase() == RapidRequest.ContentCase.BATCHEDALERTMESSAGE) {
             // Store the message ID in the cache
             // final String messageId = rapidRequest.getMessageId().getHigh() + "-" 
             // + rapidRequest.getMessageId().getLow();
@@ -118,7 +118,7 @@ public class GrpcServer extends MembershipServiceGrpc.MembershipServiceImplBase 
             // if (messageCache.getIfPresent(messageId) != null) {
             //     return;
             // }
-        }
+        // }
         if(rapidRequest.getMessageId().equals(testMessageId)){
             System.out.println("Server receives PHASE2BMESSAGE: " + System.currentTimeMillis()  + ", Endpoint: " + address); 
         }
