@@ -324,7 +324,7 @@ import static org.junit.Assert.assertTrue;
             final Endpoint seedEndpoint = Utils.hostFromParts(baseIP, basePort);
             if(nodeId == 0) createCluster(numNodes, seedEndpoint);
             else {
-                Thread.sleep(19000 * (long)((nodeId - 1) / 2));
+                Thread.sleep(5000 + 10000 * (long)(nodeId - 1));
                 extendClusterWithRetry(numNodes, seedEndpoint);
             }
             System.out.println("Wait for targetNodes: " + targetNodes);

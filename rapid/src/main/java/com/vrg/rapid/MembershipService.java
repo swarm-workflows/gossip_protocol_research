@@ -806,7 +806,7 @@ public final class MembershipService {
                 .map(endpoint -> latencyExecutor.scheduleAtFixedRate(
                         createLatencyProbeTask(endpoint),
                         // (long) (-5 * Math.log(1 - ThreadLocalRandom.current().nextDouble())),
-                        (long) (myAddr.getPort() % 3),
+                        (long) (200),
                         60,
                         TimeUnit.SECONDS))
                 .collect(Collectors.toList());
@@ -847,7 +847,7 @@ public final class MembershipService {
         ScheduledFuture<?> jobs = 
         broadcastExecutor.scheduleAtFixedRate(
                         createLatencyBroadcastTask(),
-                        10, // Initial delay
+                        200, // Initial delay
                         60,
                         TimeUnit.SECONDS);
 
@@ -894,7 +894,7 @@ public final class MembershipService {
         ScheduledFuture<?> jobs = 
         dgroExecutor.scheduleAtFixedRate(
                         createDGROTask(),
-                    20, // Initial delay
+                        200, // Initial delay
                         60,
                         TimeUnit.SECONDS);
 
