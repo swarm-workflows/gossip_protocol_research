@@ -810,8 +810,8 @@ public final class MembershipService {
                 .map(endpoint -> latencyExecutor.scheduleAtFixedRate(
                         createLatencyProbeTask(endpoint),
                         // (long) (-5 * Math.log(1 - ThreadLocalRandom.current().nextDouble())),
-                        (long) 20 + (long)myAddr.getPort() % 10,
-                        60,
+                        (long) 20 + (long)myAddr.getPort() % 5,
+                        180,
                         TimeUnit.SECONDS))
                 .collect(Collectors.toList());
 
@@ -852,7 +852,7 @@ public final class MembershipService {
         broadcastExecutor.scheduleAtFixedRate(
                         createLatencyBroadcastTask(),
                         40 + (long)myAddr.getPort() % 10, // Initial delay
-                        60,
+                        180,
                         TimeUnit.SECONDS);
 
         broadcastJobs.add(jobs);
@@ -899,7 +899,7 @@ public final class MembershipService {
         dgroExecutor.scheduleAtFixedRate(
                         createDGROTask(),
                         60, // Initial delay
-                        60,
+                        180,
                         TimeUnit.SECONDS);
 
         dgroJobs.add(jobs);
