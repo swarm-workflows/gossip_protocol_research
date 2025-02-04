@@ -330,7 +330,7 @@ import static org.junit.Assert.assertTrue;
             System.out.println("Wait for targetNodes: " + targetNodes);
             waitAndVerifyAgreement(targetNodes, 200, 1000);
             System.out.println("TargetNodes=" + targetNodes + " have joined the cluster.");
-            Thread.sleep(80000);
+            Thread.sleep(40000);
         //     if("1".equals(testID)){
         //     System.out.println("Broadcast Start at " + System.currentTimeMillis()  +
         //   ", Endpoint: " + seedEndpoint);
