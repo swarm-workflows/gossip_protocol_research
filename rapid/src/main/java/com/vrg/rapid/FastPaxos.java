@@ -142,12 +142,12 @@
          final AtomicInteger proposalsReceived = votesPerProposal.computeIfAbsent(proposalMessage.getEndpointsList(),
                  k -> new AtomicInteger(0));
          final int count = proposalsReceived.incrementAndGet();
-         final int F = (int) Math.floor(Math.max(0, (membershipSize - 1 - proposalMessage.getEndpointsList().size())) / 4.0); // Fast Paxos resiliency.
-        //  final int F = (int) Math.floor((membershipSize - 1) / 4.0); // Fast Paxos resiliency.
-         if (votesReceived.size() >= membershipSize - F - proposalMessage.getEndpointsList().size()) {
-        //  if (votesReceived.size() >= membershipSize - F) {
-            //  if (count >= membershipSize - F) {
-             if (count >= membershipSize - F - proposalMessage.getEndpointsList().size()) {
+        //  final int F = (int) Math.floor(Math.max(0, (membershipSize - 1 - proposalMessage.getEndpointsList().size())) / 4.0); // Fast Paxos resiliency.
+         final int F = (int) Math.floor((membershipSize - 1) / 4.0); // Fast Paxos resiliency.
+        //  if (votesReceived.size() >= membershipSize - F - proposalMessage.getEndpointsList().size()) {
+         if (votesReceived.size() >= membershipSize - F) {
+             if (count >= membershipSize - F) {
+            //  if (count >= membershipSize - F - proposalMessage.getEndpointsList().size()) {
                  LOG.trace("Decided on a view change: {}", Utils.loggable(proposalMessage.getEndpointsList()));
                  // We have a successful proposal. Consume it.
                  onDecidedWrapped.accept(proposalMessage.getEndpointsList());
