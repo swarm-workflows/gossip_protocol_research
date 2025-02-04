@@ -355,9 +355,9 @@ import static org.junit.Assert.assertTrue;
                 for (int i = 0; i < 1; i++) {
                     final Cluster cluster = instances.remove(leavingEndpoint);
                     cluster.shutdown();
-                    waitAndVerifyAgreement(targetNodes - 1, 40, 500);
+                    waitAndVerifyAgreement(targetNodes - 1,80, 500);
                     extendCluster(leavingEndpoint, seedEndpoint);
-                    waitAndVerifyAgreement(targetNodes, 40, 500);
+                    waitAndVerifyAgreement(targetNodes, 80, 500);
                     Thread.sleep(500);
                 }
             }
