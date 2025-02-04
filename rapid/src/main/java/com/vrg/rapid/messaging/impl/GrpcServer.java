@@ -84,7 +84,7 @@ public class GrpcServer extends MembershipServiceGrpc.MembershipServiceImplBase 
         // Initialize the cache with a maximum size and expiration time
         this.messageCache = Caffeine.newBuilder()
         .expireAfterWrite(100, TimeUnit.SECONDS)
-        .maximumSize(1000)
+        .maximumSize(5000)
         .build();
     }
 
