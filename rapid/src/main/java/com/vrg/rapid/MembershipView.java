@@ -188,7 +188,7 @@ import java.util.Set;
     public void reconstructDGRO(final Endpoint node) {
         rwLock.writeLock().lock();
         try{
-        final List<Endpoint> endpointList = getRing(0);
+        // final List<Endpoint> endpointList = getRing(0);
         subjects_dgro.clear();
         for (int k = 0; k < K; k++) {
             // ringlist.set(k, DGRO(endpointList, k, latencyMap));
