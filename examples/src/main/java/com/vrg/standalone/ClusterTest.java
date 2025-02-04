@@ -80,7 +80,7 @@ import static org.junit.Assert.assertTrue;
      // public static final Logger LOG = LoggerFactory.getLogger(ClusterTest.class);
      public static final Logger GRPC_LOGGER;
      public static final Logger NETTY_LOGGER;
-    //  private volatile boolean running = true;
+     private volatile boolean running = true;
      private Thread serverThread;
      public final Map<Endpoint, Cluster> instances = new ConcurrentHashMap<>();
     //  public final Map<Endpoint, StaticFailureDetector.Factory> staticFds = new ConcurrentHashMap<>();
