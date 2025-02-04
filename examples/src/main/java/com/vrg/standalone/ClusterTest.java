@@ -324,11 +324,11 @@ import static org.junit.Assert.assertTrue;
             final Endpoint seedEndpoint = Utils.hostFromParts(baseIP, basePort);
             if(nodeId == 0) createCluster(numNodes, seedEndpoint);
             else {
-                Thread.sleep(10 * (long)(nodeId - 1));
+                Thread.sleep(10000 * (long)(nodeId - 1));
                 extendClusterWithRetry(numNodes, seedEndpoint);
             }
             System.out.println("Wait for targetNodes: " + targetNodes);
-            waitAndVerifyAgreement(targetNodes, 200, 5000);
+            waitAndVerifyAgreement(targetNodes, 200, 1000);
             System.out.println("TargetNodes=" + targetNodes + " have joined the cluster.");
             Thread.sleep(35000);
         //     if("1".equals(testID)){
