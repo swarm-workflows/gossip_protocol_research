@@ -643,7 +643,7 @@ import java.util.Set;
          Random random = new Random(seed);
          int min = 0, max = ringlist.get(0).size();
          int randomInt = random.nextInt(max - min + 1) + min;
-         subjects.add(ringlist.get(0).get(randomInt % rings.get(k).size()));
+         subjects.add(ringlist.get(k).get(randomInt % ringlist.get(k).size()));
         }
         return subjects;
     }
