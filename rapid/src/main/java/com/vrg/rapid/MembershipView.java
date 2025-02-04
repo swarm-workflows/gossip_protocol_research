@@ -192,7 +192,7 @@ import java.util.Set;
         subjects_dgro.clear();
         for (int k = 0; k < K; k++) {
             // ringlist.set(k, DGRO(endpointList, k, latencyMap));
-            ringlist.set(k, DGRO(endpointList, k));
+            ringlist.set(k, DGRO(getRing(k), k));
             // ringlist.get(k) = DGRO(endpointList, k);
          }
          if (gossip_type != 3 && gossip_type != 4){
