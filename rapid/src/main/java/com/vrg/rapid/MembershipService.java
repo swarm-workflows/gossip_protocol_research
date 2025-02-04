@@ -230,7 +230,7 @@ public final class MembershipService {
 
         sharedResources.getProtocolExecutor().execute(() -> {
             final Endpoint joiningEndpoint = msg.getSender();
-            System.out.println("Get PreJoinMessage from " + joiningEndpoint); 
+            // System.out.println("Get PreJoinMessage from " + joiningEndpoint); 
             final JoinStatusCode statusCode = membershipView.isSafeToJoin(joiningEndpoint, msg.getNodeId());
             final JoinResponse.Builder builder = JoinResponse.newBuilder()
                     .setSender(myAddr)
