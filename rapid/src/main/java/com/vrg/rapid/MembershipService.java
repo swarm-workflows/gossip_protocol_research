@@ -73,7 +73,7 @@ import java.util.stream.Stream;
 @NotThreadSafe
 public final class MembershipService {
     private static final Logger LOG = LoggerFactory.getLogger(MembershipService.class);
-    static final int BATCHING_WINDOW_IN_MS = 1000;
+    static final int BATCHING_WINDOW_IN_MS = 5000;
     private static final int DEFAULT_FAILURE_DETECTOR_INITIAL_DELAY_IN_MS = 0;
     static final int DEFAULT_FAILURE_DETECTOR_INTERVAL_IN_MS = 1000;
     private static final int LEAVE_MESSAGE_TIMEOUT = 5000;
@@ -106,7 +106,7 @@ public final class MembershipService {
     private final ScheduledExecutorService latencyExecutor;
     private final ScheduledExecutorService broadcastExecutor;
     private final ScheduledExecutorService dgroExecutor;
-    private final ScheduledFuture<?> alertBatcherJob;
+    private ScheduledFuture<?> alertBatcherJob;
     private final List<ScheduledFuture<?>> failureDetectorJobs;
     private final SharedResources sharedResources;
 
@@ -453,10 +453,14 @@ public final class MembershipService {
             viewchangeTime / 1_000_000 // Convert nanoseconds to milliseconds
             );
         // }
+        settings.setBatchingWindowInMs(100);
         if(proposal.size() >= 5){
         stopLatencyBroadcasts();
         stopLatencyProbes();
         stopDGRO();
+        alertBatcherJob.cancel(true);
+        alertBatcherJob = this.backgroundTasksExecutor.scheduleAtFixedRate(new AlertBatcher(),
+                0, settings.getBatchingWindowInMs(), TimeUnit.MILLISECONDS);
         }
         final long currentConfigurationId = membershipView.getCurrentConfigurationId();
         // Publish an event to the listeners.
