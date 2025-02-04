@@ -467,7 +467,7 @@ public final class MembershipService {
         final long currentConfigurationId = membershipView.getCurrentConfigurationId();
         // Publish an event to the listeners.
         final List<Endpoint> currentMembership = membershipView.getRing(0);
-        membershipView.reconstructDGRO(myAddr);
+        // membershipView.reconstructDGRO(myAddr);
         final ClusterStatusChange clusterStatusChange = new ClusterStatusChange(currentConfigurationId,
                                                                                 currentMembership, statusChanges);
         subscriptions.get(ClusterEvents.VIEW_CHANGE).forEach(cb -> cb.accept(clusterStatusChange));
@@ -853,7 +853,8 @@ public final class MembershipService {
         ScheduledFuture<?> jobs = 
         broadcastExecutor.scheduleAtFixedRate(
                         createLatencyBroadcastTask(),
-                        40 + (long)myAddr.getPort() % 10, // Initial delay
+                        // 40 + (long)myAddr.getPort() % 10, // Initial delay
+                        180, // Initial delay
                         180,
                         TimeUnit.SECONDS);
 
