@@ -115,9 +115,9 @@ public class GrpcServer extends MembershipServiceGrpc.MembershipServiceImplBase 
             // else{
             //     System.out.println("messageId: " + rapidRequest.getMessageId() + " messageId_string: " + messageId + " testMessageId: " + testMessageId);
             // }
-            if (messageCache.getIfPresent(messageId) != null) {
-                return;
-            }
+            // if (messageCache.getIfPresent(messageId) != null) {
+            //     return;
+            // }
         }
         if(rapidRequest.getMessageId().equals(testMessageId)){
             System.out.println("Server receives PHASE2BMESSAGE: " + System.currentTimeMillis()  + ", Endpoint: " + address); 
@@ -153,6 +153,9 @@ public class GrpcServer extends MembershipServiceGrpc.MembershipServiceImplBase 
         //     return;
         // }
         // long start = System.nanoTime();
+        if (messageCache.getIfPresent(messageId) != null) {
+            return;
+        }
         messageCache.put(messageId, Boolean.TRUE);
         // long end = System.nanoTime();
         // System.out.println("Cache put took: " + (end - start) + " ns");
