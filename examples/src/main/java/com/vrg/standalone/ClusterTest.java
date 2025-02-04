@@ -80,7 +80,7 @@ import static org.junit.Assert.assertTrue;
      // public static final Logger LOG = LoggerFactory.getLogger(ClusterTest.class);
      public static final Logger GRPC_LOGGER;
      public static final Logger NETTY_LOGGER;
-     private volatile boolean running = true;
+    //  private volatile boolean running = true;
      private Thread serverThread;
      public final Map<Endpoint, Cluster> instances = new ConcurrentHashMap<>();
     //  public final Map<Endpoint, StaticFailureDetector.Factory> staticFds = new ConcurrentHashMap<>();
@@ -92,7 +92,7 @@ import static org.junit.Assert.assertTrue;
      public long seed;
      public int basePort;
      public String myIP;
-     private int confirmedConnections = 0;
+    //  private int confirmedConnections = 0;
      public int numNodes;
      public int targetNodes;
      public int nodeId;
@@ -100,7 +100,7 @@ import static org.junit.Assert.assertTrue;
      public int gossipType;
      public String testID;
      public String baseIP;
-     private List<String> connectedHosts = new ArrayList<>();
+    //  private List<String> connectedHosts = new ArrayList<>();
      @Nullable public AtomicInteger portCounter = null;
      public Settings settings = new Settings();
  
@@ -180,108 +180,108 @@ import static org.junit.Assert.assertTrue;
         System.out.println("Finish stopBaseServer.");
     }
     
-    private void waitForConnections() {
-        if (nodeId == 0) {
-            synchronized (this) {
-                while (confirmedConnections < targetServers - 1) {
-                    try {
-                        wait();
-                    } catch (InterruptedException e) {
-                        Thread.currentThread().interrupt();
-                    }
-                }
-            }
-        } else {
-            // Logic for nodeId != 0 to wait for information from the base server
-            try (ServerSocket serverSocket = new ServerSocket(basePort - 1)) {
-                while (true) {
-                    try (Socket socket = serverSocket.accept();
-                         BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8))) {
-                        String response = in.readLine();
-                        System.out.println("Accepted connection from " + socket.getInetAddress());
-                        if ("FINISHED".equals(response)) {
-                            break;
-                        }
-                    } catch (IOException e) {
-                        // Handle exception
-                    }
-                }
-            } catch (IOException e) {
-                System.err.println("Error setting up server socket: " + e.getMessage());
-            }
-        }
-    }
+    // private void waitForConnections() {
+    //     if (nodeId == 0) {
+    //         synchronized (this) {
+    //             while (confirmedConnections < targetServers - 1) {
+    //                 try {
+    //                     wait();
+    //                 } catch (InterruptedException e) {
+    //                     Thread.currentThread().interrupt();
+    //                 }
+    //             }
+    //         }
+    //     } else {
+    //         // Logic for nodeId != 0 to wait for information from the base server
+    //         try (ServerSocket serverSocket = new ServerSocket(basePort - 1)) {
+    //             while (true) {
+    //                 try (Socket socket = serverSocket.accept();
+    //                      BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8))) {
+    //                     String response = in.readLine();
+    //                     System.out.println("Accepted connection from " + socket.getInetAddress());
+    //                     if ("FINISHED".equals(response)) {
+    //                         break;
+    //                     }
+    //                 } catch (IOException e) {
+    //                     // Handle exception
+    //                 }
+    //             }
+    //         } catch (IOException e) {
+    //             System.err.println("Error setting up server socket: " + e.getMessage());
+    //         }
+    //     }
+    // }
 
-    private void setupBaseServer() throws IOException {
-        serverThread = new Thread(() -> {
-            int cnt = 0;
-            try (ServerSocket serverSocket = new ServerSocket(basePort - 1)) {
-                serverSocket.setSoTimeout(1000);
-                System.out.println("Base server is running on port " + (basePort - 1));
-                while (running) {
-                    // System.out.println("seupBaseServer cnt=" + cnt);
-                    cnt++;
-                    try {
-                        Socket clientSocket = serverSocket.accept();
-                        String clientAddress = clientSocket.getInetAddress().getHostAddress();
-                        System.out.println("Accepted connection from " + clientSocket.getInetAddress());
-                        connectedHosts.add(clientAddress);
-                        // Send confirmation message to the client
-                        try (OutputStream out = clientSocket.getOutputStream()) {
-                            out.write("CONFIRMED".getBytes(StandardCharsets.UTF_8));
-                            out.flush();
-                        }
-                        synchronized (this) {
-                            confirmedConnections++;
-                            notifyAll();
-                            if (confirmedConnections >= targetServers - 1) {
-                                broadcastFinish();
-                                running = false;
-                            }
-                        }
-                    } catch (IOException e) {
-                        // if (running) {
-                        //     System.err.println("Error handling client connection: " + e.getMessage());
-                        // }
-                    }
-                }
-            } catch (IOException e) {
-                if (running) {
-                    System.err.println("Error starting base server: " + e.getMessage());
-                }
-            }
-            System.out.println("SetupBaseServer finished.");
-        });
-        serverThread.start();
-    }
+    // private void setupBaseServer() throws IOException {
+    //     serverThread = new Thread(() -> {
+    //         int cnt = 0;
+    //         try (ServerSocket serverSocket = new ServerSocket(basePort - 1)) {
+    //             serverSocket.setSoTimeout(1000);
+    //             System.out.println("Base server is running on port " + (basePort - 1));
+    //             while (running) {
+    //                 // System.out.println("seupBaseServer cnt=" + cnt);
+    //                 cnt++;
+    //                 try {
+    //                     Socket clientSocket = serverSocket.accept();
+    //                     String clientAddress = clientSocket.getInetAddress().getHostAddress();
+    //                     System.out.println("Accepted connection from " + clientSocket.getInetAddress());
+    //                     connectedHosts.add(clientAddress);
+    //                     // Send confirmation message to the client
+    //                     try (OutputStream out = clientSocket.getOutputStream()) {
+    //                         out.write("CONFIRMED".getBytes(StandardCharsets.UTF_8));
+    //                         out.flush();
+    //                     }
+    //                     synchronized (this) {
+    //                         confirmedConnections++;
+    //                         notifyAll();
+    //                         if (confirmedConnections >= targetServers - 1) {
+    //                             broadcastFinish();
+    //                             running = false;
+    //                         }
+    //                     }
+    //                 } catch (IOException e) {
+    //                     // if (running) {
+    //                     //     System.err.println("Error handling client connection: " + e.getMessage());
+    //                     // }
+    //                 }
+    //             }
+    //         } catch (IOException e) {
+    //             if (running) {
+    //                 System.err.println("Error starting base server: " + e.getMessage());
+    //             }
+    //         }
+    //         System.out.println("SetupBaseServer finished.");
+    //     });
+    //     serverThread.start();
+    // }
 
-    private void broadcastFinish() {
-        System.out.println("Broadcasting finish to other servers.");
-        for (String host : connectedHosts) {
-            boolean success = false;
-            int attempts = 0;
-            int maxAttempts = 5; // Maximum number of retry attempts
-            while (!success && attempts < maxAttempts) {
-                attempts++;
-                try (Socket socket = new Socket(host, basePort - 1);
-                    OutputStream out = socket.getOutputStream()) {
-                    out.write("FINISHED".getBytes(StandardCharsets.UTF_8));
-                    out.flush();
-                    success = true;
-                } catch (IOException e) {
-                    System.err.println("Error broadcasting to " + host + " on attempt " + attempts + ": " + e.getMessage());
-                    try {
-                        Thread.sleep(1000); // Wait before retrying
-                    } catch (InterruptedException ie) {
-                        Thread.currentThread().interrupt();
-                    }
-                }
-            }
-            if (!success) {
-                System.err.println("Failed to broadcast to " + host + " after " + maxAttempts + " attempts.");
-            }
-        }
-    }
+    // private void broadcastFinish() {
+    //     System.out.println("Broadcasting finish to other servers.");
+    //     for (String host : connectedHosts) {
+    //         boolean success = false;
+    //         int attempts = 0;
+    //         int maxAttempts = 5; // Maximum number of retry attempts
+    //         while (!success && attempts < maxAttempts) {
+    //             attempts++;
+    //             try (Socket socket = new Socket(host, basePort - 1);
+    //                 OutputStream out = socket.getOutputStream()) {
+    //                 out.write("FINISHED".getBytes(StandardCharsets.UTF_8));
+    //                 out.flush();
+    //                 success = true;
+    //             } catch (IOException e) {
+    //                 System.err.println("Error broadcasting to " + host + " on attempt " + attempts + ": " + e.getMessage());
+    //                 try {
+    //                     Thread.sleep(1000); // Wait before retrying
+    //                 } catch (InterruptedException ie) {
+    //                     Thread.currentThread().interrupt();
+    //                 }
+    //             }
+    //         }
+    //         if (!success) {
+    //             System.err.println("Failed to broadcast to " + host + " after " + maxAttempts + " attempts.");
+    //         }
+    //     }
+    // }
 
     private void stopBaseServer() {
         running = false;
@@ -297,28 +297,28 @@ import static org.junit.Assert.assertTrue;
         }
     }
 
-    private boolean connectToCluster() {
-        int retries = 5;
-        int attempt = 0;
-        while (attempt < retries) {
-            try (Socket socket = new Socket(baseIP, basePort - 1)) {
-                System.out.println("Successfully connected to the cluster at " + baseIP + ":" + (basePort - 1));
-                return true;
-            } catch (IOException e) {
-                System.err.println("Attempt " + (attempt + 1) + ": Could not connect to " + baseIP + ":" + (basePort - 1));
-                attempt++;
-                try {
-                    Thread.sleep(2000); // Wait for 2 seconds before retrying
-                } catch (InterruptedException ie) {
-                    Thread.currentThread().interrupt();
-                    System.err.println("Retry interrupted");
-                    return false;
-                }
-            }
-        }
-        System.err.println("Error: Could not connect to " + baseIP + ":" + (basePort - 1) + " after " + retries + " attempts");
-        return false;
-    }
+    // private boolean connectToCluster() {
+    //     int retries = 5;
+    //     int attempt = 0;
+    //     while (attempt < retries) {
+    //         try (Socket socket = new Socket(baseIP, basePort - 1)) {
+    //             System.out.println("Successfully connected to the cluster at " + baseIP + ":" + (basePort - 1));
+    //             return true;
+    //         } catch (IOException e) {
+    //             System.err.println("Attempt " + (attempt + 1) + ": Could not connect to " + baseIP + ":" + (basePort - 1));
+    //             attempt++;
+    //             try {
+    //                 Thread.sleep(2000); // Wait for 2 seconds before retrying
+    //             } catch (InterruptedException ie) {
+    //                 Thread.currentThread().interrupt();
+    //                 System.err.println("Retry interrupted");
+    //                 return false;
+    //             }
+    //         }
+    //     }
+    //     System.err.println("Error: Could not connect to " + baseIP + ":" + (basePort - 1) + " after " + retries + " attempts");
+    //     return false;
+    // }
 
      public void run(final int numNodes) throws IOException, InterruptedException {
             final Endpoint seedEndpoint = Utils.hostFromParts(baseIP, basePort);
