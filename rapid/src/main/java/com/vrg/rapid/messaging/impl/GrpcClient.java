@@ -158,8 +158,8 @@ public class GrpcClient implements IMessagingClient {
     public ListenableFuture<RapidResponse> sendMessage(final Endpoint remote, final RapidRequest msg) {
         Objects.requireNonNull(remote);
         Objects.requireNonNull(msg);
-        SettableFuture<RapidResponse> resultFutureSettable = SettableFuture.create();
-        SettableFuture<RapidResponse> resultFuture = SettableFuture.create();
+        // SettableFuture<RapidResponse> resultFutureSettable = SettableFuture.create();
+        // SettableFuture<RapidResponse> resultFuture = SettableFuture.create();
         // if (isShuttingDown.get()) {
         //     // 如果正在关闭，立即返回异常
         //     // throw new IllegalStateException("Cannot send message: Client is shutting down");
