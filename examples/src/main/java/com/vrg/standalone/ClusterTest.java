@@ -152,23 +152,23 @@ import static org.junit.Assert.assertTrue;
         System.out.println("Initializing cluster...");
         
         // Check if we can connect to the cluster
-        if(nodeId == 0){
-            // Set up server to reponse the connectToCluster
-            setupBaseServer();
-        }
-        else {
-        try {
-            connectToCluster();
-        }
-        catch (Exception e) {
-        System.err.println("Failed to connect to the cluster at " + baseIP + ":" + (port - 1));
-        }
-        }
+        // if(nodeId == 0){
+        //     // Set up server to reponse the connectToCluster
+        //     setupBaseServer();
+        // }
+        // else {
+        // try {
+        //     connectToCluster();
+        // }
+        // catch (Exception e) {
+        // System.err.println("Failed to connect to the cluster at " + baseIP + ":" + (port - 1));
+        // }
+        // }
         
-        waitForConnections();
+        // waitForConnections();
 
 
-        System.out.println("Cluster is ready with " + targetServers + " servers. Starting test: " + testID);
+        // System.out.println("Cluster is ready with " + targetServers + " servers. Starting test: " + testID);
         System.out.println("Connected to cluster. Launching " + numNodes + " nodes...");
         try{
             run(numNodes);
