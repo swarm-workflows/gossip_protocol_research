@@ -335,6 +335,7 @@ import static org.junit.Assert.assertTrue;
         //     System.out.println("Broadcast Start at " + System.currentTimeMillis()  +
         //   ", Endpoint: " + seedEndpoint);
         //     }
+        if("1".equals(testID)){
           if(nodeId == 0){
             // final UUID TEST_MESSAGE_UUID = UUID.fromString("00000000-0000-0000-0000-000000000001");
             final UUID TEST_MESSAGE_UUID = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
@@ -345,7 +346,26 @@ import static org.junit.Assert.assertTrue;
             instances.get(seedEndpoint).membershipService.broadcaster.broadcast(
                 Utils.toRapidRequest(FastRoundPhase2bMessage.getDefaultInstance(), testMessageId));
           }
-          
+        }
+        if("2".equals(testID)){
+          System.out.println("TestName: testRejoinSingleNode");
+            long startTime = System.nanoTime(); // 开始计时
+            if(nodeId == 0){
+                Endpoint leavingEndpoint = Utils.hostFromParts(myIP, basePort + 1);
+                for (int i = 0; i < 1; i++) {
+                    final Cluster cluster = instances.remove(leavingEndpoint);
+                    cluster.shutdown();
+                    waitAndVerifyAgreement(targetNodes - 1, 40, 500);
+                    extendCluster(leavingEndpoint, seedEndpoint);
+                    waitAndVerifyAgreement(targetNodes, 40, 500);
+                    Thread.sleep(500);
+                }
+            }
+            final long endTime = System.nanoTime(); // End timing
+            long durationInMs = (endTime - startTime) / 1_000_000; // Convert to milliseconds
+            System.out.println("Total execution time: " + durationInMs + " ms");
+            System.out.println("Start time: " + startTime / 1_000_000 + " ms");
+        }
          try {
             Thread.sleep(60000);
             waitAndShutdownClusters();
