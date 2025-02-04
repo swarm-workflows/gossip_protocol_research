@@ -454,6 +454,8 @@ public final class MembershipService {
             );
         // }
         settings.setBatchingWindowInMs(100);
+        settings.setConsensusFallbackTimeoutBaseDelayInMs(1000);
+        settings.setGrpcTimeoutMs(1000);
         if(proposal.size() >= 5){
         stopLatencyBroadcasts();
         stopLatencyProbes();
