@@ -356,8 +356,10 @@ import static org.junit.Assert.assertTrue;
                     final Cluster cluster = instances.remove(leavingEndpoint);
                     cluster.shutdown();
                     waitAndVerifyAgreement(targetNodes - 1,80, 500);
+                    System.out.println("Node " + leavingEndpoint + " has left the cluster.");
                     extendCluster(leavingEndpoint, seedEndpoint);
                     waitAndVerifyAgreement(targetNodes, 80, 500);
+                    System.out.println("Node " + leavingEndpoint + " has rejoined the cluster.");
                     Thread.sleep(500);
                 }
             }
