@@ -355,6 +355,7 @@ import static org.junit.Assert.assertTrue;
                 for (int i = 0; i < 1; i++) {
                     final Cluster cluster = instances.remove(leavingEndpoint);
                     cluster.shutdown();
+                    System.out.println("Node " + leavingEndpoint + " shutdown.");
                     waitAndVerifyAgreement(targetNodes - 1,80, 500);
                     System.out.println("Node " + leavingEndpoint + " has left the cluster.");
                     extendCluster(leavingEndpoint, seedEndpoint);
