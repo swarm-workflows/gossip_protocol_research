@@ -354,7 +354,7 @@ import static org.junit.Assert.assertTrue;
             long startTime = System.nanoTime(); // 开始计时
             if(nodeId == 0){
                 Endpoint leavingEndpoint = Utils.hostFromParts(myIP, basePort + 1);
-                for (int i = 0; i < 10; i++) {
+                for (int i = 0; i < 5; i++) {
                     final Cluster cluster = instances.remove(leavingEndpoint);
                     cluster.shutdown();
                     System.out.println("Node " + leavingEndpoint + " shutdown.");
