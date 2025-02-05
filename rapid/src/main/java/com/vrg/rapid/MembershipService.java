@@ -860,7 +860,7 @@ public final class MembershipService {
         ScheduledFuture<?> jobs = 
         broadcastExecutor.scheduleAtFixedRate(
                         createLatencyBroadcastTask(),
-                        450 + (long)myAddr.getPort() % 10, // Initial delay
+                        45 + (long)myAddr.getPort() % 10, // Initial delay
                         // 450 + 2 * (long)myAddr.getPort() % 10, // Initial delay
                         180,
                         TimeUnit.SECONDS);
