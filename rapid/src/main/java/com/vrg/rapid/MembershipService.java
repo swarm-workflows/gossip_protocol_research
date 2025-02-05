@@ -453,16 +453,18 @@ public final class MembershipService {
             viewchangeTime / 1_000_000 // Convert nanoseconds to milliseconds
             );
         // }
-        settings.setBatchingWindowInMs(100);
-        settings.setConsensusFallbackTimeoutBaseDelayInMs(10000);
-        settings.setGrpcTimeoutMs(1000);
+        if(settings.getBatchingWindowInMs() != 100){
+            settings.setConsensusFallbackTimeoutBaseDelayInMs(1000);
+            settings.setGrpcTimeoutMs(1000);
+            settings.setBatchingWindowInMs(100);
+            alertBatcherJob.cancel(true);
+            alertBatcherJob = this.backgroundTasksExecutor.scheduleAtFixedRate(new AlertBatcher(),
+                0, settings.getBatchingWindowInMs(), TimeUnit.MILLISECONDS);
+        }
         if(proposal.size() >= 5){
         stopLatencyBroadcasts();
         stopLatencyProbes();
         stopDGRO();
-        alertBatcherJob.cancel(true);
-        alertBatcherJob = this.backgroundTasksExecutor.scheduleAtFixedRate(new AlertBatcher(),
-                0, settings.getBatchingWindowInMs(), TimeUnit.MILLISECONDS);
         }
         final long currentConfigurationId = membershipView.getCurrentConfigurationId();
         // Publish an event to the listeners.
