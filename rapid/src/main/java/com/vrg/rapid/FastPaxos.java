@@ -201,7 +201,7 @@
       * Random expovariate variable plus a base delay.
       */
      private long getRandomDelayMs() {
-         final long jitter = (long) (-1000  * Math.log(1 - ThreadLocalRandom.current().nextDouble()) / jitterRate);
+         final long jitter = (long) (-5000  * Math.log(1 - ThreadLocalRandom.current().nextDouble()) / jitterRate);
          return jitter + settings.getConsensusFallbackTimeoutBaseDelayInMs();
      }
  

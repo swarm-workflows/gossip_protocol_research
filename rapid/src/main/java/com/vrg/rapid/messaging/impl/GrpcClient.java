@@ -68,10 +68,10 @@ import java.util.function.Supplier;
  */
 public class GrpcClient implements IMessagingClient {
     private static final Logger LOG = LoggerFactory.getLogger(GrpcClient.class);
-    private static final int DEFAULT_BUF_SIZE = 4096;
+    private static final int DEFAULT_BUF_SIZE = 8192;
     public static final boolean DEFAULT_GRPC_USE_IN_PROCESS_TRANSPORT = false;
     public final Map<String, Double> latencyCache = new HashMap<>();
-    public static final int DEFAULT_GRPC_TIMEOUT_MS = 1000;
+    public static final int DEFAULT_GRPC_TIMEOUT_MS = 2000;
     public static final int DEFAULT_GRPC_DEFAULT_RETRIES = 5;
     public static final int DEFAULT_GRPC_JOIN_TIMEOUT = DEFAULT_GRPC_TIMEOUT_MS * 15;
     public static final int DEFAULT_GRPC_PROBE_TIMEOUT = 1000;
