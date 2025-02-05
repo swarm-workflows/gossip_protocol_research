@@ -69,7 +69,7 @@ import java.util.function.Consumer;
  */ 
 public final class Cluster {
     private static final Logger LOG = LoggerFactory.getLogger(Cluster.class);
-    private static final int K = 10;
+    private static final int K = 8;
     private static final int H = 6; 
     private static final int L = 4;
     private final int gossip_type;
