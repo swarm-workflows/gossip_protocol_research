@@ -87,7 +87,7 @@ import static org.junit.Assert.assertTrue;
     //  public final Map<Endpoint, List<ServerDropInterceptors.FirstN>> serverInterceptors = new ConcurrentHashMap<>();
     //  public final Map<Endpoint, List<ClientInterceptors.Delayer>> clientInterceptors = new ConcurrentHashMap<>();
      public boolean useStaticFd = false;
-     public boolean addMetadata = false;
+     public boolean addMetadata = true;
      @Nullable public Random random = null;
      public long seed;
      public int basePort;
@@ -130,11 +130,11 @@ import static org.junit.Assert.assertTrue;
             settings = new Settings();
     
             // Tests need to opt out of the in-process channel
-            // settings.setUseInProcessTransport(true);
+            // settings.setUseInProcessTransport(false);
             // Tests need to set more aggressive frequent failure detection intervals if required
             settings.setFailureDetectorIntervalInMs(1000);
             useStaticFd = false;
-            addMetadata = false;
+            addMetadata = true;
         }
 
     public void setupCluster(String baseIP, String myIP, int port, int numNodes, String testID, 
@@ -322,6 +322,7 @@ import static org.junit.Assert.assertTrue;
 
      public void run(final int numNodes) throws IOException, InterruptedException {
             final Endpoint seedEndpoint = Utils.hostFromParts(baseIP, basePort);
+            useFastFailureDetectionTimeouts();
             if(nodeId == 0) createCluster(numNodes, seedEndpoint);
             else {
                 Thread.sleep(100 * (long)(nodeId - 1));
@@ -330,11 +331,12 @@ import static org.junit.Assert.assertTrue;
             System.out.println("Wait for targetNodes: " + targetNodes);
             waitAndVerifyAgreement(targetNodes, 200, 1000);
             System.out.println("TargetNodes=" + targetNodes + " have joined the cluster.");
-            // Thread.sleep(90000);
+            Thread.sleep(80000);
         //     if("1".equals(testID)){
         //     System.out.println("Broadcast Start at " + System.currentTimeMillis()  +
         //   ", Endpoint: " + seedEndpoint);
         //     }
+
         if("1".equals(testID)){
           if(nodeId == 0){
             // final UUID TEST_MESSAGE_UUID = UUID.fromString("00000000-0000-0000-0000-000000000001");
@@ -356,12 +358,12 @@ import static org.junit.Assert.assertTrue;
                     final Cluster cluster = instances.remove(leavingEndpoint);
                     cluster.shutdown();
                     System.out.println("Node " + leavingEndpoint + " shutdown.");
-                    waitAndVerifyAgreement(targetNodes - 1,80, 500);
+                    waitAndVerifyAgreement(targetNodes - 1,40, 500);
                     System.out.println("Node " + leavingEndpoint + " has left the cluster.");
                     extendCluster(leavingEndpoint, seedEndpoint);
-                    waitAndVerifyAgreement(targetNodes, 80, 500);
+                    waitAndVerifyAgreement(targetNodes, 40, 500);
                     System.out.println("Node " + leavingEndpoint + " has rejoined the cluster.");
-                    Thread.sleep(500);
+                    // Thread.sleep(500);
                 }
             }
             final long endTime = System.nanoTime(); // End timing
@@ -628,6 +630,7 @@ import static org.junit.Assert.assertTrue;
                  if (!(cluster.getMemberlist().size() == expectedSize
                          && cluster.getMemberlist().equals(any))) {
                      ready = false;
+                    //  System.out.printf("Port %d not ready yet.", cluster.membershipService.myAddr.getPort());
                  }
              }
              if (!ready) {
@@ -710,7 +713,7 @@ import static org.junit.Assert.assertTrue;
  
      // This speeds up failure detection when using the PingPongFailureDetector
      public void useFastFailureDetectionTimeouts() {
-         settings.setGrpcProbeTimeoutMs(10);
-         settings.setFailureDetectorIntervalInMs(50);
+         settings.setGrpcProbeTimeoutMs(110);
+         settings.setFailureDetectorIntervalInMs(150);
      }
  }

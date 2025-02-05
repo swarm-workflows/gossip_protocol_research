@@ -83,8 +83,8 @@ public class GrpcServer extends MembershipServiceGrpc.MembershipServiceImplBase 
         this.useInProcessServer = useInProcessTransport;
         // Initialize the cache with a maximum size and expiration time
         this.messageCache = Caffeine.newBuilder()
-        .expireAfterWrite(100, TimeUnit.SECONDS)
-        .maximumSize(5000)
+        .expireAfterWrite(3, TimeUnit.SECONDS)
+        .maximumSize(1000)
         .build();
     }
 
@@ -110,8 +110,6 @@ public class GrpcServer extends MembershipServiceGrpc.MembershipServiceImplBase 
             rapidRequest.getContentCase() == RapidRequest.ContentCase.LATENCYMESSAGE ||
             rapidRequest.getContentCase() == RapidRequest.ContentCase.BATCHEDALERTMESSAGE) {
             if (messageCache.getIfPresent(messageId) != null) {
-                final ListenableFuture<RapidResponse> result  = Futures.immediateFuture(Utils.toRapidResponse(ProbeResponse.getDefaultInstance()));
-                Futures.addCallback(result, new ResponseCallback(responseObserver), grpcExecutor);
                 return;
             }
         }
@@ -145,13 +143,13 @@ public class GrpcServer extends MembershipServiceGrpc.MembershipServiceImplBase 
         rapidRequest.getContentCase() == RapidRequest.ContentCase.LATENCYMESSAGE ||
         rapidRequest.getContentCase() == RapidRequest.ContentCase.BATCHEDALERTMESSAGE) {
         // Store the message ID in the cache
-        // if (messageCache.getIfPresent(messageId) != null) {
-        //     return;
-        // }
-        // long start = System.nanoTime();
         if (messageCache.getIfPresent(messageId) != null) {
             return;
         }
+        // long start = System.nanoTime();
+        // if (messageCache.getIfPresent(messageId) != null) {
+        //     return;
+        // }
         messageCache.put(messageId, Boolean.TRUE);
         // long end = System.nanoTime();
         // System.out.println("Cache put took: " + (end - start) + " ns");
@@ -215,13 +213,13 @@ public class GrpcServer extends MembershipServiceGrpc.MembershipServiceImplBase 
             //     target = availableEndpoints.get(count % availableEndpoints.size());
             // }
             // Create a new instance of the static inner observer
-            StreamObserver<RapidResponse> redistributeObserver = new RedistributeObserver(target);
+            // StreamObserver<RapidResponse> redistributeObserver = new RedistributeObserver(target);
         
             // Forward the message
-            ListenableFuture<RapidResponse> result = membershipService.getMessagingClient()
-                    .sendMessageBestEffort(target, rapidRequest);
+            // ListenableFuture<RapidResponse> result = membershipService.getMessagingClient()
+            membershipService.getMessagingClient().sendMessageBestEffort(target, rapidRequest);
             // Use the static ResponseCallback (if you also replaced it)
-            Futures.addCallback(result, new ResponseCallback(redistributeObserver), grpcExecutor);
+            // Futures.addCallback(result, new ResponseCallback(redistributeObserver), grpcExecutor);
             // membershipService.getMessagingClient()
             //         .sendMessageBestEffort(recipient, rapidRequest);
             count++;
@@ -233,13 +231,12 @@ public class GrpcServer extends MembershipServiceGrpc.MembershipServiceImplBase 
             //     continue;
             // }
             // Create a new instance of the static inner observer
-            StreamObserver<RapidResponse> redistributeObserver = new RedistributeObserver(recipient);
+            // StreamObserver<RapidResponse> redistributeObserver = new RedistributeObserver(recipient);
         
             // Forward the message
-            ListenableFuture<RapidResponse> result = membershipService.getMessagingClient()
-                    .sendMessageBestEffort(recipient, rapidRequest);
+            membershipService.getMessagingClient().sendMessageBestEffort(recipient, rapidRequest);
             // Use the static ResponseCallback (if you also replaced it)
-            Futures.addCallback(result, new ResponseCallback(redistributeObserver), grpcExecutor);
+            // Futures.addCallback(result, new ResponseCallback(redistributeObserver), grpcExecutor);
             // membershipService.getMessagingClient()
             //         .sendMessageBestEffort(recipient, rapidRequest);
             count++;

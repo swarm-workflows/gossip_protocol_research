@@ -345,6 +345,7 @@ public final class MembershipService {
             // We already have a proposal for this round
             // => we have initiated consensus and cannot go back on our proposal.
             if (announcedProposal) {
+                LOG.info("{} announcedProposal", myAddr.getPort());
                 future.set(RapidResponse.getDefaultInstance());
             } else {
                 // We now apply all the valid messages into our condition detector
@@ -354,7 +355,7 @@ public final class MembershipService {
                                 .map(cutDetection::aggregateForProposal)
                                 .flatMap(List::stream)
                                 .collect(Collectors.toSet());
-
+                LOG.info("proposal size {}", proposal.size());
                 // Lastly, we apply implicit detections
                 proposal.addAll(cutDetection.invalidateFailingEdges(membershipView));
 
@@ -375,6 +376,9 @@ public final class MembershipService {
                     fastPaxosInstance.propose(new ArrayList<>(proposal.stream()
                             .sorted(membershipView.getRingZeroComparator())
                             .collect(Collectors.toList())));
+                }
+                else{
+                    LOG.info("{} proposal empty!", myAddr.getPort());
                 }
                 future.set(RapidResponse.getDefaultInstance());
             }
@@ -741,9 +745,9 @@ public final class MembershipService {
                                         final int membershipSize,
                                         final long currentConfigurationId) {
         final Endpoint destination = alertMessage.getEdgeDst();
-        LOG.trace("AlertMessage received {sender:{}, config:{}, size:{}, status:{}}",
+        LOG.trace("AlertMessage received {sender:{}, config:{}, size:{}, status:{}, destination:{}}",
                 Utils.loggable(batchedAlertMessage.getSender()), alertMessage.getConfigurationId(),
-                membershipSize, alertMessage.getEdgeStatus());
+                membershipSize, alertMessage.getEdgeStatus(), destination);
 
         if (currentConfigurationId != alertMessage.getConfigurationId()) {
             LOG.trace("AlertMessage for configuration {} received during configuration {}",
@@ -814,8 +818,8 @@ public final class MembershipService {
                 .map(endpoint -> latencyExecutor.scheduleAtFixedRate(
                         createLatencyProbeTask(endpoint),
                         // (long) (-5 * Math.log(1 - ThreadLocalRandom.current().nextDouble())),
-                        // (long) 20 + (long)myAddr.getPort() % 5,
-                        (long) 200 + 2 * (long)myAddr.getPort() % 10,
+                        (long) 20 + (long)myAddr.getPort() % 5,
+                        // (long) 200 + 2 * (long)myAddr.getPort() % 10,
                         180,
                         TimeUnit.SECONDS))
                 .collect(Collectors.toList());
@@ -856,8 +860,8 @@ public final class MembershipService {
         ScheduledFuture<?> jobs = 
         broadcastExecutor.scheduleAtFixedRate(
                         createLatencyBroadcastTask(),
-                        // 40 + (long)myAddr.getPort() % 10, // Initial delay
-                        450 + 2 * (long)myAddr.getPort() % 10, // Initial delay
+                        45 + (long)myAddr.getPort() % 5, // Initial delay
+                        // 450 + 2 * (long)myAddr.getPort() % 10, // Initial delay
                         180,
                         TimeUnit.SECONDS);
 

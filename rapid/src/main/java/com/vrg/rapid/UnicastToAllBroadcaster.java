@@ -81,7 +81,7 @@ final class UnicastToAllBroadcaster implements IBroadcaster {
             // }
             // if(count == 3) break;
             Endpoint target = recipient;
-            futures.add(messagingClient.sendMessageBestEffort(target, msg));
+            messagingClient.sendMessageBestEffort(target, msg);
             count++;
         }
         for (final Endpoint recipient: availableEndpoints) {
@@ -90,7 +90,7 @@ final class UnicastToAllBroadcaster implements IBroadcaster {
             //     continue;
             // }
             Endpoint target = recipient;
-            futures.add(messagingClient.sendMessageBestEffort(target, msg));
+            messagingClient.sendMessageBestEffort(target, msg);
             count++;
         }
         return futures;

@@ -61,6 +61,7 @@ public class SharedResources {
     public synchronized EventLoopGroup getEventLoopGroup() {
         // Lazily initialized because this is not required for tests that use InProcessChannel/Server.
         if (eventLoopGroup == null) {
+            // System.out.println("New EventLoop, port " + address.getPort() );
             eventLoopGroup = new NioEventLoopGroup(DEFAULT_THREADS, newFastLocalThreadFactory("elg", address));
         }
         return eventLoopGroup;
