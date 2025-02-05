@@ -249,7 +249,7 @@ final public class Utils {
                                         .build();
     }
 
-    static RapidResponse toRapidResponse(final ProbeResponse msg) {
+    static public RapidResponse toRapidResponse(final ProbeResponse msg) {
         return RapidResponse.newBuilder().setProbeResponse(msg)
                                         .setMessageId(messageIdFromUUID(UUID.randomUUID()))
                                         .build();
