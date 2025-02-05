@@ -86,7 +86,7 @@ public class GrpcClient implements IMessagingClient {
 
     // private final double meanLatency = 50; // Mean latency in milliseconds
     // private final double stdDevLatency = 15; // Standard deviation in milliseconds
-    private final double meanLatency = 10; // Mean latency in milliseconds
+    private final double meanLatency = 20; // Mean latency in milliseconds
     private final double stdDevLatency = 5; // Standard deviation in milliseconds
 
     @Nullable private final EventLoopGroup eventLoopGroup;
@@ -145,8 +145,8 @@ public class GrpcClient implements IMessagingClient {
         
         // Generate a Gaussian value and scale it to mean and standard deviation
         final double gaussian = random.nextGaussian();
-        final double latency = Math.min(20, Math.max(meanLatency + gaussian * stdDevLatency, 5));
-        // final double latency = Math.max(meanLatency + gaussian * stdDevLatency, 5);
+        // final double latency = Math.min(20, Math.max(meanLatency + gaussian * stdDevLatency, 5));
+        final double latency = Math.max(meanLatency + gaussian * stdDevLatency, 5);
         
         latencyCache.put(key, latency);
 
@@ -156,139 +156,139 @@ public class GrpcClient implements IMessagingClient {
 
     @Override
     public ListenableFuture<RapidResponse> sendMessage(final Endpoint remote, final RapidRequest msg) {
-        // Objects.requireNonNull(remote);
-        // Objects.requireNonNull(msg);
-        // SettableFuture<RapidResponse> resultFutureSettable = SettableFuture.create();
-        // SettableFuture<RapidResponse> resultFuture = SettableFuture.create();
-        // if (isShuttingDown.get()) {
-        //     // 如果正在关闭，立即返回异常
-        //     // throw new IllegalStateException("Cannot send message: Client is shutting down");
-        //     resultFutureSettable.setException(new IllegalStateException("Cannot send message: Client is shutting down"));
-        //     return resultFutureSettable;
-        // }
-        // final long startTime = System.nanoTime();
-        // // 延迟50毫秒后执行实际RPC调用
-        // scheduledExecutor.schedule(() -> {
-        //     if (isShuttingDown.get()) {
-        //         // 在关闭状态中，直接设置异常
-        //         resultFutureSettable.setException(new IllegalStateException("Task cancelled: Client is shutting down"));
-        //         return;
-        //     }
-        //     final Supplier<ListenableFuture<RapidResponse>> call = () -> {
-        //         final MembershipServiceFutureStub stub = getFutureStub(remote)
-        //                 .withDeadlineAfter(getTimeoutForMessageMs(msg), TimeUnit.MILLISECONDS);
-        //         return stub.sendRequest(msg);
-        //     };
-
-        //     final Runnable onCallFailure = () -> channelMap.invalidate(remote);
-
-        //     // 使用Retries进行RPC调用
-        //     final SettableFuture<ResponseWithLatency> rpcFutureWithLatency = Retries.callWithRetries(
-        //         call, 
-        //         remote, 
-        //         settings.getGrpcDefaultRetries(), 
-        //         onCallFailure, 
-        //         backgroundExecutor, 
-        //         msg,
-        //         latencyMap,
-        //         startTime,
-        //         getTimeoutForMessageMs(msg)
-        //     );
-
-        //     Futures.addCallback(Futures.transform(
-        //         rpcFutureWithLatency,
-        //         ResponseWithLatency::getResponse, // Extract the RapidResponse from ResponseWithLatency
-        //         MoreExecutors.directExecutor()   // Use direct executor to run the transformation on the same thread
-        //     ), new RapidResponseFutureCallback(resultFuture),
-        //                         MoreExecutors.directExecutor());
-
-        // }, (int) getLatency(address, remote), TimeUnit.MILLISECONDS);
-
-        // return resultFuture;
-        
+        Objects.requireNonNull(remote);
+        Objects.requireNonNull(msg);
+        SettableFuture<RapidResponse> resultFutureSettable = SettableFuture.create();
+        SettableFuture<RapidResponse> resultFuture = SettableFuture.create();
+        if (isShuttingDown.get()) {
+            // 如果正在关闭，立即返回异常
+            // throw new IllegalStateException("Cannot send message: Client is shutting down");
+            resultFutureSettable.setException(new IllegalStateException("Cannot send message: Client is shutting down"));
+            return resultFutureSettable;
+        }
         final long startTime = System.nanoTime();
-        final Supplier<ListenableFuture<RapidResponse>> call = () -> {
-            final MembershipServiceFutureStub stub = getFutureStub(remote)
-                    .withDeadlineAfter(getTimeoutForMessageMs(msg),
-                            TimeUnit.MILLISECONDS);
-            return stub.sendRequest(msg);
-        };
-        final Runnable onCallFailure = () -> channelMap.invalidate(remote);
-        final SettableFuture<ResponseWithLatency> rpcFutureWithLatency = 
-        Retries.callWithRetries(call, remote, settings.getGrpcDefaultRetries(), onCallFailure,
-                                       backgroundExecutor,  msg,
-                                               latencyMap,
-                                               startTime,
-                                               getTimeoutForMessageMs(msg));
-        return  Futures.transform(
-                    rpcFutureWithLatency,
-                    ResponseWithLatency::getResponse, // Extract the RapidResponse from ResponseWithLatency
-                    MoreExecutors.directExecutor()   // Use direct executor to run the transformation on the same thread
-                );
+        // 延迟50毫秒后执行实际RPC调用
+        scheduledExecutor.schedule(() -> {
+            if (isShuttingDown.get()) {
+                // 在关闭状态中，直接设置异常
+                resultFutureSettable.setException(new IllegalStateException("Task cancelled: Client is shutting down"));
+                return;
+            }
+            final Supplier<ListenableFuture<RapidResponse>> call = () -> {
+                final MembershipServiceFutureStub stub = getFutureStub(remote)
+                        .withDeadlineAfter(getTimeoutForMessageMs(msg), TimeUnit.MILLISECONDS);
+                return stub.sendRequest(msg);
+            };
+
+            final Runnable onCallFailure = () -> channelMap.invalidate(remote);
+
+            // 使用Retries进行RPC调用
+            final SettableFuture<ResponseWithLatency> rpcFutureWithLatency = Retries.callWithRetries(
+                call, 
+                remote, 
+                settings.getGrpcDefaultRetries(), 
+                onCallFailure, 
+                backgroundExecutor, 
+                msg,
+                latencyMap,
+                startTime,
+                getTimeoutForMessageMs(msg)
+            );
+
+            Futures.addCallback(Futures.transform(
+                rpcFutureWithLatency,
+                ResponseWithLatency::getResponse, // Extract the RapidResponse from ResponseWithLatency
+                MoreExecutors.directExecutor()   // Use direct executor to run the transformation on the same thread
+            ), new RapidResponseFutureCallback(resultFuture),
+                                MoreExecutors.directExecutor());
+
+        }, (int) getLatency(address, remote), TimeUnit.MILLISECONDS);
+
+        return resultFuture;
+        
+        // final long startTime = System.nanoTime();
+        // final Supplier<ListenableFuture<RapidResponse>> call = () -> {
+        //     final MembershipServiceFutureStub stub = getFutureStub(remote)
+        //             .withDeadlineAfter(getTimeoutForMessageMs(msg),
+        //                     TimeUnit.MILLISECONDS);
+        //     return stub.sendRequest(msg);
+        // };
+        // final Runnable onCallFailure = () -> channelMap.invalidate(remote);
+        // final SettableFuture<ResponseWithLatency> rpcFutureWithLatency = 
+        // Retries.callWithRetries(call, remote, settings.getGrpcDefaultRetries(), onCallFailure,
+        //                                backgroundExecutor,  msg,
+        //                                        latencyMap,
+        //                                        startTime,
+        //                                        getTimeoutForMessageMs(msg));
+        // return  Futures.transform(
+        //             rpcFutureWithLatency,
+        //             ResponseWithLatency::getResponse, // Extract the RapidResponse from ResponseWithLatency
+        //             MoreExecutors.directExecutor()   // Use direct executor to run the transformation on the same thread
+        //         );
     }
    
     // Use the scheduledExecutor for scheduling tasks with delays
     @Override
     public ListenableFuture<RapidResponse> sendMessageBestEffort(final Endpoint remote, final RapidRequest msg) {
-        // Objects.requireNonNull(msg);
-        // final SettableFuture<RapidResponse> resultFuture = SettableFuture.create();
-        // if (isShuttingDown.get()) {
-        //     // 如果正在关闭，立即返回异常
-        //     // throw new IllegalStateException("Cannot send message: Client is shutting down");
-        //     // SettableFuture<RapidResponse> resultFutureSettable = SettableFuture.create();
-        //     resultFuture.setException(new IllegalStateException("Cannot send message: Client is shutting down"));
-        //     return resultFuture;
-        // }
-        // final long startTime = System.nanoTime();
-        // // Schedule the delayed execution
-        // scheduledExecutor.schedule(() -> {
-        //     if (isShuttingDown.get()) {
-        //         // 在关闭状态中，直接设置异常
-        //         resultFuture.setException(new IllegalStateException("Task cancelled: Client is shutting down"));
-        //         return;
-        //     }
-        //     final Supplier<ListenableFuture<RapidResponse>> call = () -> {
-        //         final MembershipServiceFutureStub stub = getFutureStub(remote)
-        //                 .withDeadlineAfter(getTimeoutForMessageMs(msg), TimeUnit.MILLISECONDS);
-        //         return stub.sendRequest(msg);
-        //     };
-
-        //     final Runnable onCallFailure = () -> channelMap.invalidate(remote);
-
-        //     final ListenableFuture<ResponseWithLatency> rpcFutureWithLatency =
-        //         Retries.callWithRetries(call, remote, 0, onCallFailure, 
-        //         backgroundExecutor, msg, latencyMap, startTime,
-        //         getTimeoutForMessageMs(msg));
-
-        //     Futures.addCallback(Futures.transform(
-        //         rpcFutureWithLatency,
-        //         ResponseWithLatency::getResponse, // Extract the RapidResponse from ResponseWithLatency
-        //         MoreExecutors.directExecutor()   // Use direct executor to run the transformation on the same thread
-        //     ), new RapidResponseFutureCallback(resultFuture),
-        //      MoreExecutors.directExecutor());
-
-        // }, (int) getLatency(address, remote), TimeUnit.MILLISECONDS);
-
-        // return resultFuture;
+        Objects.requireNonNull(msg);
+        final SettableFuture<RapidResponse> resultFuture = SettableFuture.create();
+        if (isShuttingDown.get()) {
+            // 如果正在关闭，立即返回异常
+            // throw new IllegalStateException("Cannot send message: Client is shutting down");
+            // SettableFuture<RapidResponse> resultFutureSettable = SettableFuture.create();
+            resultFuture.setException(new IllegalStateException("Cannot send message: Client is shutting down"));
+            return resultFuture;
+        }
         final long startTime = System.nanoTime();
-        final Supplier<ListenableFuture<RapidResponse>> call = () -> {
-            final MembershipServiceFutureStub stub = getFutureStub(remote)
-                    .withDeadlineAfter(getTimeoutForMessageMs(msg),
-                            TimeUnit.MILLISECONDS);
-            return stub.sendRequest(msg);
-        };
-        final Runnable onCallFailure = () -> channelMap.invalidate(remote);
-        final SettableFuture<ResponseWithLatency> rpcFutureWithLatency = 
-        Retries.callWithRetries(call, remote, 0, onCallFailure,
-                                       backgroundExecutor,  msg,
-                                               latencyMap,
-                                               startTime,
-                                               getTimeoutForMessageMs(msg));
-        return  Futures.transform(
-                    rpcFutureWithLatency,
-                    ResponseWithLatency::getResponse, // Extract the RapidResponse from ResponseWithLatency
-                    MoreExecutors.directExecutor()   // Use direct executor to run the transformation on the same thread
-                );
+        // Schedule the delayed execution
+        scheduledExecutor.schedule(() -> {
+            if (isShuttingDown.get()) {
+                // 在关闭状态中，直接设置异常
+                resultFuture.setException(new IllegalStateException("Task cancelled: Client is shutting down"));
+                return;
+            }
+            final Supplier<ListenableFuture<RapidResponse>> call = () -> {
+                final MembershipServiceFutureStub stub = getFutureStub(remote)
+                        .withDeadlineAfter(getTimeoutForMessageMs(msg), TimeUnit.MILLISECONDS);
+                return stub.sendRequest(msg);
+            };
+
+            final Runnable onCallFailure = () -> channelMap.invalidate(remote);
+
+            final ListenableFuture<ResponseWithLatency> rpcFutureWithLatency =
+                Retries.callWithRetries(call, remote, 0, onCallFailure, 
+                backgroundExecutor, msg, latencyMap, startTime,
+                getTimeoutForMessageMs(msg));
+
+            Futures.addCallback(Futures.transform(
+                rpcFutureWithLatency,
+                ResponseWithLatency::getResponse, // Extract the RapidResponse from ResponseWithLatency
+                MoreExecutors.directExecutor()   // Use direct executor to run the transformation on the same thread
+            ), new RapidResponseFutureCallback(resultFuture),
+             MoreExecutors.directExecutor());
+
+        }, (int) getLatency(address, remote), TimeUnit.MILLISECONDS);
+
+        return resultFuture;
+        // final long startTime = System.nanoTime();
+        // final Supplier<ListenableFuture<RapidResponse>> call = () -> {
+        //     final MembershipServiceFutureStub stub = getFutureStub(remote)
+        //             .withDeadlineAfter(getTimeoutForMessageMs(msg),
+        //                     TimeUnit.MILLISECONDS);
+        //     return stub.sendRequest(msg);
+        // };
+        // final Runnable onCallFailure = () -> channelMap.invalidate(remote);
+        // final SettableFuture<ResponseWithLatency> rpcFutureWithLatency = 
+        // Retries.callWithRetries(call, remote, 0, onCallFailure,
+        //                                backgroundExecutor,  msg,
+        //                                        latencyMap,
+        //                                        startTime,
+        //                                        getTimeoutForMessageMs(msg));
+        // return  Futures.transform(
+        //             rpcFutureWithLatency,
+        //             ResponseWithLatency::getResponse, // Extract the RapidResponse from ResponseWithLatency
+        //             MoreExecutors.directExecutor()   // Use direct executor to run the transformation on the same thread
+        //         );
     }
 
 
