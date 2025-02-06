@@ -86,7 +86,7 @@ public class GrpcClient implements IMessagingClient {
 
     // private final double meanLatency = 50; // Mean latency in milliseconds
     // private final double stdDevLatency = 15; // Standard deviation in milliseconds
-    private final double meanLatency = 25; // Mean latency in milliseconds
+    private final double meanLatency = 50; // Mean latency in milliseconds
     private final double stdDevLatency = 10; // Standard deviation in milliseconds
 
     @Nullable private final EventLoopGroup eventLoopGroup;
@@ -145,7 +145,7 @@ public class GrpcClient implements IMessagingClient {
         
         // Generate a Gaussian value and scale it to mean and standard deviation
         final double gaussian = random.nextGaussian();
-        final double latency = Math.min(100, Math.max(meanLatency + gaussian * stdDevLatency, 5));
+        final double latency = Math.min(300, Math.max(meanLatency + gaussian * stdDevLatency, 5));
         // final double latency = Math.max(meanLatency + gaussian * stdDevLatency, 5);
         
         latencyCache.put(key, latency);
