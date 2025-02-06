@@ -352,6 +352,7 @@ import static org.junit.Assert.assertTrue;
         if("2".equals(testID)){
           System.out.println("TestName: testRejoinSingleNode");
             long startTime = System.nanoTime(); // 开始计时
+            System.out.println("Start time: " + startTime / 1_000_000 + " ms");
             if(nodeId == 0){
                 Endpoint leavingEndpoint = Utils.hostFromParts(myIP, basePort + 1);
                 for (int i = 0; i < 5; i++) {
@@ -369,7 +370,6 @@ import static org.junit.Assert.assertTrue;
             final long endTime = System.nanoTime(); // End timing
             long durationInMs = (endTime - startTime) / 1_000_000; // Convert to milliseconds
             System.out.println("Total execution time: " + durationInMs + " ms");
-            System.out.println("Start time: " + startTime / 1_000_000 + " ms");
         }
          try {
             Thread.sleep(60000);
