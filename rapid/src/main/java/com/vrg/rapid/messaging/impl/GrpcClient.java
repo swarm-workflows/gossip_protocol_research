@@ -71,7 +71,7 @@ public class GrpcClient implements IMessagingClient {
     private static final int DEFAULT_BUF_SIZE = 8192;
     public static final boolean DEFAULT_GRPC_USE_IN_PROCESS_TRANSPORT = false;
     public final Map<String, Double> latencyCache = new HashMap<>();
-    public static final int DEFAULT_GRPC_TIMEOUT_MS = 2000;
+    public static final int DEFAULT_GRPC_TIMEOUT_MS = 1000;
     public static final int DEFAULT_GRPC_DEFAULT_RETRIES = 5;
     public static final int DEFAULT_GRPC_JOIN_TIMEOUT = DEFAULT_GRPC_TIMEOUT_MS * 15;
     public static final int DEFAULT_GRPC_PROBE_TIMEOUT = 1000;
@@ -145,7 +145,7 @@ public class GrpcClient implements IMessagingClient {
         
         // Generate a Gaussian value and scale it to mean and standard deviation
         final double gaussian = random.nextGaussian();
-        final double latency = Math.min(35, Math.max(meanLatency + gaussian * stdDevLatency, 5));
+        final double latency = Math.min(100, Math.max(meanLatency + gaussian * stdDevLatency, 5));
         // final double latency = Math.max(meanLatency + gaussian * stdDevLatency, 5);
         
         latencyCache.put(key, latency);
