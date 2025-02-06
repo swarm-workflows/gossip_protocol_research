@@ -276,7 +276,7 @@ public final class Cluster {
             final Map<Endpoint, Metadata> metadataMap = metadata.getMetadataCount() > 0
                                                     ? Collections.singletonMap(listenAddress, metadata)
                                                     : Collections.emptyMap();
-            settings.setBatchingWindowInMs(10000);
+            settings.setBatchingWindowInMs(15000);
             final MembershipService membershipService = new MembershipService(listenAddress,
                     cutDetector, membershipView, sharedResources, settings,
                                             messagingClient, edgeFailureDetector, metadataMap, subscriptions);
