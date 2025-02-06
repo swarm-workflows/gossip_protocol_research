@@ -37,7 +37,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
  import java.util.TreeSet;
- import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.locks.ReadWriteLock;
  import java.util.concurrent.locks.ReentrantReadWriteLock;
  import java.util.stream.Collectors;
  
@@ -73,6 +74,7 @@ import java.util.Set;
      @GuardedBy("rwLock") public final ArrayList<List<Endpoint>> ringlist;
      @GuardedBy("rwLock") private final Set<NodeId> identifiersSeen = new TreeSet<>(NodeIdComparator.INSTANCE);
      @GuardedBy("rwLock") private final Map<Endpoint, List<Endpoint>> cachedObservers = new HashMap<>();
+     @GuardedBy("rwLock") private final Map<Endpoint, Endpoint> predecessorCache = new ConcurrentHashMap<>();
      @GuardedBy("rwLock") private final Set<Endpoint> allNodes = new HashSet<>();
      @GuardedBy("rwLock") private long currentConfigurationId = -1;
      @GuardedBy("rwLock") private Configuration currentConfiguration;
@@ -612,6 +614,12 @@ import java.util.Set;
          return subjects;
      }
 
+     private Endpoint getPredecessor(NavigableSet<Endpoint> list, Endpoint node) {
+        return predecessorCache.computeIfAbsent(node, key -> {
+            Endpoint pred = list.lower(node);
+            return (pred == null) ? list.last() : pred;
+        });
+    }
      private List<Endpoint> computeGossipOutOf(final Endpoint node) {
     //     if(subjects_dgro.size() == 0){
     //         System.out.println(node + " subject_dgro size is 0");
@@ -626,13 +634,14 @@ import java.util.Set;
     if(gossip_type == 1){
         for (int k = 0; k < M; k++) {
             final NavigableSet<Endpoint> list = rings.get(k);
-            final Endpoint predecessor = list.lower(node);
-            if (predecessor == null) {
-                subjects.add(list.last());
-            } 
-            else {
-                subjects.add(predecessor);
-            }
+            // final Endpoint predecessor = list.lower(node);
+            // if (predecessor == null) {
+            //     subjects.add(list.last());
+            // } 
+            // else {
+            //     subjects.add(predecessor);
+            // }
+            subjects.add(getPredecessor(rings.get(k), node));
         }
         return subjects;
     }
