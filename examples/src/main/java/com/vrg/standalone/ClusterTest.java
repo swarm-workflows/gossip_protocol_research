@@ -340,7 +340,7 @@ import static org.junit.Assert.assertTrue;
         if("1".equals(testID)){
             // final UUID TEST_MESSAGE_UUID = UUID.fromString("00000000-0000-0000-0000-000000000001");
             
-            for(int i = 0; i < targetServers; ++i){
+            for(int i = 0; i < 10; ++i){
                 if(nodeId == i){
                 final UUID TEST_MESSAGE_UUID = UUID.fromString("123e4567-e89b-12d3-a456-42661417400");
             
