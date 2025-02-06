@@ -376,7 +376,7 @@ import static org.junit.Assert.assertTrue;
             System.out.println("Total execution time: " + durationInMs + " ms");
         }
          try {
-            Thread.sleep(60000);
+            Thread.sleep(10000);
             waitAndShutdownClusters();
          } catch (final InterruptedException e) {
              // Handle exception if the thread is interrupted
