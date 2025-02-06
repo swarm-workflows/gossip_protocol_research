@@ -353,7 +353,7 @@ import static org.junit.Assert.assertTrue;
                 instances.get(braodcasterEndpoint).membershipService.broadcaster.broadcast(
                     Utils.toRapidRequest(message, testMessageId));
                 }
-                Thread.sleep(10000);
+                Thread.sleep(20000);
             }
           
         }
@@ -384,7 +384,7 @@ import static org.junit.Assert.assertTrue;
             System.out.println("Total execution time: " + durationInMs + " ms");
         }
          try {
-            Thread.sleep(10000);
+            Thread.sleep(30000);
             waitAndShutdownClusters();
          } catch (final InterruptedException e) {
              // Handle exception if the thread is interrupted
