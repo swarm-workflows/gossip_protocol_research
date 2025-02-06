@@ -99,7 +99,7 @@ public class GrpcServer extends MembershipServiceGrpc.MembershipServiceImplBase 
         //     System.out.println("当前时间（毫秒精度）: " + System.currentTimeMillis()  + ", Endpoint: " + address); 
         // }
         final String messageId = rapidRequest.getMessageId().getHigh() + "-" 
-        + rapidRequest.getMessageId().getLow();
+        + rapidRequest.getMessageId().getLow() + rapidRequest.getFastRoundPhase2BMessage().getSender().toString();
 
         
         if (
@@ -143,9 +143,9 @@ public class GrpcServer extends MembershipServiceGrpc.MembershipServiceImplBase 
         rapidRequest.getContentCase() == RapidRequest.ContentCase.LATENCYMESSAGE ||
         rapidRequest.getContentCase() == RapidRequest.ContentCase.BATCHEDALERTMESSAGE) {
         // Store the message ID in the cache
-        if (messageCache.getIfPresent(messageId) != null) {
-            return;
-        }
+        // if (messageCache.getIfPresent(messageId) != null) {
+        //     return;
+        // }
         // long start = System.nanoTime();
         // if (messageCache.getIfPresent(messageId) != null) {
         //     return;
