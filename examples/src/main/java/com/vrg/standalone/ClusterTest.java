@@ -353,20 +353,24 @@ import static org.junit.Assert.assertTrue;
           System.out.println("TestName: testRejoinSingleNode");
             long startTime = System.nanoTime(); // 开始计时
             System.out.println("Start time: " + startTime / 1_000_000 + " ms");
-            if(nodeId == 0){
-                Endpoint leavingEndpoint = Utils.hostFromParts(myIP, basePort + 1);
+          
                 for (int i = 0; i < 5; i++) {
+                    if(nodeId == 0){
+                    Endpoint leavingEndpoint = Utils.hostFromParts(myIP, basePort + 1);
                     final Cluster cluster = instances.remove(leavingEndpoint);
                     cluster.shutdown();
-                    System.out.println("Node " + leavingEndpoint + " shutdown.");
+                    }
+                    // System.out.println("Node " + leavingEndpoint + " shutdown.");
                     waitAndVerifyAgreement(targetNodes - 1,40, 1000);
-                    System.out.println("Node " + leavingEndpoint + " has left the cluster.");
+                    // System.out.println("Node " + leavingEndpoint + " has left the cluster.");
+                    if(nodeId == 0){
+                    Endpoint leavingEndpoint = Utils.hostFromParts(myIP, basePort + 1);
                     extendCluster(leavingEndpoint, seedEndpoint);
+                    }
                     waitAndVerifyAgreement(targetNodes, 40, 1000);
-                    System.out.println("Node " + leavingEndpoint + " has rejoined the cluster.");
+                    // System.out.println("Node " + leavingEndpoint + " has rejoined the cluster.");
                     // Thread.sleep(500);
                 }
-            }
             final long endTime = System.nanoTime(); // End timing
             long durationInMs = (endTime - startTime) / 1_000_000; // Convert to milliseconds
             System.out.println("Total execution time: " + durationInMs + " ms");
