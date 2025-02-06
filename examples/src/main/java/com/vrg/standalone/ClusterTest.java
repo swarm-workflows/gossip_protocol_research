@@ -343,7 +343,7 @@ import static org.junit.Assert.assertTrue;
             for(int i = 0; i < 10; ++i){
                 if(nodeId == i){
                 final UUID TEST_MESSAGE_UUID = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
-                Endpoint braodcasterEndpoint = Utils.hostFromParts(myIP, basePort);
+                Endpoint braodcasterEndpoint = Utils.hostFromParts(myIP, basePort + i);
                 MessageId testMessageId = Utils.messageIdFromUUID(TEST_MESSAGE_UUID);
                 System.out.println("Broadcast Start at " + System.currentTimeMillis()  +
                 ", Endpoint: " + seedEndpoint + " nodeId " + nodeId);
