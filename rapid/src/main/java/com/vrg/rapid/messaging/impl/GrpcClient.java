@@ -86,8 +86,8 @@ public class GrpcClient implements IMessagingClient {
 
     // private final double meanLatency = 50; // Mean latency in milliseconds
     // private final double stdDevLatency = 15; // Standard deviation in milliseconds
-    private final double meanLatency = 50; // Mean latency in milliseconds
-    private final double stdDevLatency = 15; // Standard deviation in milliseconds
+    private final double meanLatency = 25; // Mean latency in milliseconds
+    private final double stdDevLatency = 10; // Standard deviation in milliseconds
 
     @Nullable private final EventLoopGroup eventLoopGroup;
     private final AtomicBoolean isShuttingDown = new AtomicBoolean(false);
