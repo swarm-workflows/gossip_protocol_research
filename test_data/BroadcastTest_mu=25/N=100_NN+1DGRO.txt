@@ -1,0 +1,272 @@
+Broadcast Start at 1738591897242, Endpoint: hostname: "10.136.4.2"
+port: 1234
+
+Server receives PHASE2BMESSAGE: 1738591898769, Endpoint: hostname: "10.136.4.2"
+port: 1238
+
+Server receives PHASE2BMESSAGE: 1738591898785, Endpoint: hostname: "10.136.4.2"
+port: 1253
+
+Server receives PHASE2BMESSAGE: 1738591898827, Endpoint: hostname: "10.136.4.2"
+port: 1255
+
+Server receives PHASE2BMESSAGE: 1738591899162, Endpoint: hostname: "10.136.4.2"
+port: 1283
+
+Server receives PHASE2BMESSAGE: 1738591899353, Endpoint: hostname: "10.136.4.2"
+port: 1266
+
+Server receives PHASE2BMESSAGE: 1738591899358, Endpoint: hostname: "10.136.4.2"
+port: 1281
+
+Server receives PHASE2BMESSAGE: 1738591899366, Endpoint: hostname: "10.136.4.2"
+port: 1246
+
+Server receives PHASE2BMESSAGE: 1738591899376, Endpoint: hostname: "10.136.4.2"
+port: 1263
+
+Server receives PHASE2BMESSAGE: 1738591899385, Endpoint: hostname: "10.136.4.2"
+port: 1248
+
+Server receives PHASE2BMESSAGE: 1738591899405, Endpoint: hostname: "10.136.4.2"
+port: 1259
+
+Server receives PHASE2BMESSAGE: 1738591899422, Endpoint: hostname: "10.136.4.2"
+port: 1268
+
+Server receives PHASE2BMESSAGE: 1738591899436, Endpoint: hostname: "10.136.4.2"
+port: 1262
+
+Server receives PHASE2BMESSAGE: 1738591899492, Endpoint: hostname: "10.136.4.2"
+port: 1252
+
+Server receives PHASE2BMESSAGE: 1738591899515, Endpoint: hostname: "10.136.4.2"
+port: 1265
+
+Server receives PHASE2BMESSAGE: 1738591899540, Endpoint: hostname: "10.136.4.2"
+port: 1260
+
+Server receives PHASE2BMESSAGE: 1738591899553, Endpoint: hostname: "10.136.4.2"
+port: 1261
+
+Server receives PHASE2BMESSAGE: 1738591899607, Endpoint: hostname: "10.136.4.2"
+port: 1275
+
+Server receives PHASE2BMESSAGE: 1738591899653, Endpoint: hostname: "10.136.4.2"
+port: 1257
+
+Server receives PHASE2BMESSAGE: 1738591899813, Endpoint: hostname: "10.136.4.2"
+port: 1271
+
+Server receives PHASE2BMESSAGE: 1738591900010, Endpoint: hostname: "10.136.4.2"
+port: 1264
+
+Server receives PHASE2BMESSAGE: 1738591900015, Endpoint: hostname: "10.136.4.2"
+port: 1276
+
+Server receives PHASE2BMESSAGE: 1738591900029, Endpoint: hostname: "10.136.4.2"
+port: 1279
+
+Server receives PHASE2BMESSAGE: 1738591900030, Endpoint: hostname: "10.136.4.2"
+port: 1235
+
+Server receives PHASE2BMESSAGE: 1738591900037, Endpoint: hostname: "10.136.4.2"
+port: 1240
+
+Server receives PHASE2BMESSAGE: 1738591900141, Endpoint: hostname: "10.136.4.2"
+port: 1247
+
+Server receives PHASE2BMESSAGE: 1738591900183, Endpoint: hostname: "10.136.4.2"
+port: 1251
+
+Server receives PHASE2BMESSAGE: 1738591900341, Endpoint: hostname: "10.136.4.2"
+port: 1243
+
+Server receives PHASE2BMESSAGE: 1738591900380, Endpoint: hostname: "10.136.4.2"
+port: 1242
+
+Server receives PHASE2BMESSAGE: 1738591900411, Endpoint: hostname: "10.136.4.2"
+port: 1241
+
+Server receives PHASE2BMESSAGE: 1738591900448, Endpoint: hostname: "10.136.4.2"
+port: 1254
+
+Server receives PHASE2BMESSAGE: 1738591900554, Endpoint: hostname: "10.136.4.2"
+port: 1256
+
+Server receives PHASE2BMESSAGE: 1738591900659, Endpoint: hostname: "10.136.4.2"
+port: 1250
+
+Server receives PHASE2BMESSAGE: 1738591900722, Endpoint: hostname: "10.136.4.2"
+port: 1237
+
+Server receives PHASE2BMESSAGE: 1738591900805, Endpoint: hostname: "10.136.4.2"
+port: 1270
+
+Server receives PHASE2BMESSAGE: 1738591900815, Endpoint: hostname: "10.136.4.2"
+port: 1245
+
+Server receives PHASE2BMESSAGE: 1738591900935, Endpoint: hostname: "10.136.4.2"
+port: 1249
+
+Server receives PHASE2BMESSAGE: 1738591900943, Endpoint: hostname: "10.136.4.2"
+port: 1239
+
+Server receives PHASE2BMESSAGE: 1738591900960, Endpoint: hostname: "10.136.4.2"
+port: 1258
+
+Server receives PHASE2BMESSAGE: 1738591901040, Endpoint: hostname: "10.136.4.2"
+port: 1267
+
+Server receives PHASE2BMESSAGE: 1738591901393, Endpoint: hostname: "10.136.4.2"
+port: 1272
+
+Server receives PHASE2BMESSAGE: 1738591901406, Endpoint: hostname: "10.136.4.2"
+port: 1244
+
+Server receives PHASE2BMESSAGE: 1738591901422, Endpoint: hostname: "10.136.4.2"
+port: 1274
+
+Server receives PHASE2BMESSAGE: 1738591901598, Endpoint: hostname: "10.136.4.2"
+port: 1269
+
+Server receives PHASE2BMESSAGE: 1738591901808, Endpoint: hostname: "10.136.4.2"
+port: 1277
+
+Server receives PHASE2BMESSAGE: 1738591901967, Endpoint: hostname: "10.136.4.2"
+port: 1282
+
+Server receives PHASE2BMESSAGE: 1738591902568, Endpoint: hostname: "10.136.4.2"
+port: 1280
+
+Server receives PHASE2BMESSAGE: 1738591903559, Endpoint: hostname: "10.136.4.2"
+port: 1234
+
+Server receives PHASE2BMESSAGE: 1738591898195, Endpoint: hostname: "10.134.4.2"
+port: 1281
+
+Server receives PHASE2BMESSAGE: 1738591899046, Endpoint: hostname: "10.134.4.2"
+port: 1277
+
+Server receives PHASE2BMESSAGE: 1738591899055, Endpoint: hostname: "10.134.4.2"
+port: 1269
+
+Server receives PHASE2BMESSAGE: 1738591899101, Endpoint: hostname: "10.134.4.2"
+port: 1255
+
+Server receives PHASE2BMESSAGE: 1738591899215, Endpoint: hostname: "10.134.4.2"
+port: 1283
+
+Server receives PHASE2BMESSAGE: 1738591899434, Endpoint: hostname: "10.134.4.2"
+port: 1254
+
+Server receives PHASE2BMESSAGE: 1738591899636, Endpoint: hostname: "10.134.4.2"
+port: 1263
+
+Server receives PHASE2BMESSAGE: 1738591899639, Endpoint: hostname: "10.134.4.2"
+port: 1271
+
+Server receives PHASE2BMESSAGE: 1738591899753, Endpoint: hostname: "10.134.4.2"
+port: 1245
+
+Server receives PHASE2BMESSAGE: 1738591900029, Endpoint: hostname: "10.134.4.2"
+port: 1251
+
+Server receives PHASE2BMESSAGE: 1738591900091, Endpoint: hostname: "10.134.4.2"
+port: 1273
+
+Server receives PHASE2BMESSAGE: 1738591900098, Endpoint: hostname: "10.134.4.2"
+port: 1252
+
+Server receives PHASE2BMESSAGE: 1738591900109, Endpoint: hostname: "10.134.4.2"
+port: 1241
+
+Server receives PHASE2BMESSAGE: 1738591900169, Endpoint: hostname: "10.134.4.2"
+port: 1237
+
+Server receives PHASE2BMESSAGE: 1738591900215, Endpoint: hostname: "10.134.4.2"
+port: 1260
+
+Server receives PHASE2BMESSAGE: 1738591900238, Endpoint: hostname: "10.134.4.2"
+port: 1256
+
+Server receives PHASE2BMESSAGE: 1738591900273, Endpoint: hostname: "10.134.4.2"
+port: 1270
+
+Server receives PHASE2BMESSAGE: 1738591900303, Endpoint: hostname: "10.134.4.2"
+port: 1266
+
+Server receives PHASE2BMESSAGE: 1738591900304, Endpoint: hostname: "10.134.4.2"
+port: 1253
+
+Server receives PHASE2BMESSAGE: 1738591900321, Endpoint: hostname: "10.134.4.2"
+port: 1272
+
+Server receives PHASE2BMESSAGE: 1738591900327, Endpoint: hostname: "10.134.4.2"
+port: 1268
+
+Server receives PHASE2BMESSAGE: 1738591900341, Endpoint: hostname: "10.134.4.2"
+port: 1280
+
+Server receives PHASE2BMESSAGE: 1738591900409, Endpoint: hostname: "10.134.4.2"
+port: 1247
+
+Server receives PHASE2BMESSAGE: 1738591900415, Endpoint: hostname: "10.134.4.2"
+port: 1236
+
+Server receives PHASE2BMESSAGE: 1738591900454, Endpoint: hostname: "10.134.4.2"
+port: 1249
+
+Server receives PHASE2BMESSAGE: 1738591900464, Endpoint: hostname: "10.134.4.2"
+port: 1282
+
+Server receives PHASE2BMESSAGE: 1738591900526, Endpoint: hostname: "10.134.4.2"
+port: 1264
+
+Server receives PHASE2BMESSAGE: 1738591900531, Endpoint: hostname: "10.134.4.2"
+port: 1265
+
+Server receives PHASE2BMESSAGE: 1738591900601, Endpoint: hostname: "10.134.4.2"
+port: 1246
+
+Server receives PHASE2BMESSAGE: 1738591900621, Endpoint: hostname: "10.134.4.2"
+port: 1267
+
+Server receives PHASE2BMESSAGE: 1738591900827, Endpoint: hostname: "10.134.4.2"
+port: 1244
+
+Server receives PHASE2BMESSAGE: 1738591900923, Endpoint: hostname: "10.134.4.2"
+port: 1240
+
+Server receives PHASE2BMESSAGE: 1738591901274, Endpoint: hostname: "10.134.4.2"
+port: 1250
+
+Server receives PHASE2BMESSAGE: 1738591901293, Endpoint: hostname: "10.134.4.2"
+port: 1276
+
+Server receives PHASE2BMESSAGE: 1738591901336, Endpoint: hostname: "10.134.4.2"
+port: 1275
+
+Server receives PHASE2BMESSAGE: 1738591901343, Endpoint: hostname: "10.134.4.2"
+port: 1238
+
+Server receives PHASE2BMESSAGE: 1738591901360, Endpoint: hostname: "10.134.4.2"
+port: 1243
+
+Server receives PHASE2BMESSAGE: 1738591901521, Endpoint: hostname: "10.134.4.2"
+port: 1278
+
+Server receives PHASE2BMESSAGE: 1738591901539, Endpoint: hostname: "10.134.4.2"
+port: 1257
+
+Server receives PHASE2BMESSAGE: 1738591901799, Endpoint: hostname: "10.134.4.2"
+port: 1248
+
+Server receives PHASE2BMESSAGE: 1738591902169, Endpoint: hostname: "10.134.4.2"
+port: 1239
+
+Server receives PHASE2BMESSAGE: 1738591902353, Endpoint: hostname: "10.134.4.2"
+port: 1274
+
+Server receives PHASE2BMESSAGE: 1738591903232, Endpoint: hostname: "10.134.4.2"
+port: 1261

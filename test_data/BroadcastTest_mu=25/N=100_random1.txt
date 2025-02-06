@@ -1,0 +1,325 @@
+Broadcast Start at 1738591639166, Endpoint: hostname: "10.136.4.2"
+port: 1234
+
+Server receives PHASE2BMESSAGE: 1738591640190, Endpoint: hostname: "10.136.4.2"
+port: 1276
+
+Server receives PHASE2BMESSAGE: 1738591640348, Endpoint: hostname: "10.136.4.2"
+port: 1277
+
+Server receives PHASE2BMESSAGE: 1738591640439, Endpoint: hostname: "10.136.4.2"
+port: 1241
+
+Server receives PHASE2BMESSAGE: 1738591640975, Endpoint: hostname: "10.136.4.2"
+port: 1280
+
+Server receives PHASE2BMESSAGE: 1738591640976, Endpoint: hostname: "10.136.4.2"
+port: 1264
+
+Server receives PHASE2BMESSAGE: 1738591641184, Endpoint: hostname: "10.136.4.2"
+port: 1282
+
+Server receives PHASE2BMESSAGE: 1738591641190, Endpoint: hostname: "10.136.4.2"
+port: 1281
+
+Server receives PHASE2BMESSAGE: 1738591641209, Endpoint: hostname: "10.136.4.2"
+port: 1257
+
+Server receives PHASE2BMESSAGE: 1738591641281, Endpoint: hostname: "10.136.4.2"
+port: 1274
+
+Server receives PHASE2BMESSAGE: 1738591641310, Endpoint: hostname: "10.136.4.2"
+port: 1246
+
+Server receives PHASE2BMESSAGE: 1738591641339, Endpoint: hostname: "10.136.4.2"
+port: 1262
+
+Server receives PHASE2BMESSAGE: 1738591641378, Endpoint: hostname: "10.136.4.2"
+port: 1270
+
+Server receives PHASE2BMESSAGE: 1738591641435, Endpoint: hostname: "10.136.4.2"
+port: 1278
+
+Server receives PHASE2BMESSAGE: 1738591641448, Endpoint: hostname: "10.136.4.2"
+port: 1261
+
+Server receives PHASE2BMESSAGE: 1738591641496, Endpoint: hostname: "10.136.4.2"
+port: 1268
+
+Server receives PHASE2BMESSAGE: 1738591641569, Endpoint: hostname: "10.136.4.2"
+port: 1266
+
+Server receives PHASE2BMESSAGE: 1738591641625, Endpoint: hostname: "10.136.4.2"
+port: 1254
+
+Server receives PHASE2BMESSAGE: 1738591641634, Endpoint: hostname: "10.136.4.2"
+port: 1253
+
+Server receives PHASE2BMESSAGE: 1738591641640, Endpoint: hostname: "10.136.4.2"
+port: 1250
+
+Server receives PHASE2BMESSAGE: 1738591641650, Endpoint: hostname: "10.136.4.2"
+port: 1251
+
+Server receives PHASE2BMESSAGE: 1738591641650, Endpoint: hostname: "10.136.4.2"
+port: 1267
+
+Server receives PHASE2BMESSAGE: 1738591641676, Endpoint: hostname: "10.136.4.2"
+port: 1240
+
+Server receives PHASE2BMESSAGE: 1738591641707, Endpoint: hostname: "10.136.4.2"
+port: 1269
+
+Server receives PHASE2BMESSAGE: 1738591641716, Endpoint: hostname: "10.136.4.2"
+port: 1248
+
+Server receives PHASE2BMESSAGE: 1738591641741, Endpoint: hostname: "10.136.4.2"
+port: 1242
+
+Server receives PHASE2BMESSAGE: 1738591641743, Endpoint: hostname: "10.136.4.2"
+port: 1236
+
+Server receives PHASE2BMESSAGE: 1738591641898, Endpoint: hostname: "10.136.4.2"
+port: 1258
+
+Server receives PHASE2BMESSAGE: 1738591641994, Endpoint: hostname: "10.136.4.2"
+port: 1256
+
+Server receives PHASE2BMESSAGE: 1738591642027, Endpoint: hostname: "10.136.4.2"
+port: 1243
+
+Server receives PHASE2BMESSAGE: 1738591642045, Endpoint: hostname: "10.136.4.2"
+port: 1239
+
+Server receives PHASE2BMESSAGE: 1738591642399, Endpoint: hostname: "10.136.4.2"
+port: 1263
+
+Port 1281 + view changes to size 1 at 83016692 ms
+Port 1248 + view changes to size 1 at 83016712 ms
+Port 1257 + view changes to size 1 at 83016720 ms
+Port 1242 + view changes to size 1 at 83016741 ms
+Port 1268 + view changes to size 1 at 83016748 ms
+Port 1259 + view changes to size 1 at 83016763 ms
+Port 1269 + view changes to size 1 at 83016764 ms
+Port 1276 + view changes to size 1 at 83016766 ms
+Port 1266 + view changes to size 1 at 83016789 ms
+Port 1258 + view changes to size 1 at 83016805 ms
+Port 1261 + view changes to size 1 at 83016815 ms
+Port 1274 + view changes to size 1 at 83016819 ms
+Port 1270 + view changes to size 1 at 83016823 ms
+Port 1250 + view changes to size 1 at 83016826 ms
+Port 1263 + view changes to size 1 at 83016840 ms
+Port 1253 + view changes to size 1 at 83016849 ms
+Port 1251 + view changes to size 1 at 83016856 ms
+Port 1246 + view changes to size 1 at 83016877 ms
+Port 1240 + view changes to size 1 at 83016881 ms
+Port 1267 + view changes to size 1 at 83016881 ms
+Port 1262 + view changes to size 1 at 83016885 ms
+Port 1282 + view changes to size 1 at 83016887 ms
+Port 1278 + view changes to size 1 at 83016888 ms
+Server receives PHASE2BMESSAGE: 1738591643407, Endpoint: hostname: "10.136.4.2"
+port: 1275
+
+Port 1254 + view changes to size 1 at 83017117 ms
+Port 1277 + view changes to size 1 at 83017122 ms
+Port 1241 + view changes to size 1 at 83017153 ms
+Port 1249 + view changes to size 1 at 83017176 ms
+Server receives PHASE2BMESSAGE: 1738591643535, Endpoint: hostname: "10.136.4.2"
+port: 1249
+
+Port 1239 + view changes to size 1 at 83017305 ms
+Port 1275 + view changes to size 1 at 83017313 ms
+Port 1280 + view changes to size 1 at 83017332 ms
+Port 1264 + view changes to size 1 at 83017339 ms
+Port 1256 + view changes to size 1 at 83017359 ms
+Port 1243 + view changes to size 1 at 83017401 ms
+Port 1236 + view changes to size 1 at 83017419 ms
+Port 1235 + view changes to size 1 at 83017426 ms
+Port 1252 + view changes to size 1 at 83017499 ms
+Port 1265 + view changes to size 1 at 83017568 ms
+Decide view change: subjects size is 0
+Port 1244 + view changes to size 1 at 83017611 ms
+Port 1234 + view changes to size 1 at 83017944 ms
+Server receives PHASE2BMESSAGE: 1738591644265, Endpoint: hostname: "10.136.4.2"
+port: 1265
+
+Port 1272 + view changes to size 1 at 83017972 ms
+Port 1271 + view changes to size 1 at 83017975 ms
+Server receives PHASE2BMESSAGE: 1738591644391, Endpoint: hostname: "10.136.4.2"
+port: 1272
+
+Port 1260 + view changes to size 1 at 83018219 ms
+Port 1273 + view changes to size 1 at 83018290 ms
+Port 1237 + view changes to size 1 at 83018490 ms
+Server receives PHASE2BMESSAGE: 1738591644896, Endpoint: hostname: "10.136.4.2"
+port: 1255
+
+Server receives PHASE2BMESSAGE: 1738591640461, Endpoint: hostname: "10.134.4.2"
+port: 1274
+
+Server receives PHASE2BMESSAGE: 1738591640767, Endpoint: hostname: "10.134.4.2"
+port: 1249
+
+Server receives PHASE2BMESSAGE: 1738591640914, Endpoint: hostname: "10.134.4.2"
+port: 1266
+
+Server receives PHASE2BMESSAGE: 1738591640966, Endpoint: hostname: "10.134.4.2"
+port: 1247
+
+Server receives PHASE2BMESSAGE: 1738591641333, Endpoint: hostname: "10.134.4.2"
+port: 1283
+
+Server receives PHASE2BMESSAGE: 1738591641350, Endpoint: hostname: "10.134.4.2"
+port: 1245
+
+Server receives PHASE2BMESSAGE: 1738591641366, Endpoint: hostname: "10.134.4.2"
+port: 1234
+
+Server receives PHASE2BMESSAGE: 1738591641374, Endpoint: hostname: "10.134.4.2"
+port: 1271
+
+Server receives PHASE2BMESSAGE: 1738591641398, Endpoint: hostname: "10.134.4.2"
+port: 1239
+
+Server receives PHASE2BMESSAGE: 1738591641412, Endpoint: hostname: "10.134.4.2"
+port: 1269
+
+Server receives PHASE2BMESSAGE: 1738591641450, Endpoint: hostname: "10.134.4.2"
+port: 1241
+
+Server receives PHASE2BMESSAGE: 1738591641455, Endpoint: hostname: "10.134.4.2"
+port: 1243
+
+Server receives PHASE2BMESSAGE: 1738591641541, Endpoint: hostname: "10.134.4.2"
+port: 1237
+
+Server receives PHASE2BMESSAGE: 1738591641565, Endpoint: hostname: "10.134.4.2"
+port: 1240
+
+Server receives PHASE2BMESSAGE: 1738591641621, Endpoint: hostname: "10.134.4.2"
+port: 1263
+
+Server receives PHASE2BMESSAGE: 1738591641623, Endpoint: hostname: "10.134.4.2"
+port: 1246
+
+Server receives PHASE2BMESSAGE: 1738591641658, Endpoint: hostname: "10.134.4.2"
+port: 1242
+
+Server receives PHASE2BMESSAGE: 1738591641676, Endpoint: hostname: "10.134.4.2"
+port: 1270
+
+Server receives PHASE2BMESSAGE: 1738591641692, Endpoint: hostname: "10.134.4.2"
+port: 1236
+
+Server receives PHASE2BMESSAGE: 1738591641767, Endpoint: hostname: "10.134.4.2"
+port: 1265
+
+Server receives PHASE2BMESSAGE: 1738591641788, Endpoint: hostname: "10.134.4.2"
+port: 1278
+
+Server receives PHASE2BMESSAGE: 1738591641875, Endpoint: hostname: "10.134.4.2"
+port: 1272
+
+Server receives PHASE2BMESSAGE: 1738591642234, Endpoint: hostname: "10.134.4.2"
+port: 1260
+
+Server receives PHASE2BMESSAGE: 1738591642247, Endpoint: hostname: "10.134.4.2"
+port: 1282
+
+Server receives PHASE2BMESSAGE: 1738591642317, Endpoint: hostname: "10.134.4.2"
+port: 1255
+
+Server receives PHASE2BMESSAGE: 1738591642321, Endpoint: hostname: "10.134.4.2"
+port: 1275
+
+Server receives PHASE2BMESSAGE: 1738591642331, Endpoint: hostname: "10.134.4.2"
+port: 1279
+
+Server receives PHASE2BMESSAGE: 1738591642357, Endpoint: hostname: "10.134.4.2"
+port: 1258
+
+Server receives PHASE2BMESSAGE: 1738591642463, Endpoint: hostname: "10.134.4.2"
+port: 1252
+
+Server receives PHASE2BMESSAGE: 1738591642531, Endpoint: hostname: "10.134.4.2"
+port: 1253
+
+Server receives PHASE2BMESSAGE: 1738591642557, Endpoint: hostname: "10.134.4.2"
+port: 1250
+
+Server receives PHASE2BMESSAGE: 1738591642580, Endpoint: hostname: "10.134.4.2"
+port: 1273
+
+Server receives PHASE2BMESSAGE: 1738591642588, Endpoint: hostname: "10.134.4.2"
+port: 1264
+
+Port 1274 + view changes to size 1 at 83029749 ms
+Port 1252 + view changes to size 1 at 83029797 ms
+Port 1264 + view changes to size 1 at 83029830 ms
+Port 1253 + view changes to size 1 at 83029878 ms
+Port 1249 + view changes to size 1 at 83029880 ms
+Port 1266 + view changes to size 1 at 83029921 ms
+Port 1255 + view changes to size 1 at 83029929 ms
+Port 1279 + view changes to size 1 at 83029950 ms
+Port 1269 + view changes to size 1 at 83030140 ms
+Port 1270 + view changes to size 1 at 83030146 ms
+Port 1247 + view changes to size 1 at 83030147 ms
+Port 1236 + view changes to size 1 at 83030148 ms
+Port 1246 + view changes to size 1 at 83030155 ms
+Port 1240 + view changes to size 1 at 83030155 ms
+Port 1271 + view changes to size 1 at 83030158 ms
+Port 1242 + view changes to size 1 at 83030221 ms
+Port 1239 + view changes to size 1 at 83030229 ms
+Port 1263 + view changes to size 1 at 83030234 ms
+Port 1251 + view changes to size 1 at 83030244 ms
+Port 1234 + view changes to size 1 at 83030241 ms
+Server receives PHASE2BMESSAGE: 1738591643337, Endpoint: hostname: "10.134.4.2"
+port: 1281
+
+Port 1281 + view changes to size 1 at 83030253 ms
+Server receives PHASE2BMESSAGE: 1738591643388, Endpoint: hostname: "10.134.4.2"
+port: 1259
+
+Port 1259 + view changes to size 1 at 83030294 ms
+Server receives PHASE2BMESSAGE: 1738591643401, Endpoint: hostname: "10.134.4.2"
+port: 1268
+
+Port 1268 + view changes to size 1 at 83030310 ms
+Port 1278 + view changes to size 1 at 83030322 ms
+Port 1237 + view changes to size 1 at 83030324 ms
+Port 1273 + view changes to size 1 at 83030331 ms
+Port 1260 + view changes to size 1 at 83030338 ms
+Port 1250 + view changes to size 1 at 83030369 ms
+Port 1272 + view changes to size 1 at 83030378 ms
+Port 1241 + view changes to size 1 at 83030384 ms
+Port 1243 + view changes to size 1 at 83030401 ms
+Port 1261 + view changes to size 1 at 83030407 ms
+Port 1245 + view changes to size 1 at 83030412 ms
+Port 1275 + view changes to size 1 at 83030446 ms
+Port 1265 + view changes to size 1 at 83030452 ms
+Port 1282 + view changes to size 1 at 83030480 ms
+Port 1258 + view changes to size 1 at 83030510 ms
+Port 1244 + view changes to size 1 at 83030764 ms
+Port 1238 + view changes to size 1 at 83030821 ms
+Server receives PHASE2BMESSAGE: 1738591643931, Endpoint: hostname: "10.134.4.2"
+port: 1276
+
+Port 1276 + view changes to size 1 at 83030839 ms
+Port 1262 + view changes to size 1 at 83030846 ms
+Port 1257 + view changes to size 1 at 83030985 ms
+Port 1235 + view changes to size 1 at 83031032 ms
+Port 1248 + view changes to size 1 at 83031033 ms
+Server receives PHASE2BMESSAGE: 1738591644205, Endpoint: hostname: "10.134.4.2"
+port: 1254
+
+Port 1254 + view changes to size 1 at 83031110 ms
+Port 1256 + view changes to size 1 at 83031160 ms
+Port 1283 + view changes to size 1 at 83031170 ms
+Server receives PHASE2BMESSAGE: 1738591644312, Endpoint: hostname: "10.134.4.2"
+port: 1248
+
+Port 1267 + view changes to size 1 at 83031235 ms
+Port 1280 + view changes to size 1 at 83031521 ms
+Port 1277 + view changes to size 1 at 83031918 ms
+Server receives PHASE2BMESSAGE: 1738591645091, Endpoint: hostname: "10.134.4.2"
+port: 1256
