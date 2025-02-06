@@ -338,16 +338,21 @@ import static org.junit.Assert.assertTrue;
         //     }
 
         if("1".equals(testID)){
-          if(nodeId == 0){
             // final UUID TEST_MESSAGE_UUID = UUID.fromString("00000000-0000-0000-0000-000000000001");
-            final UUID TEST_MESSAGE_UUID = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
             
-            MessageId testMessageId = Utils.messageIdFromUUID(TEST_MESSAGE_UUID);
-            System.out.println("Broadcast Start at " + System.currentTimeMillis()  +
-             ", Endpoint: " + seedEndpoint);
-            instances.get(seedEndpoint).membershipService.broadcaster.broadcast(
-                Utils.toRapidRequest(FastRoundPhase2bMessage.getDefaultInstance(), testMessageId));
-          }
+            for(int i = 0; i < targetServers; ++i){
+                // if(nodeId == i){
+                final UUID TEST_MESSAGE_UUID = UUID.fromString("123e4567-e89b-12d3-a456-42661417400");
+            
+                MessageId testMessageId = Utils.messageIdFromUUID(TEST_MESSAGE_UUID);
+                System.out.println("Broadcast Start at " + System.currentTimeMillis()  +
+                ", Endpoint: " + seedEndpoint + " nodeId " + nodeId);
+                instances.get(seedEndpoint).membershipService.broadcaster.broadcast(
+                    Utils.toRapidRequest(FastRoundPhase2bMessage.getDefaultInstance(), testMessageId));
+                // }
+                Thread.sleep(10000);
+            }
+          
         }
         if("2".equals(testID)){
           System.out.println("TestName: testRejoinSingleNode");
