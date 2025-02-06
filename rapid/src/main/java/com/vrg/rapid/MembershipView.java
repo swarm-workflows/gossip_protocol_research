@@ -633,7 +633,7 @@ import java.util.concurrent.locks.ReadWriteLock;
     final List<Endpoint> subjects = new ArrayList<>();
     if(gossip_type == 1){
         for (int k = 0; k < M; k++) {
-            final NavigableSet<Endpoint> list = rings.get(k);
+            // final NavigableSet<Endpoint> list = rings.get(k);
             // final Endpoint predecessor = list.lower(node);
             // if (predecessor == null) {
             //     subjects.add(list.last());
