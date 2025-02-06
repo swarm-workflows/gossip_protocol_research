@@ -260,7 +260,7 @@ import static org.junit.Assert.assertTrue;
         for (String host : connectedHosts) {
             boolean success = false;
             int attempts = 0;
-            int maxAttempts = 5; // Maximum number of retry attempts
+            int maxAttempts = 10; // Maximum number of retry attempts
             while (!success && attempts < maxAttempts) {
                 attempts++;
                 try (Socket socket = new Socket(host, basePort - 1);
