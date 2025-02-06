@@ -341,7 +341,7 @@ import static org.junit.Assert.assertTrue;
             // final UUID TEST_MESSAGE_UUID = UUID.fromString("00000000-0000-0000-0000-000000000001");
             
             for(int i = 0; i < targetServers; ++i){
-                // if(nodeId == i){
+                if(nodeId == i){
                 final UUID TEST_MESSAGE_UUID = UUID.fromString("123e4567-e89b-12d3-a456-42661417400");
             
                 MessageId testMessageId = Utils.messageIdFromUUID(TEST_MESSAGE_UUID);
@@ -349,7 +349,7 @@ import static org.junit.Assert.assertTrue;
                 ", Endpoint: " + seedEndpoint + " nodeId " + nodeId);
                 instances.get(seedEndpoint).membershipService.broadcaster.broadcast(
                     Utils.toRapidRequest(FastRoundPhase2bMessage.getDefaultInstance(), testMessageId));
-                // }
+                }
                 Thread.sleep(10000);
             }
           
