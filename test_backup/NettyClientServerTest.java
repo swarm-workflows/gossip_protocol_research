@@ -32,7 +32,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 public class NettyClientServerTest {
-
+    final int gossipType = 0;
     /**
      * Tests NettyClientServer messaging from many clients to one server
      */
@@ -45,7 +45,7 @@ public class NettyClientServerTest {
                     .setPort(9000).build();
             final SharedResources resources = new SharedResources(server);
             final NettyClientServer serverMessaging = new NettyClientServer(server, resources);
-            serverInstance = new Cluster.Builder(server)
+            serverInstance = new Cluster.Builder(server, gossipType)
                     .setMessagingClientAndServer(serverMessaging, serverMessaging)
                     .start();
             assertNotNull(serverInstance);
@@ -90,7 +90,7 @@ public class NettyClientServerTest {
                 final Endpoint server = Endpoint.newBuilder().setHostname(ByteString.copyFromUtf8("127.0.0.7"))
                         .setPort(9001 + i).build();
                 final NettyClientServer serverMessaging = new NettyClientServer(server, resources);
-                final Cluster cluster = new Cluster.Builder(server)
+                final Cluster cluster = new Cluster.Builder(server, gossipType)
                         .setMessagingClientAndServer(serverMessaging, serverMessaging)
                         .start();
                 clusters.add(cluster);

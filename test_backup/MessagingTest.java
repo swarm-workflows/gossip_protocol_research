@@ -57,9 +57,9 @@ import static org.junit.Assert.fail;
  * Tests to drive the messaging sub-system
  */
 public class MessagingTest {
-    private static final int K = 3;
-    private static final int H = 2;
-    private static final int L = 1;
+    private static final int K = 10;
+    private static final int H = 8;
+    private static final int L = 3;
 
     private static final int SERVER_PORT_BASE = 1134;
     private static final String LOCALHOST_IP = "127.0.0.7";
@@ -120,6 +120,7 @@ public class MessagingTest {
         final Endpoint serverAddr = Utils.hostFromParts(LOCALHOST_IP, serverPort);
         final MembershipView membershipView = new MembershipView(K);
         membershipView.ringAdd(serverAddr, nodeIdentifier);
+        // membershipView.reconstructDGRO(serverAddr);
         createAndStartMembershipService(serverAddr, membershipView);
 
         // Try with the same host details as the server
@@ -158,9 +159,11 @@ public class MessagingTest {
         final Endpoint serverAddr = Utils.hostFromParts(LOCALHOST_IP, SERVER_PORT_BASE);
         final MembershipView membershipView = new MembershipView(K);
         membershipView.ringAdd(serverAddr, nodeIdentifier);
+        // membershipView.reconstructDGRO(serverAddr);
         for (int i = 1; i < numNodes; i++) {
             membershipView.ringAdd(Utils.hostFromParts(LOCALHOST_IP, SERVER_PORT_BASE + i),
                                    Utils.nodeIdFromUUID(UUID.randomUUID()));
+            // membershipView.reconstructDGRO(Utils.hostFromParts(LOCALHOST_IP, SERVER_PORT_BASE + i));
         }
         createAndStartMembershipService(serverAddr, membershipView);
 
@@ -200,6 +203,7 @@ public class MessagingTest {
             for (int j = 0; j < numNodes; j++) {
                 mview.ringAdd(Utils.hostFromParts(LOCALHOST_IP, SERVER_PORT_BASE + j),
                         Utils.nodeIdFromUUID(new UUID(0, j)));
+                // mview.reconstructDGRO(Utils.hostFromParts(LOCALHOST_IP, SERVER_PORT_BASE + j));
             }
             createAndStartMembershipService(Utils.hostFromParts(LOCALHOST_IP, SERVER_PORT_BASE + i), mview);
         }
@@ -277,6 +281,7 @@ public class MessagingTest {
         final Endpoint serverAddr = Utils.hostFromParts(LOCALHOST_IP, SERVER_PORT_BASE);
         final MembershipView membershipView = new MembershipView(K);
         membershipView.ringAdd(serverAddr, nodeIdentifier);
+        // membershipView.reconstructDGRO(serverAddr);
         createAndStartMembershipService(serverAddr, membershipView);
 
         final int clientPort = SERVER_PORT_BASE - 1;
@@ -312,6 +317,7 @@ public class MessagingTest {
         final Endpoint serverAddr = Utils.hostFromParts(LOCALHOST_IP, SERVER_PORT_BASE);
         final MembershipView membershipView = new MembershipView(K);
         membershipView.ringAdd(serverAddr, nodeIdentifier);
+        // membershipView.reconstructDGRO(serverAddr);
         createAndStartMembershipService(serverAddr, membershipView);
 
         final int clientPort = SERVER_PORT_BASE - 1;
@@ -358,7 +364,9 @@ public class MessagingTest {
         rpcServer.start();
         final MembershipView membershipView = new MembershipView(K);
         membershipView.ringAdd(serverAddr1, nodeIdentifier1);
-        membershipView.ringAdd(serverAddr2, nodeIdentifier2); // This causes server1 to observer server2
+        membershipView.ringAdd(serverAddr2, nodeIdentifier2);
+        // membershipView.reconstructDGRO(serverAddr1);
+        // membershipView.reconstructDGRO(serverAddr2); // This causes server1 to observer server2
         createAndStartMembershipService(serverAddr1, membershipView);
         // While the above drives our failure detector logic, we explicitly test with a probe call
         // to make sure we get a BOOTSTRAPPING response from the RpcServer listening on serverAddr2.
@@ -404,32 +412,6 @@ public class MessagingTest {
     @Test
     public void broadcasterTest() throws IOException, ExecutionException, InterruptedException {
         System.out.println("broadcasterTest"); 
-        // final int N = 100;
-        // final List<Endpoint> endpointList = new ArrayList<>(N);
-        // final int serverPort = 1234; 
-        // for (int i = 0; i < N; i++) {
-        //     final Endpoint serverAddr = Utils.hostFromParts(LOCALHOST_IP, serverPort + i + 1);
-        //     createAndStartMembershipService(serverAddr);
-        //     endpointList.add(serverAddr);
-        // }
-        // final Endpoint clientAddr = Utils.hostFromParts(LOCALHOST_IP, serverPort);
-        // final Settings settings = new Settings();
-        // final IMessagingClient client = new GrpcClient(clientAddr, resources, settings);
-        // final UnicastToAllBroadcaster broadcaster = new UnicastToAllBroadcaster(client);
-        // // broadcaster.setMembership(endpointList);
-        // broadcaster.setMembership(services.get(0).getSubjectsOf());
-        // for (int i = 0; i < 10; i++) {
-        //     // System.out.println("当前时间（毫秒精度）: " + System.currentTimeMillis()  + ", Endpoint: " + endpointList.get(0)); 
-        //     final List<ListenableFuture<RapidResponse>> futures =
-        //             broadcaster.broadcast(Utils.toRapidRequest(FastRoundPhase2bMessage.getDefaultInstance()));
-        //     for (final ListenableFuture<RapidResponse> future : futures) {
-        //         assertNotNull(future);
-        //         final RapidResponse response = future.get();
-        //         assertNotNull(response);
-        //         // System.out.println("asdasdasdasdasdasdasdasdasdas");
-        //     }
-        // }
-        // client.shutdown();
         final int N = 100;
         final List<Endpoint> endpointList = new ArrayList<>(N);
         final int serverPort = 1234;
@@ -444,8 +426,9 @@ public class MessagingTest {
         final UnicastToAllBroadcaster broadcaster = new UnicastToAllBroadcaster(client);
         broadcaster.setMembership(endpointList, endpointList);
         for (int i = 0; i < 10; i++) {
+            System.out.println("Test " + i);
             final List<ListenableFuture<RapidResponse>> futures =
-                    broadcaster.broadcast(Utils.toRapidRequest(FastRoundPhase2bMessage.getDefaultInstance()));
+                    broadcaster.broadcast(Utils.toRapidRequest(FastRoundPhase2bMessage.newBuilder().setSender(clientAddr).setConfigurationId((long)i).build()));
             for (final ListenableFuture<RapidResponse> future : futures) {
                 assertNotNull(future);
                 final RapidResponse response = future.get();
@@ -453,11 +436,6 @@ public class MessagingTest {
             }
         }
         client.shutdown();
-
-        // final long endTime = System.nanoTime();
-        // final long durationNs = endTime - startTime;
-        // final long durationMs = TimeUnit.NANOSECONDS.toMillis(durationNs);
-        // System.out.println("broadcasterTest execution took: " + durationMs + " ms");
     }
 
 
@@ -519,6 +497,7 @@ public class MessagingTest {
                 new MultiNodeCutDetector(K, H, L);
         final MembershipView membershipView = new MembershipView(K);
         membershipView.ringAdd(serverAddr, Utils.nodeIdFromUUID(UUID.randomUUID()));
+        // membershipView.reconstructDGRO(serverAddr);
         final IMessagingClient client = new GrpcClient(serverAddr);
         final MembershipService service = new MembershipService(serverAddr, cutDetector,
             membershipView, resources, new Settings(), client, new PingPongFailureDetector.Factory(serverAddr, client));
@@ -539,6 +518,7 @@ public class MessagingTest {
                 new MultiNodeCutDetector(K, H, L);
         final MembershipView membershipView = new MembershipView(K);
         membershipView.ringAdd(serverAddr, Utils.nodeIdFromUUID(UUID.randomUUID()));
+        // membershipView.reconstructDGRO(serverAddr);
         final IMessagingClient client = new GrpcClient(serverAddr);
         final IMessagingServer rpcServer = new TestingGrpcServer(serverAddr, interceptors, false);
         final MembershipService service = new MembershipService(serverAddr, cutDetector,
