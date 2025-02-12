@@ -1,9 +1,0 @@
-baseIP: "10.141.132.2"
-myIP: "10.135.2.2"
-port: 1234
-numNodes: 50
-testID: "1"
-targetNodes: 1000
-nodeId: 19
-targetServers: 20
-gossipType: 0
