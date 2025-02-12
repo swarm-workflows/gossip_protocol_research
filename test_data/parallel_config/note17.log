@@ -1,0 +1,327 @@
+Already up to date.
+
+Launching Cluster with settings:
+Base IP: 10.141.132.2
+My IP: 10.131.132.2
+Port: 1234
+Number of nodes: 20
+Test ID: 1
+Target nodes to wait: 360
+Node ID: 15
+Gossip Type: 1
+Initializing cluster...
+Attempt 1: Could not connect to 10.141.132.2:1233
+Successfully connected to the cluster at 10.141.132.2:1233
+Accepted connection from /10.141.132.2
+Cluster is ready with 18 servers. Starting test: 1
+Connected to cluster. Launching 20 nodes...
+WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by com.google.protobuf.UnsafeUtil (file:/home/rocky/gossip_protocol_research/examples/target/ClusterLauncher.jar) to field java.nio.Buffer.address
+WARNING: Please consider reporting this to the maintainers of com.google.protobuf.UnsafeUtil
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release
+Wait for targetNodes: 360
+TargetNodes=360 have joined the cluster.
+Server receives 1234 PHASE2BMESSAGE: 1738843420532, Endpoint: hostname: "10.131.132.2"
+port: 1252
+
+Server receives 1234 PHASE2BMESSAGE: 1738843420725, Endpoint: hostname: "10.131.132.2"
+port: 1234
+
+Server receives 1234 PHASE2BMESSAGE: 1738843420749, Endpoint: hostname: "10.131.132.2"
+port: 1247
+
+Server receives 1234 PHASE2BMESSAGE: 1738843420825, Endpoint: hostname: "10.131.132.2"
+port: 1239
+
+Server receives 1234 PHASE2BMESSAGE: 1738843420827, Endpoint: hostname: "10.131.132.2"
+port: 1237
+
+Server receives 1234 PHASE2BMESSAGE: 1738843420831, Endpoint: hostname: "10.131.132.2"
+port: 1235
+
+Server receives 1234 PHASE2BMESSAGE: 1738843420879, Endpoint: hostname: "10.131.132.2"
+port: 1250
+
+Server receives 1234 PHASE2BMESSAGE: 1738843420882, Endpoint: hostname: "10.131.132.2"
+port: 1244
+
+Server receives 1234 PHASE2BMESSAGE: 1738843420884, Endpoint: hostname: "10.131.132.2"
+port: 1236
+
+Server receives 1234 PHASE2BMESSAGE: 1738843420899, Endpoint: hostname: "10.131.132.2"
+port: 1249
+
+Server receives 1234 PHASE2BMESSAGE: 1738843420911, Endpoint: hostname: "10.131.132.2"
+port: 1251
+
+Server receives 1234 PHASE2BMESSAGE: 1738843420924, Endpoint: hostname: "10.131.132.2"
+port: 1245
+
+Server receives 1234 PHASE2BMESSAGE: 1738843420970, Endpoint: hostname: "10.131.132.2"
+port: 1240
+
+Server receives 1234 PHASE2BMESSAGE: 1738843421024, Endpoint: hostname: "10.131.132.2"
+port: 1243
+
+Server receives 1234 PHASE2BMESSAGE: 1738843421040, Endpoint: hostname: "10.131.132.2"
+port: 1248
+
+Server receives 1234 PHASE2BMESSAGE: 1738843421071, Endpoint: hostname: "10.131.132.2"
+port: 1238
+
+Server receives 1234 PHASE2BMESSAGE: 1738843421080, Endpoint: hostname: "10.131.132.2"
+port: 1242
+
+Server receives 1234 PHASE2BMESSAGE: 1738843421142, Endpoint: hostname: "10.131.132.2"
+port: 1253
+
+Server receives 1234 PHASE2BMESSAGE: 1738843421208, Endpoint: hostname: "10.131.132.2"
+port: 1246
+
+Server receives 1234 PHASE2BMESSAGE: 1738843421224, Endpoint: hostname: "10.131.132.2"
+port: 1241
+
+Server receives 1235 PHASE2BMESSAGE: 1738843442419, Endpoint: hostname: "10.131.132.2"
+port: 1251
+
+Server receives 1235 PHASE2BMESSAGE: 1738843442474, Endpoint: hostname: "10.131.132.2"
+port: 1249
+
+Server receives 1235 PHASE2BMESSAGE: 1738843442509, Endpoint: hostname: "10.131.132.2"
+port: 1242
+
+Server receives 1235 PHASE2BMESSAGE: 1738843442585, Endpoint: hostname: "10.131.132.2"
+port: 1247
+
+Server receives 1235 PHASE2BMESSAGE: 1738843442616, Endpoint: hostname: "10.131.132.2"
+port: 1245
+
+Server receives 1235 PHASE2BMESSAGE: 1738843442656, Endpoint: hostname: "10.131.132.2"
+port: 1234
+
+Server receives 1235 PHASE2BMESSAGE: 1738843442704, Endpoint: hostname: "10.131.132.2"
+port: 1248
+
+Server receives 1235 PHASE2BMESSAGE: 1738843442741, Endpoint: hostname: "10.131.132.2"
+port: 1243
+
+Server receives 1235 PHASE2BMESSAGE: 1738843442753, Endpoint: hostname: "10.131.132.2"
+port: 1252
+
+Server receives 1235 PHASE2BMESSAGE: 1738843442763, Endpoint: hostname: "10.131.132.2"
+port: 1244
+
+Server receives 1235 PHASE2BMESSAGE: 1738843442811, Endpoint: hostname: "10.131.132.2"
+port: 1238
+
+Server receives 1235 PHASE2BMESSAGE: 1738843442854, Endpoint: hostname: "10.131.132.2"
+port: 1240
+
+Server receives 1235 PHASE2BMESSAGE: 1738843442938, Endpoint: hostname: "10.131.132.2"
+port: 1250
+
+Server receives 1235 PHASE2BMESSAGE: 1738843442966, Endpoint: hostname: "10.131.132.2"
+port: 1239
+
+Server receives 1235 PHASE2BMESSAGE: 1738843443005, Endpoint: hostname: "10.131.132.2"
+port: 1236
+
+Server receives 1235 PHASE2BMESSAGE: 1738843443069, Endpoint: hostname: "10.131.132.2"
+port: 1253
+
+Server receives 1235 PHASE2BMESSAGE: 1738843443069, Endpoint: hostname: "10.131.132.2"
+port: 1246
+
+Server receives 1235 PHASE2BMESSAGE: 1738843443090, Endpoint: hostname: "10.131.132.2"
+port: 1237
+
+Server receives 1235 PHASE2BMESSAGE: 1738843443111, Endpoint: hostname: "10.131.132.2"
+port: 1235
+
+Server receives 1235 PHASE2BMESSAGE: 1738843443209, Endpoint: hostname: "10.131.132.2"
+port: 1241
+
+Server receives 1236 PHASE2BMESSAGE: 1738843461335, Endpoint: hostname: "10.131.132.2"
+port: 1250
+
+Server receives 1236 PHASE2BMESSAGE: 1738843461410, Endpoint: hostname: "10.131.132.2"
+port: 1246
+
+Server receives 1236 PHASE2BMESSAGE: 1738843461432, Endpoint: hostname: "10.131.132.2"
+port: 1247
+
+Server receives 1236 PHASE2BMESSAGE: 1738843461453, Endpoint: hostname: "10.131.132.2"
+port: 1234
+
+Server receives 1236 PHASE2BMESSAGE: 1738843461594, Endpoint: hostname: "10.131.132.2"
+port: 1244
+
+Server receives 1236 PHASE2BMESSAGE: 1738843461619, Endpoint: hostname: "10.131.132.2"
+port: 1251
+
+Server receives 1236 PHASE2BMESSAGE: 1738843461648, Endpoint: hostname: "10.131.132.2"
+port: 1239
+
+Server receives 1236 PHASE2BMESSAGE: 1738843461656, Endpoint: hostname: "10.131.132.2"
+port: 1245
+
+Server receives 1236 PHASE2BMESSAGE: 1738843461694, Endpoint: hostname: "10.131.132.2"
+port: 1240
+
+Server receives 1236 PHASE2BMESSAGE: 1738843461696, Endpoint: hostname: "10.131.132.2"
+port: 1238
+
+Server receives 1236 PHASE2BMESSAGE: 1738843461696, Endpoint: hostname: "10.131.132.2"
+port: 1236
+
+Server receives 1236 PHASE2BMESSAGE: 1738843461707, Endpoint: hostname: "10.131.132.2"
+port: 1241
+
+Server receives 1236 PHASE2BMESSAGE: 1738843461712, Endpoint: hostname: "10.131.132.2"
+port: 1242
+
+Server receives 1236 PHASE2BMESSAGE: 1738843461723, Endpoint: hostname: "10.131.132.2"
+port: 1249
+
+Server receives 1236 PHASE2BMESSAGE: 1738843461796, Endpoint: hostname: "10.131.132.2"
+port: 1237
+
+Server receives 1236 PHASE2BMESSAGE: 1738843461809, Endpoint: hostname: "10.131.132.2"
+port: 1252
+
+Server receives 1236 PHASE2BMESSAGE: 1738843461861, Endpoint: hostname: "10.131.132.2"
+port: 1243
+
+Server receives 1236 PHASE2BMESSAGE: 1738843461879, Endpoint: hostname: "10.131.132.2"
+port: 1248
+
+Server receives 1236 PHASE2BMESSAGE: 1738843461945, Endpoint: hostname: "10.131.132.2"
+port: 1253
+
+Server receives 1236 PHASE2BMESSAGE: 1738843462088, Endpoint: hostname: "10.131.132.2"
+port: 1235
+
+Server receives 1237 PHASE2BMESSAGE: 1738843481429, Endpoint: hostname: "10.131.132.2"
+port: 1249
+
+Server receives 1237 PHASE2BMESSAGE: 1738843481522, Endpoint: hostname: "10.131.132.2"
+port: 1251
+
+Server receives 1237 PHASE2BMESSAGE: 1738843481523, Endpoint: hostname: "10.131.132.2"
+port: 1247
+
+Server receives 1237 PHASE2BMESSAGE: 1738843481592, Endpoint: hostname: "10.131.132.2"
+port: 1243
+
+Server receives 1237 PHASE2BMESSAGE: 1738843481775, Endpoint: hostname: "10.131.132.2"
+port: 1246
+
+Server receives 1237 PHASE2BMESSAGE: 1738843481893, Endpoint: hostname: "10.131.132.2"
+port: 1238
+
+Server receives 1237 PHASE2BMESSAGE: 1738843481899, Endpoint: hostname: "10.131.132.2"
+port: 1235
+
+Server receives 1237 PHASE2BMESSAGE: 1738843481901, Endpoint: hostname: "10.131.132.2"
+port: 1237
+
+Server receives 1237 PHASE2BMESSAGE: 1738843481939, Endpoint: hostname: "10.131.132.2"
+port: 1234
+
+Server receives 1237 PHASE2BMESSAGE: 1738843481963, Endpoint: hostname: "10.131.132.2"
+port: 1252
+
+Server receives 1237 PHASE2BMESSAGE: 1738843481970, Endpoint: hostname: "10.131.132.2"
+port: 1242
+
+Server receives 1237 PHASE2BMESSAGE: 1738843482006, Endpoint: hostname: "10.131.132.2"
+port: 1248
+
+Server receives 1237 PHASE2BMESSAGE: 1738843482012, Endpoint: hostname: "10.131.132.2"
+port: 1239
+
+Server receives 1237 PHASE2BMESSAGE: 1738843482027, Endpoint: hostname: "10.131.132.2"
+port: 1244
+
+Server receives 1237 PHASE2BMESSAGE: 1738843482068, Endpoint: hostname: "10.131.132.2"
+port: 1245
+
+Server receives 1237 PHASE2BMESSAGE: 1738843482112, Endpoint: hostname: "10.131.132.2"
+port: 1240
+
+Server receives 1237 PHASE2BMESSAGE: 1738843482134, Endpoint: hostname: "10.131.132.2"
+port: 1250
+
+Server receives 1237 PHASE2BMESSAGE: 1738843482178, Endpoint: hostname: "10.131.132.2"
+port: 1236
+
+Server receives 1237 PHASE2BMESSAGE: 1738843482180, Endpoint: hostname: "10.131.132.2"
+port: 1241
+
+Server receives 1237 PHASE2BMESSAGE: 1738843482409, Endpoint: hostname: "10.131.132.2"
+port: 1253
+
+Server receives 1238 PHASE2BMESSAGE: 1738843501367, Endpoint: hostname: "10.131.132.2"
+port: 1236
+
+Server receives 1238 PHASE2BMESSAGE: 1738843501439, Endpoint: hostname: "10.131.132.2"
+port: 1238
+
+Server receives 1238 PHASE2BMESSAGE: 1738843501464, Endpoint: hostname: "10.131.132.2"
+port: 1243
+
+Server receives 1238 PHASE2BMESSAGE: 1738843501471, Endpoint: hostname: "10.131.132.2"
+port: 1248
+
+Server receives 1238 PHASE2BMESSAGE: 1738843501500, Endpoint: hostname: "10.131.132.2"
+port: 1235
+
+Server receives 1238 PHASE2BMESSAGE: 1738843501515, Endpoint: hostname: "10.131.132.2"
+port: 1244
+
+Server receives 1238 PHASE2BMESSAGE: 1738843501528, Endpoint: hostname: "10.131.132.2"
+port: 1246
+
+Server receives 1238 PHASE2BMESSAGE: 1738843501545, Endpoint: hostname: "10.131.132.2"
+port: 1245
+
+Server receives 1238 PHASE2BMESSAGE: 1738843501580, Endpoint: hostname: "10.131.132.2"
+port: 1251
+
+Server receives 1238 PHASE2BMESSAGE: 1738843501581, Endpoint: hostname: "10.131.132.2"
+port: 1240
+
+Server receives 1238 PHASE2BMESSAGE: 1738843501588, Endpoint: hostname: "10.131.132.2"
+port: 1242
+
+Server receives 1238 PHASE2BMESSAGE: 1738843501591, Endpoint: hostname: "10.131.132.2"
+port: 1234
+
+Server receives 1238 PHASE2BMESSAGE: 1738843501605, Endpoint: hostname: "10.131.132.2"
+port: 1247
+
+Server receives 1238 PHASE2BMESSAGE: 1738843501616, Endpoint: hostname: "10.131.132.2"
+port: 1250
+
+Server receives 1238 PHASE2BMESSAGE: 1738843501681, Endpoint: hostname: "10.131.132.2"
+port: 1239
+
+Server receives 1238 PHASE2BMESSAGE: 1738843501687, Endpoint: hostname: "10.131.132.2"
+port: 1253
+
+Server receives 1238 PHASE2BMESSAGE: 1738843501690, Endpoint: hostname: "10.131.132.2"
+port: 1237
+
+Server receives 1238 PHASE2BMESSAGE: 1738843501714, Endpoint: hostname: "10.131.132.2"
+port: 1249
+
+Server receives 1238 PHASE2BMESSAGE: 1738843501783, Endpoint: hostname: "10.131.132.2"
+port: 1252
+
+Server receives 1238 PHASE2BMESSAGE: 1738843502019, Endpoint: hostname: "10.131.132.2"
+port: 1241
+
+All instances have been cleared.
+Finish running
+Finish stopBaseServer.

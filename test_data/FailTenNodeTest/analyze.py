@@ -55,6 +55,7 @@ for N in N_list:
                 path_latency_sorted = sorted(latency_list)
                 # print(path_latency_sorted[:5])
                 # print(path_latency_sorted[:5], path_latency_sorted[-5:])
+                x = [i / len(path_latency_sorted) * 100 for i in range(len(path_latency_sorted))]
                 ax.plot(path_latency_sorted[:-N // 10], linestyle=linestyles[random], 
                     # label=f"N={N}_M={m}_K={k}{prefix[random][:-3]}",
                     label=f"{m} {labels[random]}",
@@ -62,7 +63,7 @@ for N in N_list:
             except:
                 pass 
     # ax.set_title('')
-    ax.set_xlabel('Node Index', fontdict={'fontsize':15})
+    ax.set_xlabel('Sample Percentile (%)', fontdict={'fontsize':15})
     ax.set_ylabel('Membership Change Time (ms)', fontdict={'fontsize':15})
     ax.legend(loc='lower right')
     ax.grid(True)

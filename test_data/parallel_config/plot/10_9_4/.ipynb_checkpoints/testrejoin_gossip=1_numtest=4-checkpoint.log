@@ -1,0 +1,2315 @@
+Already up to date.
+
+Launching Cluster with settings:
+Base IP: 10.141.132.2
+My IP: 10.141.132.2
+Port: 1234
+Number of nodes: 10
+Test ID: 2
+Target nodes to wait: 180
+Node ID: 0
+Gossip Type: 1
+Initializing cluster...
+Base server is running on port 1233
+Accepted connection from /10.134.129.2
+Accepted connection from /10.144.5.2
+Accepted connection from /10.147.6.2
+Accepted connection from /10.145.4.2
+Accepted connection from /10.143.11.2
+Accepted connection from /10.143.10.2
+Accepted connection from /10.139.132.2
+Accepted connection from /10.130.8.2
+Accepted connection from /10.136.137.2
+Accepted connection from /10.135.135.2
+Accepted connection from /10.132.140.2
+Accepted connection from /10.131.132.2
+Accepted connection from /10.140.6.2
+Accepted connection from /10.132.8.2
+Accepted connection from /10.131.6.2
+Accepted connection from /10.137.4.2
+Accepted connection from /10.138.4.2
+Broadcasting finish to other servers.
+SetupBaseServer finished.
+Cluster is ready with 18 servers. Starting test: 2
+Connected to cluster. Launching 10 nodes...
+WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by com.google.protobuf.UnsafeUtil (file:/home/rocky/gossip_protocol_research/examples/target/ClusterLauncher.jar) to field java.nio.Buffer.address
+WARNING: Please consider reporting this to the maintainers of com.google.protobuf.UnsafeUtil
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release
+Port 1234 + view change to size 180 at 171658474 ms
+Wait for targetNodes: 180
+TargetNodes=180 have joined the cluster.
+TestName: testRejoinSingleNode
+Start time: 171749016 ms
+Port 1239 + view changes to size 179 at 171760524 ms
+Port 1238 + view changes to size 179 at 171760536 ms
+Port 1237 + view changes to size 179 at 171760541 ms
+Port 1242 + view changes to size 179 at 171760645 ms
+Port 1243 + view changes to size 179 at 171760675 ms
+Port 1240 + view changes to size 179 at 171760688 ms
+Port 1236 + view changes to size 179 at 171760700 ms
+Port 1241 + view changes to size 179 at 171760700 ms
+Port 1234 + view changes to size 179 at 171760739 ms
+Port 1239 + view changes to size 180 at 171762500 ms
+Port 1236 + view changes to size 180 at 171762665 ms
+Port 1238 + view changes to size 180 at 171762672 ms
+Port 1237 + view changes to size 180 at 171762731 ms
+Port 1242 + view changes to size 180 at 171762833 ms
+Port 1243 + view changes to size 180 at 171762839 ms
+Port 1240 + view changes to size 180 at 171762854 ms
+Port 1241 + view changes to size 180 at 171762910 ms
+Port 1234 + view changes to size 180 at 171762943 ms
+Port 1240 + view changes to size 179 at 171774785 ms
+Port 1234 + view changes to size 179 at 171774820 ms
+Port 1236 + view changes to size 179 at 171774829 ms
+Port 1242 + view changes to size 179 at 171774838 ms
+Port 1239 + view changes to size 179 at 171774843 ms
+Port 1238 + view changes to size 179 at 171774850 ms
+Port 1243 + view changes to size 179 at 171774868 ms
+Port 1241 + view changes to size 179 at 171774914 ms
+Port 1237 + view changes to size 179 at 171775157 ms
+Port 1237 + view changes to size 180 at 171777463 ms
+Port 1239 + view changes to size 180 at 171777485 ms
+Port 1240 + view changes to size 180 at 171777505 ms
+Port 1243 + view changes to size 180 at 171777558 ms
+Port 1234 + view changes to size 180 at 171777574 ms
+Port 1238 + view changes to size 180 at 171777592 ms
+Port 1236 + view changes to size 180 at 171777601 ms
+Port 1242 + view changes to size 180 at 171777645 ms
+Port 1241 + view changes to size 180 at 171777743 ms
+Port 1240 + view changes to size 179 at 171789521 ms
+Port 1237 + view changes to size 179 at 171789532 ms
+Port 1236 + view changes to size 179 at 171789560 ms
+Port 1242 + view changes to size 179 at 171789574 ms
+Port 1241 + view changes to size 179 at 171789553 ms
+Port 1238 + view changes to size 179 at 171789549 ms
+Port 1239 + view changes to size 179 at 171789533 ms
+Port 1234 + view changes to size 179 at 171789533 ms
+Port 1243 + view changes to size 179 at 171789635 ms
+Port 1237 + view changes to size 180 at 171792169 ms
+Port 1239 + view changes to size 180 at 171792214 ms
+Port 1242 + view changes to size 180 at 171792223 ms
+Port 1236 + view changes to size 180 at 171792268 ms
+Port 1240 + view changes to size 180 at 171792279 ms
+Port 1243 + view changes to size 180 at 171792291 ms
+Port 1238 + view changes to size 180 at 171792329 ms
+Port 1241 + view changes to size 180 at 171792493 ms
+Port 1234 + view changes to size 180 at 171792599 ms
+Port 1240 + view changes to size 179 at 171804173 ms
+Port 1236 + view changes to size 179 at 171804176 ms
+Port 1239 + view changes to size 179 at 171804192 ms
+Port 1243 + view changes to size 179 at 171804203 ms
+Port 1237 + view changes to size 179 at 171804203 ms
+Port 1242 + view changes to size 179 at 171804228 ms
+Port 1234 + view changes to size 179 at 171804232 ms
+Port 1238 + view changes to size 179 at 171804241 ms
+Port 1241 + view changes to size 179 at 171804241 ms
+Port 1237 + view changes to size 180 at 171806703 ms
+Port 1239 + view changes to size 180 at 171806721 ms
+Port 1243 + view changes to size 180 at 171806755 ms
+Port 1238 + view changes to size 180 at 171806763 ms
+Port 1242 + view changes to size 180 at 171806795 ms
+Port 1240 + view changes to size 180 at 171806831 ms
+Port 1236 + view changes to size 180 at 171806832 ms
+Port 1241 + view changes to size 180 at 171806930 ms
+Port 1234 + view changes to size 180 at 171806985 ms
+Port 1237 + view changes to size 179 at 171818694 ms
+Port 1240 + view changes to size 179 at 171818694 ms
+Port 1243 + view changes to size 179 at 171818701 ms
+Port 1242 + view changes to size 179 at 171818712 ms
+Port 1238 + view changes to size 179 at 171818713 ms
+Port 1234 + view changes to size 179 at 171818738 ms
+Port 1239 + view changes to size 179 at 171818742 ms
+Port 1241 + view changes to size 179 at 171818803 ms
+Port 1236 + view changes to size 179 at 171818819 ms
+Port 1239 + view changes to size 180 at 171821514 ms
+Port 1240 + view changes to size 180 at 171821523 ms
+Port 1242 + view changes to size 180 at 171821540 ms
+Port 1237 + view changes to size 180 at 171821552 ms
+Port 1243 + view changes to size 180 at 171821559 ms
+Port 1236 + view changes to size 180 at 171821591 ms
+Port 1238 + view changes to size 180 at 171821620 ms
+Port 1234 + view changes to size 180 at 171821679 ms
+Port 1241 + view changes to size 180 at 171821760 ms
+Total execution time: 73152 ms
+Already up to date.
+
+Launching Cluster with settings:
+Base IP: 10.141.132.2
+My IP: 10.143.10.2
+Port: 1234
+Number of nodes: 10
+Test ID: 2
+Target nodes to wait: 180
+Node ID: 1
+Gossip Type: 1
+Initializing cluster...
+Successfully connected to the cluster at 10.141.132.2:1233
+Accepted connection from /10.141.132.2
+Cluster is ready with 18 servers. Starting test: 2
+Connected to cluster. Launching 10 nodes...
+WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by com.google.protobuf.UnsafeUtil (file:/home/rocky/gossip_protocol_research/examples/target/ClusterLauncher.jar) to field java.nio.Buffer.address
+WARNING: Please consider reporting this to the maintainers of com.google.protobuf.UnsafeUtil
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release
+Wait for targetNodes: 180
+TargetNodes=180 have joined the cluster.
+TestName: testRejoinSingleNode
+Start time: 171794363 ms
+Port 1241 + view changes to size 179 at 171804527 ms
+Port 1237 + view changes to size 179 at 171804537 ms
+Port 1239 + view changes to size 179 at 171804549 ms
+Port 1243 + view changes to size 179 at 171804549 ms
+Port 1238 + view changes to size 179 at 171804576 ms
+Port 1235 + view changes to size 179 at 171804576 ms
+Port 1242 + view changes to size 179 at 171804583 ms
+Port 1236 + view changes to size 179 at 171804717 ms
+Port 1234 + view changes to size 179 at 171804721 ms
+Port 1240 + view changes to size 179 at 171804755 ms
+Port 1240 + view changes to size 180 at 171806599 ms
+Port 1241 + view changes to size 180 at 171806619 ms
+Port 1235 + view changes to size 180 at 171806650 ms
+Port 1239 + view changes to size 180 at 171806843 ms
+Port 1237 + view changes to size 180 at 171806868 ms
+Port 1242 + view changes to size 180 at 171807029 ms
+Port 1238 + view changes to size 180 at 171807045 ms
+Port 1243 + view changes to size 180 at 171807079 ms
+Port 1236 + view changes to size 180 at 171807085 ms
+Port 1234 + view changes to size 180 at 171807157 ms
+Port 1243 + view changes to size 179 at 171818797 ms
+Port 1239 + view changes to size 179 at 171818805 ms
+Port 1241 + view changes to size 179 at 171818827 ms
+Port 1242 + view changes to size 179 at 171818831 ms
+Port 1237 + view changes to size 179 at 171818835 ms
+Port 1235 + view changes to size 179 at 171818836 ms
+Port 1234 + view changes to size 179 at 171818849 ms
+Port 1236 + view changes to size 179 at 171818872 ms
+Port 1240 + view changes to size 179 at 171818878 ms
+Port 1238 + view changes to size 179 at 171818908 ms
+Port 1235 + view changes to size 180 at 171821526 ms
+Port 1240 + view changes to size 180 at 171821542 ms
+Port 1237 + view changes to size 180 at 171821589 ms
+Port 1239 + view changes to size 180 at 171821618 ms
+Port 1234 + view changes to size 180 at 171821645 ms
+Port 1241 + view changes to size 180 at 171821655 ms
+Port 1238 + view changes to size 180 at 171821791 ms
+Port 1243 + view changes to size 180 at 171821842 ms
+Port 1242 + view changes to size 180 at 171821869 ms
+Port 1236 + view changes to size 180 at 171822083 ms
+Port 1234 + view changes to size 179 at 171833518 ms
+Port 1239 + view changes to size 179 at 171833534 ms
+Port 1237 + view changes to size 179 at 171833544 ms
+Port 1242 + view changes to size 179 at 171833548 ms
+Port 1241 + view changes to size 179 at 171833554 ms
+Port 1238 + view changes to size 179 at 171833591 ms
+Port 1240 + view changes to size 179 at 171833597 ms
+Port 1243 + view changes to size 179 at 171833606 ms
+Port 1235 + view changes to size 179 at 171833608 ms
+Port 1236 + view changes to size 179 at 171833739 ms
+Port 1240 + view changes to size 180 at 171836236 ms
+Port 1235 + view changes to size 180 at 171836241 ms
+Port 1237 + view changes to size 180 at 171836251 ms
+Port 1239 + view changes to size 180 at 171836261 ms
+Port 1234 + view changes to size 180 at 171836294 ms
+Port 1241 + view changes to size 180 at 171836317 ms
+Port 1243 + view changes to size 180 at 171836481 ms
+Port 1236 + view changes to size 180 at 171836552 ms
+Port 1238 + view changes to size 180 at 171836643 ms
+Port 1242 + view changes to size 180 at 171836653 ms
+Port 1239 + view changes to size 179 at 171848189 ms
+Port 1243 + view changes to size 179 at 171848198 ms
+Port 1241 + view changes to size 179 at 171848269 ms
+Port 1240 + view changes to size 179 at 171848288 ms
+Port 1242 + view changes to size 179 at 171848289 ms
+Port 1237 + view changes to size 179 at 171848321 ms
+Port 1236 + view changes to size 179 at 171848322 ms
+Port 1238 + view changes to size 179 at 171848322 ms
+Port 1234 + view changes to size 179 at 171848342 ms
+Port 1235 + view changes to size 179 at 171848390 ms
+Port 1241 + view changes to size 180 at 171850780 ms
+Port 1240 + view changes to size 180 at 171850783 ms
+Port 1235 + view changes to size 180 at 171850792 ms
+Port 1239 + view changes to size 180 at 171850816 ms
+Port 1237 + view changes to size 180 at 171850830 ms
+Port 1234 + view changes to size 180 at 171850877 ms
+Port 1238 + view changes to size 180 at 171851080 ms
+Port 1236 + view changes to size 180 at 171851116 ms
+Port 1243 + view changes to size 180 at 171851121 ms
+Port 1242 + view changes to size 180 at 171851175 ms
+Port 1238 + view changes to size 179 at 171862766 ms
+Port 1234 + view changes to size 179 at 171862768 ms
+Port 1242 + view changes to size 179 at 171862774 ms
+Port 1239 + view changes to size 179 at 171862786 ms
+Port 1241 + view changes to size 179 at 171862790 ms
+Port 1240 + view changes to size 179 at 171862801 ms
+Port 1243 + view changes to size 179 at 171862838 ms
+Port 1237 + view changes to size 179 at 171862843 ms
+Port 1236 + view changes to size 179 at 171862895 ms
+Port 1235 + view changes to size 179 at 171862898 ms
+Port 1237 + view changes to size 180 at 171865529 ms
+Port 1235 + view changes to size 180 at 171865531 ms
+Port 1234 + view changes to size 180 at 171865549 ms
+Port 1239 + view changes to size 180 at 171865549 ms
+Port 1241 + view changes to size 180 at 171865568 ms
+Port 1240 + view changes to size 180 at 171865806 ms
+Port 1243 + view changes to size 180 at 171865906 ms
+Port 1242 + view changes to size 180 at 171865973 ms
+Port 1238 + view changes to size 180 at 171866006 ms
+Exception in thread "main" java.lang.AssertionError: Cluster:10.143.10.2:1236 expected:<180> but was:<179>
+	at org.junit.Assert.fail(Assert.java:89)
+	at org.junit.Assert.failNotEquals(Assert.java:835)
+	at org.junit.Assert.assertEquals(Assert.java:647)
+	at com.vrg.standalone.ClusterTest.verifyCluster(ClusterTest.java:590)
+	at com.vrg.standalone.ClusterTest.waitAndVerifyAgreement(ClusterTest.java:647)
+	at com.vrg.standalone.ClusterTest.run(ClusterTest.java:370)
+	at com.vrg.standalone.ClusterTest.setupCluster(ClusterTest.java:174)
+	at com.vrg.standalone.ClusterLauncher.main(ClusterLauncher.java:35)
+Already up to date.
+
+Launching Cluster with settings:
+Base IP: 10.141.132.2
+My IP: 10.135.135.2
+Port: 1234
+Number of nodes: 10
+Test ID: 2
+Target nodes to wait: 180
+Node ID: 2
+Gossip Type: 1
+Initializing cluster...
+Attempt 1: Could not connect to 10.141.132.2:1233
+Successfully connected to the cluster at 10.141.132.2:1233
+Accepted connection from /10.141.132.2
+Cluster is ready with 18 servers. Starting test: 2
+Connected to cluster. Launching 10 nodes...
+WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by com.google.protobuf.UnsafeUtil (file:/home/rocky/gossip_protocol_research/examples/target/ClusterLauncher.jar) to field java.nio.Buffer.address
+WARNING: Please consider reporting this to the maintainers of com.google.protobuf.UnsafeUtil
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release
+Wait for targetNodes: 180
+TargetNodes=180 have joined the cluster.
+TestName: testRejoinSingleNode
+Start time: 171762639 ms
+Port 1242 + view changes to size 179 at 171773583 ms
+Port 1240 + view changes to size 179 at 171773591 ms
+Port 1237 + view changes to size 179 at 171773610 ms
+Port 1241 + view changes to size 179 at 171773670 ms
+Port 1234 + view changes to size 179 at 171773725 ms
+Port 1243 + view changes to size 179 at 171773733 ms
+Port 1235 + view changes to size 179 at 171773733 ms
+Port 1236 + view changes to size 179 at 171773742 ms
+Port 1239 + view changes to size 179 at 171773772 ms
+Port 1238 + view changes to size 179 at 171773806 ms
+Port 1238 + view changes to size 180 at 171775673 ms
+Port 1241 + view changes to size 180 at 171775702 ms
+Port 1235 + view changes to size 180 at 171775754 ms
+Port 1239 + view changes to size 180 at 171775867 ms
+Port 1237 + view changes to size 180 at 171775919 ms
+Port 1240 + view changes to size 180 at 171775990 ms
+Port 1243 + view changes to size 180 at 171776038 ms
+Port 1234 + view changes to size 180 at 171776050 ms
+Port 1236 + view changes to size 180 at 171776085 ms
+Port 1242 + view changes to size 180 at 171776114 ms
+Port 1242 + view changes to size 179 at 171787871 ms
+Port 1236 + view changes to size 179 at 171787888 ms
+Port 1240 + view changes to size 179 at 171787891 ms
+Port 1234 + view changes to size 179 at 171787895 ms
+Port 1235 + view changes to size 179 at 171787913 ms
+Port 1237 + view changes to size 179 at 171787922 ms
+Port 1239 + view changes to size 179 at 171787935 ms
+Port 1243 + view changes to size 179 at 171787935 ms
+Port 1238 + view changes to size 179 at 171787940 ms
+Port 1241 + view changes to size 179 at 171787958 ms
+Port 1234 + view changes to size 180 at 171790566 ms
+Port 1240 + view changes to size 180 at 171790599 ms
+Port 1235 + view changes to size 180 at 171790606 ms
+Port 1236 + view changes to size 180 at 171790612 ms
+Port 1241 + view changes to size 180 at 171790641 ms
+Port 1243 + view changes to size 180 at 171790662 ms
+Port 1239 + view changes to size 180 at 171790735 ms
+Port 1237 + view changes to size 180 at 171790750 ms
+Port 1242 + view changes to size 180 at 171790828 ms
+Port 1238 + view changes to size 180 at 171790853 ms
+Port 1240 + view changes to size 179 at 171802600 ms
+Port 1234 + view changes to size 179 at 171802613 ms
+Port 1237 + view changes to size 179 at 171802615 ms
+Port 1242 + view changes to size 179 at 171802622 ms
+Port 1235 + view changes to size 179 at 171802623 ms
+Port 1236 + view changes to size 179 at 171802623 ms
+Port 1241 + view changes to size 179 at 171802624 ms
+Port 1238 + view changes to size 179 at 171802628 ms
+Port 1239 + view changes to size 179 at 171802634 ms
+Port 1243 + view changes to size 179 at 171802656 ms
+Port 1234 + view changes to size 180 at 171805255 ms
+Port 1235 + view changes to size 180 at 171805268 ms
+Port 1241 + view changes to size 180 at 171805271 ms
+Port 1243 + view changes to size 180 at 171805296 ms
+Port 1237 + view changes to size 180 at 171805340 ms
+Port 1238 + view changes to size 180 at 171805348 ms
+Port 1239 + view changes to size 180 at 171805379 ms
+Port 1236 + view changes to size 180 at 171805386 ms
+Port 1240 + view changes to size 180 at 171805516 ms
+Port 1242 + view changes to size 180 at 171805548 ms
+Port 1236 + view changes to size 179 at 171817270 ms
+Port 1240 + view changes to size 179 at 171817282 ms
+Port 1237 + view changes to size 179 at 171817283 ms
+Port 1239 + view changes to size 179 at 171817294 ms
+Port 1242 + view changes to size 179 at 171817304 ms
+Port 1234 + view changes to size 179 at 171817305 ms
+Port 1241 + view changes to size 179 at 171817306 ms
+Port 1238 + view changes to size 179 at 171817377 ms
+Port 1243 + view changes to size 179 at 171817421 ms
+Port 1235 + view changes to size 179 at 171817434 ms
+Port 1243 + view changes to size 180 at 171819770 ms
+Port 1235 + view changes to size 180 at 171819797 ms
+Port 1237 + view changes to size 180 at 171819801 ms
+Port 1234 + view changes to size 180 at 171819859 ms
+Port 1241 + view changes to size 180 at 171819866 ms
+Port 1236 + view changes to size 180 at 171819875 ms
+Port 1240 + view changes to size 180 at 171819904 ms
+Port 1242 + view changes to size 180 at 171819942 ms
+Port 1238 + view changes to size 180 at 171819983 ms
+Port 1239 + view changes to size 180 at 171820003 ms
+Port 1236 + view changes to size 179 at 171831781 ms
+Port 1240 + view changes to size 179 at 171831786 ms
+Port 1242 + view changes to size 179 at 171831787 ms
+Port 1235 + view changes to size 179 at 171831813 ms
+Port 1241 + view changes to size 179 at 171831819 ms
+Port 1239 + view changes to size 179 at 171831822 ms
+Port 1243 + view changes to size 179 at 171831826 ms
+Port 1237 + view changes to size 179 at 171831827 ms
+Port 1238 + view changes to size 179 at 171831827 ms
+Port 1234 + view changes to size 179 at 171831837 ms
+Port 1234 + view changes to size 180 at 171834543 ms
+Port 1235 + view changes to size 180 at 171834578 ms
+Port 1241 + view changes to size 180 at 171834587 ms
+Port 1240 + view changes to size 180 at 171834612 ms
+Port 1243 + view changes to size 180 at 171834614 ms
+Port 1237 + view changes to size 180 at 171834628 ms
+Port 1242 + view changes to size 180 at 171834641 ms
+Port 1236 + view changes to size 180 at 171834732 ms
+Port 1239 + view changes to size 180 at 171834735 ms
+Port 1238 + view changes to size 180 at 171834771 ms
+Total execution time: 73076 ms
+Already up to date.
+
+Launching Cluster with settings:
+Base IP: 10.141.132.2
+My IP: 10.139.132.2
+Port: 1234
+Number of nodes: 10
+Test ID: 2
+Target nodes to wait: 180
+Node ID: 3
+Gossip Type: 1
+Initializing cluster...
+Attempt 1: Could not connect to 10.141.132.2:1233
+Successfully connected to the cluster at 10.141.132.2:1233
+Accepted connection from /10.141.132.2
+Cluster is ready with 18 servers. Starting test: 2
+Connected to cluster. Launching 10 nodes...
+WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by com.google.protobuf.UnsafeUtil (file:/home/rocky/gossip_protocol_research/examples/target/ClusterLauncher.jar) to field java.nio.Buffer.address
+WARNING: Please consider reporting this to the maintainers of com.google.protobuf.UnsafeUtil
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release
+Wait for targetNodes: 180
+TargetNodes=180 have joined the cluster.
+TestName: testRejoinSingleNode
+Start time: 171773938 ms
+Port 1236 + view changes to size 179 at 171784973 ms
+Port 1237 + view changes to size 179 at 171784973 ms
+Port 1241 + view changes to size 179 at 171784978 ms
+Port 1243 + view changes to size 179 at 171784982 ms
+Port 1242 + view changes to size 179 at 171785007 ms
+Port 1238 + view changes to size 179 at 171785013 ms
+Port 1235 + view changes to size 179 at 171785024 ms
+Port 1239 + view changes to size 179 at 171785027 ms
+Port 1234 + view changes to size 179 at 171785043 ms
+Port 1240 + view changes to size 179 at 171785047 ms
+Port 1241 + view changes to size 180 at 171786986 ms
+Port 1234 + view changes to size 180 at 171787038 ms
+Port 1243 + view changes to size 180 at 171787106 ms
+Port 1236 + view changes to size 180 at 171787168 ms
+Port 1240 + view changes to size 180 at 171787201 ms
+Port 1238 + view changes to size 180 at 171787235 ms
+Port 1235 + view changes to size 180 at 171787249 ms
+Port 1242 + view changes to size 180 at 171787275 ms
+Port 1239 + view changes to size 180 at 171787282 ms
+Port 1237 + view changes to size 180 at 171787427 ms
+Port 1236 + view changes to size 179 at 171799267 ms
+Port 1243 + view changes to size 179 at 171799269 ms
+Port 1235 + view changes to size 179 at 171799274 ms
+Port 1237 + view changes to size 179 at 171799277 ms
+Port 1238 + view changes to size 179 at 171799282 ms
+Port 1241 + view changes to size 179 at 171799286 ms
+Port 1242 + view changes to size 179 at 171799287 ms
+Port 1239 + view changes to size 179 at 171799289 ms
+Port 1240 + view changes to size 179 at 171799298 ms
+Port 1234 + view changes to size 179 at 171799315 ms
+Port 1235 + view changes to size 180 at 171801903 ms
+Port 1243 + view changes to size 180 at 171801912 ms
+Port 1241 + view changes to size 180 at 171801924 ms
+Port 1236 + view changes to size 180 at 171801940 ms
+Port 1238 + view changes to size 180 at 171801987 ms
+Port 1237 + view changes to size 180 at 171802002 ms
+Port 1239 + view changes to size 180 at 171802002 ms
+Port 1234 + view changes to size 180 at 171802033 ms
+Port 1242 + view changes to size 180 at 171802102 ms
+Port 1240 + view changes to size 180 at 171802187 ms
+Port 1236 + view changes to size 179 at 171813978 ms
+Port 1237 + view changes to size 179 at 171813996 ms
+Port 1243 + view changes to size 179 at 171813996 ms
+Port 1235 + view changes to size 179 at 171814000 ms
+Port 1241 + view changes to size 179 at 171814002 ms
+Port 1234 + view changes to size 179 at 171814016 ms
+Port 1238 + view changes to size 179 at 171814027 ms
+Port 1240 + view changes to size 179 at 171814028 ms
+Port 1242 + view changes to size 179 at 171814040 ms
+Port 1239 + view changes to size 179 at 171814040 ms
+Port 1236 + view changes to size 180 at 171816631 ms
+Port 1243 + view changes to size 180 at 171816637 ms
+Port 1234 + view changes to size 180 at 171816640 ms
+Port 1238 + view changes to size 180 at 171816645 ms
+Port 1235 + view changes to size 180 at 171816645 ms
+Port 1237 + view changes to size 180 at 171816672 ms
+Port 1239 + view changes to size 180 at 171816693 ms
+Port 1242 + view changes to size 180 at 171816732 ms
+Port 1241 + view changes to size 180 at 171816741 ms
+Port 1240 + view changes to size 180 at 171816935 ms
+Port 1243 + view changes to size 179 at 171828651 ms
+Port 1242 + view changes to size 179 at 171828666 ms
+Port 1236 + view changes to size 179 at 171828667 ms
+Port 1235 + view changes to size 179 at 171828668 ms
+Port 1237 + view changes to size 179 at 171828674 ms
+Port 1241 + view changes to size 179 at 171828690 ms
+Port 1239 + view changes to size 179 at 171828700 ms
+Port 1238 + view changes to size 179 at 171828707 ms
+Port 1234 + view changes to size 179 at 171828723 ms
+Port 1240 + view changes to size 179 at 171828725 ms
+Port 1236 + view changes to size 180 at 171831115 ms
+Port 1243 + view changes to size 180 at 171831153 ms
+Port 1235 + view changes to size 180 at 171831173 ms
+Port 1234 + view changes to size 180 at 171831189 ms
+Port 1241 + view changes to size 180 at 171831189 ms
+Port 1239 + view changes to size 180 at 171831214 ms
+Port 1237 + view changes to size 180 at 171831217 ms
+Port 1238 + view changes to size 180 at 171831286 ms
+Port 1242 + view changes to size 180 at 171831287 ms
+Port 1240 + view changes to size 180 at 171831417 ms
+Port 1243 + view changes to size 179 at 171843169 ms
+Port 1236 + view changes to size 179 at 171843173 ms
+Port 1235 + view changes to size 179 at 171843183 ms
+Port 1237 + view changes to size 179 at 171843190 ms
+Port 1239 + view changes to size 179 at 171843193 ms
+Port 1238 + view changes to size 179 at 171843193 ms
+Port 1240 + view changes to size 179 at 171843210 ms
+Port 1242 + view changes to size 179 at 171843215 ms
+Port 1234 + view changes to size 179 at 171843228 ms
+Port 1241 + view changes to size 179 at 171843229 ms
+Port 1243 + view changes to size 180 at 171845938 ms
+Port 1236 + view changes to size 180 at 171845943 ms
+Port 1239 + view changes to size 180 at 171845948 ms
+Port 1234 + view changes to size 180 at 171845961 ms
+Port 1235 + view changes to size 180 at 171845966 ms
+Port 1237 + view changes to size 180 at 171845986 ms
+Port 1238 + view changes to size 180 at 171845997 ms
+Port 1241 + view changes to size 180 at 171846005 ms
+Port 1242 + view changes to size 180 at 171846013 ms
+Port 1240 + view changes to size 180 at 171846127 ms
+Total execution time: 73052 ms
+Already up to date.
+
+Launching Cluster with settings:
+Base IP: 10.141.132.2
+My IP: 10.147.6.2
+Port: 1234
+Number of nodes: 10
+Test ID: 2
+Target nodes to wait: 180
+Node ID: 4
+Gossip Type: 1
+Initializing cluster...
+Successfully connected to the cluster at 10.141.132.2:1233
+Accepted connection from /10.141.132.2
+Cluster is ready with 18 servers. Starting test: 2
+Connected to cluster. Launching 10 nodes...
+WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by com.google.protobuf.UnsafeUtil (file:/home/rocky/gossip_protocol_research/examples/target/ClusterLauncher.jar) to field java.nio.Buffer.address
+WARNING: Please consider reporting this to the maintainers of com.google.protobuf.UnsafeUtil
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release
+Wait for targetNodes: 180
+TargetNodes=180 have joined the cluster.
+TestName: testRejoinSingleNode
+Start time: 171795013 ms
+Port 1237 + view changes to size 179 at 171806142 ms
+Port 1241 + view changes to size 179 at 171806149 ms
+Port 1242 + view changes to size 179 at 171806151 ms
+Port 1239 + view changes to size 179 at 171806233 ms
+Port 1243 + view changes to size 179 at 171806227 ms
+Port 1235 + view changes to size 179 at 171806255 ms
+Port 1236 + view changes to size 179 at 171806153 ms
+Port 1240 + view changes to size 179 at 171806287 ms
+Port 1238 + view changes to size 179 at 171806302 ms
+Port 1234 + view changes to size 179 at 171806347 ms
+Port 1240 + view changes to size 180 at 171808112 ms
+Port 1238 + view changes to size 180 at 171808449 ms
+Port 1235 + view changes to size 180 at 171808593 ms
+Port 1242 + view changes to size 180 at 171808601 ms
+Port 1234 + view changes to size 180 at 171808607 ms
+Port 1241 + view changes to size 180 at 171808648 ms
+Port 1236 + view changes to size 180 at 171808664 ms
+Port 1243 + view changes to size 180 at 171808723 ms
+Port 1239 + view changes to size 180 at 171808735 ms
+Port 1237 + view changes to size 180 at 171808821 ms
+Port 1236 + view changes to size 179 at 171820412 ms
+Port 1240 + view changes to size 179 at 171820430 ms
+Port 1241 + view changes to size 179 at 171820433 ms
+Port 1234 + view changes to size 179 at 171820446 ms
+Port 1238 + view changes to size 179 at 171820447 ms
+Port 1243 + view changes to size 179 at 171820454 ms
+Port 1237 + view changes to size 179 at 171820465 ms
+Port 1235 + view changes to size 179 at 171820468 ms
+Port 1242 + view changes to size 179 at 171820469 ms
+Port 1239 + view changes to size 179 at 171820471 ms
+Port 1239 + view changes to size 180 at 171823149 ms
+Port 1240 + view changes to size 180 at 171823157 ms
+Port 1235 + view changes to size 180 at 171823200 ms
+Port 1238 + view changes to size 180 at 171823250 ms
+Port 1243 + view changes to size 180 at 171823252 ms
+Port 1234 + view changes to size 180 at 171823366 ms
+Port 1237 + view changes to size 180 at 171823494 ms
+Port 1236 + view changes to size 180 at 171823496 ms
+Port 1242 + view changes to size 180 at 171823508 ms
+Port 1241 + view changes to size 180 at 171823584 ms
+Port 1234 + view changes to size 179 at 171835126 ms
+Port 1241 + view changes to size 179 at 171835134 ms
+Port 1236 + view changes to size 179 at 171835141 ms
+Port 1238 + view changes to size 179 at 171835151 ms
+Port 1240 + view changes to size 179 at 171835153 ms
+Port 1242 + view changes to size 179 at 171835157 ms
+Port 1239 + view changes to size 179 at 171835162 ms
+Port 1243 + view changes to size 179 at 171835163 ms
+Port 1235 + view changes to size 179 at 171835176 ms
+Port 1237 + view changes to size 179 at 171835215 ms
+Port 1238 + view changes to size 180 at 171837903 ms
+Port 1235 + view changes to size 180 at 171837934 ms
+Port 1242 + view changes to size 180 at 171837951 ms
+Port 1243 + view changes to size 180 at 171837973 ms
+Port 1239 + view changes to size 180 at 171837975 ms
+Port 1234 + view changes to size 180 at 171837982 ms
+Port 1240 + view changes to size 180 at 171838028 ms
+Port 1237 + view changes to size 180 at 171838035 ms
+Port 1236 + view changes to size 180 at 171838104 ms
+Port 1241 + view changes to size 180 at 171838108 ms
+Port 1234 + view changes to size 179 at 171849810 ms
+Port 1241 + view changes to size 179 at 171849815 ms
+Port 1242 + view changes to size 179 at 171849816 ms
+Port 1238 + view changes to size 179 at 171849823 ms
+Port 1243 + view changes to size 179 at 171849827 ms
+Port 1236 + view changes to size 179 at 171849831 ms
+Port 1235 + view changes to size 179 at 171849833 ms
+Port 1237 + view changes to size 179 at 171849839 ms
+Port 1239 + view changes to size 179 at 171849846 ms
+Port 1240 + view changes to size 179 at 171849848 ms
+Port 1234 + view changes to size 180 at 171852491 ms
+Port 1239 + view changes to size 180 at 171852497 ms
+Port 1235 + view changes to size 180 at 171852510 ms
+Port 1236 + view changes to size 180 at 171852530 ms
+Port 1243 + view changes to size 180 at 171852564 ms
+Port 1238 + view changes to size 180 at 171852582 ms
+Port 1242 + view changes to size 180 at 171852592 ms
+Port 1237 + view changes to size 180 at 171852633 ms
+Port 1240 + view changes to size 180 at 171852652 ms
+Port 1241 + view changes to size 180 at 171852710 ms
+Port 1239 + view changes to size 179 at 171864313 ms
+Port 1238 + view changes to size 179 at 171864326 ms
+Port 1243 + view changes to size 179 at 171864345 ms
+Port 1241 + view changes to size 179 at 171864354 ms
+Port 1242 + view changes to size 179 at 171864355 ms
+Port 1236 + view changes to size 179 at 171864364 ms
+Port 1240 + view changes to size 179 at 171864384 ms
+Port 1237 + view changes to size 179 at 171864387 ms
+Port 1235 + view changes to size 179 at 171864394 ms
+Port 1234 + view changes to size 179 at 171864478 ms
+Port 1240 + view changes to size 180 at 171867192 ms
+Port 1235 + view changes to size 180 at 171867234 ms
+Port 1239 + view changes to size 180 at 171867255 ms
+Port 1234 + view changes to size 180 at 171867268 ms
+Port 1238 + view changes to size 180 at 171867278 ms
+Port 1243 + view changes to size 180 at 171867293 ms
+Port 1242 + view changes to size 180 at 171867301 ms
+Port 1237 + view changes to size 180 at 171867493 ms
+Port 1236 + view changes to size 180 at 171867545 ms
+Exception in thread "main" java.lang.AssertionError: Cluster:10.147.6.2:1241 expected:<180> but was:<179>
+	at org.junit.Assert.fail(Assert.java:89)
+	at org.junit.Assert.failNotEquals(Assert.java:835)
+	at org.junit.Assert.assertEquals(Assert.java:647)
+	at com.vrg.standalone.ClusterTest.verifyCluster(ClusterTest.java:590)
+	at com.vrg.standalone.ClusterTest.waitAndVerifyAgreement(ClusterTest.java:647)
+	at com.vrg.standalone.ClusterTest.run(ClusterTest.java:370)
+	at com.vrg.standalone.ClusterTest.setupCluster(ClusterTest.java:174)
+	at com.vrg.standalone.ClusterLauncher.main(ClusterLauncher.java:35)
+Already up to date.
+
+Launching Cluster with settings:
+Base IP: 10.141.132.2
+My IP: 10.137.4.2
+Port: 1234
+Number of nodes: 10
+Test ID: 2
+Target nodes to wait: 180
+Node ID: 5
+Gossip Type: 1
+Initializing cluster...
+Attempt 1: Could not connect to 10.141.132.2:1233
+Successfully connected to the cluster at 10.141.132.2:1233
+Accepted connection from /10.141.132.2
+Cluster is ready with 18 servers. Starting test: 2
+Connected to cluster. Launching 10 nodes...
+WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by com.google.protobuf.UnsafeUtil (file:/home/rocky/gossip_protocol_research/examples/target/ClusterLauncher.jar) to field java.nio.Buffer.address
+WARNING: Please consider reporting this to the maintainers of com.google.protobuf.UnsafeUtil
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release
+Wait for targetNodes: 180
+TargetNodes=180 have joined the cluster.
+TestName: testRejoinSingleNode
+Start time: 171802881 ms
+Port 1242 + view changes to size 179 at 171814068 ms
+Port 1236 + view changes to size 179 at 171814087 ms
+Port 1243 + view changes to size 179 at 171814105 ms
+Port 1235 + view changes to size 179 at 171814108 ms
+Port 1239 + view changes to size 179 at 171814142 ms
+Port 1234 + view changes to size 179 at 171814152 ms
+Port 1240 + view changes to size 179 at 171814175 ms
+Port 1237 + view changes to size 179 at 171814162 ms
+Port 1241 + view changes to size 179 at 171814153 ms
+Port 1238 + view changes to size 179 at 171814181 ms
+Port 1239 + view changes to size 180 at 171815993 ms
+Port 1235 + view changes to size 180 at 171816004 ms
+Port 1237 + view changes to size 180 at 171816021 ms
+Port 1236 + view changes to size 180 at 171816042 ms
+Port 1242 + view changes to size 180 at 171816072 ms
+Port 1234 + view changes to size 180 at 171816086 ms
+Port 1243 + view changes to size 180 at 171816136 ms
+Port 1240 + view changes to size 180 at 171816213 ms
+Port 1241 + view changes to size 180 at 171816314 ms
+Port 1238 + view changes to size 180 at 171816323 ms
+Port 1234 + view changes to size 179 at 171828347 ms
+Port 1235 + view changes to size 179 at 171828358 ms
+Port 1237 + view changes to size 179 at 171828361 ms
+Port 1242 + view changes to size 179 at 171828362 ms
+Port 1239 + view changes to size 179 at 171828375 ms
+Port 1236 + view changes to size 179 at 171828383 ms
+Port 1240 + view changes to size 179 at 171828393 ms
+Port 1243 + view changes to size 179 at 171828400 ms
+Port 1238 + view changes to size 179 at 171828411 ms
+Port 1241 + view changes to size 179 at 171828414 ms
+Port 1239 + view changes to size 180 at 171830971 ms
+Port 1243 + view changes to size 180 at 171830985 ms
+Port 1238 + view changes to size 180 at 171830992 ms
+Port 1237 + view changes to size 180 at 171831003 ms
+Port 1242 + view changes to size 180 at 171831004 ms
+Port 1236 + view changes to size 180 at 171831035 ms
+Port 1234 + view changes to size 180 at 171831056 ms
+Port 1240 + view changes to size 180 at 171831113 ms
+Port 1235 + view changes to size 180 at 171831156 ms
+Port 1241 + view changes to size 180 at 171831208 ms
+Port 1238 + view changes to size 179 at 171843126 ms
+Port 1235 + view changes to size 179 at 171843127 ms
+Port 1243 + view changes to size 179 at 171843133 ms
+Port 1234 + view changes to size 179 at 171843145 ms
+Port 1237 + view changes to size 179 at 171843147 ms
+Port 1242 + view changes to size 179 at 171843155 ms
+Port 1241 + view changes to size 179 at 171843161 ms
+Port 1239 + view changes to size 179 at 171843161 ms
+Port 1236 + view changes to size 179 at 171843162 ms
+Port 1240 + view changes to size 179 at 171843165 ms
+Port 1234 + view changes to size 180 at 171845730 ms
+Port 1236 + view changes to size 180 at 171845732 ms
+Port 1242 + view changes to size 180 at 171845744 ms
+Port 1239 + view changes to size 180 at 171845750 ms
+Port 1238 + view changes to size 180 at 171845769 ms
+Port 1237 + view changes to size 180 at 171845777 ms
+Port 1235 + view changes to size 180 at 171845856 ms
+Port 1240 + view changes to size 180 at 171845856 ms
+Port 1243 + view changes to size 180 at 171845857 ms
+Port 1241 + view changes to size 180 at 171845866 ms
+Port 1239 + view changes to size 179 at 171857727 ms
+Port 1237 + view changes to size 179 at 171857740 ms
+Port 1235 + view changes to size 179 at 171857750 ms
+Port 1242 + view changes to size 179 at 171857757 ms
+Port 1236 + view changes to size 179 at 171857762 ms
+Port 1234 + view changes to size 179 at 171857763 ms
+Port 1238 + view changes to size 179 at 171857768 ms
+Port 1241 + view changes to size 179 at 171857774 ms
+Port 1243 + view changes to size 179 at 171857787 ms
+Port 1240 + view changes to size 179 at 171857787 ms
+Port 1239 + view changes to size 180 at 171860193 ms
+Port 1238 + view changes to size 180 at 171860211 ms
+Port 1236 + view changes to size 180 at 171860251 ms
+Port 1237 + view changes to size 180 at 171860276 ms
+Port 1242 + view changes to size 180 at 171860292 ms
+Port 1234 + view changes to size 180 at 171860301 ms
+Port 1235 + view changes to size 180 at 171860309 ms
+Port 1243 + view changes to size 180 at 171860339 ms
+Port 1240 + view changes to size 180 at 171860413 ms
+Port 1241 + view changes to size 180 at 171860448 ms
+Port 1238 + view changes to size 179 at 171872248 ms
+Port 1239 + view changes to size 179 at 171872263 ms
+Port 1241 + view changes to size 179 at 171872266 ms
+Port 1243 + view changes to size 179 at 171872267 ms
+Port 1234 + view changes to size 179 at 171872274 ms
+Port 1242 + view changes to size 179 at 171872277 ms
+Port 1235 + view changes to size 179 at 171872282 ms
+Port 1237 + view changes to size 179 at 171872299 ms
+Port 1240 + view changes to size 179 at 171872306 ms
+Port 1236 + view changes to size 179 at 171872319 ms
+Port 1239 + view changes to size 180 at 171875049 ms
+Port 1238 + view changes to size 180 at 171875056 ms
+Port 1242 + view changes to size 180 at 171875064 ms
+Port 1235 + view changes to size 180 at 171875070 ms
+Port 1234 + view changes to size 180 at 171875083 ms
+Port 1243 + view changes to size 180 at 171875089 ms
+Port 1241 + view changes to size 180 at 171875093 ms
+Port 1240 + view changes to size 180 at 171875094 ms
+Port 1236 + view changes to size 180 at 171875104 ms
+Port 1237 + view changes to size 180 at 171875107 ms
+Total execution time: 73021 ms
+Already up to date.
+
+Launching Cluster with settings:
+Base IP: 10.141.132.2
+My IP: 10.132.140.2
+Port: 1234
+Number of nodes: 10
+Test ID: 2
+Target nodes to wait: 180
+Node ID: 6
+Gossip Type: 1
+Initializing cluster...
+Attempt 1: Could not connect to 10.141.132.2:1233
+Successfully connected to the cluster at 10.141.132.2:1233
+Accepted connection from /10.141.132.2
+Cluster is ready with 18 servers. Starting test: 2
+Connected to cluster. Launching 10 nodes...
+WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by com.google.protobuf.UnsafeUtil (file:/home/rocky/gossip_protocol_research/examples/target/ClusterLauncher.jar) to field java.nio.Buffer.address
+WARNING: Please consider reporting this to the maintainers of com.google.protobuf.UnsafeUtil
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release
+Wait for targetNodes: 180
+TargetNodes=180 have joined the cluster.
+TestName: testRejoinSingleNode
+Start time: 171785543 ms
+Port 1234 + view changes to size 179 at 171796342 ms
+Port 1240 + view changes to size 179 at 171796370 ms
+Port 1239 + view changes to size 179 at 171796370 ms
+Port 1237 + view changes to size 179 at 171796373 ms
+Port 1236 + view changes to size 179 at 171796385 ms
+Port 1238 + view changes to size 179 at 171796393 ms
+Port 1242 + view changes to size 179 at 171796409 ms
+Port 1243 + view changes to size 179 at 171796444 ms
+Port 1241 + view changes to size 179 at 171796446 ms
+Port 1235 + view changes to size 179 at 171796463 ms
+Port 1241 + view changes to size 180 at 171798501 ms
+Port 1243 + view changes to size 180 at 171798527 ms
+Port 1238 + view changes to size 180 at 171798564 ms
+Port 1242 + view changes to size 180 at 171798624 ms
+Port 1234 + view changes to size 180 at 171798659 ms
+Port 1235 + view changes to size 180 at 171798676 ms
+Port 1237 + view changes to size 180 at 171798719 ms
+Port 1239 + view changes to size 180 at 171798740 ms
+Port 1240 + view changes to size 180 at 171798759 ms
+Port 1236 + view changes to size 180 at 171798822 ms
+Port 1239 + view changes to size 179 at 171810666 ms
+Port 1234 + view changes to size 179 at 171810668 ms
+Port 1243 + view changes to size 179 at 171810670 ms
+Port 1241 + view changes to size 179 at 171810676 ms
+Port 1242 + view changes to size 179 at 171810681 ms
+Port 1240 + view changes to size 179 at 171810685 ms
+Port 1236 + view changes to size 179 at 171810687 ms
+Port 1238 + view changes to size 179 at 171810692 ms
+Port 1237 + view changes to size 179 at 171810715 ms
+Port 1235 + view changes to size 179 at 171810807 ms
+Port 1243 + view changes to size 180 at 171813213 ms
+Port 1242 + view changes to size 180 at 171813247 ms
+Port 1240 + view changes to size 180 at 171813374 ms
+Port 1234 + view changes to size 180 at 171813375 ms
+Port 1237 + view changes to size 180 at 171813378 ms
+Port 1241 + view changes to size 180 at 171813386 ms
+Port 1239 + view changes to size 180 at 171813392 ms
+Port 1235 + view changes to size 180 at 171813393 ms
+Port 1238 + view changes to size 180 at 171813408 ms
+Port 1236 + view changes to size 180 at 171813427 ms
+Port 1243 + view changes to size 179 at 171825369 ms
+Port 1234 + view changes to size 179 at 171825371 ms
+Port 1240 + view changes to size 179 at 171825373 ms
+Port 1235 + view changes to size 179 at 171825390 ms
+Port 1241 + view changes to size 179 at 171825393 ms
+Port 1237 + view changes to size 179 at 171825407 ms
+Port 1242 + view changes to size 179 at 171825412 ms
+Port 1238 + view changes to size 179 at 171825414 ms
+Port 1239 + view changes to size 179 at 171825512 ms
+Port 1236 + view changes to size 179 at 171825575 ms
+Port 1243 + view changes to size 180 at 171827982 ms
+Port 1234 + view changes to size 180 at 171827984 ms
+Port 1239 + view changes to size 180 at 171827992 ms
+Port 1240 + view changes to size 180 at 171828020 ms
+Port 1235 + view changes to size 180 at 171828022 ms
+Port 1237 + view changes to size 180 at 171828027 ms
+Port 1236 + view changes to size 180 at 171828027 ms
+Port 1238 + view changes to size 180 at 171828034 ms
+Port 1241 + view changes to size 180 at 171828041 ms
+Port 1242 + view changes to size 180 at 171828125 ms
+Port 1240 + view changes to size 179 at 171840045 ms
+Port 1236 + view changes to size 179 at 171840059 ms
+Port 1238 + view changes to size 179 at 171840113 ms
+Port 1242 + view changes to size 179 at 171840114 ms
+Port 1234 + view changes to size 179 at 171840121 ms
+Port 1235 + view changes to size 179 at 171840129 ms
+Port 1239 + view changes to size 179 at 171840132 ms
+Port 1243 + view changes to size 179 at 171840135 ms
+Port 1241 + view changes to size 179 at 171840137 ms
+Port 1237 + view changes to size 179 at 171840442 ms
+Port 1239 + view changes to size 180 at 171842531 ms
+Port 1243 + view changes to size 180 at 171842539 ms
+Port 1241 + view changes to size 180 at 171842546 ms
+Port 1240 + view changes to size 180 at 171842548 ms
+Port 1235 + view changes to size 180 at 171842549 ms
+Port 1234 + view changes to size 180 at 171842553 ms
+Port 1238 + view changes to size 180 at 171842556 ms
+Port 1236 + view changes to size 180 at 171842606 ms
+Port 1242 + view changes to size 180 at 171842617 ms
+Port 1237 + view changes to size 180 at 171842618 ms
+Port 1234 + view changes to size 179 at 171854559 ms
+Port 1241 + view changes to size 179 at 171854568 ms
+Port 1240 + view changes to size 179 at 171854568 ms
+Port 1238 + view changes to size 179 at 171854569 ms
+Port 1236 + view changes to size 179 at 171854575 ms
+Port 1235 + view changes to size 179 at 171854575 ms
+Port 1243 + view changes to size 179 at 171854578 ms
+Port 1239 + view changes to size 179 at 171854586 ms
+Port 1242 + view changes to size 179 at 171854597 ms
+Port 1237 + view changes to size 179 at 171854601 ms
+Port 1240 + view changes to size 180 at 171857316 ms
+Port 1235 + view changes to size 180 at 171857320 ms
+Port 1242 + view changes to size 180 at 171857322 ms
+Port 1238 + view changes to size 180 at 171857336 ms
+Port 1239 + view changes to size 180 at 171857346 ms
+Port 1234 + view changes to size 180 at 171857346 ms
+Port 1243 + view changes to size 180 at 171857347 ms
+Port 1241 + view changes to size 180 at 171857348 ms
+Port 1237 + view changes to size 180 at 171857353 ms
+Port 1236 + view changes to size 180 at 171857377 ms
+Total execution time: 72180 ms
+Already up to date.
+
+Launching Cluster with settings:
+Base IP: 10.141.132.2
+My IP: 10.140.6.2
+Port: 1234
+Number of nodes: 10
+Test ID: 2
+Target nodes to wait: 180
+Node ID: 7
+Gossip Type: 1
+Initializing cluster...
+Attempt 1: Could not connect to 10.141.132.2:1233
+Successfully connected to the cluster at 10.141.132.2:1233
+Accepted connection from /10.141.132.2
+Cluster is ready with 18 servers. Starting test: 2
+Connected to cluster. Launching 10 nodes...
+WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by com.google.protobuf.UnsafeUtil (file:/home/rocky/gossip_protocol_research/examples/target/ClusterLauncher.jar) to field java.nio.Buffer.address
+WARNING: Please consider reporting this to the maintainers of com.google.protobuf.UnsafeUtil
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release
+Wait for targetNodes: 180
+TargetNodes=180 have joined the cluster.
+TestName: testRejoinSingleNode
+Start time: 171778407 ms
+Port 1239 + view changes to size 179 at 171788897 ms
+Port 1240 + view changes to size 179 at 171788931 ms
+Port 1242 + view changes to size 179 at 171788935 ms
+Port 1237 + view changes to size 179 at 171788942 ms
+Port 1236 + view changes to size 179 at 171788959 ms
+Port 1235 + view changes to size 179 at 171788963 ms
+Port 1243 + view changes to size 179 at 171788969 ms
+Port 1241 + view changes to size 179 at 171788987 ms
+Port 1238 + view changes to size 179 at 171789011 ms
+Port 1234 + view changes to size 179 at 171789152 ms
+Port 1237 + view changes to size 180 at 171790922 ms
+Port 1240 + view changes to size 180 at 171790988 ms
+Port 1236 + view changes to size 180 at 171791024 ms
+Port 1234 + view changes to size 180 at 171791032 ms
+Port 1235 + view changes to size 180 at 171791086 ms
+Port 1241 + view changes to size 180 at 171791105 ms
+Port 1238 + view changes to size 180 at 171791117 ms
+Port 1243 + view changes to size 180 at 171791143 ms
+Port 1242 + view changes to size 180 at 171791210 ms
+Port 1239 + view changes to size 180 at 171791523 ms
+Port 1239 + view changes to size 179 at 171803190 ms
+Port 1240 + view changes to size 179 at 171803210 ms
+Port 1234 + view changes to size 179 at 171803219 ms
+Port 1241 + view changes to size 179 at 171803220 ms
+Port 1237 + view changes to size 179 at 171803254 ms
+Port 1242 + view changes to size 179 at 171803265 ms
+Port 1243 + view changes to size 179 at 171803278 ms
+Port 1238 + view changes to size 179 at 171803508 ms
+Port 1235 + view changes to size 179 at 171803548 ms
+Port 1236 + view changes to size 179 at 171803555 ms
+Port 1235 + view changes to size 180 at 171805783 ms
+Port 1239 + view changes to size 180 at 171805800 ms
+Port 1234 + view changes to size 180 at 171805801 ms
+Port 1237 + view changes to size 180 at 171805863 ms
+Port 1238 + view changes to size 180 at 171805869 ms
+Port 1241 + view changes to size 180 at 171805875 ms
+Port 1243 + view changes to size 180 at 171805887 ms
+Port 1242 + view changes to size 180 at 171805904 ms
+Port 1240 + view changes to size 180 at 171805912 ms
+Port 1236 + view changes to size 180 at 171805928 ms
+Port 1240 + view changes to size 179 at 171817919 ms
+Port 1234 + view changes to size 179 at 171817956 ms
+Port 1235 + view changes to size 179 at 171817964 ms
+Port 1239 + view changes to size 179 at 171817966 ms
+Port 1238 + view changes to size 179 at 171817977 ms
+Port 1237 + view changes to size 179 at 171817981 ms
+Port 1236 + view changes to size 179 at 171817996 ms
+Port 1243 + view changes to size 179 at 171818019 ms
+Port 1242 + view changes to size 179 at 171818064 ms
+Port 1241 + view changes to size 179 at 171818114 ms
+Port 1239 + view changes to size 180 at 171820520 ms
+Port 1235 + view changes to size 180 at 171820536 ms
+Port 1234 + view changes to size 180 at 171820542 ms
+Port 1236 + view changes to size 180 at 171820603 ms
+Port 1240 + view changes to size 180 at 171820604 ms
+Port 1243 + view changes to size 180 at 171820605 ms
+Port 1237 + view changes to size 180 at 171820617 ms
+Port 1242 + view changes to size 180 at 171820622 ms
+Port 1241 + view changes to size 180 at 171820822 ms
+Port 1238 + view changes to size 180 at 171820827 ms
+Port 1241 + view changes to size 179 at 171832651 ms
+Port 1240 + view changes to size 179 at 171832652 ms
+Port 1239 + view changes to size 179 at 171832652 ms
+Port 1237 + view changes to size 179 at 171832678 ms
+Port 1234 + view changes to size 179 at 171832679 ms
+Port 1243 + view changes to size 179 at 171832693 ms
+Port 1236 + view changes to size 179 at 171832700 ms
+Port 1242 + view changes to size 179 at 171832724 ms
+Port 1235 + view changes to size 179 at 171832728 ms
+Port 1238 + view changes to size 179 at 171832734 ms
+Port 1235 + view changes to size 180 at 171835099 ms
+Port 1243 + view changes to size 180 at 171835132 ms
+Port 1237 + view changes to size 180 at 171835140 ms
+Port 1240 + view changes to size 180 at 171835154 ms
+Port 1238 + view changes to size 180 at 171835194 ms
+Port 1236 + view changes to size 180 at 171835210 ms
+Port 1241 + view changes to size 180 at 171835211 ms
+Port 1242 + view changes to size 180 at 171835234 ms
+Port 1239 + view changes to size 180 at 171835448 ms
+Port 1234 + view changes to size 180 at 171835505 ms
+Port 1240 + view changes to size 179 at 171847092 ms
+Port 1241 + view changes to size 179 at 171847110 ms
+Port 1234 + view changes to size 179 at 171847112 ms
+Port 1242 + view changes to size 179 at 171847121 ms
+Port 1238 + view changes to size 179 at 171847138 ms
+Port 1239 + view changes to size 179 at 171847149 ms
+Port 1235 + view changes to size 179 at 171847163 ms
+Port 1236 + view changes to size 179 at 171847170 ms
+Port 1243 + view changes to size 179 at 171847181 ms
+Port 1237 + view changes to size 179 at 171847419 ms
+Port 1242 + view changes to size 180 at 171849886 ms
+Port 1237 + view changes to size 180 at 171849984 ms
+Port 1243 + view changes to size 180 at 171849987 ms
+Port 1240 + view changes to size 180 at 171849998 ms
+Port 1238 + view changes to size 180 at 171849999 ms
+Port 1241 + view changes to size 180 at 171850000 ms
+Port 1235 + view changes to size 180 at 171850013 ms
+Port 1239 + view changes to size 180 at 171850014 ms
+Port 1234 + view changes to size 180 at 171850036 ms
+Port 1236 + view changes to size 180 at 171850167 ms
+Total execution time: 72088 ms
+Already up to date.
+
+Launching Cluster with settings:
+Base IP: 10.141.132.2
+My IP: 10.131.6.2
+Port: 1234
+Number of nodes: 10
+Test ID: 2
+Target nodes to wait: 180
+Node ID: 8
+Gossip Type: 1
+Initializing cluster...
+Attempt 1: Could not connect to 10.141.132.2:1233
+Successfully connected to the cluster at 10.141.132.2:1233
+Accepted connection from /10.141.132.2
+Cluster is ready with 18 servers. Starting test: 2
+Connected to cluster. Launching 10 nodes...
+WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by com.google.protobuf.UnsafeUtil (file:/home/rocky/gossip_protocol_research/examples/target/ClusterLauncher.jar) to field java.nio.Buffer.address
+WARNING: Please consider reporting this to the maintainers of com.google.protobuf.UnsafeUtil
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release
+Wait for targetNodes: 180
+TargetNodes=180 have joined the cluster.
+TestName: testRejoinSingleNode
+Start time: 171798878 ms
+Port 1240 + view changes to size 179 at 171809330 ms
+Port 1239 + view changes to size 179 at 171809370 ms
+Port 1238 + view changes to size 179 at 171809380 ms
+Port 1236 + view changes to size 179 at 171809384 ms
+Port 1241 + view changes to size 179 at 171809384 ms
+Port 1242 + view changes to size 179 at 171809400 ms
+Port 1235 + view changes to size 179 at 171809431 ms
+Port 1243 + view changes to size 179 at 171809433 ms
+Port 1234 + view changes to size 179 at 171809437 ms
+Port 1237 + view changes to size 179 at 171809439 ms
+Port 1242 + view changes to size 180 at 171811220 ms
+Port 1243 + view changes to size 180 at 171811417 ms
+Port 1235 + view changes to size 180 at 171811457 ms
+Port 1236 + view changes to size 180 at 171811477 ms
+Port 1238 + view changes to size 180 at 171811505 ms
+Port 1239 + view changes to size 180 at 171811559 ms
+Port 1240 + view changes to size 180 at 171811605 ms
+Port 1237 + view changes to size 180 at 171811674 ms
+Port 1234 + view changes to size 180 at 171811694 ms
+Port 1241 + view changes to size 180 at 171811717 ms
+Port 1241 + view changes to size 179 at 171823639 ms
+Port 1236 + view changes to size 179 at 171823640 ms
+Port 1240 + view changes to size 179 at 171823650 ms
+Port 1239 + view changes to size 179 at 171823660 ms
+Port 1242 + view changes to size 179 at 171823677 ms
+Port 1243 + view changes to size 179 at 171823685 ms
+Port 1235 + view changes to size 179 at 171823688 ms
+Port 1238 + view changes to size 179 at 171823691 ms
+Port 1234 + view changes to size 179 at 171823694 ms
+Port 1237 + view changes to size 179 at 171823704 ms
+Port 1243 + view changes to size 180 at 171826127 ms
+Port 1242 + view changes to size 180 at 171826175 ms
+Port 1238 + view changes to size 180 at 171826287 ms
+Port 1240 + view changes to size 180 at 171826293 ms
+Port 1241 + view changes to size 180 at 171826330 ms
+Port 1235 + view changes to size 180 at 171826343 ms
+Port 1239 + view changes to size 180 at 171826349 ms
+Port 1234 + view changes to size 180 at 171826382 ms
+Port 1237 + view changes to size 180 at 171826390 ms
+Port 1236 + view changes to size 180 at 171826395 ms
+Port 1241 + view changes to size 179 at 171838337 ms
+Port 1240 + view changes to size 179 at 171838350 ms
+Port 1234 + view changes to size 179 at 171838364 ms
+Port 1243 + view changes to size 179 at 171838367 ms
+Port 1237 + view changes to size 179 at 171838371 ms
+Port 1236 + view changes to size 179 at 171838373 ms
+Port 1242 + view changes to size 179 at 171838382 ms
+Port 1238 + view changes to size 179 at 171838384 ms
+Port 1239 + view changes to size 179 at 171838386 ms
+Port 1235 + view changes to size 179 at 171838409 ms
+Port 1243 + view changes to size 180 at 171840966 ms
+Port 1240 + view changes to size 180 at 171840976 ms
+Port 1234 + view changes to size 180 at 171841024 ms
+Port 1235 + view changes to size 180 at 171841028 ms
+Port 1241 + view changes to size 180 at 171841035 ms
+Port 1238 + view changes to size 180 at 171841039 ms
+Port 1242 + view changes to size 180 at 171841043 ms
+Port 1239 + view changes to size 180 at 171841066 ms
+Port 1236 + view changes to size 180 at 171841204 ms
+Port 1237 + view changes to size 180 at 171841231 ms
+Port 1236 + view changes to size 179 at 171853013 ms
+Port 1237 + view changes to size 179 at 171853026 ms
+Port 1235 + view changes to size 179 at 171853044 ms
+Port 1243 + view changes to size 179 at 171853046 ms
+Port 1239 + view changes to size 179 at 171853060 ms
+Port 1240 + view changes to size 179 at 171853060 ms
+Port 1238 + view changes to size 179 at 171853062 ms
+Port 1242 + view changes to size 179 at 171853072 ms
+Port 1241 + view changes to size 179 at 171853093 ms
+Port 1234 + view changes to size 179 at 171853111 ms
+Port 1243 + view changes to size 180 at 171855405 ms
+Port 1242 + view changes to size 180 at 171855466 ms
+Port 1235 + view changes to size 180 at 171855481 ms
+Port 1239 + view changes to size 180 at 171855550 ms
+Port 1241 + view changes to size 180 at 171855553 ms
+Port 1238 + view changes to size 180 at 171855578 ms
+Port 1240 + view changes to size 180 at 171855581 ms
+Port 1234 + view changes to size 180 at 171855601 ms
+Port 1236 + view changes to size 180 at 171855686 ms
+Port 1237 + view changes to size 180 at 171855711 ms
+Port 1243 + view changes to size 179 at 171867541 ms
+Port 1236 + view changes to size 179 at 171867542 ms
+Port 1234 + view changes to size 179 at 171867545 ms
+Port 1237 + view changes to size 179 at 171867546 ms
+Port 1241 + view changes to size 179 at 171867555 ms
+Port 1235 + view changes to size 179 at 171867559 ms
+Port 1239 + view changes to size 179 at 171867562 ms
+Port 1238 + view changes to size 179 at 171867567 ms
+Port 1240 + view changes to size 179 at 171867590 ms
+Port 1242 + view changes to size 179 at 171867598 ms
+Port 1240 + view changes to size 180 at 171870295 ms
+Port 1242 + view changes to size 180 at 171870307 ms
+Port 1243 + view changes to size 180 at 171870310 ms
+Port 1235 + view changes to size 180 at 171870339 ms
+Port 1236 + view changes to size 180 at 171870340 ms
+Port 1234 + view changes to size 180 at 171870345 ms
+Port 1241 + view changes to size 180 at 171870346 ms
+Port 1239 + view changes to size 180 at 171870353 ms
+Port 1238 + view changes to size 180 at 171870357 ms
+Port 1237 + view changes to size 180 at 171870388 ms
+Total execution time: 72028 ms
+Already up to date.
+
+Launching Cluster with settings:
+Base IP: 10.141.132.2
+My IP: 10.144.5.2
+Port: 1234
+Number of nodes: 10
+Test ID: 2
+Target nodes to wait: 180
+Node ID: 9
+Gossip Type: 1
+Initializing cluster...
+Successfully connected to the cluster at 10.141.132.2:1233
+Accepted connection from /10.141.132.2
+Cluster is ready with 18 servers. Starting test: 2
+Connected to cluster. Launching 10 nodes...
+WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by com.google.protobuf.UnsafeUtil (file:/home/rocky/gossip_protocol_research/examples/target/ClusterLauncher.jar) to field java.nio.Buffer.address
+WARNING: Please consider reporting this to the maintainers of com.google.protobuf.UnsafeUtil
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release
+Wait for targetNodes: 180
+TargetNodes=180 have joined the cluster.
+TestName: testRejoinSingleNode
+Start time: 171772864 ms
+Port 1239 + view changes to size 179 at 171783151 ms
+Port 1238 + view changes to size 179 at 171783214 ms
+Port 1242 + view changes to size 179 at 171783227 ms
+Port 1235 + view changes to size 179 at 171783250 ms
+Port 1240 + view changes to size 179 at 171783301 ms
+Port 1241 + view changes to size 179 at 171783305 ms
+Port 1237 + view changes to size 179 at 171783315 ms
+Port 1234 + view changes to size 179 at 171783319 ms
+Port 1236 + view changes to size 179 at 171783332 ms
+Port 1243 + view changes to size 179 at 171783346 ms
+Port 1239 + view changes to size 180 at 171785139 ms
+Port 1236 + view changes to size 180 at 171785171 ms
+Port 1235 + view changes to size 180 at 171785270 ms
+Port 1242 + view changes to size 180 at 171785280 ms
+Port 1238 + view changes to size 180 at 171785286 ms
+Port 1241 + view changes to size 180 at 171785315 ms
+Port 1237 + view changes to size 180 at 171785354 ms
+Port 1240 + view changes to size 180 at 171785449 ms
+Port 1234 + view changes to size 180 at 171785567 ms
+Port 1243 + view changes to size 180 at 171786316 ms
+Port 1239 + view changes to size 179 at 171797461 ms
+Port 1235 + view changes to size 179 at 171797466 ms
+Port 1236 + view changes to size 179 at 171797470 ms
+Port 1240 + view changes to size 179 at 171797490 ms
+Port 1238 + view changes to size 179 at 171797504 ms
+Port 1242 + view changes to size 179 at 171797506 ms
+Port 1234 + view changes to size 179 at 171797507 ms
+Port 1237 + view changes to size 179 at 171797509 ms
+Port 1241 + view changes to size 179 at 171797522 ms
+Port 1243 + view changes to size 179 at 171797528 ms
+Port 1239 + view changes to size 180 at 171800157 ms
+Port 1236 + view changes to size 180 at 171800194 ms
+Port 1235 + view changes to size 180 at 171800209 ms
+Port 1238 + view changes to size 180 at 171800229 ms
+Port 1242 + view changes to size 180 at 171800251 ms
+Port 1237 + view changes to size 180 at 171800255 ms
+Port 1240 + view changes to size 180 at 171800262 ms
+Port 1241 + view changes to size 180 at 171800341 ms
+Port 1234 + view changes to size 180 at 171800447 ms
+Port 1243 + view changes to size 180 at 171800505 ms
+Port 1242 + view changes to size 179 at 171812179 ms
+Port 1239 + view changes to size 179 at 171812180 ms
+Port 1238 + view changes to size 179 at 171812201 ms
+Port 1236 + view changes to size 179 at 171812203 ms
+Port 1240 + view changes to size 179 at 171812206 ms
+Port 1241 + view changes to size 179 at 171812212 ms
+Port 1237 + view changes to size 179 at 171812221 ms
+Port 1234 + view changes to size 179 at 171812224 ms
+Port 1243 + view changes to size 179 at 171812235 ms
+Port 1235 + view changes to size 179 at 171812235 ms
+Port 1239 + view changes to size 180 at 171814861 ms
+Port 1240 + view changes to size 180 at 171814899 ms
+Port 1238 + view changes to size 180 at 171814906 ms
+Port 1236 + view changes to size 180 at 171814920 ms
+Port 1235 + view changes to size 180 at 171814923 ms
+Port 1242 + view changes to size 180 at 171814937 ms
+Port 1237 + view changes to size 180 at 171814995 ms
+Port 1241 + view changes to size 180 at 171815037 ms
+Port 1243 + view changes to size 180 at 171815041 ms
+Port 1234 + view changes to size 180 at 171815193 ms
+Port 1239 + view changes to size 179 at 171826856 ms
+Port 1242 + view changes to size 179 at 171826860 ms
+Port 1235 + view changes to size 179 at 171826869 ms
+Port 1236 + view changes to size 179 at 171826873 ms
+Port 1241 + view changes to size 179 at 171826880 ms
+Port 1237 + view changes to size 179 at 171826885 ms
+Port 1238 + view changes to size 179 at 171826890 ms
+Port 1240 + view changes to size 179 at 171826892 ms
+Port 1234 + view changes to size 179 at 171826916 ms
+Port 1243 + view changes to size 179 at 171826919 ms
+Port 1235 + view changes to size 180 at 171829415 ms
+Port 1236 + view changes to size 180 at 171829451 ms
+Port 1239 + view changes to size 180 at 171829455 ms
+Port 1242 + view changes to size 180 at 171829508 ms
+Port 1238 + view changes to size 180 at 171829512 ms
+Port 1241 + view changes to size 180 at 171829538 ms
+Port 1240 + view changes to size 180 at 171829540 ms
+Port 1237 + view changes to size 180 at 171829564 ms
+Port 1243 + view changes to size 180 at 171829830 ms
+Port 1234 + view changes to size 180 at 171830026 ms
+Port 1242 + view changes to size 179 at 171841366 ms
+Port 1239 + view changes to size 179 at 171841372 ms
+Port 1236 + view changes to size 179 at 171841375 ms
+Port 1240 + view changes to size 179 at 171841387 ms
+Port 1234 + view changes to size 179 at 171841390 ms
+Port 1241 + view changes to size 179 at 171841406 ms
+Port 1238 + view changes to size 179 at 171841411 ms
+Port 1243 + view changes to size 179 at 171841414 ms
+Port 1237 + view changes to size 179 at 171841417 ms
+Port 1235 + view changes to size 179 at 171841425 ms
+Port 1240 + view changes to size 180 at 171844169 ms
+Port 1235 + view changes to size 180 at 171844195 ms
+Port 1239 + view changes to size 180 at 171844202 ms
+Port 1236 + view changes to size 180 at 171844217 ms
+Port 1242 + view changes to size 180 at 171844230 ms
+Port 1238 + view changes to size 180 at 171844237 ms
+Port 1237 + view changes to size 180 at 171844253 ms
+Port 1241 + view changes to size 180 at 171844341 ms
+Port 1243 + view changes to size 180 at 171844413 ms
+Port 1234 + view changes to size 180 at 171844495 ms
+Total execution time: 72032 ms
+Already up to date.
+
+Launching Cluster with settings:
+Base IP: 10.141.132.2
+My IP: 10.130.8.2
+Port: 1234
+Number of nodes: 10
+Test ID: 2
+Target nodes to wait: 180
+Node ID: 10
+Gossip Type: 1
+Initializing cluster...
+Attempt 1: Could not connect to 10.141.132.2:1233
+Successfully connected to the cluster at 10.141.132.2:1233
+Accepted connection from /10.141.132.2
+Cluster is ready with 18 servers. Starting test: 2
+Connected to cluster. Launching 10 nodes...
+WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by com.google.protobuf.UnsafeUtil (file:/home/rocky/gossip_protocol_research/examples/target/ClusterLauncher.jar) to field java.nio.Buffer.address
+WARNING: Please consider reporting this to the maintainers of com.google.protobuf.UnsafeUtil
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release
+Wait for targetNodes: 180
+TargetNodes=180 have joined the cluster.
+TestName: testRejoinSingleNode
+Start time: 171799976 ms
+Port 1243 + view changes to size 179 at 171810448 ms
+Port 1238 + view changes to size 179 at 171810462 ms
+Port 1237 + view changes to size 179 at 171810471 ms
+Port 1242 + view changes to size 179 at 171810474 ms
+Port 1239 + view changes to size 179 at 171810477 ms
+Port 1235 + view changes to size 179 at 171810490 ms
+Port 1241 + view changes to size 179 at 171810490 ms
+Port 1234 + view changes to size 179 at 171810508 ms
+Port 1236 + view changes to size 179 at 171810520 ms
+Port 1240 + view changes to size 179 at 171810525 ms
+Port 1241 + view changes to size 180 at 171812412 ms
+Port 1238 + view changes to size 180 at 171812583 ms
+Port 1236 + view changes to size 180 at 171812605 ms
+Port 1234 + view changes to size 180 at 171812621 ms
+Port 1240 + view changes to size 180 at 171812635 ms
+Port 1243 + view changes to size 180 at 171812655 ms
+Port 1239 + view changes to size 180 at 171812670 ms
+Port 1235 + view changes to size 180 at 171812786 ms
+Port 1242 + view changes to size 180 at 171812821 ms
+Port 1237 + view changes to size 180 at 171812824 ms
+Port 1239 + view changes to size 179 at 171824728 ms
+Port 1238 + view changes to size 179 at 171824743 ms
+Port 1240 + view changes to size 179 at 171824777 ms
+Port 1234 + view changes to size 179 at 171824806 ms
+Port 1243 + view changes to size 179 at 171824808 ms
+Port 1237 + view changes to size 179 at 171824811 ms
+Port 1236 + view changes to size 179 at 171824818 ms
+Port 1242 + view changes to size 179 at 171824820 ms
+Port 1241 + view changes to size 179 at 171824829 ms
+Port 1235 + view changes to size 179 at 171824858 ms
+Port 1239 + view changes to size 180 at 171827389 ms
+Port 1238 + view changes to size 180 at 171827393 ms
+Port 1243 + view changes to size 180 at 171827396 ms
+Port 1235 + view changes to size 180 at 171827408 ms
+Port 1236 + view changes to size 180 at 171827433 ms
+Port 1237 + view changes to size 180 at 171827436 ms
+Port 1242 + view changes to size 180 at 171827440 ms
+Port 1234 + view changes to size 180 at 171827535 ms
+Port 1240 + view changes to size 180 at 171827559 ms
+Port 1241 + view changes to size 180 at 171827596 ms
+Port 1242 + view changes to size 179 at 171839454 ms
+Port 1238 + view changes to size 179 at 171839461 ms
+Port 1240 + view changes to size 179 at 171839508 ms
+Port 1243 + view changes to size 179 at 171839509 ms
+Port 1239 + view changes to size 179 at 171839514 ms
+Port 1234 + view changes to size 179 at 171839531 ms
+Port 1237 + view changes to size 179 at 171839534 ms
+Port 1235 + view changes to size 179 at 171839536 ms
+Port 1236 + view changes to size 179 at 171839552 ms
+Port 1241 + view changes to size 179 at 171839566 ms
+Port 1243 + view changes to size 180 at 171842083 ms
+Port 1239 + view changes to size 180 at 171842094 ms
+Port 1235 + view changes to size 180 at 171842099 ms
+Port 1238 + view changes to size 180 at 171842103 ms
+Port 1242 + view changes to size 180 at 171842106 ms
+Port 1236 + view changes to size 180 at 171842113 ms
+Port 1234 + view changes to size 180 at 171842135 ms
+Port 1237 + view changes to size 180 at 171842149 ms
+Port 1240 + view changes to size 180 at 171842220 ms
+Port 1241 + view changes to size 180 at 171842220 ms
+Port 1239 + view changes to size 179 at 171854121 ms
+Port 1242 + view changes to size 179 at 171854125 ms
+Port 1237 + view changes to size 179 at 171854149 ms
+Port 1241 + view changes to size 179 at 171854149 ms
+Port 1236 + view changes to size 179 at 171854150 ms
+Port 1234 + view changes to size 179 at 171854166 ms
+Port 1240 + view changes to size 179 at 171854180 ms
+Port 1238 + view changes to size 179 at 171854216 ms
+Port 1243 + view changes to size 179 at 171854260 ms
+Port 1235 + view changes to size 179 at 171854287 ms
+Port 1239 + view changes to size 180 at 171856629 ms
+Port 1238 + view changes to size 180 at 171856635 ms
+Port 1236 + view changes to size 180 at 171856639 ms
+Port 1235 + view changes to size 180 at 171856648 ms
+Port 1234 + view changes to size 180 at 171856652 ms
+Port 1241 + view changes to size 180 at 171856666 ms
+Port 1237 + view changes to size 180 at 171856679 ms
+Port 1243 + view changes to size 180 at 171856693 ms
+Port 1242 + view changes to size 180 at 171856698 ms
+Port 1240 + view changes to size 180 at 171856719 ms
+Port 1238 + view changes to size 179 at 171868625 ms
+Port 1237 + view changes to size 179 at 171868634 ms
+Port 1243 + view changes to size 179 at 171868650 ms
+Port 1239 + view changes to size 179 at 171868651 ms
+Port 1242 + view changes to size 179 at 171868663 ms
+Port 1236 + view changes to size 179 at 171868688 ms
+Port 1235 + view changes to size 179 at 171868691 ms
+Port 1240 + view changes to size 179 at 171868696 ms
+Port 1241 + view changes to size 179 at 171868734 ms
+Port 1234 + view changes to size 179 at 171868751 ms
+Port 1239 + view changes to size 180 at 171871375 ms
+Port 1243 + view changes to size 180 at 171871399 ms
+Port 1234 + view changes to size 180 at 171871404 ms
+Port 1238 + view changes to size 180 at 171871412 ms
+Port 1235 + view changes to size 180 at 171871421 ms
+Port 1237 + view changes to size 180 at 171871432 ms
+Port 1242 + view changes to size 180 at 171871448 ms
+Port 1236 + view changes to size 180 at 171871462 ms
+Port 1240 + view changes to size 180 at 171871493 ms
+Port 1241 + view changes to size 180 at 171871638 ms
+Total execution time: 72045 ms
+Already up to date.
+
+Launching Cluster with settings:
+Base IP: 10.141.132.2
+My IP: 10.143.11.2
+Port: 1234
+Number of nodes: 10
+Test ID: 2
+Target nodes to wait: 180
+Node ID: 11
+Gossip Type: 1
+Initializing cluster...
+Successfully connected to the cluster at 10.141.132.2:1233
+Accepted connection from /10.141.132.2
+Cluster is ready with 18 servers. Starting test: 2
+Connected to cluster. Launching 10 nodes...
+WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by com.google.protobuf.UnsafeUtil (file:/home/rocky/gossip_protocol_research/examples/target/ClusterLauncher.jar) to field java.nio.Buffer.address
+WARNING: Please consider reporting this to the maintainers of com.google.protobuf.UnsafeUtil
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release
+Wait for targetNodes: 180
+TargetNodes=180 have joined the cluster.
+TestName: testRejoinSingleNode
+Start time: 171797901 ms
+Port 1239 + view changes to size 179 at 171807566 ms
+Port 1234 + view changes to size 179 at 171807567 ms
+Port 1237 + view changes to size 179 at 171807582 ms
+Port 1243 + view changes to size 179 at 171807585 ms
+Port 1236 + view changes to size 179 at 171807586 ms
+Port 1235 + view changes to size 179 at 171807590 ms
+Port 1238 + view changes to size 179 at 171807600 ms
+Port 1241 + view changes to size 179 at 171807620 ms
+Port 1240 + view changes to size 179 at 171807640 ms
+Port 1242 + view changes to size 179 at 171807826 ms
+Port 1242 + view changes to size 180 at 171809729 ms
+Port 1236 + view changes to size 180 at 171809739 ms
+Port 1241 + view changes to size 180 at 171809812 ms
+Port 1243 + view changes to size 180 at 171809816 ms
+Port 1237 + view changes to size 180 at 171809849 ms
+Port 1235 + view changes to size 180 at 171809858 ms
+Port 1239 + view changes to size 180 at 171809919 ms
+Port 1234 + view changes to size 180 at 171809993 ms
+Port 1238 + view changes to size 180 at 171810038 ms
+Port 1240 + view changes to size 180 at 171810060 ms
+Port 1243 + view changes to size 179 at 171821804 ms
+Port 1239 + view changes to size 179 at 171821813 ms
+Port 1240 + view changes to size 179 at 171821815 ms
+Port 1241 + view changes to size 179 at 171821821 ms
+Port 1237 + view changes to size 179 at 171821835 ms
+Port 1234 + view changes to size 179 at 171821835 ms
+Port 1236 + view changes to size 179 at 171821850 ms
+Port 1235 + view changes to size 179 at 171821866 ms
+Port 1238 + view changes to size 179 at 171821867 ms
+Port 1242 + view changes to size 179 at 171821869 ms
+Port 1235 + view changes to size 180 at 171824475 ms
+Port 1241 + view changes to size 180 at 171824512 ms
+Port 1239 + view changes to size 180 at 171824563 ms
+Port 1242 + view changes to size 180 at 171824573 ms
+Port 1236 + view changes to size 180 at 171824592 ms
+Port 1243 + view changes to size 180 at 171824635 ms
+Port 1237 + view changes to size 180 at 171824639 ms
+Port 1240 + view changes to size 180 at 171824653 ms
+Port 1234 + view changes to size 180 at 171824802 ms
+Port 1238 + view changes to size 180 at 171824937 ms
+Port 1242 + view changes to size 179 at 171836522 ms
+Port 1237 + view changes to size 179 at 171836527 ms
+Port 1236 + view changes to size 179 at 171836536 ms
+Port 1241 + view changes to size 179 at 171836546 ms
+Port 1235 + view changes to size 179 at 171836554 ms
+Port 1239 + view changes to size 179 at 171836566 ms
+Port 1240 + view changes to size 179 at 171836568 ms
+Port 1238 + view changes to size 179 at 171836571 ms
+Port 1234 + view changes to size 179 at 171836578 ms
+Port 1243 + view changes to size 179 at 171836636 ms
+Port 1235 + view changes to size 180 at 171839182 ms
+Port 1241 + view changes to size 180 at 171839190 ms
+Port 1243 + view changes to size 180 at 171839265 ms
+Port 1239 + view changes to size 180 at 171839269 ms
+Port 1242 + view changes to size 180 at 171839271 ms
+Port 1240 + view changes to size 180 at 171839290 ms
+Port 1236 + view changes to size 180 at 171839303 ms
+Port 1237 + view changes to size 180 at 171839335 ms
+Port 1234 + view changes to size 180 at 171839517 ms
+Port 1238 + view changes to size 180 at 171839578 ms
+Port 1243 + view changes to size 179 at 171851199 ms
+Port 1235 + view changes to size 179 at 171851200 ms
+Port 1239 + view changes to size 179 at 171851203 ms
+Port 1241 + view changes to size 179 at 171851208 ms
+Port 1242 + view changes to size 179 at 171851214 ms
+Port 1238 + view changes to size 179 at 171851226 ms
+Port 1237 + view changes to size 179 at 171851227 ms
+Port 1236 + view changes to size 179 at 171851230 ms
+Port 1240 + view changes to size 179 at 171851235 ms
+Port 1234 + view changes to size 179 at 171851246 ms
+Port 1235 + view changes to size 180 at 171853762 ms
+Port 1241 + view changes to size 180 at 171853771 ms
+Port 1239 + view changes to size 180 at 171853837 ms
+Port 1242 + view changes to size 180 at 171853863 ms
+Port 1243 + view changes to size 180 at 171853874 ms
+Port 1240 + view changes to size 180 at 171853881 ms
+Port 1237 + view changes to size 180 at 171853884 ms
+Port 1236 + view changes to size 180 at 171853910 ms
+Port 1234 + view changes to size 180 at 171854070 ms
+Port 1238 + view changes to size 180 at 171854161 ms
+Port 1241 + view changes to size 179 at 171865724 ms
+Port 1242 + view changes to size 179 at 171865729 ms
+Port 1237 + view changes to size 179 at 171865732 ms
+Port 1240 + view changes to size 179 at 171865734 ms
+Port 1243 + view changes to size 179 at 171865735 ms
+Port 1236 + view changes to size 179 at 171865742 ms
+Port 1238 + view changes to size 179 at 171865743 ms
+Port 1235 + view changes to size 179 at 171865748 ms
+Port 1239 + view changes to size 179 at 171865762 ms
+Port 1234 + view changes to size 179 at 171865763 ms
+Port 1235 + view changes to size 180 at 171868479 ms
+Port 1239 + view changes to size 180 at 171868509 ms
+Port 1241 + view changes to size 180 at 171868526 ms
+Port 1242 + view changes to size 180 at 171868541 ms
+Port 1240 + view changes to size 180 at 171868550 ms
+Port 1243 + view changes to size 180 at 171868566 ms
+Port 1237 + view changes to size 180 at 171868572 ms
+Port 1236 + view changes to size 180 at 171868686 ms
+Port 1234 + view changes to size 180 at 171868902 ms
+Exception in thread "main" java.lang.AssertionError: Cluster:10.143.11.2:1238 expected:<180> but was:<179>
+	at org.junit.Assert.fail(Assert.java:89)
+	at org.junit.Assert.failNotEquals(Assert.java:835)
+	at org.junit.Assert.assertEquals(Assert.java:647)
+	at com.vrg.standalone.ClusterTest.verifyCluster(ClusterTest.java:590)
+	at com.vrg.standalone.ClusterTest.waitAndVerifyAgreement(ClusterTest.java:647)
+	at com.vrg.standalone.ClusterTest.run(ClusterTest.java:370)
+	at com.vrg.standalone.ClusterTest.setupCluster(ClusterTest.java:174)
+	at com.vrg.standalone.ClusterLauncher.main(ClusterLauncher.java:35)
+Already up to date.
+
+Launching Cluster with settings:
+Base IP: 10.141.132.2
+My IP: 10.134.129.2
+Port: 1234
+Number of nodes: 10
+Test ID: 2
+Target nodes to wait: 180
+Node ID: 12
+Gossip Type: 1
+Initializing cluster...
+Successfully connected to the cluster at 10.141.132.2:1233
+Accepted connection from /10.141.132.2
+Cluster is ready with 18 servers. Starting test: 2
+Connected to cluster. Launching 10 nodes...
+WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by com.google.protobuf.UnsafeUtil (file:/home/rocky/gossip_protocol_research/examples/target/ClusterLauncher.jar) to field java.nio.Buffer.address
+WARNING: Please consider reporting this to the maintainers of com.google.protobuf.UnsafeUtil
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release
+Wait for targetNodes: 180
+TargetNodes=180 have joined the cluster.
+TestName: testRejoinSingleNode
+Start time: 171743276 ms
+Port 1240 + view changes to size 179 at 171754601 ms
+Port 1242 + view changes to size 179 at 171754637 ms
+Port 1243 + view changes to size 179 at 171754672 ms
+Port 1238 + view changes to size 179 at 171754696 ms
+Port 1237 + view changes to size 179 at 171754706 ms
+Port 1235 + view changes to size 179 at 171754722 ms
+Port 1234 + view changes to size 179 at 171754731 ms
+Port 1241 + view changes to size 179 at 171754772 ms
+Port 1239 + view changes to size 179 at 171754816 ms
+Port 1236 + view changes to size 179 at 171754856 ms
+Port 1243 + view changes to size 180 at 171756482 ms
+Port 1239 + view changes to size 180 at 171756594 ms
+Port 1237 + view changes to size 180 at 171756634 ms
+Port 1238 + view changes to size 180 at 171756672 ms
+Port 1240 + view changes to size 180 at 171756789 ms
+Port 1235 + view changes to size 180 at 171756821 ms
+Port 1242 + view changes to size 180 at 171756969 ms
+Port 1241 + view changes to size 180 at 171756991 ms
+Port 1234 + view changes to size 180 at 171757064 ms
+Port 1236 + view changes to size 180 at 171757180 ms
+Port 1243 + view changes to size 179 at 171768862 ms
+Port 1238 + view changes to size 179 at 171768877 ms
+Port 1237 + view changes to size 179 at 171768890 ms
+Port 1239 + view changes to size 179 at 171768894 ms
+Port 1241 + view changes to size 179 at 171768895 ms
+Port 1242 + view changes to size 179 at 171768906 ms
+Port 1240 + view changes to size 179 at 171768909 ms
+Port 1234 + view changes to size 179 at 171768932 ms
+Port 1235 + view changes to size 179 at 171768945 ms
+Port 1236 + view changes to size 179 at 171769019 ms
+Port 1235 + view changes to size 180 at 171771492 ms
+Port 1243 + view changes to size 180 at 171771525 ms
+Port 1238 + view changes to size 180 at 171771544 ms
+Port 1239 + view changes to size 180 at 171771560 ms
+Port 1237 + view changes to size 180 at 171771592 ms
+Port 1241 + view changes to size 180 at 171771613 ms
+Port 1240 + view changes to size 180 at 171771622 ms
+Port 1242 + view changes to size 180 at 171771624 ms
+Port 1236 + view changes to size 180 at 171771681 ms
+Port 1234 + view changes to size 180 at 171771690 ms
+Port 1237 + view changes to size 179 at 171783584 ms
+Port 1243 + view changes to size 179 at 171783590 ms
+Port 1235 + view changes to size 179 at 171783595 ms
+Port 1241 + view changes to size 179 at 171783606 ms
+Port 1236 + view changes to size 179 at 171783629 ms
+Port 1239 + view changes to size 179 at 171783632 ms
+Port 1238 + view changes to size 179 at 171783654 ms
+Port 1240 + view changes to size 179 at 171783810 ms
+Port 1242 + view changes to size 179 at 171783850 ms
+Port 1234 + view changes to size 179 at 171783881 ms
+Port 1243 + view changes to size 180 at 171786239 ms
+Port 1242 + view changes to size 180 at 171786266 ms
+Port 1235 + view changes to size 180 at 171786274 ms
+Port 1238 + view changes to size 180 at 171786280 ms
+Port 1239 + view changes to size 180 at 171786323 ms
+Port 1237 + view changes to size 180 at 171786341 ms
+Port 1240 + view changes to size 180 at 171786351 ms
+Port 1241 + view changes to size 180 at 171786357 ms
+Port 1234 + view changes to size 180 at 171786421 ms
+Port 1236 + view changes to size 180 at 171786503 ms
+Port 1238 + view changes to size 179 at 171798253 ms
+Port 1237 + view changes to size 179 at 171798258 ms
+Port 1235 + view changes to size 179 at 171798394 ms
+Port 1239 + view changes to size 179 at 171798441 ms
+Port 1242 + view changes to size 179 at 171798473 ms
+Port 1243 + view changes to size 179 at 171798450 ms
+Port 1241 + view changes to size 179 at 171798480 ms
+Port 1236 + view changes to size 179 at 171798607 ms
+Port 1240 + view changes to size 179 at 171798609 ms
+Port 1234 + view changes to size 179 at 171798615 ms
+Port 1243 + view changes to size 180 at 171800710 ms
+Port 1235 + view changes to size 180 at 171800743 ms
+Port 1238 + view changes to size 180 at 171800772 ms
+Port 1239 + view changes to size 180 at 171800812 ms
+Port 1237 + view changes to size 180 at 171800813 ms
+Port 1242 + view changes to size 180 at 171800836 ms
+Port 1240 + view changes to size 180 at 171800847 ms
+Port 1241 + view changes to size 180 at 171800997 ms
+Port 1236 + view changes to size 180 at 171801093 ms
+Port 1234 + view changes to size 180 at 171801172 ms
+Port 1243 + view changes to size 179 at 171812770 ms
+Port 1241 + view changes to size 179 at 171812778 ms
+Port 1235 + view changes to size 179 at 171812780 ms
+Port 1237 + view changes to size 179 at 171812787 ms
+Port 1239 + view changes to size 179 at 171812802 ms
+Port 1238 + view changes to size 179 at 171812818 ms
+Port 1234 + view changes to size 179 at 171812840 ms
+Port 1240 + view changes to size 179 at 171812867 ms
+Port 1242 + view changes to size 179 at 171812889 ms
+Port 1236 + view changes to size 179 at 171812897 ms
+Port 1235 + view changes to size 180 at 171815557 ms
+Port 1243 + view changes to size 180 at 171815567 ms
+Port 1238 + view changes to size 180 at 171815575 ms
+Port 1239 + view changes to size 180 at 171815589 ms
+Port 1240 + view changes to size 180 at 171815598 ms
+Port 1242 + view changes to size 180 at 171815636 ms
+Port 1237 + view changes to size 180 at 171815640 ms
+Port 1241 + view changes to size 180 at 171815642 ms
+Port 1236 + view changes to size 180 at 171815687 ms
+Port 1234 + view changes to size 180 at 171815850 ms
+Total execution time: 73070 ms
+Already up to date.
+
+Launching Cluster with settings:
+Base IP: 10.141.132.2
+My IP: 10.145.4.2
+Port: 1234
+Number of nodes: 10
+Test ID: 2
+Target nodes to wait: 180
+Node ID: 13
+Gossip Type: 1
+Initializing cluster...
+Successfully connected to the cluster at 10.141.132.2:1233
+Accepted connection from /10.141.132.2
+Cluster is ready with 18 servers. Starting test: 2
+Connected to cluster. Launching 10 nodes...
+WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by com.google.protobuf.UnsafeUtil (file:/home/rocky/gossip_protocol_research/examples/target/ClusterLauncher.jar) to field java.nio.Buffer.address
+WARNING: Please consider reporting this to the maintainers of com.google.protobuf.UnsafeUtil
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release
+Wait for targetNodes: 180
+TargetNodes=180 have joined the cluster.
+TestName: testRejoinSingleNode
+Start time: 171798079 ms
+Port 1235 + view changes to size 179 at 171808090 ms
+Port 1243 + view changes to size 179 at 171808099 ms
+Port 1236 + view changes to size 179 at 171808100 ms
+Port 1234 + view changes to size 179 at 171808114 ms
+Port 1238 + view changes to size 179 at 171808143 ms
+Port 1242 + view changes to size 179 at 171808150 ms
+Port 1241 + view changes to size 179 at 171808154 ms
+Port 1239 + view changes to size 179 at 171808159 ms
+Port 1237 + view changes to size 179 at 171808180 ms
+Port 1240 + view changes to size 179 at 171808188 ms
+Port 1235 + view changes to size 180 at 171810265 ms
+Port 1243 + view changes to size 180 at 171810270 ms
+Port 1239 + view changes to size 180 at 171810321 ms
+Port 1234 + view changes to size 180 at 171810343 ms
+Port 1237 + view changes to size 180 at 171810365 ms
+Port 1240 + view changes to size 180 at 171810390 ms
+Port 1241 + view changes to size 180 at 171810423 ms
+Port 1238 + view changes to size 180 at 171810445 ms
+Port 1242 + view changes to size 180 at 171810520 ms
+Port 1236 + view changes to size 180 at 171810627 ms
+Port 1243 + view changes to size 179 at 171822388 ms
+Port 1242 + view changes to size 179 at 171822393 ms
+Port 1235 + view changes to size 179 at 171822403 ms
+Port 1239 + view changes to size 179 at 171822408 ms
+Port 1241 + view changes to size 179 at 171822413 ms
+Port 1240 + view changes to size 179 at 171822416 ms
+Port 1237 + view changes to size 179 at 171822424 ms
+Port 1234 + view changes to size 179 at 171822425 ms
+Port 1236 + view changes to size 179 at 171822427 ms
+Port 1238 + view changes to size 179 at 171822428 ms
+Port 1243 + view changes to size 180 at 171825094 ms
+Port 1234 + view changes to size 180 at 171825117 ms
+Port 1240 + view changes to size 180 at 171825128 ms
+Port 1235 + view changes to size 180 at 171825140 ms
+Port 1239 + view changes to size 180 at 171825159 ms
+Port 1241 + view changes to size 180 at 171825179 ms
+Port 1236 + view changes to size 180 at 171825217 ms
+Port 1238 + view changes to size 180 at 171825302 ms
+Port 1237 + view changes to size 180 at 171825342 ms
+Port 1242 + view changes to size 180 at 171825395 ms
+Port 1242 + view changes to size 179 at 171837086 ms
+Port 1241 + view changes to size 179 at 171837106 ms
+Port 1239 + view changes to size 179 at 171837111 ms
+Port 1235 + view changes to size 179 at 171837122 ms
+Port 1243 + view changes to size 179 at 171837123 ms
+Port 1237 + view changes to size 179 at 171837128 ms
+Port 1236 + view changes to size 179 at 171837133 ms
+Port 1240 + view changes to size 179 at 171837140 ms
+Port 1234 + view changes to size 179 at 171837149 ms
+Port 1238 + view changes to size 179 at 171837161 ms
+Port 1240 + view changes to size 180 at 171839760 ms
+Port 1243 + view changes to size 180 at 171839772 ms
+Port 1241 + view changes to size 180 at 171839799 ms
+Port 1234 + view changes to size 180 at 171839801 ms
+Port 1235 + view changes to size 180 at 171839832 ms
+Port 1239 + view changes to size 180 at 171839883 ms
+Port 1242 + view changes to size 180 at 171839951 ms
+Port 1238 + view changes to size 180 at 171839977 ms
+Port 1237 + view changes to size 180 at 171840060 ms
+Port 1236 + view changes to size 180 at 171840062 ms
+Port 1243 + view changes to size 179 at 171851783 ms
+Port 1242 + view changes to size 179 at 171851798 ms
+Port 1240 + view changes to size 179 at 171851802 ms
+Port 1239 + view changes to size 179 at 171851822 ms
+Port 1236 + view changes to size 179 at 171851825 ms
+Port 1235 + view changes to size 179 at 171851828 ms
+Port 1234 + view changes to size 179 at 171851838 ms
+Port 1241 + view changes to size 179 at 171851842 ms
+Port 1237 + view changes to size 179 at 171851844 ms
+Port 1238 + view changes to size 179 at 171851890 ms
+Port 1241 + view changes to size 180 at 171854375 ms
+Port 1235 + view changes to size 180 at 171854390 ms
+Port 1240 + view changes to size 180 at 171854416 ms
+Port 1234 + view changes to size 180 at 171854425 ms
+Port 1239 + view changes to size 180 at 171854431 ms
+Port 1243 + view changes to size 180 at 171854434 ms
+Port 1238 + view changes to size 180 at 171854543 ms
+Port 1236 + view changes to size 180 at 171854648 ms
+Port 1242 + view changes to size 180 at 171854650 ms
+Port 1237 + view changes to size 180 at 171854668 ms
+Port 1235 + view changes to size 179 at 171866282 ms
+Port 1241 + view changes to size 179 at 171866287 ms
+Port 1238 + view changes to size 179 at 171866289 ms
+Port 1242 + view changes to size 179 at 171866297 ms
+Port 1234 + view changes to size 179 at 171866306 ms
+Port 1243 + view changes to size 179 at 171866306 ms
+Port 1240 + view changes to size 179 at 171866320 ms
+Port 1239 + view changes to size 179 at 171866320 ms
+Port 1236 + view changes to size 179 at 171866326 ms
+Port 1237 + view changes to size 179 at 171866341 ms
+Port 1235 + view changes to size 180 at 171869069 ms
+Port 1241 + view changes to size 180 at 171869076 ms
+Port 1234 + view changes to size 180 at 171869081 ms
+Port 1240 + view changes to size 180 at 171869118 ms
+Port 1243 + view changes to size 180 at 171869137 ms
+Port 1239 + view changes to size 180 at 171869148 ms
+Port 1242 + view changes to size 180 at 171869267 ms
+Port 1238 + view changes to size 180 at 171869275 ms
+Port 1236 + view changes to size 180 at 171869387 ms
+Port 1237 + view changes to size 180 at 171869411 ms
+Total execution time: 72088 ms
+Already up to date.
+
+Launching Cluster with settings:
+Base IP: 10.141.132.2
+My IP: 10.136.137.2
+Port: 1234
+Number of nodes: 10
+Test ID: 2
+Target nodes to wait: 180
+Node ID: 14
+Gossip Type: 1
+Initializing cluster...
+Attempt 1: Could not connect to 10.141.132.2:1233
+Successfully connected to the cluster at 10.141.132.2:1233
+Accepted connection from /10.141.132.2
+Cluster is ready with 18 servers. Starting test: 2
+Connected to cluster. Launching 10 nodes...
+WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by com.google.protobuf.UnsafeUtil (file:/home/rocky/gossip_protocol_research/examples/target/ClusterLauncher.jar) to field java.nio.Buffer.address
+WARNING: Please consider reporting this to the maintainers of com.google.protobuf.UnsafeUtil
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release
+Wait for targetNodes: 180
+TargetNodes=180 have joined the cluster.
+TestName: testRejoinSingleNode
+Start time: 171792611 ms
+Port 1234 + view changes to size 179 at 171802597 ms
+Port 1238 + view changes to size 179 at 171802621 ms
+Port 1235 + view changes to size 179 at 171802664 ms
+Port 1242 + view changes to size 179 at 171802676 ms
+Port 1243 + view changes to size 179 at 171802690 ms
+Port 1236 + view changes to size 179 at 171802702 ms
+Port 1241 + view changes to size 179 at 171802741 ms
+Port 1237 + view changes to size 179 at 171802758 ms
+Port 1239 + view changes to size 179 at 171802810 ms
+Port 1240 + view changes to size 179 at 171802828 ms
+Port 1238 + view changes to size 180 at 171804786 ms
+Port 1240 + view changes to size 180 at 171804819 ms
+Port 1235 + view changes to size 180 at 171804883 ms
+Port 1236 + view changes to size 180 at 171804901 ms
+Port 1242 + view changes to size 180 at 171804942 ms
+Port 1234 + view changes to size 180 at 171805016 ms
+Port 1243 + view changes to size 180 at 171805062 ms
+Port 1237 + view changes to size 180 at 171805084 ms
+Port 1239 + view changes to size 180 at 171805136 ms
+Port 1241 + view changes to size 180 at 171805159 ms
+Port 1240 + view changes to size 179 at 171816876 ms
+Port 1241 + view changes to size 179 at 171816895 ms
+Port 1235 + view changes to size 179 at 171816884 ms
+Port 1243 + view changes to size 179 at 171816897 ms
+Port 1237 + view changes to size 179 at 171816884 ms
+Port 1242 + view changes to size 179 at 171816876 ms
+Port 1234 + view changes to size 179 at 171816935 ms
+Port 1239 + view changes to size 179 at 171817065 ms
+Port 1236 + view changes to size 179 at 171817117 ms
+Port 1238 + view changes to size 179 at 171817146 ms
+Port 1238 + view changes to size 180 at 171819511 ms
+Port 1235 + view changes to size 180 at 171819521 ms
+Port 1242 + view changes to size 180 at 171819532 ms
+Port 1236 + view changes to size 180 at 171819547 ms
+Port 1239 + view changes to size 180 at 171819561 ms
+Port 1243 + view changes to size 180 at 171819579 ms
+Port 1240 + view changes to size 180 at 171819581 ms
+Port 1234 + view changes to size 180 at 171819678 ms
+Port 1241 + view changes to size 180 at 171819684 ms
+Port 1237 + view changes to size 180 at 171819693 ms
+Port 1241 + view changes to size 179 at 171831578 ms
+Port 1234 + view changes to size 179 at 171831581 ms
+Port 1243 + view changes to size 179 at 171831585 ms
+Port 1238 + view changes to size 179 at 171831587 ms
+Port 1235 + view changes to size 179 at 171831592 ms
+Port 1236 + view changes to size 179 at 171831601 ms
+Port 1239 + view changes to size 179 at 171831655 ms
+Port 1240 + view changes to size 179 at 171831672 ms
+Port 1242 + view changes to size 179 at 171831675 ms
+Port 1237 + view changes to size 179 at 171831695 ms
+Port 1235 + view changes to size 180 at 171834179 ms
+Port 1239 + view changes to size 180 at 171834224 ms
+Port 1240 + view changes to size 180 at 171834238 ms
+Port 1243 + view changes to size 180 at 171834250 ms
+Port 1237 + view changes to size 180 at 171834258 ms
+Port 1234 + view changes to size 180 at 171834265 ms
+Port 1238 + view changes to size 180 at 171834303 ms
+Port 1242 + view changes to size 180 at 171834354 ms
+Port 1236 + view changes to size 180 at 171834379 ms
+Port 1241 + view changes to size 180 at 171834603 ms
+Port 1242 + view changes to size 179 at 171846227 ms
+Port 1240 + view changes to size 179 at 171846255 ms
+Port 1237 + view changes to size 179 at 171846257 ms
+Port 1238 + view changes to size 179 at 171846274 ms
+Port 1235 + view changes to size 179 at 171846279 ms
+Port 1243 + view changes to size 179 at 171846289 ms
+Port 1236 + view changes to size 179 at 171846291 ms
+Port 1241 + view changes to size 179 at 171846305 ms
+Port 1239 + view changes to size 179 at 171846317 ms
+Port 1234 + view changes to size 179 at 171846422 ms
+Port 1238 + view changes to size 180 at 171848747 ms
+Port 1235 + view changes to size 180 at 171848762 ms
+Port 1243 + view changes to size 180 at 171848785 ms
+Port 1242 + view changes to size 180 at 171848793 ms
+Port 1240 + view changes to size 180 at 171848795 ms
+Port 1239 + view changes to size 180 at 171848807 ms
+Port 1234 + view changes to size 180 at 171848850 ms
+Port 1236 + view changes to size 180 at 171848873 ms
+Port 1237 + view changes to size 180 at 171848979 ms
+Port 1241 + view changes to size 180 at 171849075 ms
+Port 1239 + view changes to size 179 at 171860744 ms
+Port 1242 + view changes to size 179 at 171860774 ms
+Port 1238 + view changes to size 179 at 171860786 ms
+Port 1240 + view changes to size 179 at 171860787 ms
+Port 1234 + view changes to size 179 at 171860789 ms
+Port 1236 + view changes to size 179 at 171860802 ms
+Port 1243 + view changes to size 179 at 171860809 ms
+Port 1235 + view changes to size 179 at 171860815 ms
+Port 1237 + view changes to size 179 at 171860831 ms
+Port 1241 + view changes to size 179 at 171860876 ms
+Port 1239 + view changes to size 180 at 171863504 ms
+Port 1235 + view changes to size 180 at 171863534 ms
+Port 1238 + view changes to size 180 at 171863534 ms
+Port 1242 + view changes to size 180 at 171863540 ms
+Port 1237 + view changes to size 180 at 171863541 ms
+Port 1243 + view changes to size 180 at 171863547 ms
+Port 1236 + view changes to size 180 at 171863551 ms
+Port 1240 + view changes to size 180 at 171863572 ms
+Port 1241 + view changes to size 180 at 171863613 ms
+Port 1234 + view changes to size 180 at 171863635 ms
+Total execution time: 71057 ms
+Already up to date.
+
+Launching Cluster with settings:
+Base IP: 10.141.132.2
+My IP: 10.131.132.2
+Port: 1234
+Number of nodes: 10
+Test ID: 2
+Target nodes to wait: 180
+Node ID: 15
+Gossip Type: 1
+Initializing cluster...
+Attempt 1: Could not connect to 10.141.132.2:1233
+Successfully connected to the cluster at 10.141.132.2:1233
+Accepted connection from /10.141.132.2
+Cluster is ready with 18 servers. Starting test: 2
+Connected to cluster. Launching 10 nodes...
+WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by com.google.protobuf.UnsafeUtil (file:/home/rocky/gossip_protocol_research/examples/target/ClusterLauncher.jar) to field java.nio.Buffer.address
+WARNING: Please consider reporting this to the maintainers of com.google.protobuf.UnsafeUtil
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release
+Wait for targetNodes: 180
+TargetNodes=180 have joined the cluster.
+TestName: testRejoinSingleNode
+Start time: 171779780 ms
+Port 1239 + view changes to size 179 at 171789604 ms
+Port 1234 + view changes to size 179 at 171789612 ms
+Port 1237 + view changes to size 179 at 171789623 ms
+Port 1242 + view changes to size 179 at 171789629 ms
+Port 1235 + view changes to size 179 at 171789665 ms
+Port 1238 + view changes to size 179 at 171789669 ms
+Port 1240 + view changes to size 179 at 171789669 ms
+Port 1243 + view changes to size 179 at 171789671 ms
+Port 1241 + view changes to size 179 at 171789682 ms
+Port 1236 + view changes to size 179 at 171789724 ms
+Port 1243 + view changes to size 180 at 171791546 ms
+Port 1238 + view changes to size 180 at 171791547 ms
+Port 1239 + view changes to size 180 at 171791632 ms
+Port 1235 + view changes to size 180 at 171791639 ms
+Port 1236 + view changes to size 180 at 171791718 ms
+Port 1234 + view changes to size 180 at 171791722 ms
+Port 1237 + view changes to size 180 at 171791737 ms
+Port 1240 + view changes to size 180 at 171791766 ms
+Port 1241 + view changes to size 180 at 171791799 ms
+Port 1242 + view changes to size 180 at 171791907 ms
+Port 1243 + view changes to size 179 at 171803759 ms
+Port 1240 + view changes to size 179 at 171803776 ms
+Port 1242 + view changes to size 179 at 171803779 ms
+Port 1235 + view changes to size 179 at 171803787 ms
+Port 1241 + view changes to size 179 at 171803795 ms
+Port 1238 + view changes to size 179 at 171803797 ms
+Port 1236 + view changes to size 179 at 171803805 ms
+Port 1234 + view changes to size 179 at 171803814 ms
+Port 1237 + view changes to size 179 at 171803873 ms
+Port 1239 + view changes to size 179 at 171803952 ms
+Port 1235 + view changes to size 180 at 171806383 ms
+Port 1240 + view changes to size 180 at 171806385 ms
+Port 1243 + view changes to size 180 at 171806409 ms
+Port 1242 + view changes to size 180 at 171806426 ms
+Port 1238 + view changes to size 180 at 171806429 ms
+Port 1239 + view changes to size 180 at 171806442 ms
+Port 1236 + view changes to size 180 at 171806459 ms
+Port 1234 + view changes to size 180 at 171806499 ms
+Port 1237 + view changes to size 180 at 171806516 ms
+Port 1241 + view changes to size 180 at 171806517 ms
+Port 1236 + view changes to size 179 at 171818488 ms
+Port 1242 + view changes to size 179 at 171818489 ms
+Port 1243 + view changes to size 179 at 171818495 ms
+Port 1234 + view changes to size 179 at 171818505 ms
+Port 1235 + view changes to size 179 at 171818506 ms
+Port 1240 + view changes to size 179 at 171818514 ms
+Port 1237 + view changes to size 179 at 171818516 ms
+Port 1239 + view changes to size 179 at 171818543 ms
+Port 1241 + view changes to size 179 at 171818557 ms
+Port 1238 + view changes to size 179 at 171818589 ms
+Port 1242 + view changes to size 180 at 171821121 ms
+Port 1239 + view changes to size 180 at 171821125 ms
+Port 1236 + view changes to size 180 at 171821128 ms
+Port 1243 + view changes to size 180 at 171821143 ms
+Port 1240 + view changes to size 180 at 171821143 ms
+Port 1238 + view changes to size 180 at 171821146 ms
+Port 1235 + view changes to size 180 at 171821179 ms
+Port 1237 + view changes to size 180 at 171821208 ms
+Port 1234 + view changes to size 180 at 171821228 ms
+Port 1241 + view changes to size 180 at 171821258 ms
+Port 1236 + view changes to size 179 at 171833132 ms
+Port 1239 + view changes to size 179 at 171833146 ms
+Port 1240 + view changes to size 179 at 171833151 ms
+Port 1242 + view changes to size 179 at 171833161 ms
+Port 1235 + view changes to size 179 at 171833166 ms
+Port 1238 + view changes to size 179 at 171833180 ms
+Port 1234 + view changes to size 179 at 171833181 ms
+Port 1243 + view changes to size 179 at 171833186 ms
+Port 1237 + view changes to size 179 at 171833193 ms
+Port 1241 + view changes to size 179 at 171833205 ms
+Port 1236 + view changes to size 180 at 171835576 ms
+Port 1238 + view changes to size 180 at 171835647 ms
+Port 1239 + view changes to size 180 at 171835665 ms
+Port 1242 + view changes to size 180 at 171835682 ms
+Port 1240 + view changes to size 180 at 171835693 ms
+Port 1235 + view changes to size 180 at 171835708 ms
+Port 1234 + view changes to size 180 at 171835728 ms
+Port 1243 + view changes to size 180 at 171835732 ms
+Port 1237 + view changes to size 180 at 171835940 ms
+Port 1241 + view changes to size 180 at 171835946 ms
+Port 1242 + view changes to size 179 at 171847669 ms
+Port 1236 + view changes to size 179 at 171847670 ms
+Port 1241 + view changes to size 179 at 171847690 ms
+Port 1240 + view changes to size 179 at 171847690 ms
+Port 1235 + view changes to size 179 at 171847691 ms
+Port 1239 + view changes to size 179 at 171847691 ms
+Port 1238 + view changes to size 179 at 171847694 ms
+Port 1237 + view changes to size 179 at 171847713 ms
+Port 1234 + view changes to size 179 at 171847775 ms
+Port 1243 + view changes to size 179 at 171847775 ms
+Port 1242 + view changes to size 180 at 171850420 ms
+Port 1243 + view changes to size 180 at 171850423 ms
+Port 1240 + view changes to size 180 at 171850442 ms
+Port 1239 + view changes to size 180 at 171850445 ms
+Port 1238 + view changes to size 180 at 171850477 ms
+Port 1236 + view changes to size 180 at 171850479 ms
+Port 1234 + view changes to size 180 at 171850480 ms
+Port 1237 + view changes to size 180 at 171850496 ms
+Port 1235 + view changes to size 180 at 171850518 ms
+Port 1241 + view changes to size 180 at 171850595 ms
+Total execution time: 71090 ms
+Already up to date.
+
+Launching Cluster with settings:
+Base IP: 10.141.132.2
+My IP: 10.132.8.2
+Port: 1234
+Number of nodes: 10
+Test ID: 2
+Target nodes to wait: 180
+Node ID: 16
+Gossip Type: 1
+Initializing cluster...
+Attempt 1: Could not connect to 10.141.132.2:1233
+Successfully connected to the cluster at 10.141.132.2:1233
+Accepted connection from /10.141.132.2
+Cluster is ready with 18 servers. Starting test: 2
+Connected to cluster. Launching 10 nodes...
+WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by com.google.protobuf.UnsafeUtil (file:/home/rocky/gossip_protocol_research/examples/target/ClusterLauncher.jar) to field java.nio.Buffer.address
+WARNING: Please consider reporting this to the maintainers of com.google.protobuf.UnsafeUtil
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release
+Wait for targetNodes: 180
+TargetNodes=180 have joined the cluster.
+TestName: testRejoinSingleNode
+Start time: 171802413 ms
+Port 1237 + view changes to size 179 at 171812417 ms
+Port 1234 + view changes to size 179 at 171812438 ms
+Port 1236 + view changes to size 179 at 171812442 ms
+Port 1238 + view changes to size 179 at 171812447 ms
+Port 1241 + view changes to size 179 at 171812453 ms
+Port 1235 + view changes to size 179 at 171812472 ms
+Port 1239 + view changes to size 179 at 171812474 ms
+Port 1240 + view changes to size 179 at 171812487 ms
+Port 1242 + view changes to size 179 at 171812496 ms
+Port 1243 + view changes to size 179 at 171812501 ms
+Port 1235 + view changes to size 180 at 171814468 ms
+Port 1242 + view changes to size 180 at 171814499 ms
+Port 1239 + view changes to size 180 at 171814601 ms
+Port 1243 + view changes to size 180 at 171814683 ms
+Port 1234 + view changes to size 180 at 171814729 ms
+Port 1237 + view changes to size 180 at 171814758 ms
+Port 1241 + view changes to size 180 at 171814850 ms
+Port 1238 + view changes to size 180 at 171814870 ms
+Port 1236 + view changes to size 180 at 171815012 ms
+Port 1240 + view changes to size 180 at 171815057 ms
+Port 1237 + view changes to size 179 at 171826790 ms
+Port 1241 + view changes to size 179 at 171826809 ms
+Port 1234 + view changes to size 179 at 171826821 ms
+Port 1235 + view changes to size 179 at 171826834 ms
+Port 1239 + view changes to size 179 at 171826852 ms
+Port 1240 + view changes to size 179 at 171826872 ms
+Port 1238 + view changes to size 179 at 171826873 ms
+Port 1242 + view changes to size 179 at 171826884 ms
+Port 1236 + view changes to size 179 at 171826932 ms
+Port 1243 + view changes to size 179 at 171826963 ms
+Port 1236 + view changes to size 180 at 171829369 ms
+Port 1235 + view changes to size 180 at 171829469 ms
+Port 1241 + view changes to size 180 at 171829493 ms
+Port 1242 + view changes to size 180 at 171829504 ms
+Port 1237 + view changes to size 180 at 171829539 ms
+Port 1234 + view changes to size 180 at 171829546 ms
+Port 1239 + view changes to size 180 at 171829556 ms
+Port 1243 + view changes to size 180 at 171829569 ms
+Port 1240 + view changes to size 180 at 171829579 ms
+Port 1238 + view changes to size 180 at 171829617 ms
+Port 1242 + view changes to size 179 at 171841505 ms
+Port 1239 + view changes to size 179 at 171841509 ms
+Port 1235 + view changes to size 179 at 171841524 ms
+Port 1237 + view changes to size 179 at 171841528 ms
+Port 1234 + view changes to size 179 at 171841547 ms
+Port 1238 + view changes to size 179 at 171841548 ms
+Port 1236 + view changes to size 179 at 171841565 ms
+Port 1243 + view changes to size 179 at 171841569 ms
+Port 1240 + view changes to size 179 at 171841835 ms
+Port 1241 + view changes to size 179 at 171841850 ms
+Port 1237 + view changes to size 180 at 171844193 ms
+Port 1234 + view changes to size 180 at 171844205 ms
+Port 1235 + view changes to size 180 at 171844209 ms
+Port 1241 + view changes to size 180 at 171844225 ms
+Port 1242 + view changes to size 180 at 171844225 ms
+Port 1243 + view changes to size 180 at 171844234 ms
+Port 1240 + view changes to size 180 at 171844338 ms
+Port 1236 + view changes to size 180 at 171844355 ms
+Port 1238 + view changes to size 180 at 171844399 ms
+Port 1239 + view changes to size 180 at 171844404 ms
+Port 1237 + view changes to size 179 at 171856075 ms
+Port 1238 + view changes to size 179 at 171856126 ms
+Port 1242 + view changes to size 179 at 171856126 ms
+Port 1239 + view changes to size 179 at 171856128 ms
+Port 1243 + view changes to size 179 at 171856136 ms
+Port 1236 + view changes to size 179 at 171856142 ms
+Port 1241 + view changes to size 179 at 171856153 ms
+Port 1234 + view changes to size 179 at 171856166 ms
+Port 1235 + view changes to size 179 at 171856176 ms
+Port 1240 + view changes to size 179 at 171856179 ms
+Port 1235 + view changes to size 180 at 171858557 ms
+Port 1236 + view changes to size 180 at 171858634 ms
+Port 1242 + view changes to size 180 at 171858636 ms
+Port 1239 + view changes to size 180 at 171858646 ms
+Port 1234 + view changes to size 180 at 171858674 ms
+Port 1241 + view changes to size 180 at 171858847 ms
+Port 1243 + view changes to size 180 at 171858854 ms
+Port 1237 + view changes to size 180 at 171858866 ms
+Port 1238 + view changes to size 180 at 171858949 ms
+Port 1240 + view changes to size 180 at 171858969 ms
+Port 1242 + view changes to size 179 at 171870621 ms
+Port 1237 + view changes to size 179 at 171870630 ms
+Port 1236 + view changes to size 179 at 171870664 ms
+Port 1240 + view changes to size 179 at 171870685 ms
+Port 1239 + view changes to size 179 at 171870692 ms
+Port 1243 + view changes to size 179 at 171870698 ms
+Port 1241 + view changes to size 179 at 171870699 ms
+Port 1235 + view changes to size 179 at 171870712 ms
+Port 1234 + view changes to size 179 at 171870719 ms
+Port 1238 + view changes to size 179 at 171870742 ms
+Port 1243 + view changes to size 180 at 171873432 ms
+Port 1235 + view changes to size 180 at 171873441 ms
+Port 1237 + view changes to size 180 at 171873447 ms
+Port 1239 + view changes to size 180 at 171873451 ms
+Port 1241 + view changes to size 180 at 171873452 ms
+Port 1234 + view changes to size 180 at 171873467 ms
+Port 1242 + view changes to size 180 at 171873492 ms
+Port 1236 + view changes to size 180 at 171873533 ms
+Exception in thread "main" java.lang.AssertionError: Cluster:10.132.8.2:1238 expected:<180> but was:<179>
+	at org.junit.Assert.fail(Assert.java:89)
+	at org.junit.Assert.failNotEquals(Assert.java:835)
+	at org.junit.Assert.assertEquals(Assert.java:647)
+	at com.vrg.standalone.ClusterTest.verifyCluster(ClusterTest.java:590)
+	at com.vrg.standalone.ClusterTest.waitAndVerifyAgreement(ClusterTest.java:647)
+	at com.vrg.standalone.ClusterTest.run(ClusterTest.java:370)
+	at com.vrg.standalone.ClusterTest.setupCluster(ClusterTest.java:174)
+	at com.vrg.standalone.ClusterLauncher.main(ClusterLauncher.java:35)
+Already up to date.
+
+Launching Cluster with settings:
+Base IP: 10.141.132.2
+My IP: 10.138.4.2
+Port: 1234
+Number of nodes: 10
+Test ID: 2
+Target nodes to wait: 180
+Node ID: 17
+Gossip Type: 1
+Initializing cluster...
+Attempt 1: Could not connect to 10.141.132.2:1233
+Successfully connected to the cluster at 10.141.132.2:1233
+Accepted connection from /10.141.132.2
+Cluster is ready with 18 servers. Starting test: 2
+Connected to cluster. Launching 10 nodes...
+WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by com.google.protobuf.UnsafeUtil (file:/home/rocky/gossip_protocol_research/examples/target/ClusterLauncher.jar) to field java.nio.Buffer.address
+WARNING: Please consider reporting this to the maintainers of com.google.protobuf.UnsafeUtil
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release
+Wait for targetNodes: 180
+TargetNodes=180 have joined the cluster.
+TestName: testRejoinSingleNode
+Start time: 171802426 ms
+Port 1239 + view changes to size 179 at 171811974 ms
+Port 1243 + view changes to size 179 at 171811978 ms
+Port 1242 + view changes to size 179 at 171811984 ms
+Port 1236 + view changes to size 179 at 171811986 ms
+Port 1241 + view changes to size 179 at 171811990 ms
+Port 1235 + view changes to size 179 at 171812002 ms
+Port 1237 + view changes to size 179 at 171812008 ms
+Port 1238 + view changes to size 179 at 171812010 ms
+Port 1240 + view changes to size 179 at 171812012 ms
+Port 1234 + view changes to size 179 at 171812030 ms
+Port 1237 + view changes to size 180 at 171813905 ms
+Port 1235 + view changes to size 180 at 171814044 ms
+Port 1240 + view changes to size 180 at 171814144 ms
+Port 1243 + view changes to size 180 at 171814160 ms
+Port 1234 + view changes to size 180 at 171814221 ms
+Port 1241 + view changes to size 180 at 171814299 ms
+Port 1236 + view changes to size 180 at 171814312 ms
+Port 1238 + view changes to size 180 at 171814336 ms
+Port 1239 + view changes to size 180 at 171814350 ms
+Port 1242 + view changes to size 180 at 171814487 ms
+Port 1235 + view changes to size 179 at 171826257 ms
+Port 1242 + view changes to size 179 at 171826417 ms
+Port 1241 + view changes to size 179 at 171826454 ms
+Port 1239 + view changes to size 179 at 171826477 ms
+Port 1240 + view changes to size 179 at 171826478 ms
+Port 1243 + view changes to size 179 at 171826478 ms
+Port 1234 + view changes to size 179 at 171826479 ms
+Port 1236 + view changes to size 179 at 171826484 ms
+Port 1237 + view changes to size 179 at 171826511 ms
+Port 1238 + view changes to size 179 at 171826520 ms
+Port 1235 + view changes to size 180 at 171828895 ms
+Port 1234 + view changes to size 180 at 171828948 ms
+Port 1240 + view changes to size 180 at 171828953 ms
+Port 1236 + view changes to size 180 at 171828957 ms
+Port 1239 + view changes to size 180 at 171828959 ms
+Port 1243 + view changes to size 180 at 171828961 ms
+Port 1237 + view changes to size 180 at 171828979 ms
+Port 1241 + view changes to size 180 at 171828987 ms
+Port 1242 + view changes to size 180 at 171828990 ms
+Port 1238 + view changes to size 180 at 171829093 ms
+Port 1238 + view changes to size 179 at 171841002 ms
+Port 1243 + view changes to size 179 at 171841008 ms
+Port 1234 + view changes to size 179 at 171841109 ms
+Port 1236 + view changes to size 179 at 171841122 ms
+Port 1235 + view changes to size 179 at 171841141 ms
+Port 1240 + view changes to size 179 at 171841144 ms
+Port 1242 + view changes to size 179 at 171841178 ms
+Port 1241 + view changes to size 179 at 171841251 ms
+Port 1237 + view changes to size 179 at 171841260 ms
+Port 1239 + view changes to size 179 at 171841317 ms
+Port 1235 + view changes to size 180 at 171843608 ms
+Port 1236 + view changes to size 180 at 171843615 ms
+Port 1240 + view changes to size 180 at 171843636 ms
+Port 1242 + view changes to size 180 at 171843639 ms
+Port 1234 + view changes to size 180 at 171843645 ms
+Port 1241 + view changes to size 180 at 171843652 ms
+Port 1237 + view changes to size 180 at 171843658 ms
+Port 1243 + view changes to size 180 at 171843669 ms
+Port 1239 + view changes to size 180 at 171843672 ms
+Port 1238 + view changes to size 180 at 171843711 ms
+Port 1239 + view changes to size 179 at 171855675 ms
+Port 1242 + view changes to size 179 at 171855690 ms
+Port 1234 + view changes to size 179 at 171855693 ms
+Port 1241 + view changes to size 179 at 171855696 ms
+Port 1240 + view changes to size 179 at 171855712 ms
+Port 1238 + view changes to size 179 at 171855736 ms
+Port 1237 + view changes to size 179 at 171855738 ms
+Port 1236 + view changes to size 179 at 171855783 ms
+Port 1243 + view changes to size 179 at 171855811 ms
+Port 1235 + view changes to size 179 at 171855830 ms
+Port 1235 + view changes to size 180 at 171858090 ms
+Port 1237 + view changes to size 180 at 171858182 ms
+Port 1241 + view changes to size 180 at 171858202 ms
+Port 1242 + view changes to size 180 at 171858253 ms
+Port 1240 + view changes to size 180 at 171858275 ms
+Port 1236 + view changes to size 180 at 171858299 ms
+Port 1243 + view changes to size 180 at 171858318 ms
+Port 1234 + view changes to size 180 at 171858401 ms
+Port 1239 + view changes to size 180 at 171858442 ms
+Port 1238 + view changes to size 180 at 171858494 ms
+Port 1234 + view changes to size 179 at 171870189 ms
+Port 1238 + view changes to size 179 at 171870213 ms
+Port 1242 + view changes to size 179 at 171870215 ms
+Port 1241 + view changes to size 179 at 171870225 ms
+Port 1236 + view changes to size 179 at 171870226 ms
+Port 1240 + view changes to size 179 at 171870230 ms
+Port 1235 + view changes to size 179 at 171870230 ms
+Port 1237 + view changes to size 179 at 171870238 ms
+Port 1243 + view changes to size 179 at 171870247 ms
+Port 1239 + view changes to size 179 at 171870270 ms
+Port 1235 + view changes to size 180 at 171872957 ms
+Port 1240 + view changes to size 180 at 171872960 ms
+Port 1243 + view changes to size 180 at 171872981 ms
+Port 1241 + view changes to size 180 at 171872997 ms
+Port 1236 + view changes to size 180 at 171872998 ms
+Port 1238 + view changes to size 180 at 171873009 ms
+Port 1234 + view changes to size 180 at 171873017 ms
+Port 1242 + view changes to size 180 at 171873024 ms
+Port 1237 + view changes to size 180 at 171873057 ms
+Port 1239 + view changes to size 180 at 171873062 ms
+Total execution time: 71030 ms

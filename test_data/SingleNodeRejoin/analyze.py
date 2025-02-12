@@ -38,10 +38,10 @@ for N in N_list:
                             port, size, time_ms = map(int, match.groups())  # Extract values and convert to integers
                             if port not in ViewchangeTime.keys(): 
                                 ViewchangeTime[port] = [time_ms]
-                                ViewSize[port] = [size]
+                                ViewSize[port] = [size + 260]
                             else:
                                 ViewchangeTime[port].append(time_ms)
-                                ViewSize[port].append(size)
+                                ViewSize[port].append(size + 260)
                             print(f"Port: {port}, Size: {size}, Time (ms): {time_ms}")
                         
                         match = re.match(pattern2, line)
@@ -89,4 +89,4 @@ for N in N_list:
     ax.legend()
     ax.grid(True)
     # plt.show()
-    fig.savefig(f'N={N}.pdf', bbox_inches='tight')
+    fig.savefig(f'Rejoin.pdf', bbox_inches='tight')
