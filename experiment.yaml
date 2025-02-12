@@ -1,7 +1,9 @@
 baseIP: "127.0.0.7"
+myIP: "127.0.0.7"
 port: 1234
-numNodes: 10
-testID: "1"
-targetNodes: 10
+numNodes: 100
+testID: "2"
+targetNodes: 100
 nodeId: 0
 targetServers: 1
+gossipType: 0
