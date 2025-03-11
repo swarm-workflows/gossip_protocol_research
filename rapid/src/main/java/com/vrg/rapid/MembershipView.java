@@ -82,7 +82,7 @@ import java.util.concurrent.locks.ReadWriteLock;
      @GuardedBy("rwLock") private long currentConfigurationId = -1;
      @GuardedBy("rwLock") private Configuration currentConfiguration;
      @GuardedBy("rwLock") private boolean shouldUpdateConfigurationId = true;
-     @GuardedBy("rwLockLatencyMap") public Map<Endpoint, Map<String, Long>> latencyMap = new HashMap<>();
+     @GuardedBy("rwLockLatencyMap") public Map<String, Map<String, Long>> latencyMap = new HashMap<>();
 
      
  
@@ -182,7 +182,7 @@ import java.util.concurrent.locks.ReadWriteLock;
     public void updateLatencyMap(Endpoint sender, Map<String, Long> senderLatencyMap){
         rwLockLatencyMap.writeLock().lock();
         try{
-        latencyMap.put(sender, senderLatencyMap);
+        latencyMap.put(Utils.stringFromHost(sender), senderLatencyMap);
         } finally {
             rwLockLatencyMap.writeLock().unlock();
         }
@@ -194,7 +194,7 @@ import java.util.concurrent.locks.ReadWriteLock;
         rwLock.writeLock().lock();
         try{
             ObjectMapper objectMapper = new ObjectMapper();
-            String filePath = "Latencymap_" + node.toString() + ".json";
+            String filePath = "Latencymap_" + Utils.stringFromHost(node) + ".json";
             try {
                 objectMapper.writeValue(new File(filePath), latencyMap);
             } catch (IOException e) {
@@ -224,7 +224,7 @@ import java.util.concurrent.locks.ReadWriteLock;
            }  
          }
          if(gossip_type == 3 || gossip_type == 4){
-                Map<String, Long> tmp =  latencyMap.getOrDefault(node, Collections.emptyMap());
+                Map<String, Long> tmp =  latencyMap.getOrDefault(Utils.stringFromHost(node), Collections.emptyMap());
                 List<String> topEndpoints = tmp.entrySet().stream()
                 .sorted(Map.Entry.comparingByValue()) // 按值 (latency) 排序
                 .limit(M) // 取前 8 个
@@ -265,7 +265,7 @@ import java.util.concurrent.locks.ReadWriteLock;
                 degree[currentNode]++;
                 double minLatency = Double.MAX_VALUE;
                 int selectedNode = -1;
-                Map<String, Long> tmp =  latencyMap.getOrDefault(endpoints.get(currentNode), Collections.emptyMap());
+                Map<String, Long> tmp =  latencyMap.getOrDefault(Utils.stringFromHost(endpoints.get(currentNode)), Collections.emptyMap());
                 for (int j = 0; j < endpoints.size(); j++) {
                     if (degree[j] != 0) {
                         continue;
