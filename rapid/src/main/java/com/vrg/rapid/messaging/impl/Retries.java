@@ -110,7 +110,7 @@ class Retries {
         if (retries > 0) {
             startCallWithRetry(code, remote, future, retries - 1, initialR, onCallFailure, backgroundExecutor, msg, latencyMap, startTime, timeout);
         } else {
-            latencyMap.put(Utils.stringFromHost(remote), (long)-1);
+            latencyMap.put(Utils.stringFromHost(remote), (long)500);
             future.setException(t);
         }
     }

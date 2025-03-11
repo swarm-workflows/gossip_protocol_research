@@ -12,6 +12,9 @@
  */
 
  package com.vrg.rapid;
+ import com.fasterxml.jackson.databind.ObjectMapper;
+ import java.io.File;
+import java.io.IOException;
 
  import com.google.common.collect.ImmutableList;
  import com.vrg.rapid.pb.Endpoint;
@@ -190,6 +193,13 @@ import java.util.concurrent.locks.ReadWriteLock;
     public void reconstructDGRO(final Endpoint node) {
         rwLock.writeLock().lock();
         try{
+            ObjectMapper objectMapper = new ObjectMapper();
+            String filePath = "Latencymap_" + node.toString() + ".json";
+            try {
+                objectMapper.writeValue(new File(filePath), latencyMap);
+            } catch (IOException e) {
+                e.printStackTrace(); // 打印异常信息
+            }
         // final List<Endpoint> endpointList = getRing(0);
         subjects_dgro.clear();
         for (int k = 0; k < K; k++) {
@@ -248,6 +258,8 @@ import java.util.concurrent.locks.ReadWriteLock;
         Arrays.fill(degree, 0);
         rwLockLatencyMap.readLock().lock();
         try{
+            // objectMapper.writeValue(new File("Latencymap.json"), latencyMap);
+
             for (int i = 0; i < endpoints.size(); i++) {
                 newOrder.add(endpoints.get(currentNode));
                 degree[currentNode]++;
