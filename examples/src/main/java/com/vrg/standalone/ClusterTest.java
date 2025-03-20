@@ -298,7 +298,7 @@ import static org.junit.Assert.assertTrue;
     }
 
     private boolean connectToCluster() {
-        int retries = 5;
+        int retries = 15;
         int attempt = 0;
         while (attempt < retries) {
             try (Socket socket = new Socket(baseIP, basePort - 1)) {
