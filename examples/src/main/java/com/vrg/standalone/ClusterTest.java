@@ -340,10 +340,11 @@ import static org.junit.Assert.assertTrue;
         if("1".equals(testID)){
             // final UUID TEST_MESSAGE_UUID = UUID.fromString("00000000-0000-0000-0000-000000000001");
             
-            for(int itr = 0; itr < 5; itr++){
+            for(int itr = 0; itr < 20; itr++){
                 if(nodeId == itr){
                 final UUID TEST_MESSAGE_UUID = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
-                Endpoint braodcasterEndpoint = Utils.hostFromParts(myIP, basePort + nodeId);
+                // Endpoint braodcasterEndpoint = Utils.hostFromParts(myIP, basePort + nodeId);
+                Endpoint braodcasterEndpoint = Utils.hostFromParts(myIP, basePort);
                 MessageId testMessageId = Utils.messageIdFromUUID(TEST_MESSAGE_UUID);
                 System.out.println("Broadcast Start at " + System.currentTimeMillis()  +
                 ", Endpoint: " + braodcasterEndpoint + " nodeId " + nodeId);
@@ -353,7 +354,7 @@ import static org.junit.Assert.assertTrue;
                 instances.get(braodcasterEndpoint).membershipService.broadcaster.broadcast(
                     Utils.toRapidRequest(message, testMessageId));
                 }
-                Thread.sleep(20000);
+                Thread.sleep(10000);
             }
           
         }
