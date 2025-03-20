@@ -354,6 +354,9 @@ import static org.junit.Assert.assertTrue;
                 instances.get(braodcasterEndpoint).membershipService.broadcaster.broadcast(
                     Utils.toRapidRequest(message, testMessageId));
                 }
+                else{
+                    System.out.println("Wait for broadcast.");
+                }
                 Thread.sleep(10000);
             }
           
