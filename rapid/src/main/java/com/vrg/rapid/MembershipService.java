@@ -75,8 +75,8 @@ public final class MembershipService {
     private static final Logger LOG = LoggerFactory.getLogger(MembershipService.class);
     static final int BATCHING_WINDOW_IN_MS = 100;
     private static final int DEFAULT_FAILURE_DETECTOR_INITIAL_DELAY_IN_MS = 0;
-    static final int DEFAULT_FAILURE_DETECTOR_INTERVAL_IN_MS = 1000;
-    private static final int LEAVE_MESSAGE_TIMEOUT = 1500;
+    static final int DEFAULT_FAILURE_DETECTOR_INTERVAL_IN_MS = 2000;
+    private static final int LEAVE_MESSAGE_TIMEOUT = 2500;
     public final MembershipView membershipView;
     private final MultiNodeCutDetector cutDetection;
     public final Endpoint myAddr;

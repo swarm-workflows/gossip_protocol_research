@@ -13,6 +13,12 @@
 
  package com.vrg.rapid;
  import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.*;
+import com.google.gson.*;
  import java.io.File;
 import java.io.IOException;
 
@@ -63,6 +69,7 @@ import java.util.concurrent.locks.ReadWriteLock;
     // 2 for RANDOM, 3 for NN
     // 4 for NN + 1 DGRO 
     private final int gossip_type;
+    private static final String JSON_FILE = "outgoing_connections.json";
     
     
     
@@ -207,8 +214,52 @@ import java.util.concurrent.locks.ReadWriteLock;
             ringlist.set(k, DGRO(getRing(k), k));
             // ringlist.get(k) = DGRO(endpointList, k);
          }
+         if (gossip_type == 5) {
+            // Step 1: Read from outgoing.json
+ 
+            // try {
+            // Gson gson = new Gson();
+            // JsonObject jsonObject = gson.fromJson(new FileReader(JSON_FILE), JsonObject.class);
+
+            // String nodeIp = Utils.stringFromHost(node);  // Assuming Endpoint has a method getIp() returning "IP:PORT"
+            // if (jsonObject.has(nodeIp)) {
+            //     JsonArray neighbors = jsonObject.getAsJsonArray(nodeIp);
+            //     for (JsonElement neighbor : neighbors) {
+            //         subjects_dgro.add(Utils.hostFromString(neighbor.getAsString())); // Convert JSON string to Endpoint
+            //     }
+            // }
+            //  } catch (IOException e) {
+            //     e.printStackTrace();
+            //     System.err.println("Error reading outgoing.json.");
+            // }
+              try (Reader reader = new InputStreamReader(new FileInputStream(JSON_FILE), StandardCharsets.UTF_8)) {
+                Gson gson = new Gson();
+                JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
+
+                String nodeIp = Utils.stringFromHost(node);  // Assuming Endpoint has a method getIp() returning "IP:PORT"
+                if (jsonObject.has(nodeIp)) {
+                    JsonArray neighbors = jsonObject.getAsJsonArray(nodeIp);
+                    for (JsonElement neighbor : neighbors) {
+                        subjects_dgro.add(Utils.hostFromString(neighbor.getAsString())); // Convert JSON string to Endpoint
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                System.err.println("Error reading outgoing.json.");
+            }
+
+
+            // Step 2: If the degree is still less than M, continue adding from ringlist
+            if (subjects_dgro.size() < M) {
+                for (int k = 0; k < M; ++k) {
+                    final Endpoint ep = ringlist.get(k).get(
+                            (ringlist.get(k).indexOf(node) - 1 + getMembershipSize()) % getMembershipSize());
+                    subjects_dgro.add(ep);
+                }
+            }
+        }
          if (gossip_type != 3 && gossip_type != 4){
-            for (int k = 0; k < M; ++k) {
+            for (int k = subjects_dgro.size(); k < M; ++k) {
                 final Endpoint ep = ringlist.get(k).get((ringlist.get(k).indexOf(node) - 1 + getMembershipSize())
                 % getMembershipSize());
                 // subjects_record.add(ep);
