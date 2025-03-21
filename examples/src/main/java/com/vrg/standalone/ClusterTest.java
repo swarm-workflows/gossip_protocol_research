@@ -357,7 +357,7 @@ import static org.junit.Assert.assertTrue;
                 else{
                     System.out.println("Wait for broadcast.");
                 }
-                Thread.sleep(10000);
+                Thread.sleep(15000);
             }
           
         }
