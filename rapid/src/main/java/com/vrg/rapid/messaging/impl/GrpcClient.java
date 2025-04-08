@@ -89,7 +89,7 @@ public class GrpcClient implements IMessagingClient {
     private final double meanLatency = 50; // Mean latency in milliseconds
     private final double stdDevLatency = 10; // Standard deviation in milliseconds
      // 模拟延迟异常时的参数
-    private double lambda = 0.001;  // 0.00001 --> 1 error / 500s 
+    private double lambda = 0.01;  // 0.00001 --> 1 error / 500s 
     private double minErrorLatency = 100;  // 错误延迟最小值
     private double maxErrorLatency = 500;  // 错误延迟最大值
     final Random randomPoisson = new Random();
@@ -157,7 +157,7 @@ public class GrpcClient implements IMessagingClient {
             double poissonSample = generatePoissonEvent(lambda);
         if (poissonSample > 0) {
             double errorLatency = Math.min(maxErrorLatency, Math.max(minErrorLatency, randomPoisson.nextDouble() * maxErrorLatency));
-            System.out.println("Network error detected, introducing latency error: " + errorLatency + " ms.");
+            // System.out.println("Network error detected, introducing latency error: " + errorLatency + " ms.");
             return latency_ + errorLatency;  // 返回默认延迟加上延迟错误
         }
 
