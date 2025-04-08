@@ -85,7 +85,7 @@ final class UnicastToAllBroadcaster implements IBroadcaster {
             count++;
         }
         for (final Endpoint recipient: availableEndpoints) {
-            if(count >= 8) break;
+            if(count >= 4) break;
             // if (noResponseEndpoints.contains(recipient)) {
             //     continue;
             // }
