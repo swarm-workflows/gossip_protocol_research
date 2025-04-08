@@ -88,6 +88,11 @@ public class GrpcClient implements IMessagingClient {
     // private final double stdDevLatency = 15; // Standard deviation in milliseconds
     private final double meanLatency = 50; // Mean latency in milliseconds
     private final double stdDevLatency = 10; // Standard deviation in milliseconds
+     // 模拟延迟异常时的参数
+    private double lambda = 0.00001;  // 0.00001 --> 1 error / 500s 
+    private double minErrorLatency = 100;  // 错误延迟最小值
+    private double maxErrorLatency = 500;  // 错误延迟最大值
+    final Random randomPoisson = new Random();
 
     @Nullable private final EventLoopGroup eventLoopGroup;
     private final AtomicBoolean isShuttingDown = new AtomicBoolean(false);
@@ -124,6 +129,18 @@ public class GrpcClient implements IMessagingClient {
         this.latencyMap.put(Utils.stringFromHost(address), (long)0);
     }
 
+    private int generatePoissonEvent(double lambda) {
+        double L = Math.exp(-lambda);
+        double p = 1.0;
+        int k = 0;
+
+        do {
+            k++;
+            p *= randomPoisson.nextDouble();
+        } while (p > L);
+
+        return k - 1;  // 返回事件发生的次数
+    }
 
     // Method to calculate latency based on sender and receiver ports
     // @Override
@@ -133,8 +150,18 @@ public class GrpcClient implements IMessagingClient {
         : receiver.getPort() + "-" + sender.getPort();
 
 // Check if the latency for this pair is already computed
+
         if (latencyCache.containsKey(key)) {
-            return latencyCache.get(key);
+            double latency_ = latencyCache.get(key);
+                    // 模拟延迟错误：基于泊松过程决定是否发生延迟异常
+            double poissonSample = generatePoissonEvent(lambda);
+        if (poissonSample > 0) {
+            double errorLatency = Math.min(maxErrorLatency, Math.max(minErrorLatency, randomPoisson.nextDouble() * maxErrorLatency));
+            System.out.println("Network error detected, introducing latency error: " + errorLatency + " ms.");
+            return latency_ + errorLatency;  // 返回默认延迟加上延迟错误
+        }
+
+            return latency_;
         }
         final Random random = new Random();
         // Combine sender and receiver port into a hash for determinism
