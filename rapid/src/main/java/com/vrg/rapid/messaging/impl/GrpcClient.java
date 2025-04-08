@@ -89,7 +89,7 @@ public class GrpcClient implements IMessagingClient {
     private final double meanLatency = 50; // Mean latency in milliseconds
     private final double stdDevLatency = 10; // Standard deviation in milliseconds
      // 模拟延迟异常时的参数
-    private double lambda = 0.1;  // 0.00001 --> 1 error / 500s 
+    private double lambda = 1;  // 0.00001 --> 1 error / 500s 
     private double minErrorLatency = 100;  // 错误延迟最小值
     private double maxErrorLatency = 500;  // 错误延迟最大值
     final Random randomPoisson = new Random();
