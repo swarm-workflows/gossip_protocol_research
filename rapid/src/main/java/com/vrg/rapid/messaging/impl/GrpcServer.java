@@ -226,7 +226,7 @@ public class GrpcServer extends MembershipServiceGrpc.MembershipServiceImplBase 
         }
         // int count = 0;
         for (final Endpoint recipient: availableEndpoints) {
-            if(count >= connections)break;
+            if(count >= this.connections)break;
             // if (noResponseEndpoints.contains(recipient)) {
             //     continue;
             // }

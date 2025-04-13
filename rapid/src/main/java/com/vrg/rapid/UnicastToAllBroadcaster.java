@@ -39,7 +39,7 @@ import java.util.stream.Collectors;
  */
 final class UnicastToAllBroadcaster implements IBroadcaster {
     private static final Logger LOG = LoggerFactory.getLogger(UnicastToAllBroadcaster.class);
-    public int connections;
+    public int connections = 8;
     private final IMessagingClient messagingClient;
     private List<Endpoint> recipients = Collections.emptyList();
     private List<Endpoint> fullMembership = Collections.emptyList();
@@ -96,7 +96,6 @@ final class UnicastToAllBroadcaster implements IBroadcaster {
         }
         return futures;
     }
-    
     public void setConnections(int connections){
         this.connections = connections;
     }
