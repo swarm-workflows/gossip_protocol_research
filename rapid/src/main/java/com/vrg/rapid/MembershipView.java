@@ -271,8 +271,9 @@ import java.util.concurrent.locks.ReadWriteLock;
          }
          if(gossip_type == 4){
             for (int k = 0; k < 1; ++k) {
-                final Endpoint ep = ringlist.get(k).get((ringlist.get(k).indexOf(node) - 1 + getMembershipSize())
-                % getMembershipSize());
+                // final Endpoint ep = ringlist.get(k).get((ringlist.get(k).indexOf(node) - 1 + getMembershipSize())
+                // % getMembershipSize());
+                final Endpoint ep = getPredecessor(rings.get(k), node);
                 // subjects_record.add(ep);
                 subjects_dgro.add(ep);
            }  
