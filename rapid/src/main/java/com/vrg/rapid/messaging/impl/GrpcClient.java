@@ -129,18 +129,18 @@ public class GrpcClient implements IMessagingClient {
         this.latencyMap.put(Utils.stringFromHost(address), (long)0);
     }
 
-    private int generatePoissonEvent(double lambda) {
-        double L = Math.exp(-lambda);
-        double p = 1.0;
-        int k = 0;
+    // private int generatePoissonEvent(double lambda) {
+    //     double L = Math.exp(-lambda);
+    //     double p = 1.0;
+    //     int k = 0;
 
-        do {
-            k++;
-            p *= randomPoisson.nextDouble();
-        } while (p > L);
+    //     do {
+    //         k++;
+    //         p *= randomPoisson.nextDouble();
+    //     } while (p > L);
 
-        return k - 1;  // 返回事件发生的次数
-    }
+    //     return k - 1;  // 返回事件发生的次数
+    // }
 
     // Method to calculate latency based on sender and receiver ports
     // @Override
