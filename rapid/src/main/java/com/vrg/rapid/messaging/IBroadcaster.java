@@ -24,6 +24,7 @@ import java.util.List;
  * Supports different broadcast implementations (eager flooding, gossip, etc.).
  */
 public interface IBroadcaster {
+    void setConnections(int connections);
     List<ListenableFuture<RapidResponse>> broadcast(RapidRequest rapidRequest);
 
     void setMembership(List<Endpoint> recipients, List<Endpoint> fullMembership);

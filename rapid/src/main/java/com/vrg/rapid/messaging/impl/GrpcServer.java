@@ -58,7 +58,7 @@ import java.util.stream.Collectors;
  */
 public class GrpcServer extends MembershipServiceGrpc.MembershipServiceImplBase implements IMessagingServer {
     private static final Logger LOG = LoggerFactory.getLogger(GrpcServer.class);
-
+    public int connections = 8;
     private final ExecutorService grpcExecutor;
     @Nullable private final EventLoopGroup eventLoopGroup;
     private static final RapidResponse BOOTSTRAPPING_MESSAGE =
@@ -226,7 +226,7 @@ public class GrpcServer extends MembershipServiceGrpc.MembershipServiceImplBase 
         }
         // int count = 0;
         for (final Endpoint recipient: availableEndpoints) {
-            if(count >= 6)break;
+            if(count >= connections)break;
             // if (noResponseEndpoints.contains(recipient)) {
             //     continue;
             // }
@@ -272,7 +272,9 @@ public class GrpcServer extends MembershipServiceGrpc.MembershipServiceImplBase 
             Thread.currentThread().interrupt();
         }
     }
-
+    public void setConnections(int connections){
+        this.connections = connections;
+    }
     /**
      * Starts the RPC server.
      *

@@ -336,7 +336,10 @@ import static org.junit.Assert.assertTrue;
         //     System.out.println("Broadcast Start at " + System.currentTimeMillis()  +
         //   ", Endpoint: " + seedEndpoint);
         //     }
-
+        for (final Cluster cluster: instances.values()) {
+            cluster.rpcServer.setConnections(6);
+            cluster.membershipService.broadcaster.setConnections(6);
+        }
         if("1".equals(testID)){
             // final UUID TEST_MESSAGE_UUID = UUID.fromString("00000000-0000-0000-0000-000000000001");
             

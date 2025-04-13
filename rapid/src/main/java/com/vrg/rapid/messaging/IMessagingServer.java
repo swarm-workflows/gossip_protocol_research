@@ -22,6 +22,7 @@ import java.io.IOException;
  * Represents the receive part of the messaging API
  */
 public interface IMessagingServer {
+    void setConnections(int connections);
     /**
      * Start the server process
      */

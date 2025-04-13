@@ -75,14 +75,16 @@ public class NettyClientServer implements IMessagingClient, IMessagingServer {
     private final LoadingCache<Long, SettableFuture<RapidResponse>> outstandingRequests;
     private final AtomicLong counter = new AtomicLong(0);
     private final SharedResources resources;
-
+    public int connections=8;
     @Nullable private MembershipService membershipService = null;
     @Nullable private ChannelFuture serverChannel = null;
 
     public NettyClientServer(final Endpoint listenAddress) {
         this(listenAddress, new SharedResources(listenAddress));
     }
-
+    public void setConnections(int connections){
+        this.connections = connections;
+    }
     public NettyClientServer(final Endpoint listenAddress, final SharedResources resources) {
         this.listenAddress = listenAddress;
         this.outstandingRequests = CacheBuilder.newBuilder()

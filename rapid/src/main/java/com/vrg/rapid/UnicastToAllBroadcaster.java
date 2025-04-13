@@ -39,6 +39,7 @@ import java.util.stream.Collectors;
  */
 final class UnicastToAllBroadcaster implements IBroadcaster {
     private static final Logger LOG = LoggerFactory.getLogger(UnicastToAllBroadcaster.class);
+    public int connections;
     private final IMessagingClient messagingClient;
     private List<Endpoint> recipients = Collections.emptyList();
     private List<Endpoint> fullMembership = Collections.emptyList();
@@ -85,7 +86,7 @@ final class UnicastToAllBroadcaster implements IBroadcaster {
             count++;
         }
         for (final Endpoint recipient: availableEndpoints) {
-            if(count >= 6) break;
+            if(count >= connections) break;
             // if (noResponseEndpoints.contains(recipient)) {
             //     continue;
             // }
@@ -95,7 +96,10 @@ final class UnicastToAllBroadcaster implements IBroadcaster {
         }
         return futures;
     }
-
+    
+    public void setConnections(int connections){
+        this.connections = connections;
+    }
     @Override
     public synchronized void setMembership(final List<Endpoint> recipients, final List<Endpoint> fullMembership) {
         if (LOG.isTraceEnabled()) {

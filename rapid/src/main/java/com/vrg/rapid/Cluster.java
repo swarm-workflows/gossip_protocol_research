@@ -75,7 +75,7 @@ public final class Cluster {
     private final int gossip_type;
     private static final int RETRIES = 5;
     public final MembershipService membershipService;
-    private final IMessagingServer rpcServer;
+    public final IMessagingServer rpcServer;
     private final SharedResources sharedResources;
     public final Endpoint listenAddress;
     private boolean hasShutdown = false;
