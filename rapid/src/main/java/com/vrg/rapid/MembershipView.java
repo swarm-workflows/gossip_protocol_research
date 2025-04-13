@@ -58,7 +58,7 @@ import java.util.concurrent.locks.ReadWriteLock;
  @ThreadSafe
  public final class MembershipView {
      public final int K;
-     public final int M = 6;
+     public final int M = 4;
     //  private final Random random = new Random();
     // private final double meanLatency = 50.0; // Example value
     // private final double stdDevLatency = 15; // Example value
@@ -259,15 +259,15 @@ import java.util.concurrent.locks.ReadWriteLock;
             }
         }
          if (gossip_type != 3 && gossip_type != 4){
-            for (int k = subjects_dgro.size(); k < M - 2; ++k) {
+            for (int k = subjects_dgro.size(); k < M; ++k) {
                 final Endpoint ep = ringlist.get(k).get((ringlist.get(k).indexOf(node) - 1 + getMembershipSize())
                 % getMembershipSize());
                 // subjects_record.add(ep);
                 subjects_dgro.add(ep);
            }
-              for (int k = 0; k < 2; k++) {
-                    subjects_dgro.add(getPredecessor(rings.get(k), node));
-                }
+            //   for (int k = 0; k < 2; k++) {
+            //         subjects_dgro.add(getPredecessor(rings.get(k), node));
+            //     }
          }
          if(gossip_type == 4){
             for (int k = 0; k < 1; ++k) {
