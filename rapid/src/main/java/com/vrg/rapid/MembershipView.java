@@ -58,7 +58,7 @@ import java.util.concurrent.locks.ReadWriteLock;
  @ThreadSafe
  public final class MembershipView {
      public final int K;
-     public final int M = 5;
+     public final int M = 4;
     //  private final Random random = new Random();
     // private final double meanLatency = 50.0; // Example value
     // private final double stdDevLatency = 15; // Example value
