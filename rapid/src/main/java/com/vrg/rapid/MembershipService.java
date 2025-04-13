@@ -908,7 +908,7 @@ public final class MembershipService {
         ScheduledFuture<?> jobs = 
         dgroExecutor.scheduleAtFixedRate(
                         createDGROTask(),
-                        70, // Initial delay
+                        120, // Initial delay
                         1000,
                         TimeUnit.SECONDS);
 
