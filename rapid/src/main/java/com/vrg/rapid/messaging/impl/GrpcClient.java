@@ -154,12 +154,12 @@ public class GrpcClient implements IMessagingClient {
         if (latencyCache.containsKey(key)) {
             double latency_ = latencyCache.get(key);
                     // 模拟延迟错误：基于泊松过程决定是否发生延迟异常
-            double poissonSample = generatePoissonEvent(lambda);
-        if (poissonSample > 0) {
-            double errorLatency = Math.min(maxErrorLatency, Math.max(minErrorLatency, randomPoisson.nextDouble() * maxErrorLatency));
-            // System.out.println("Network error detected, introducing latency error: " + errorLatency + " ms.");
-            return latency_ + errorLatency;  // 返回默认延迟加上延迟错误
-        }
+        //     double poissonSample = generatePoissonEvent(lambda);
+        // if (poissonSample > 0) {
+        //     double errorLatency = Math.min(maxErrorLatency, Math.max(minErrorLatency, randomPoisson.nextDouble() * maxErrorLatency));
+        //     // System.out.println("Network error detected, introducing latency error: " + errorLatency + " ms.");
+        //     return latency_ + errorLatency;  // 返回默认延迟加上延迟错误
+        // }
 
             return latency_;
         }
