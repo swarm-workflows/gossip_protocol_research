@@ -256,10 +256,13 @@ import java.util.concurrent.locks.ReadWriteLock;
                             (ringlist.get(k).indexOf(node) - 1 + getMembershipSize()) % getMembershipSize());
                     subjects_dgro.add(ep);
                 }
+                 for (int k = 0; k < 2; k++) {
+                    subjects_dgro.add(getPredecessor(rings.get(k), node));
+                }
             }
         }
          if (gossip_type != 3 && gossip_type != 4){
-            for (int k = subjects_dgro.size(); k < M; ++k) {
+            for (int k = subjects_dgro.size(); k < M - 2; ++k) {
                 final Endpoint ep = ringlist.get(k).get((ringlist.get(k).indexOf(node) - 1 + getMembershipSize())
                 % getMembershipSize());
                 // subjects_record.add(ep);
