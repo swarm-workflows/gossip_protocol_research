@@ -256,9 +256,6 @@ import java.util.concurrent.locks.ReadWriteLock;
                             (ringlist.get(k).indexOf(node) - 1 + getMembershipSize()) % getMembershipSize());
                     subjects_dgro.add(ep);
                 }
-                 for (int k = 0; k < 2; k++) {
-                    subjects_dgro.add(getPredecessor(rings.get(k), node));
-                }
             }
         }
          if (gossip_type != 3 && gossip_type != 4){
@@ -268,6 +265,9 @@ import java.util.concurrent.locks.ReadWriteLock;
                 // subjects_record.add(ep);
                 subjects_dgro.add(ep);
            }
+              for (int k = 0; k < 2; k++) {
+                    subjects_dgro.add(getPredecessor(rings.get(k), node));
+                }
          }
          if(gossip_type == 4){
             for (int k = 0; k < 1; ++k) {
