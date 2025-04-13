@@ -71,9 +71,10 @@ public class GrpcClient implements IMessagingClient {
     private static final int DEFAULT_BUF_SIZE = 8192;
     public static final boolean DEFAULT_GRPC_USE_IN_PROCESS_TRANSPORT = false;
     public final Map<String, Double> latencyCache = new HashMap<>();
-    public static final int DEFAULT_GRPC_TIMEOUT_MS = 3000;
+    public static final int DEFAULT_GRPC_TIMEOUT_MS = 10000;
     public static final int DEFAULT_GRPC_DEFAULT_RETRIES = 5;
-    public static final int DEFAULT_GRPC_JOIN_TIMEOUT = DEFAULT_GRPC_TIMEOUT_MS * 15;
+    // public static final int DEFAULT_GRPC_JOIN_TIMEOUT = DEFAULT_GRPC_TIMEOUT_MS * 15;
+    public static final int DEFAULT_GRPC_JOIN_TIMEOUT = DEFAULT_GRPC_TIMEOUT_MS * 5;
     public static final int DEFAULT_GRPC_PROBE_TIMEOUT = 3000;
 
     private final Endpoint address;
