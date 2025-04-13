@@ -114,7 +114,7 @@ public class GrpcServer extends MembershipServiceGrpc.MembershipServiceImplBase 
             }
         }
         if(rapidRequest.getMessageId().equals(testMessageId)){
-            System.out.println("Server receives " + rapidRequest.getFastRoundPhase2BMessage().getSender().getHostname().toStringUtf8()+":"+rapidRequest.getFastRoundPhase2BMessage().getSender().getPort() + " PHASE2BMESSAGE: " + System.currentTimeMillis()  + ", Endpoint: " + address); 
+            System.out.println("Connections=" + connections + "Server receives " + rapidRequest.getFastRoundPhase2BMessage().getSender().getHostname().toStringUtf8()+":"+rapidRequest.getFastRoundPhase2BMessage().getSender().getPort() + " PHASE2BMESSAGE: " + System.currentTimeMillis()  + ", Endpoint: " + address); 
         }
         else if (membershipService != null) {
             // Forward the message to another node or handle accordingly
