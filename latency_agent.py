@@ -48,7 +48,8 @@ while time.time() < end_time:
                 if "time=" in line:
                     rtt = line.split("time=")[-1].split()[0]
                     break
-        except Exception:
+        except Exception as e:
+            print(f"[WARN] Ping to {dst} failed: {e}")
             rtt = None
 
         with open(OUTFILE, "a", newline="") as f:
