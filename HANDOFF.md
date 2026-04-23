@@ -1,10 +1,4 @@
 # Project Handoff — Resilience Research (SWARM / DGRO)
-
-**Outgoing researcher:** Shixun Wu (swu264@ucr.edu)  
-**Date prepared:** April 2026  
-**Advisor:** (confirm with your advisor)  
-**Collaborators:** ANL, RENCI, LBNL, USC/ISI (SWARM Team)
-
 ---
 
 ## What This Project Is

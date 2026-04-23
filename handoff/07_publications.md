@@ -1,4 +1,4 @@
-# 07 — Publications & Deliverables
+<!-- # 07 — Publications & Deliverables
 
 ## SC Paper (Primary Contribution)
 
@@ -60,4 +60,4 @@ SWARM has periodic progress reports to DOE. UCR typically contributes:
 - FABRIC experiment logs
 - Any new baselines or algorithmic improvements
 
-Coordinate timing with Ewa Deelman's group — they compile the joint report.
+Coordinate timing with Ewa Deelman's group — they compile the joint report. -->

@@ -1,4 +1,4 @@
-# 05 — Team Contacts
+<!-- # 05 — Team Contacts
 
 ## UCR (Your Lab)
 
@@ -13,8 +13,8 @@
 | Person | Institution | Role in Project |
 |--------|-------------|-----------------|
 | **Ewa Deelman** | USC/ISI | Principal Investigator — overall SWARM project lead |
-| **Krishnan Raghavan** | ANL | Co-PI — network systems |
 | **Franck Cappello** | ANL | Individual Person — resilience and fault tolerance |
+| **Krishnan Raghavan** | ANL | Co-PI — network systems |
 | **Komal** | RENCI (UNC) | FABRIC testbed integration |
 
 ---
@@ -29,4 +29,4 @@
 
 ## SWARM Proposal Reference
 
-The SWARM proposal (DOE FOA-0002902) defines deliverables in Table 1. UCR's contribution is primarily the **networking layer** — topology optimization and the gossip protocol integration. When in doubt about scope, refer to that table and confirm with your advisor what UCR is responsible for in the current project period.
+The SWARM proposal (DOE FOA-0002902) defines deliverables in Table 1. UCR's contribution is primarily the **networking layer** — topology optimization and the gossip protocol integration. When in doubt about scope, refer to that table and confirm with your advisor what UCR is responsible for in the current project period. -->

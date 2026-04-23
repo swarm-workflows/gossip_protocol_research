@@ -1,4 +1,4 @@
-# 06 — Future Work
+<!-- # 06 — Future Work
 
 ## Priority 1 — SWARM Agent System on Supercomputer
 
@@ -71,4 +71,4 @@ This is a research contribution in itself and could be a follow-on paper.
 
 - **Cross-facility workflow resilience:** A DAG task that fails at TACC can be re-submitted to NERSC — the gossip layer needs to propagate this decision in sub-second time
 - **Predictive rerouting:** Use historical failure patterns to pre-position backup routes
-- **Integration with workflow managers:** Connect TetriX agents to Parsl, Pegasus, or RADICAL-Cybertools (all SWARM partners)
+- **Integration with workflow managers:** Connect TetriX agents to Parsl, Pegasus, or RADICAL-Cybertools (all SWARM partners) -->
